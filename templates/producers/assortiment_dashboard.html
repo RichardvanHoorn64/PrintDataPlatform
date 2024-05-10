@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Producers dashboard</title>
+</head>
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                 href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Assortiment dashboard</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Assortiment dashboard</h2>
+                </div>
+            </div>
+
+            <div id="producerCatalogTable"
+                 data-list='{"valueNames":["catalog_code","description","status","error"],"page":20,"pagination":true}'>
+                <div class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search"
+                                           placeholder="Zoek Assortiment" aria-label="Search"/>
+                                    <span class="fas fa-search search-box-icon"></span>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                            <div class="btn-group position-static" role="group">
+                                <div class="col-auto">
+                                    <a class="btn btn-success px-5 px-sm-5" href="{% url 'producer_assortiment_upload' None %}"><span
+                                            class="fa-solid fa-upload fs--1 me-2"></span>Assortiment laden</a>
+                                </div> &nbsp;
+                                <div class="col-auto">
+                                    <a class="btn btn-warning px-5 px-sm-5" href="{% url 'producer_assortiment_calculate' %}"><span
+                                            class="fa-solid fa-calculator fs--1 me-2"></span>Assortiment berekenen</a>
+                                </div> &nbsp;
+
+                                <div class="col-auto">
+                                    <a class="btn btn-info px-5 px-sm-5" href="{% url 'producer_assortiment_download' %}"><span
+                                            class="fa-solid fa-download fs--1 me-2"></span>Assortiment download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===============================================-->
+                <!--    Table-->
+                <!-- ===============================================-->
+                <div class="col-12 rounded-2 border border-info">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="table-responsive scrollbar mx-n1 px-1">
+                                <h3 class="mb-0 text-info">Assortiment van {{ user.member.company }}</h3>
+                                <table class="table table-sm fs--1 mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="catalog_code"
+                                            style="width:5%;">Artikelcode
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="description"
+                                            style="width:20%; min-width: 100px;">Omschrijving
+                                        </th>
+                                        <th class="align-middle text-start pe-0" scope="col" style="width:5%;">
+                                            Kostprijs
+                                        </th>
+                                        <th class="align-middle text-start" scope="col" style="width:5%;">1000 ex meer</th>
+                                        <th class="sort align-middle text-start pe-0" scope="col" data-sort="status"
+                                            style="width:10%;">Status
+                                        </th>
+                                        <th class="sort align-middle text-start pe-0" scope="col" data-sort="error"
+                                            style="width:25%;">Error
+                                        </th>
+                                        <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
+                                            Kostprijs<br>details
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody class="list" id="producer-table-body">
+                                    {% for i in catalog %}
+                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                            <td class="catalog_code align-middle fw-semi-bold text-1000">{{ i.catalog_code }}</td>
+                                            <td class="description align-middle fw-semi-bold text-1000">{{ i.printproject.volume }}  ex {{ i.printproject.productcategory }} &nbsp;{{ i.printproject.project_title }}  </td>
+                                            <td class="align-middle fw-semi-bold text-1000">€&nbsp;{{ i.total_cost }}</td>
+                                             <td class="align-middle fw-semi-bold text-1000">€&nbsp;{{ i.total_cost1000extra }}</td>
+                                            <td class="status align-middle fw-semi-bold text-1000">{{ i.status }} </td>
+                                            <td class="error align-middle fw-semi-bold text-1000">{{ i.error }} </td>
+                                            <td class="align-middle white-space-nowrap py-0">
+
+                                        {% include 'buttons/producer_calculation_details.html' %}
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                                <div class="col-auto d-flex">
+                                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                       data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!"
+                                                                              data-list-view="*">Toon
+                                    alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                                        class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
+                                        class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                                </div>
+                                <div class="col-auto d-flex">
+                                    <button class="page-link" data-list-pagination="prev"><span
+                                            class="fas fa-chevron-left"></span></button>
+                                    <ul class="mb-0 pagination"></ul>
+                                    <button class="page-link pe-0" data-list-pagination="next"><span
+                                            class="fas fa-chevron-right"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+
+</html>

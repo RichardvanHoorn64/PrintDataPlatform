@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print general</title>
+</head>
+<body>
+<div class="container" id="print_general" name="print_general">
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h4 id="print_general_header" class="mb-3 text-info">Bedrukking</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_printing }}</h6>
+        {% endif %}
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row print front -->
+    <!-- ===============================================-->
+    <div class="row" id="print_front">
+        <div class="col-sm-6 col-md-3" id="printsided_plano_folders">
+            <label class="form-label" for="printsided">Eén- of tweezijdig</label>
+            <select class="form-select" id="printsided" name="printsided"
+                    onchange="print_rearSelectCheck(this)">
+                {% for i in printsided_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   Print choice -->
+        <!-- ===============================================-->
+
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="print_front_label" for="print">Bedrukking</label>
+            <select class="form-select" id="print" name="print">
+                {% for i in print_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   PMS colors and pressvarnish -->
+        <!-- ===============================================-->
+
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="number_pms_colors">Aantal extra PMS kleuren</label>
+            <input type="text" class="form-control" id="number_pms_colors" name="number_pms_colors" placeholder=0 value=0>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="pressvarnish_front_label" for="pressvarnish">Vernis</label>
+            <select class="form-select" id="pressvarnish" name="pressvarnish">
+                {% for i in pressvarnish_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row print rear -->
+    <!-- ===============================================-->
+
+    <br>
+    <div id="print_rear_row" style="display: none">
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" for="print_rear">Bedrukking achterzijde</label>
+                <select class="form-select" id="print_rear" name="print_rear">
+                    {% for i in print_choices %}
+                        <option value="{{ i.type }}">{{ i.type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label"  for="number_pms_colors_rear">Aantal PMS kleuren
+                    achterzijde</label>
+                <input type="text" class="form-control" id="number_pms_colors_rear" name="number_pms_colors_rear"
+                       placeholder=0 value=0>
+            </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="pressvarnish_rear">Vernis achterzijde</label>
+            <select class="form-select" id="pressvarnish_rear" name="pressvarnish_rear">
+                {% for i in pressvarnish_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        </div>
+
+    </div>
+    <br>
+    <hr class="text-info">
+</div>
+</body>
+</html>

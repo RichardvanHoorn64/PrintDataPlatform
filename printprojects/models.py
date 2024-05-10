@@ -1,0 +1,178 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+from index.models import ProductCategory
+from members.models import Clients, ClientContacts
+from profileuseraccount.models import *
+
+
+class MemberProducerStatus(models.Model):
+    memberproducerstatus_id = models.AutoField(primary_key=True)
+    memberproducerstatus = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.memberproducerstatus
+
+    class Meta:
+        verbose_name = 'memberproducerstatus'
+        verbose_name_plural = 'memberproducerstatus'
+
+
+class PrintprojectStatus(models.Model):
+    printprojectstatus_id = models.AutoField(primary_key=True)
+    printprojectstatus = models.CharField(max_length=200)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.printprojectstatus
+
+    class Meta:
+        verbose_name = 'printprojectstatus'
+        verbose_name_plural = 'printprojectstatus'
+
+
+class PrintProjects(models.Model):
+    printproject_id = models.AutoField(primary_key=True)
+    productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.SET_NULL)
+    member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
+    producer = models.ForeignKey(Producers, blank=True, null=True, on_delete=models.SET_NULL)
+    client = models.ForeignKey(Clients, blank=True, null=True, on_delete=models.SET_NULL)
+    clientcontact = models.ForeignKey(ClientContacts, blank=True, null=True, on_delete=models.SET_NULL)
+    printprojectstatus = models.ForeignKey(PrintprojectStatus, null=True, blank=True, on_delete=models.SET_NULL)
+    project_title = models.CharField(max_length=500, blank=True, null=True)
+    catalog_code = models.CharField(max_length=500, blank=True, null=True)
+    description = models.TextField(max_length=1000, blank=True)
+    error = models.TextField(max_length=500, blank=True)
+    message_extra_work = models.TextField(max_length=1000, blank=True)
+    own_quotenumber = models.CharField(max_length=200, null=True, blank=True, )
+    client_quotenumber: str = models.CharField(max_length=200, null=True, blank=True, )
+
+    rfq_date = models.DateTimeField(auto_now_add=True)
+    upload_date = models.DateTimeField(null=True, blank=True)
+    volume = models.PositiveIntegerField(null=True, blank=True)
+    number_of_offers = models.PositiveIntegerField(default=0)
+
+    # planning
+    supply_date = models.DateTimeField(null=True, blank=True)
+    delivery_date = models.DateTimeField(null=True, blank=True)
+
+    # Products
+    format_selection = models.CharField(max_length=200, blank=True, null=True)
+    standard_size = models.CharField(max_length=200, blank=True, null=True)
+    height_mm_product = models.PositiveIntegerField(blank=True, null=True)
+    width_mm_product = models.PositiveIntegerField(blank=True, null=True)
+
+    # paper
+    papercategory = models.CharField(max_length=200, blank=True, null=True)
+    paperbrand = models.CharField(max_length=200, blank=True, null=True)
+    paperweight = models.PositiveIntegerField(null=True, blank=True)
+    papercolor = models.CharField(max_length=200, blank=True, null=True)
+
+    # pressvarnish
+    pressvarnish_front = models.PositiveIntegerField(blank=True, null=True)
+    pressvarnish_rear = models.PositiveIntegerField(blank=True, null=True)
+    pressvarnish_booklet = models.PositiveIntegerField(blank=True, null=True)
+
+    # enhance
+    enhance_sided = models.PositiveIntegerField(blank=True, null=True)
+    enhance_front = models.PositiveIntegerField(blank=True, null=True)
+    enhance_rear = models.PositiveIntegerField(blank=True, null=True)
+
+    # packaging choices
+    packaging = models.CharField(max_length=200, blank=True, null=True)
+
+    # for folders
+    folding = models.PositiveIntegerField(blank=True, null=True)
+
+    # for folders, selfcovers and brochures:
+    number_of_pages = models.PositiveIntegerField(blank=True, null=True)
+    portrait_landscape = models.PositiveIntegerField(blank=True, null=True)
+    finishing_brochures = models.PositiveIntegerField(blank=True, null=True)
+
+    # printing general
+    printsided = models.PositiveIntegerField(blank=True, null=True)
+
+    # print pms colors
+    number_pms_colors_front = models.PositiveIntegerField(validators=[MaxValueValidator(10)], blank=True, null=True,
+                                                          default=0)
+    number_pms_colors_rear = models.PositiveIntegerField(
+        validators=[MaxValueValidator(10), MinValueValidator(0)], blank=True, null=True, default=0)
+    number_pms_colors_booklet = models.PositiveIntegerField(
+        validators=[MaxValueValidator(10), MinValueValidator(0)], blank=True, null=True, default=0)
+
+    # basic print black, full color or only specials
+    print_front = models.PositiveIntegerField(blank=True, null=True)
+    print_rear = models.PositiveIntegerField(blank=True, null=True)
+    print_booklet = models.PositiveIntegerField(blank=True, null=True)
+
+    # paper cover
+    papercategory_cover = models.CharField(max_length=200, blank=True, null=True)
+    paperbrand_cover = models.CharField(max_length=200, blank=True, null=True)
+    paperweight_cover = models.PositiveIntegerField(null=True, blank=True)
+    papercolor_cover = models.CharField(max_length=200, blank=True, null=True)
+
+    # pricing
+    salesprice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    salesprice_1000extra = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    invoiceturnover = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    # general
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True or "")
+    active = models.BooleanField(default=True)
+    assortiment_item = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.project_title
+
+    class Meta:
+        verbose_name = 'printprojects'
+        verbose_name_plural = 'printproject'
+
+
+class MemberProducerSalesAllowance(models.Model):
+    salesallowance_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
+    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
+    productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
+    perc_salesallowance = models.IntegerField(default=0)
+
+
+
+class MemberProducerMatch(models.Model):
+    memberproducermatch_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
+    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
+    memberproducerstatus = models.ForeignKey(MemberProducerStatus, null=True, default=2, on_delete=models.CASCADE)
+    api = models.BooleanField(default=True)
+    api_username = models.CharField(max_length=100, blank=True)
+    api_password = models.CharField(max_length=15, blank=True)
+    producerclient_id = models.CharField(max_length=15, blank=True)
+    ranking = models.IntegerField(default=1)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True or "")
+    producer_accept = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.producer
+
+    class Meta:
+        verbose_name = 'producers'
+        verbose_name_plural = 'producer'
+
+
+class PrintProjectMatch(models.Model):
+    printprojectmatch_id: int = models.AutoField(primary_key=True)
+    printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.SET_NULL)
+    member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
+    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
+    memberproducermatch = models.ForeignKey(MemberProducerMatch, null=True, default=2, on_delete=models.CASCADE)
+    ranking = models.IntegerField(default=1)
+    matchprintproject = models.BooleanField(default=False)
+    member_block = models.BooleanField(default=False)
+    preferred_supplier = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True or "")
+    active = models.BooleanField(default=True)

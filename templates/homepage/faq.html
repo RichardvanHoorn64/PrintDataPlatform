@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ</title>
+  </head>
+    {% block main_content %}
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+    <div class="container" id="new_project_header" style="background-color:whitesmoke;">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info" href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                <li class="breadcrumb-item active">{{ title }}</li>
+            </ol>
+        </nav>
+        <hr class="text-info">
+        <h2  class="mb-4 text-info">{{ title }}</h2>
+        <h5 class="mb-3">
+           {{ subtitle }}
+        </h5>
+        <hr class="text-info">
+
+    <!-- ===============================================-->
+    <!--    Conditions-->
+    <!-- ===============================================-->
+
+          <h2 class="mb-5">{{ title }}</h2>
+          <h5 class="mb-3">How can we help?</h5>
+          <p class="text-700">Search for the topic you need help with or <a href="#!">contact our support</a></p>
+        <div class="search-box mb-8 w-100" style="max-width:25rem;">
+            <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+              <input class="form-control search-input search" type="search" placeholder="Search" aria-label="Search" />
+              <span class="fas fa-search search-box-icon"></span>
+
+            </form>
+          </div>
+
+
+
+            {% for faq in faqs %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">{{ faq.question }}</button>
+              </h2>
+              <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body pt-0">{{ faq.answer }}</div>
+              </div>
+            </div>
+    {% endfor %}
+
+
+
+      </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+
+
+
+  </body>
+
+</html>
+{% endblock %}

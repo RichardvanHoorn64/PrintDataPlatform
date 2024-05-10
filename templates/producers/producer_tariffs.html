@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>producer-details</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Tarieven</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Tarieven {{ user.company }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-12 col-xxl-4">
+                <div class="row g-3 g-xxl-0 h-100">
+                    <div class="col-12 col-md-7 col-xxl-12 mb-xxl-3">
+                        <div class="card h-100 rounded-2 border border-info">
+                            <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+
+                                    <div class="col-12 col-sm-auto flex-1">
+                                        <h3>Algemeen
+                                            <a href="{% url 'producer_tariffs_update' general_settings.setting_id %}"
+                                               class="btn btn-link p-0"><span
+                                                    class="fas fa-pen fs-0 ms-3 text-500"></span></a></h3>
+                                        <hr class="text-info">
+                                        <p class="text-800">
+                                            Vaste order/startkosten: € {{ general_settings.order_startcost }}<br>
+                                            Toeslag inkoop papier: {{ general_settings.purchase_paper_perc_added }}
+                                            %<br>
+                                        </p>
+                                        <div>
+                                        </div>
+                                        <hr class="text-info">
+                                        <h4>Bedrukking:</h4>
+                                        <p class="text-800">
+                                            PMS kleuren:
+                                            {% if general_settings.pms_offering == True %} Aanbieden
+                                            {% else %} Niet aanbieden
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-5 col-xxl-12 mb-xxl-3">
+                        <div class="card h-100 rounded-2 border border-info">
+                            <div class="card-body pb-3">
+                                <div class="d-flex align-items-center mb-3">
+                                    <h3 class="me-1">Marge's
+                                        <a href="{% url 'producer_tariffs_update' general_settings.setting_id %}"
+                                           class="btn btn-link p-0"><span
+                                                class="fas fa-pen fs-0 ms-3 text-500"></span></a></h3>
+                                </div>
+                                <hr class="text-info">
+                                 <p class="text-800">
+                                            Aflopend bedrukt mm: {{ general_settings.overflow_offset_mm }} mm<br><br>
+                                            <strong>Voor brochures</strong><br>
+                                            Katern marge: {{ general_settings.overflow_offset_mm }} mm<br>
+                                            Kop marge: {{ general_settings.katernmargin }} mm<br>
+                                        </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         {%  include 'assets/asset_tables/tariff_table_enhancement.html' %}
+         {%  include 'assets/asset_tables/tariff_table_packaging.html' %}
+         {%  include 'assets/asset_tables/tariff_table_transport.html' %}
+    </div>
+
+
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}
+</html>

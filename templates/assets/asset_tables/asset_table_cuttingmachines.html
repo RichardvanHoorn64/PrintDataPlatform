@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>asset table</title>
+</head>
+<body>
+
+
+<div class="col-12 rounded-2 border border-info">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Snijmachines</h3>
+                <hr>
+                {% if assets_cuttingmachines %}
+                    <table class="table table-sm fs--1 mb-0">
+                        <thead>
+                        <tr>
+                            <th class="white-space-nowrap align-middle pe-3" scope="col"
+                                style="width:25%;">Machine
+                            </th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                data-sort="asset_id"
+                                style="width:5%;">Uurtarief
+                            </th>
+
+                            <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
+                                style="width:10%;">
+                                Snelheid
+                            </th>
+
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Instellingen
+                                wijzigen
+                            </th>
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="list" id="order-table-body">
+                        {% for asset in assets_cuttingmachines %}
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                             <td class="asset_name align-middle fw-semi-bold text-1000">{{ asset.asset_name }}</td>
+                                <td class="tariff_eur_hour align-middle fw-semi-bold text-1000">{{ asset.tariff_eur_hour }}</td>
+                                <td class="speed align-middle fw-semi-bold text-1000">{{ asset.speed }}</td>
+                               <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% include 'buttons/update_cuttingmachine.html' %}
+                                </td>
+                                <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% include 'buttons/delete_cuttingmachine.html' %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                {% else %}
+                    Geen snijmachine ingesteld
+                {% endif %}
+            {% include 'buttons/create_cuttingmachine.html' %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Offers table</title>
+</head>
+<body>
+
+
+
+<div class="col-12 mb-0 rounded-2 border border-info">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">{{ offer_table_title }}</h3>
+                <hr>
+                {% if offers_list %}
+                    <table class="table table-sm fs--1 mb-0">
+                        <thead>
+                        <tr>
+                            <th class="white-space-nowrap align-middle pe-3" scope="col" data-sort="printproject_id"
+                                style="width:5%;">Details
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="offer_id"
+                                style="width:5%;">ID
+                            </th>
+                            <th class="align-middle ps-0" scope="col" style="width:10%; ">Uitgebracht</th>
+                            <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
+                                style="width:15%;">
+                                Producent
+                            </th>
+                            <th class="sort align-middle text-start pe-3" scope="col" data-sort="offer"
+                                style="width:10%; min-width: 100px;">Aanbieding
+                            </th>
+                            <th class="sort align-middle ps-0" scope="col" data-sort="customer"
+                                style="width:10%; min-width: 100px;; ">1000 meer
+                            </th>
+                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Status</th>
+                            <th class="align-middle ps-0" scope="col" style="width:40%; ">Toelichting</th>
+
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Download<br>aanbieding
+                            </th>
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Order plaatsen</th>
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="list" id="offer-table-body">
+                        {% for offer in offers_list %}
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a
+                                        href="{% url 'offer_details' offer.offer_id %}"
+                                        class="btn btn-outline-info btn-sm me-1 mb-1" role="button" aria-pressed="true"><i
+                                        class="fas fa-info text-info fs-1"></i></a></td>
+
+                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offer_id }}</td>
+                                <td class="rfq_date align-middle fw-semi-bold text-1000">
+                                    {% if offer.offer_date %}{{ offer.offer_date |date:'d-m-Y ' }}{% else %}
+                                        ---{% endif %}</td>
+                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.producer.company }}</td>
+
+                                <td class="offer_id align-middle white-space-nowrap py-0">
+                                    {% if offer.offer %}€ {{ offer.offer }}{% else %}Geen{% endif %}</td>
+                                <td class="offer_id align-middle white-space-nowrap py-0">
+                                    {% if offer.offer_1000extra %}€ {{ offer.offer_1000extra }}{% else %}
+                                        Geen{% endif %}</td>
+                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offerstatus.offerstatus }}</td>
+
+                                <td class="offer_id align-middle white-space-nowrap py-0">
+                                    {% if offer.producer_notes %}{{ offer.producer_notes }}{% else %}
+                                        Geen{% endif %}</td>
+
+                                <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% if offer.offer_date %}
+                                        <a href="{% url 'offer_details' offer.offer_id %}"
+                                           class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                           aria-pressed="true"><i class="far fa-file-word text-info fs-1"></i></a>
+                                    {% else %} --- {% endif %}
+                                </td>
+
+
+                                <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% if offer.offer_date %}
+                                        <a href="{% url 'create_order' offer.offer_id %}"
+                                           class="btn btn-outline-success btn-sm me-1 mb-1" role="button"
+                                           aria-pressed="true"><i
+                                                class="fas fa-shopping-cart text-success fs-1"></i></a>
+                                    {% else %} --- {% endif %}
+                                </td>
+                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a
+                                        href="{% url 'close_offer' offer.offer_id  %}"
+                                        class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
+                                        aria-pressed="true"><i class="fas fa-trash text-warning fs-1"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                        <div class="col-auto d-flex">
+                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                               data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Toon
+                            alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                                class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
+                                class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <button class="page-link" data-list-pagination="prev"><span
+                                    class="fas fa-chevron-left"></span></button>
+                            <ul class="mb-0 pagination"></ul>
+                            <button class="page-link pe-0" data-list-pagination="next"><span
+                                    class="fas fa-chevron-right"></span></button>
+                        </div>
+                {% else %}
+                    {{ empty_table_text_offers }}
+                {% endif %}
+                </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'base_brandportal.html' %}
+<html lang="nl">
+<head>
+
+
+    <meta charset="UTF-8">
+    <title>Klant dashboard</title>
+</head>
+{% block page %}
+    <body class="bg-img-hero-fixed"
+          style="background-image: url(https://drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/geen_toegang.svg);">
+
+
+    <!-- ========== MAIN ========== -->
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="d-lg-flex">
+            <div class="container d-lg-flex align-items-lg-center min-height-lg-100vh space-4">
+                <div class="w-lg-60 w-xl-50">
+                    <!-- Title -->
+                    <div class="mb-5">
+                        <h1 class="text-primary font-weight-normal"> <span
+                                class="font-weight-semi-bold">Welkom!</span></h1>
+                        <p class="mb-0">Je aanmelding wordt beoordeeld.</p>
+                        <p>Vervolgens geven we je toegang tot je proefaccount.</p>
+                    </div>
+                    <!-- End Title -->
+
+                    <a class="btn btn-primary btn-wide transition-3d-hover" href="{% url 'welcome' %}">Ga terug</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Hero Section -->
+    </main>
+    <!-- ========== END MAIN ========== -->
+
+    </body>
+    </html>
+{% endblock %}

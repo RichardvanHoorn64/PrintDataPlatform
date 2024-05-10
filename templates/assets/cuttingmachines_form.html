@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Order</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="printer_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'asset_dashboard' %}">Productiemiddelen</a></li>
+                    <li class="breadcrumb-item active">{{ asset_form_title }}</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">{{ asset_form_title }} {{ asset.asset_name }}</h2>
+            <h5 class="mb-3">Instellingen,  * verplichte velden</h5>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form name="update_create_printer_form" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Client title -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Algemeen *</h4>
+                    </div>
+                </div>
+                <!-- ===============================================-->
+                <!--   Row client -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-label" for="asset_name">Machinenaam:</label>
+                        <input class="form-control" type="text" id="asset_name" name="asset_name"
+                                {% if update %}
+                               value="{{ asset.asset_name }}" {% else %} required
+                                {% endif %}
+                               placeholder="machinenaam opgeven"/>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                    <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
+                        <input class="form-control" type="number" step="0.01" id="tariff_eur_hour"
+                               name="tariff_eur_hour"
+                                {% if update %}
+                               value="{{ asset.tariff_eur_hour |floatformat:2 }}"  {% else %} required
+                                {% endif %} />
+
+                    </div>
+                </div>
+            <hr class="text-info">
+                <br>
+            <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Snijmachine velformaten  *</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_width_mm">max snijbreedte mm: </label>
+                        <input class="form-control" type="number" id="max_width_mm" name="max_width_mm"
+                                {% if update %}
+                               value="{{ asset.max_width_mm }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_depth_mm">max snijdiepte mm: </label>
+                        <input class="form-control" type="number" id="max_depth_mm" name="max_depth_mm"
+                                {% if update %}
+                               value="{{ asset.max_depth_mm }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="sheetsize_height_min">Max stapelformaat hoogte :</label>
+                        <input class="form-control" type="number" id="max_stackheight_mm" name="max_stackheight_mm"
+                                {% if update %}
+                               value="{{ asset.max_stackheight_mm }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                </div>
+
+                <hr class="text-info">
+                <br>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Snijmachine insteltijden en productie * </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="setup_order_min">Insteltijd per oprdacht (minuten): </label>
+                        <input class="form-control" type="number" id="setup_order_min" name="setup_order_min"
+                                {% if update %}
+                               value="{{ asset.setup_order_min }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="time_cutting_sec">Schoonsnijden per stapel (seconden): </label>
+                        <input class="form-control" type="number" id="time_cutting_sec" name="time_cutting_sec"
+                                {% if update %}
+                               value="{{ asset.time_cutting_sec }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                 <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="time_per_extra_sec">Snijden per snede, per stapel (seconden): </label>
+                        <input class="form-control" type="number" id="time_per_extra_sec" name="time_per_extra_sec"
+                                {% if update %}
+                               value="{{ asset.time_per_extra_sec }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                </div>
+                <hr class="text-info">
+
+                <br>
+
+
+                    <!-- ===============================================-->
+                    <!--   Row asset submit buttons -->
+                    <!-- ===============================================-->
+                    {% include 'buttons/create_update_asset.html' %}
+
+
+                    <hr class="text-info">
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

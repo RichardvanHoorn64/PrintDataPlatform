@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+                <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold text-info">
+                                Calculatie:</p>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold">Kostprijs</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ calculation.total_cost }}</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ calculation.total_cost1000extra }}</p>
+                        </td>
+                        <td class="border-0">{{ calculation.perc_added_value }}
+                            / {{ calculation.perc_added_value1000extra }} % Toegevoegde waarde
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold">Order startkosten</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ calculation.order_startcost }}</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"></p>
+                        </td>
+                        <td class="border-0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+
+</body>
+</html>

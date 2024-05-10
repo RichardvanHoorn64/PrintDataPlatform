@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold text-info">Verpakken en verzenden:
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verpakken</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.packagingcost }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.packagingcost1000extra }}
+                        </td>
+                        <td class="border-0">Verpakking: {{ printproject.packaging }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verzenden </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.transportcost }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.transportcost1000extra }}
+                        </td>
+                        <td class="border-0">Ordergewicht: {{ calculation.orderweight_kg }} kg / 1.000 meer {{ calculation.orderweight_kg1000extra }} kg</td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+</body>
+</html>

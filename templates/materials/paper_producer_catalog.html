@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Paper dashboard</title>
+</head>
+
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Papiermerken</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Papiermerken</h2>
+                </div>
+            </div>
+            <div id="paperTable"
+                 data-list='{"valueNames":["papercategory","paperbrand","supplier","paperweight_mw","papercolor","paperheight_m2"],"page":20,"pagination":true}'>
+                <div class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search"
+                                           placeholder="Zoek papiersoort" aria-label="Search"/>
+                                    <span class="fas fa-search search-box-icon"></span>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                            <div class="btn-group position-static" role="group">
+                                <div class="col-auto">
+                                    <a class="btn btn-warning px-5 px-sm-5" href="{% url 'producer_paper_catalog_download' %}"><span
+                                            class="fa-solid fa-download fs--1 me-2"></span>Download papiercatalogus</a>
+                                </div>&nbsp;
+                                <div class="col-auto">
+                                    <a class="btn btn-info px-5 px-sm-5" href="{% url 'producer_paper_catalog_upload' %}"><span
+                                            class="fa-solid fa-upload fs--1 me-2"></span>Upload papiercatalogus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===============================================-->
+                <!--    Table-->
+                <!-- ===============================================-->
+                <div class="col-12 rounded-2 border border-info">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="table-responsive scrollbar mx-n1 px-1">
+                                <h3 class="mb-0 text-info">Papiercatalogus</h3>
+                                <table class="table table-sm fs--1 mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="papercategory"
+                                            style="width:10%; min-width: 100px;">Categorie
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="paperbrand"
+                                            style="width:10%; min-width: 100px;">Merk
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Leverancier
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="papercolor"
+                                            style="width:10%; min-width: 100px;">Gewicht m/m2
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="paperheight_m2"
+                                            style="width:10%; min-width: 100px;">Kleur
+                                        </th>
+                                           <th class="sort align-middle text-start pe-3" scope="col" data-sort="paperheight_m2"
+                                            style="width:10%; min-width: 100px;">Formaat / looprichting
+                                        </th>
+                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="paperheight_m2"
+                                            style="width:10%; min-width: 100px;">Prijs / 1000vel
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="paperheight_m2"
+                                            style="width:10%; min-width: 100px;">Pakinhoud/vel
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody class="list" id="producer-table-body">
+                                    {% for paper in papercatalog %}
+                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                            <td class="papercategory align-middle fw-semi-bold text-1000">{{ paper.papercategory }}</td>
+                                            <td class="paperbrand align-middle fw-semi-bold text-1000">{{ paper.paperbrand }}</td>
+                                            <td class="supplier align-middle fw-semi-bold text-1000">{{ paper.supplier }}</td>
+                                            <td class="papercolor align-middle white-space-nowrap text-900 fs--1 text-start">{{ paper.paperweight_m2 }}</td>
+                                            <td class="paperheight_m2 align-middle fw-semi-bold text-1000">{{ paper.papercolor}}</td>
+                                            <td class="producer align-middle fw-semi-bold text-1000">{{ paper.paper_height_mm }}x{{ paper.paper_width_mm }}mm&nbsp;{{ paper.fiber_direction }}</td>
+                                        <td class="producer align-middle fw-semi-bold text-1000">€ {{ paper.price_1000sheets}}</td>
+                                        <td class="producer align-middle fw-semi-bold text-1000">{{ paper.sheets_per_pack}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                                <div class="col-auto d-flex">
+                                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                       data-list-info="data-list-info"></p><a class="fw-semi-bold text-info" href="#!"
+                                                                              data-list-view="*">Toon
+                                    alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                                        class="fw-semi-bold d-none text-info" href="#!" data-list-view="less">Toon
+                                    minder<span
+                                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                                </div>
+                                <div class="col-auto d-flex">
+                                    <button class="page-link" data-list-pagination="prev"><span
+                                            class="fas fa-chevron-left"></span></button>
+                                    <ul class="mb-0 pagination"></ul>
+                                    <button class="page-link pe-0" data-list-pagination="next"><span
+                                            class="fas fa-chevron-right"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===============================================-->
+            <!--    End of Main Content-->
+            <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_open.html' %}
+{% load static %}
+<html lang="nl">
+<head>
+
+
+    <meta charset="UTF-8">
+    <title>Wait for approval</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<body>
+{% block main_content %}
+    <main class="main" id="top">
+        <div class="container-fluid px-0">
+            <div class="px-3">
+                <div class="row min-vh-100 flex-center p-5">
+                    <div class="col-12 col-xl-10 col-xxl-8">
+                        <div class="row justify-content-center g-5">
+                            <div class="col-8 col-lg-4 text-center text-lg-start"><img
+                                    class="img-fluid mb-6 w-100 w-lg-150 d-dark-none"
+                                    src="{% static "assets/img/spot-illustrations/30.png" %}" alt="" width="400"/>
+                            </div>
+
+                            <div class="col-12 col-lg-8 text-center text-lg-start">
+                                <h2 class="text-800 fw-bolder mb-3">Nog eventjes geduld!</h2>
+                                <p class="text-900 mb-5">Uw aanmelding wordt beoordeeld. Vervolgens ontvangt u een
+                                    bevestigingsmail.
+                                    <br> <br>Neem gerust contact met ons op als er vragen zijn.
+
+                                <p>Mail: <a href="https://www.richardvanhoorn.nl/" target=”_blank” class="text-info">Richard
+                                    van Hoorn</a><br>Tel: 06-55962062
+                                </p>
+                                <a class="btn btn-lg btn-outline-secondary" href="{% url 'home' %}">Naar Home</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main></body>
+{% endblock %}
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
+
+
+{% comment %}{% block main_content %}
+    <body class="bg-img-hero-fixed"
+          style="background-image: url(https://drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/geen_toegang.svg);">
+
+
+    <!-- ========== MAIN ========== -->
+
+
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="d-lg-flex">
+            <div class="container d-lg-flex align-items-lg-center min-height-lg-100vh space-4">
+                <div class="w-lg-60 w-xl-50">
+                    <!-- Title -->
+                    <div class="mb-5">
+                        <h1 class="text-primary font-weight-normal">Geen <span
+                                class="font-weight-semi-bold">toegang</span></h1>
+                        <p class="mb-0">Oops! Je hebt geen toegang tot deze pagina.</p>
+                        <p>Neem rechtstreeks contact met je drukkerij op.</p>
+                    </div>
+                    <!-- End Title -->
+
+                    <a class="btn btn-primary btn-wide transition-3d-hover" href="{% url 'welcome' %}">Ga terug</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Hero Section -->
+    </main>
+    <!-- ========== END MAIN ========== -->
+
+    </body>
+    </html>
+{% endblock %}{% endcomment %}

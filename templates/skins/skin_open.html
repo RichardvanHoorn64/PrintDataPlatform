@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+<!-- ===============================================-->
+<!--    Skin for menu, footer etc.-->
+<!-- ===============================================-->
+{% block skin %}
+
+    <main class="main" id="top">
+        <div class="container-fluid px-0">
+            <div class="navbar-vertical-footer">
+                <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center">
+                    <span class="uil uil-left-arrow-to-left fs-0"></span><span
+                        class="uil uil-arrow-from-right fs-0"></span><span
+                        class="navbar-vertical-footer-text ms-2 fs-0">Inklappen</span></button>
+            </div>
+            </nav>
+            <nav class="navbar navbar-top navbar-expand" id="navbarDefault">
+                <div class="collapse navbar-collapse justify-content-between">
+                    <div class="navbar-logo">
+
+                        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
+                                aria-controls="navbarVerticalCollapse" aria-expanded="false"
+                                aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
+                                class="toggle-line"></span></span></button>
+                        <a class="navbar-brand me-1 me-sm-3" href="{% url 'welcome' %}">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center"><img
+                                        src="{% static "assets/img/icons/logo.png" %}" alt="logo" width="27"/>
+                                    <p class="logo-text ms-2 d-none d-sm-block">PrintDataPlatform
+                                        <small>&nbsp;&nbsp;<span class="text-warning">Voorsprong</span> voor printprofessionals</small></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <ul class="navbar-nav navbar-nav-icons flex-row">
+                        <li class="nav-item">
+                        {% include 'buttons/nav_login_out.html' %}
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            {% block main_content %}
+                <!-- ===============================================-->
+                <!--    MAIN PAGE CONTENT.-->
+                <!-- ===============================================-->
+            {% endblock %}
+
+
+            <footer class="footer position-absolute">
+                <div class="row g-0 justify-content-between align-items-center h-100">
+                    <div class="col-12 col-sm-auto text-center"></div>
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 mt-2 mt-sm-0 text-900">PrintDataPlatform<span
+                                class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none"/>&copy; 2023<br
+                                class="d-sm-none"/>
+                            <span class="d-none d-sm-inline-block mx-1">|</span> <a class="mx-1 text-info"
+                                  href="https://richardvanhoorn.nl" target=”_blank”>
+                                Richard van Hoorn, Data - Consultancy</a></p>
+                    </div>
+                    <div class="col-12 col-sm-auto text-center">
+                        <p class="mb-0 text-600">PrintDataPlatform</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script>
+            var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+            var navbarTop = document.querySelector('.navbar-top');
+            if (navbarTopStyle === 'darker') {
+                navbarTop.classList.add('navbar-darker');
+            }
+
+            var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+            var navbarVertical = document.querySelector('.navbar-vertical');
+            if (navbarVertical && navbarVerticalStyle === 'darker') {
+                navbarVertical.classList.add('navbar-darker');
+            }
+        </script>
+
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Menu skin-->
+    <!-- ===============================================-->
+{% endblock %}
+</html>

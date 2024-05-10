@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>asset table</title>
+</head>
+<body>
+
+<br>
+<div class="col-12 rounded-2 border border-info">
+    <div class="card h-100">
+        <div class="card-body">
+
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Veredeling tarieven</h3>
+                <hr>
+                    <table class="table table-sm fs--1 mb-0">
+                        <thead>
+                        <tr>
+                            <th class="white-space-nowrap align-left pe-1" scope="col"
+                                style="width:15%;">Veredeling
+                            </th>
+                            <th class="white-space-nowrap align-left pe-1" scope="col"
+                                data-sort="asset_id"
+                                style="width:5%;">Startkosten
+                            </th>
+
+                            <th class="white-space-nowrap align-left pe-1" scope="col" style="width:5%;">
+                                Productie per 1000 vel
+                            </th>
+                            <th class="white-space-nowrap align-left pe-1" scope="col"
+                                data-sort="asset_id"
+                                style="width:5%;">Minimum kosten
+                            </th>
+
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:10%;">Maximum formaat
+                            </th>
+                             <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:10%;">Toegevoegde waarde
+                                 </th>
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Wel/geen <br>Eigen productie</th>
+                             <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:10%;">Aangeboden
+                            </th>
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Wel/niet <br>Aanbieden</th>
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Wijzigen
+                            </th>
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Verwijderen</th>
+                        </tr>
+                        </thead>
+                        <tbody class="list" id="order-table-body">
+                        {% for i in enhancement_tariffs %}
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle fw-semi-bold text-1000">{{ i.enhancement.enhancement }}</td>
+                                <td class="align-middle fw-semi-bold text-1000">€ {{ i.setup_cost }}</td>
+                                <td class="align-middle fw-semi-bold text-1000">€ {{ i.production_cost_1000sheets }}</td>
+                                <td class="align-middle fw-semi-bold text-1000">€ {{ i.minimum_cost }}</td>
+                                <td class="align-middle fw-semi-bold text-1000">{{ i.max_sheet_height }} x {{ i.max_sheet_width }} mm</td>
+
+                            <td class="align-middle fw-semi-bold text-1000">
+                                {% if i.added_value %}Eigen productie{% else %}Inkoop{% endif %} </td>
+
+                                {% if i.added_value  %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_enhancement_added_value' i.enhancementtariff_id %}"
+                                class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-ban"></i></a>
+                            </td>
+                                {% else %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_enhancement_added_value' i.enhancementtariff_id %}"
+                                class="btn btn-outline-success btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-plus"></i></a>
+                            </td>
+                            {% endif %}
+
+                            <td class="align-middle fw-semi-bold text-1000">
+                                {% if i.availeble %}Aangeboden{% else %}Niet aangeboden{% endif %} </td>
+
+                                {% if i.availeble  %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_enhancement_availability' i.enhancementtariff_id %}"
+                                class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-ban"></i></a>
+                            </td>
+                                {% else %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_enhancement_availability' i.enhancementtariff_id %}"
+                                class="btn btn-outline-success btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-plus"></i></a>
+                            </td>
+                            {% endif %}
+
+                               <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% include 'buttons/update_enhancementtariff.html' %}
+                                </td>
+
+                               <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                    {% include 'buttons/delete_enhancementtariff.html' %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+         {% include 'buttons/create_enhancement_tariff.html' %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

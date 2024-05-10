@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Size general</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--   Title ands productcategory -->
+<!-- ===============================================-->
+<div class="container" id="brochures_finishing" style="display :none">
+    <div class="row">
+        <h4 class="mb-3 text-info">Brochures omvang en afwerking</h4>
+    {% if update %}
+        <h6 class="mb-3">{{ printproject_finishing }}</h6>
+        {% endif %}
+        <!-- ===============================================-->
+        <!--   number of pages -->
+        <!-- ===============================================-->
+
+        <div class="col-sm-6 col-md-2" id="number_of_pages">
+            <label class="form-label" id="number_of_pages" for="number_of_pages">Omvang</label>
+            <input type="text" class="form-control" name="number_of_pages" placeholder="Aantal pagina's">
+        </div>
+
+        <!-- ===============================================-->
+        <!--    finishing  -->
+        <!-- ===============================================-->
+        <div class="col-sm-6 col-md-4">
+            <label class="form-label" for="finishing_brochures">Nabewerking</label>
+            <select class="form-select" id="finishing_brochures" name="finishing_brochures">
+            <option value="0">Kies nabewerking</option>
+                {% for i in brochure_finishingmethods  %}
+                    <option value="{{ i.finishingmethod_id }}">{{ i.finishingmethod }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+
+<hr class="text-info">
+</div>
+<br>
+</body>
+</html>

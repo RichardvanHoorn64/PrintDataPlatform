@@ -1,0 +1,1 @@
+{% autoescape off %} PrintDataPlatform offerteaanvraag van {{ offer.requester }} namens {{ member_company }}: {{ printproject.volume }} ex. {{ printproject.project_title }} {% endautoescape %}

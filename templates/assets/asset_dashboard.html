@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>{{ asset_dashboard_title }}</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">{{ asset_dashboard_title }}</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">{{ asset_dashboard_title }}</h2>
+                </div>
+            </div>
+            <!-- ===============================================-->
+            <!--  END  Header-->
+            <!-- ===============================================-->
+
+                <!-- ===============================================-->
+                <!--    Printers asset Table-->
+                <!-- ===============================================-->
+                {% include 'assets/asset_tables/asset_table_printers.html' %}<br>
+                <!-- ===============================================-->
+                <!--    End  Printers asset Table-->
+                <!-- ===============================================-->
+
+                <!-- ===============================================-->
+                <!--    Cuttingmachines asset Table-->
+                <!-- ===============================================-->
+                {% include 'assets/asset_tables/asset_table_cuttingmachines.html' %}<br>
+                <!-- ===============================================-->
+                <!--    End  Cuttingmachines asset Table-->
+                <!-- ===============================================-->
+
+                <!-- ===============================================-->
+                <!--    Foldingmachines asset Table-->
+                <!-- ===============================================-->
+                {% include 'assets/asset_tables/asset_table_foldingmachines.html' %}<br>
+                <!-- ===============================================-->
+                <!--    End  Foldingmachines asset Table-->
+                <!-- ===============================================-->
+
+                 <!-- ===============================================-->
+                <!--    Bindingmachines asset Table-->
+                <!-- ===============================================-->
+                 {% include 'assets/asset_tables/asset_table_bindingmachines.html' %}<br>
+                <!-- ===============================================-->
+                <!--    End  Bindingmachines asset Table-->
+                <!-- ===============================================-->
+            <br>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>membercontact table</title>
+</head>
+<body>
+<div class="col-12">
+    <div class="card h-100 rounded-2 border border-info">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Contacten {{ member.company }}</h3>
+                <hr>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                    <tr>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="printproject_id"
+                            style="width:20%;">Medewerker
+                        </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:20%;">Functie
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="printprojectstatus"
+                            style="width:20%; min-width: 100px;">Email
+                        </th>
+                        <th class="sort align-middle ps-0" scope="col" data-sort="customer" style="width:10%; ">Tel
+                        </th>
+                        <th class="sort align-middle text-start" scope="col" data-sort="rfq_date" style="width:10%;">
+                            Actief<BR>sinds
+                        </th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Account<br>aanpassen
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="list" id="order-table-body">
+                    {% for account in memberaccount_list %}
+                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ account.first_name }} {{ account.last_name }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ account.jobtitle }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">
+                                <a href="mailto:">{{ account.email }}</a>
+                            </td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ account.mobile_number }}</td>
+
+                            <td class="rfq_date align-middle fw-semi-bold text-1000">{{ account.created |date:'d-m-Y ' }}</td>
+
+
+                            <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                {% include 'buttons/update_member_coworker.html' %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            {% if memberplan.member_plan in  '"3", "4"' %}
+                <a type="button" href="{% url 'create_co_worker' member.member_id %}"
+                   class="btn btn-info me-1 mb-1">Contact toevoegen</a>
+            {% else %}
+                <h6 class="mb-0">Collaga's toevoegen?</h6>
+                <br>
+                {% include 'buttons/memberaccount_upgrade.html' %}
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

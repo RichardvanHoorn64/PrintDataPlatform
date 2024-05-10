@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculation details booklet</title>
+</head>
+<body>
+<tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-bold text-info">
+                                    {% if calculation.productcategory_id ==  3 %}
+                                        Selfcover:</p>
+                                      {% elif calculation.productcategory_id == 4 or  calculation.productcategory_id == 5 %}
+                                        Binnenwerk:
+                                    {% endif %}
+                                {{ printproject.number_of_pages }} pagina's
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Drukken</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.printingcost_booklet }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.printingcost_booklet1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_printing_booklet }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Snijden tot katernen </p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.cuttingcost_booklet }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.cuttingcost_booklet1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Vouwen</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.foldingcost_booklet }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.foldingcost_booklet1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Binden</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.bindingcost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.bindingcost1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_finishing }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Inkt</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.inkcost_booklet }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.inkcost_booklet1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Platen incl toeslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.platecost_booklet }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-bold">
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+</body>
+</html>
+
+
+<!-- ===============================================-->
+<!--    End Booklet Detail table -->
+<!-- ===============================================-->

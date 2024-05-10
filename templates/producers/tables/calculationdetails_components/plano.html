@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculation details plano</title>
+</head>
+<body>
+<tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-bold text-info">
+                                    {% if calculation.productcategory_id ==  2 %}
+                                        Folder:</p>
+                                      {% elif calculation.productcategory_id == 1 %}
+                                        Plano product:
+                                    {% endif %}
+
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Drukken</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.printingcost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.printingcost1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_printing }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                                                <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Veredeling</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.enhancecost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.enhancecost1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_enhancement }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Snijden</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.cuttingcost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.cuttingcost1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        {% if calculation.productcategory_id in folders %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Vouwen</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.foldingcost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.foldingcost1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        {% endif %}
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Inkt</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.inkcost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.inkcost1000extra }}
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Platen incl toeslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.platecost }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-bold">
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+</body>
+</html>
+
+
+<!-- ===============================================-->
+<!--    End Booklet Detail table -->
+<!-- ===============================================-->

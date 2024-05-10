@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_producers.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>offer_producucer_details</title>
+</head>
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Offerte uitbrengen</li>
+            </ol>
+        </nav>
+        <hr class="text-info">
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Offerte uitbrengen</h2>
+                </div>
+            </div>
+            <hr class="text-info">
+
+
+            <!-- ===============================================-->
+            <!--   RFQ Header -->
+            <!-- ===============================================-->
+
+            <div class="d-flex justify-content-between align-items-end mb-2">
+                <h3 class="mb-0">Offerteaanvraag van: {{ printproject.member.company }}</h3>
+            </div>
+            <div class="d-flex justify-content-between align-items-end mb-2">
+                <h4 class="mb-0 me-3">Aanvraag: {{ printproject_title }}
+                    {% if printproject.own_quotenumber %}- ordernummer: {{ printproject.own_quotenumber }}
+                    {% endif %}
+                </h4></div>
+            <br>
+
+
+            <!-- ===============================================-->
+            <!--   END RFQ Header -->
+            <!-- ===============================================-->
+            <!-- ===============================================-->
+            <!--   RFQ Acces -->
+            <!-- ===============================================-->
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="col-12 rounded-2 border border-info" {% if display_access == 0 %}
+                     style="display: none;"
+                {% endif %}>
+                    <div id="rfq_acces_test" class="card h-100">
+                        <div class="card-body" id="intro_general" name="intro_general">
+                            <!-- ===============================================-->
+                            <!--   Row access control producer -->
+                            <!-- ===============================================-->
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <h4 class="mb-2 text-info">Toegangscontrole</h4>
+                                    <p class="mb-3">Vul de toegangscode in, zoals per mail verzonden. <br>
+                                        Bekijk de details van de aanvraag en breng uw offerte uit.</p>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-3">
+                                        <label class="form-label" for="offer_key_test">Toegangscode</label>
+                                        <input class="form-control" type="text" id="offer_key_test"
+                                               name="offer_key_test"
+                                               placeholder="Toegangcode"/>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <label class="form-label" for="offer_key_test_button">Verzenden</label>
+                                        <button type="submit" id="offer_key_test_button"
+                                                class="btn btn-success px-5 px-sm-5">
+                                            Toegang offerteaanvraag
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% include 'messages/form_valid_errormelding.html' %}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!-- ===============================================-->
+                <!--   END Row access control producer -->
+                <!-- ===============================================-->
+
+
+                <!-- ===============================================-->
+                <!--    Printproject Detail table -->
+                <!-- ===============================================-->
+
+                <div id="offer_producer_projectdetails"
+                        {% if display == 0 %}
+                     style="display: none;"
+                        {% endif %}>
+                    {% include 'printprojects/tables/printproject_detailtable.html' %}
+                    <!-- ===============================================-->
+                    <!--    End Printproject Detail table -->
+                    <!-- ===============================================-->
+
+                </div>
+                <br>
+                <div id="offer_producer_submit_offer" class="col-12 rounded-2 border border-info"
+                        {% if display == 0 %}
+                     style="display: none;"
+                        {% endif %}>
+                    <div id="rfq_form" class="card h-100">
+                        <div class="card-body" id="intro_general" name="intro_general">
+                            <!-- ===============================================-->
+                            <!--   General intro title -->
+                            <!-- ===============================================-->
+                            <div class="row">
+                                <h4 class="mb-3 text-info">Offerte uitbrengen, {{ offer.producer }}</h4>
+                            </div>
+                            <!-- ===============================================-->
+                            <!--   Row productcategory and project title -->
+                            <!-- ===============================================-->
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3">
+                                    <label class="form-label" for="offer">Offerte uitbrengen</label>
+                                    <input class="form-control" type="text" id="offer" name="offer"
+                                           placeholder="€"/>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <label class="form-label" for="offer_1000extra">Prijs 1000ex meer</label>
+                                    <input class="form-control" type="text" id="offer_1000extra"
+                                           name="offer_1000extra"
+                                           placeholder="€"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3">
+                                    <label class="form-label" for="producer_quote">Offertenummer</label>
+                                    <input class="form-control" type="text" id="producer_quote" name="producer_quote"
+                                           placeholder="Eigen offertnummer"/>
+                                </div>
+
+                                <div class="col-sm-6 col-md-6">
+                                    <label class="form-label" for="producer_contact">Account manager/calculator</label>
+                                    <input class="form-control" type="text" id="producer_contact"
+                                           name="producer_contact"
+                                           placeholder="Contactpersoon {{ offer.producer }}"/>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <!-- ===============================================-->
+                            <!--   Row volume, ordernumber and planning -->
+                            <!-- ===============================================-->
+
+
+                            <!-- ===============================================-->
+                            <!--   Row producer note -->
+                            <!-- ===============================================-->
+                            <div class="row">
+                                <div class="col-9 gy-2">
+                                    <label class="form-label" for="producer_notes">toelichting</label>
+                                    <textarea class="form-control" id="producer_notes" name="producer_notes"
+                                              placeholder="Eeen toelichting is niet verplicht."
+                                              style="height: 100px" value="Geen toelichting"></textarea>
+                                </div>
+                            </div>
+                            <hr class="text-info">
+                            <!-- ===============================================-->
+                            <!--   END Row producer note -->
+                            <!-- ===============================================-->
+
+
+                            <!-- ===============================================-->
+                            <!--   Row submit buttons -->
+                            <!-- ===============================================-->
+                            <div class="container" id="submit_general" name="submit_general">
+                                <div class="row">
+                                    <h4 class="mb-1 text-info">Offerte versturen</h4>
+                                    <div class="col-12 gy-3 ">
+                                        <div class="row g-3 justify-content-start">
+                                            <div id="testveld" class="col-auto">
+                                                <a type="button" href="{% url 'home' %}"
+                                                   class="btn btn-info px-5 px-sm-5">Upload offerte (pdf)</a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="btn btn-success px-5 px-sm-5" type="submit">
+                                                    Offerte indienen
+                                                </button>
+                                            </div>
+
+                                            <div id="testveld" class="col-auto">
+                                                <a type="button" href="{% url 'deny_offer'  offer.offer_id %}"
+                                                   class="btn btn-danger px-5 px-sm-5">Weigeren</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <hr class="text-info">
+                            <!-- ===============================================-->
+                            <!--  END Row submit buttons -->
+                            <!-- ===============================================-->
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-12 rounded-2 border border-info" {% if display_access == 0 %}
+                 style="display: none;"
+            {% endif %}>
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="text-left py-1 mb-1">
+                            <p class="mb-0">Als producent kun je ook snel en gemakkelijk automatisch offertes
+                                uitbrengen.<br>
+                                Kijk voor meer info op: <a class="text-info" href="https://drukwerkmaatwerk.nl/">DrukwerkMaatwerk</a> en
+                                plan een demo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of .container-->
+            <!-- <section> close ============================-->
+        </div>
+    </div>
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarieven menu</title>
+</head>
+<body>
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-euro-sign kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Kostprijs</h4>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_algemeen_tarief' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-euro-sign"></i><span
+                    class="kt-menu__link-text">Tarieven</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_offsetpersen' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-newspaper"></i><span
+                    class="kt-menu__link-text">Offsetpersen</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_printers' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-print"></i><span
+                    class="kt-menu__link-text">Printers</span></a>
+        </li>
+        {% if productaanbod.enveloppen %}
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'mijn_enveloppenpersen' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-envelope"></i><span
+                        class="kt-menu__link-text">Enveloppenpersen</span></a>
+            </li>
+        {% endif %}
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_snijmachines' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-cut"></i><span
+                    class="kt-menu__link-text">Snijmachines</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_vouwmachines' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-folder-open"></i><span
+                    class="kt-menu__link-text">Vouwmachines</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_veredelingen' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-sun"></i><span
+                    class="kt-menu__link-text">Veredeling</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_bindstraten' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-book-open"></i><span
+                    class="kt-menu__link-text">Brocheermachines</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_verpakking' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-book-open"></i><span
+                    class="kt-menu__link-text">Verpakken & Verzenden</span></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
+

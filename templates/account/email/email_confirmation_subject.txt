@@ -1,0 +1,5 @@
+{% load i18n %}
+{% autoescape off %}
+Welkom, bevestig je mailadres voor het PrintDataPlatform
+{% endautoescape %}
+

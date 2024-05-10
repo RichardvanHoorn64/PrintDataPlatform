@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Paper dashboard</title>
+</head>
+
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Beschikbare Papiermerken</li>
+            </ol>
+        </nav>
+        <div class="mb-6">
+            <div class="row">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Beschikbare Papiermerken</h2>
+                </div>
+            </div>
+        </div>
+    <hr class="text-info">
+        <div class="mb-12">
+            <div class="row">
+                <div class="col-3">
+
+                    <table class="table-sm bg-white rounded-2 border border-info table-bordered">
+
+                        <tbody>
+                        <tr>
+                            <th>
+                                <a class="text-warning" href="{% url 'paper_brands' 0 %}">Alle
+                                    categoriën<span class="text-700 fw-semi-bold"></span></a>
+                            </th>
+
+                        </tr>
+                        <tr>
+                            {% for papercategory in papercategory_list %}
+                                <th><a class="nav-link px-2 py-1 text-info"
+                                       href="{% url 'paper_brands' papercategory.papercategory_id %}">{{ papercategory.papercategory }}<span
+                                        class="text-700 fw-semi-bold"></span></a></th></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            <div class="col-9">
+                <div id="paperTable"
+                     data-list='{"valueNames":["papercategory","paperbrand"],"page":20,"pagination":true}'>
+                    <div class="mb-4">
+                        <div class="row g-3">
+                            <div class="col-auto">
+                                <div class="search-box">
+                                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                        <input class="form-control search-input search" type="search"
+                                               placeholder="Zoek papiersoort" aria-label="Search"/>
+                                        <span class="fas fa-search search-box-icon"></span>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                                <div class="btn-group position-static" role="group">
+                                    <div class="col-auto">
+                                        <a class="btn btn-warning px-5 px-sm-5" href="{% url 'download_paperbrands' %}"><span
+                                                class="fa-solid fa-download fs--1 me-2"></span>Download overzicht</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--    Table-->
+                    <!-- ===============================================-->
+                    <div class="col-12 rounded-2 border border-info">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="table-responsive scrollbar mx-n1 px-1">
+                                    <h3 class="mb-0 text-info">Papiermerken</h3>
+                                    <table class="table table-sm fs--1 mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="sort align-middle text-start pe-3" scope="col"
+                                                data-sort="papercategory"
+                                                style="width:20%; min-width: 100px;">Categorie
+                                            </th>
+                                            <th class="sort align-middle text-start pe-3" scope="col"
+                                                data-sort="paperbrand"
+                                                style="width:40%; min-width: 100px;">Papiersoort
+                                            </th>
+                                            <th class="align-middle text-start pe-3" scope="col"
+                                                style="width:10%; min-width: 100px;">Ecolabel
+                                            </th>
+                                            <th class="align-middle text-start pe-3" scope="col"
+                                                style="width:10%; min-width: 100px;">FSC Keurmerk
+                                            </th>
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
+                                                Omschrijving
+                                            </th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody class="list" id="producer-table-body">
+                                        {% for paperbrand in paperbrand_list %}
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                <td class="papercategory align-middle fw-semi-bold text-1000">{{ paperbrand.papercategory }}</td>
+                                                <td class="paperbrand align-middle fw-semi-bold text-1000">{{ paperbrand.paperbrand }}</td>
+                                                <td class="ranking align-middle white-space-nowrap text-900 fs--1 text-start">
+                                                    {% if paperbrand.eco_label %}
+                                                        {{ paperbrand.eco_label }}</td>
+                                                    {% else %} Geen
+                                                    {% endif %}
+                                                <td class="ranking align-middle white-space-nowrap text-900 fs--1 text-start">{{ paperbrand.fsc }}</td>
+                                                <td class="producer align-middle fw-semi-bold text-1000">{{ paperbrand.description }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                                    <div class="col-auto d-flex">
+                                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                           data-list-info="data-list-info"></p><a class="fw-semi-bold text-info"
+                                                                                  href="#!"
+                                                                                  data-list-view="*">Toon
+                                        alles<span class="fas fa-angle-right ms-1"
+                                                   data-fa-transform="down-1"></span></a><a
+                                            class="fw-semi-bold d-none text-info" href="#!" data-list-view="less">Toon
+                                        minder<span
+                                                class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                                    </div>
+                                    <div class="col-auto d-flex">
+                                        <button class="page-link" data-list-pagination="prev"><span
+                                                class="fas fa-chevron-left"></span></button>
+                                        <ul class="mb-0 pagination"></ul>
+                                        <button class="page-link pe-0" data-list-pagination="next"><span
+                                                class="fas fa-chevron-right"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===============================================-->
+                <!--    End of Main Content-->
+                <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+
+</html>

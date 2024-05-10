@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>offer member details</title>
+</head>
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+
+        <!-- ===============================================-->
+        <!--   New project details -->
+        <!-- ===============================================-->
+        <!-- ============================================-->
+        <!-- <section> begin ============================-->
+        <section class="pt-5 pb-9 bg-white dark__bg-1200 border-top border-300">
+            <div class="container-small">
+                <div class="d-flex justify-content-between align-items-end mb-4">
+                    <h2 class="mb-0 text-info">{{ printproject_title }} </h2>
+                </div>
+                <!-- ===============================================-->
+                <!--    Printproject Detail table -->
+                <!-- ===============================================-->
+                {% include 'printprojects/tables/printproject_detailtable.html' %}
+                <!-- ===============================================-->
+                <!--    End Printproject Detail table -->
+                <!-- ===============================================-->
+            </div>
+        </section>
+
+
+        <section class="pt-5 pb-9 bg-white dark__bg-1200 border-top border-300">
+        <div class="container-small">
+                <div class="d-flex justify-content-between align-items-end mb-4">
+                    <h2 class="mb-0 text-info">Aanbieding van:  {{ offer.producer.company }} </h2>z
+                </div>
+                <!-- ===============================================-->
+                <!--    Offer Detail table -->
+                <!-- ===============================================-->
+                {% include 'offers/offer_detailtable.html' %}
+                <!-- ===============================================-->
+                <!--    End OfferDetail table -->
+                <!-- ===============================================-->
+                </div>
+        </section>
+        <!-- end of .container-->
+        <!-- <section> close ============================-->
+        <!-- ============================================-->
+    </div>
+
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paper general</title>
+</head>
+<body>
+<div class="container" id="paper_general">
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <h4 id="paper_general_header" class="mb-3 text-info">Papier</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_paper }}</h6>
+        {% endif %}
+    </div>
+    <!-- ===============================================-->
+    <!--   Row paper category and brand -->
+    <!-- ===============================================-->
+    <div id="default_paper_input">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="papercategory">1. Papier categorie *</label>
+                <select class="form-select" id="papercategory" name="papercategory" onclick="popUpEmpyProductCategory()"
+                        {% if not update %} required {% endif %}>
+                    {% if update %}
+                    {%  for i in papercategories_general %}
+                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
+                    {% endfor %}
+                    {% else %}
+                    {% for i in papercategories %}
+
+                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
+                    {% endfor %}
+                {% endif %}
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="paperbrand">2. Kies papiermerk *</label>
+                <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmpyPaperCategory()">
+                    {% for i in paperbrands %}
+                        <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br>
+
+        <!-- ===============================================-->
+        <!--   Row paper weight and color -->
+        <!-- ===============================================-->
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="paperweight">3. Kies papiergewicht *</label>
+                <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmpyPaperBrand()"
+                        {% if not update %} required {% endif %}>
+                    {% for i in paperweights %}
+                        <option value="{{ i.paperweight_id }}">{{ i.paperweight_m2 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="papercolor">4. Kies papierkleur * </label>
+                <select class="form-select" id="papercolor" name="papercolor" onclick="popUpEmpyPaperWeight()"
+                        {% if not update %} required {% endif %}>
+                    {% for i in papercolors %}
+                        <option value="{{ i.paperspec_id }}">{{ i.papercolor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="accordion" id="accordionPaperInput">
+                <div class="accordion-item border-top border-300">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="new_paper_heading">
+                            <button id="NewPaperSwitch" class="accordion-button collapsed text-info" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#newPaperSpec" aria-expanded="false"
+                                    aria-controls="newPaperSpec" onclick="new_paperSelectCheck()">
+                                Papiersoort niet gevonden? Maak een nieuwe specificatie aan.
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="accordion-collapse collapse collapsed" id="newPaperSpec"
+                         aria-labelledby="new_paper_heading" data-bs-parent="#accordionPaperInput">
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <label class="form-label" id="paperbrand_new" for="paperbrand_new">Papiersoort /
+                                    merk</label>
+                                <input class="form-control" type="text" name="paperbrand_new"
+                                       placeholder="Nieuwe papierspecificatie"/>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label" id="paperweight_new" for="paperweight_new">papiergewicht
+                                    m2</label>
+                                <input class="form-control" type="text" name="paperweight_new"
+                                       placeholder="Nieuwe papierspecificatie"/>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label" id="papercolor_new" for="papercolor_new">Kleur</label>
+                                <input class="form-control" type="text" name="papercolor_new"
+                                       placeholder="Nieuwe papierspecificatie"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="border p-3 rounded">Elke nieuwe papiersoort wordt beoordeeld en zo mogelijk aan
+                                het keuzemenu toegevoegd.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="text-info">
+</div>
+<br>
+</body>
+</html>

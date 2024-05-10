@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro general</title>
+</head>
+<body>
+<div class="container" id="orderintro_general" name="orderintro_general">
+    <div class="col-sm-12 col-md-12">
+        <!-- ===============================================-->
+        <!--   Client title -->
+        <!-- ===============================================-->
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <h4 class="mb-3 text-info">Afleveradres:</h4>
+                <h5 class="mb-6 text-600">{{ deliver_company }}
+                    {% if deliver_contactperson %}<br>
+                        T.a.v. {{ deliver_contactperson }} {% endif %}<br>
+                    {{ deliver_street_number }}<br>
+                    {{ deliver_postcode }} {{ deliver_city }}
+                    {% if deliver_tel %}<br>
+                        Tel: {{ deliver_tel }} {% endif %}
+                </h5>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="accordion" id="accordionDeliveryInput">
+                        <div class="accordion-item border-top border-300">
+                            <h2 class="accordion-header" id="extra_work_heading">
+                                <button id="ExtraWorkSwitch" class="accordion-button collapsed text-info" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#deliverySpec" aria-expanded="false"
+                                        aria-controls="deliverySpec">
+                                    Afleveradres wijzigen?
+                                </button>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--   Row delivery -->
+                    <!-- ===============================================-->
+                    <div class="accordion-collapse collapse collapsed" id="deliverySpec"
+                         aria-labelledby="extraWorkField"
+                         data-bs-parent="#accordionExtraDeliveryInput">
+
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label" for="deliver_company">Wijzig bedrijf aflevering</label>
+                                <p>{{ form.deliver_company }}</p>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label" for="deliver_contactperson">Contactpersoon aflevering</label>
+                                <p>{{ form.deliver_contactperson }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8">
+                                <label class="form-label" for="deliver_street_number">Straat en huisnummer</label>
+                                <p>{{ form.deliver_street_number }}</p>
+                                <span class="form-text text-muted">{{ form.deliver_street_number.help_text }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label" for="deliver_postcode">Postcode</label>
+                                <p>{{ form.deliver_postcode }}</p>
+                                <span class="form-text text-muted">{{ form.deliver_postcode.help_text }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="deliver_city">Plaats</label>
+                                <p>{{ form.deliver_city }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="deliver_tel">Telefoon</label>
+                                <p>{{ form.deliver_tel }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <hr class="text-info">
+
+    <!-- ===============================================-->
+    <!--   General intro title -->
+    <!-- ===============================================-->
+    <div class="col-sm-12 col-md-12">
+
+
+        <!-- ===============================================-->
+        <!--   Row description -->
+        <!-- ===============================================-->
+
+        <div class="col-12 gy-4">
+            <label class="form-label" for="description">Aanvullende orderinstructie
+                voor {{ offer.producer.company }}</label>
+            <textarea class="form-control" id="description" name="description"
+                      placeholder="Geen"
+                      style="height: 100px" value="Geen projectomschrijving"></textarea>
+        </div>
+    </div>
+    <hr class="text-info">
+</div>
+<br>
+
+</body>
+</html>

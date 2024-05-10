@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Packaging tariff update</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="printer_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard  {{ user.company }}</a></li>
+                    <li class="breadcrumb-item active">{{ form_title }}</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">{{ packaging_option.packaging }} - Tarief update</h2>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form name="update_general_tariff_form" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Subheader -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Kosten</h4>
+                    </div>
+                </div>
+                <!-- ===============================================-->
+                <!--   Input Rows -->
+                <!-- ===============================================-->
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" for="setup_cost">Startkosten  €</label>
+                        <div class="col-sm-3">
+                          <input class="form-control" id="setup_cost" name="setup_cost" type="number" value="{{ packaging.setup_cost }}" step='0.01'>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" for="cost_per_100kg">Kosten per 100 kg €</label>
+                        <div class="col-sm-3">
+                          <input class="form-control" id="cost_per_100kg" name="cost_per_100kg" type="number" value="{{ packaging.cost_per_100kg }}" step='0.01'>
+                        </div>
+                      </div>
+                <hr class="text-info">
+                <br>
+                <!-- ===============================================-->
+                <!--   Subheader -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Specificatie per {{ packaging_option.packaging_unit }}</h4>
+                    </div>
+                </div>
+            <!-- ===============================================-->
+                <!--   Input Rows -->
+                <!-- ===============================================-->
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" for="cost_per_unit">Kosten per {{ packaging_option.packaging_unit }}</label>
+                        <div class="col-sm-3">
+                          <input class="form-control" id="cost_per_unit" name="cost_per_unit" type="number" value="{{ packaging.cost_per_unit }}">
+                        </div>
+                      </div>
+                       <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" for="max_weight_packaging_unit_kg">Max gewicht per {{ packaging_option.packaging_unit }} kg</label>
+                        <div class="col-sm-3">
+                          <input class="form-control" id="max_weight_packaging_unit_kg" name="max_weight_packaging_unit_kg" type="number" value="{{ packaging.max_weight_packaging_unit_kg }}">
+                        </div>
+                      </div>
+                <hr class="text-info">
+                <br>
+
+                    <!-- ===============================================-->
+                    <!--   Row asset submit buttons -->
+                    <!-- ===============================================-->
+                    {% include 'buttons/tariff_update.html' %}
+
+
+                    <hr class="text-info">
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

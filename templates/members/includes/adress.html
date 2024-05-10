@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adsress</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--  Adress -->
+<!-- ===============================================-->
+<hr class="text-info">
+<div class="row">
+    <h4 class="mb-3 text-info">Adres</h4>
+</div>
+<div class="row">
+    <div class="col-8">
+        <label class="form-label" for="street_number">Straat en huisnummer</label>
+        <p>{{ form.street_number }}</p>
+        <span class="form-text text-muted">{{ form.street_number.help_text }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label class="form-label" for="postal_code">Postcode</label>
+        <p>{{ form.postal_code }}</p>
+        <span class="form-text text-muted">{{ form.postal_code.help_text }}</span>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="city">Plaats</label>
+        <p>{{ form.city }}</p>
+        <span class="form-text text-muted">{{ form.city.help_text }}</span>
+    </div>
+</div>
+</body>
+</html>

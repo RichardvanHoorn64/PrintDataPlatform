@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>producer status actions</title>
+</head>
+<body>
+<td class="align-middle white-space-nowrap text-end pe-0 ps-5">
+    <div class="font-sans-serif btn-reveal-trigger position-static">
+        <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
+                type="button" data-bs-toggle="dropdown"
+                data-boundary="window"
+                aria-haspopup="true" aria-expanded="false"
+                data-bs-reference="parent"><span
+                class="fas fa-ellipsis-h fs--2"></span></button>
+       {% comment %} <div class="dropdown-menu dropdown-menu-end py-2">
+            <a class="dropdown-item text-success"
+               href="{% url 'change_memberproducerstatus' producer.memberproducermatch_id 1 %}">Preferred
+                supplier</a>
+            <a class="dropdown-item text-info"
+               href="{% url 'change_memberproducerstatus' producer.memberproducermatch_id  2 %}">Standaard</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger"
+               href="{% url 'change_memberproducerstatus' producer.memberproducermatch_id  3 %}">Blokkeren</a>
+        </div>{% endcomment %}
+    </div>
+</td>
+</body>
+</html>

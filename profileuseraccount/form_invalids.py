@@ -1,0 +1,24 @@
+from django.core.mail import send_mail
+from printdataplatform.settings import DEBUG
+
+
+def form_invalid_message(form, response):
+    if DEBUG:
+        print('Form invalid:', "form is invalid error :" + str(response) + "form errors :" + str(
+            form.errors) + "form cleaned_data :" + str(form.cleaned_data))
+    else:
+        try:
+            send_mail('Form invalid:', "form is invalid, response :" + str(response) + "form errors :" + str(
+                form.errors) + "form cleaned_data :" + str(form.cleaned_data), 'info@richardvanhoorn.nl',
+                      ['info@richardvanhoorn.nl'], fail_silently=False, )
+        except Exception as e:
+            print('Form invalid:', "form is invalid error :" + str(response) + "form errors :" + str(
+                form.errors) + "form cleaned_data :" + str(form.cleaned_data), str(e))
+
+
+def error_mail_admin(typeprobleem, error):
+    try:
+        send_mail('Error message:', "Error type:" + typeprobleem + "Error:" + str(error), 'info@richardvanhoorn.nl',
+                  ['info@richardvanhoorn.nl'], fail_silently=False, )
+    except Exception as e:
+        print('Error message:', "Error type:" + error.type + "Error:" + str(error), str(e))

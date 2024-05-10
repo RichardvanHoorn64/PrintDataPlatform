@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paper cover</title>
+</head>
+<body>
+<div class="container" id="paper_cover" {% if update and productcategory_id in productcategory_cover %}
+     style="display: block">
+        {% else %}
+            style="display: none">
+        {% endif %}
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <h4 class="mb-3 text-info">Papier omslag</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_paper_cover }}</h6>
+        {% endif %}
+    </div>
+    <!-- ===============================================-->
+    <!--   Row paper category ans brand -->
+    <!-- ===============================================-->
+    <div id="default_paper_input">
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <label class="form-label" for="papercategory_cover">1. Papiercategorie omslag *</label>
+            <select class="form-select" id="papercategory_cover" name="papercategory_cover">
+
+                {% for i in papercategories_cover %}
+                    <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <label class="form-label" for="paperbrand_cover">Kies papiermerk omslag *</label>
+            <select class="form-select" id="paperbrand_cover" name="paperbrand_cover" onclick="popUpEmpyPaperCategoryCover()">
+                {% for i in paperbrands_cover %}
+                    <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+
+    <!-- ===============================================-->
+    <!--   Row paper weight and color -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <label class="form-label" for="paperweight_cover">3. Kies papiergewicht omslag*</label>
+            <select class="form-select" id="paperweight_cover" name="paperweight_cover" onclick="popUpEmpyPaperBrandCover()">
+                {% for i in paperweights_cover %}
+                    <option value="{{ i.paperweight_id }}">{{ i.paperweight_m2 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <label class="form-label" for="papercolor_cover">4. Kies papierkleur * </label>
+            <select class="form-select" id="papercolor_cover" name="papercolor_cover" onclick="popUpEmpyPaperWeightCover()">
+                {% for i in papercolors_cover %}
+                    <option value="{{ i.paperspec_id }}">{{ i.papercolor }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div></div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+
+        <div class="accordion" id="accordionPaperInput">
+  <div class="accordion-item border-top border-300">
+
+        <div class="accordion-item">
+
+
+
+    <h2 class="accordion-header" id="new_paper_heading">
+      <button id="NewPaperSwitch" class="accordion-button collapsed text-info" type="button" data-bs-toggle="collapse" data-bs-target="#newPaperSpec_cover" aria-expanded="false" aria-controls="newPaperSpec" onclick="new_paperSelectCheck()">
+        Omslag papiersoort niet gevonden? Maak een nieuwe specificatie aan.
+      </button>
+    </h2>
+        </div>
+            <div class="accordion-collapse collapse collapsed" id="newPaperSpec_cover" aria-labelledby="new_paper_heading" data-bs-parent="#accordionPaperInput_cover">
+                <hr>
+                       <div class="row">
+                        <div class="col-sm-6 col-md-6">
+            <label class="form-label" id="paperbrand_cover_new" for="paperbrand_cover_new">Papiersoort / merk</label>
+            <input class="form-control" type="text" name="paperbrand_cover_new"
+                   placeholder="Nieuwe papierspecificatie omslag" />
+        </div>
+                        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="paperweight_cover_new" for="paperweight_cover_new">papiergewicht m2</label>
+            <input class="form-control" type="text" name="paperweight_cover_new"
+                   placeholder="Nieuwe papierspecificatie omslag" />
+        </div>
+                        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="papercolor_cover_new" for="papercolor_cover_new">Kleur</label>
+            <input class="form-control" type="text" name="papercolor_cover_new"
+                   placeholder="Nieuwe papierspecificatie omslag" />
+                        </div></div><br>
+             <div class="row">
+                <div class="border p-3 rounded">Elke nieuwe papiersoort wordt beoordeeld en zo mogelijk aan het keuzemenu toegevoegd.
+                </div></div>
+            </div>
+        </div>
+
+        </div>
+            <hr class="text-info">
+        </div></div>
+</div>
+</body>
+</html>

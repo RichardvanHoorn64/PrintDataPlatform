@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account instellingen</title>
+</head>
+<body>
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-chart-bar kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Account instellingen</h4>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_profiel' user.id %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-images"></i><span
+                    class="kt-menu__link-text">Mijn profiel</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_productiebedrijf' user.producent.id %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-align-justify"></i><span
+                    class="kt-menu__link-text">Mijn bedrijf</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'create_collega_producent' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-user-friends"></i><span
+                    class="kt-menu__link-text">Collega's toevoegen</span></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

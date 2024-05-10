@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Select supplier table</title>
+</head>
+<body>
+
+
+    <div class="mb-9">
+        <div class="row g-3 mb-4">
+            <div class="col-auto">
+                <h2 class="mb-0 text-info">Kies leveranciers, verstuur offerteaanvragen</h2>
+            </div>
+        </div>
+
+        <div id="producerTable"
+             data-list='{"valueNames":["producer","city","status","ranking"],"page":10,"pagination":true}'>
+            <div class="mb-4">
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <div class="search-box border border-info">
+                            <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                <input class="form-control search-input search" type="search"
+                                       placeholder="Zoek producent" aria-label="Search"/>
+                                <span class="fas fa-search search-box-icon"></span>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                            <div class="btn-group position-static" role="group">
+                                <div class="col-auto">
+                                    <a class="btn btn-warning px-5 px-sm-5"
+                                       href="{% url 'send_rfq' printproject.printproject_id %}"><span
+                                            class="fa-solid fa-bag-shopping me-2"></span>Aanvragen versturen</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--    Table-->
+                    <!-- ===============================================-->
+                    <div class="col-12">
+                        <div class="card h-100  rounded-2 border border-info">
+                            <div class="card-body">
+                                <div class="table-responsive scrollbar mx-n1 px-1">
+                                    <table class="table table-sm fs--1 mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="align-middle text-start pe-0" scope="col" data-sort="status"
+                                                style="width:10%;">Kiezen
+                                            </th>
+                                            <th class="sort align-middle text-start pe-3" scope="col"
+                                                data-sort="producer"
+                                                style="width:20%;">Producent
+                                            </th>
+                                            <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
+                                                style="width:10%; min-width: 100px;">Plaats
+                                            </th>
+                                            <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
+                                                style="width:10%; min-width: 100px;">Tel
+                                            </th>
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
+                                                Website
+                                            </th>
+                                            <th class="sort align-middle text-start" scope="col" data-sort="ranking"
+                                                style="width:5%;">Info
+                                            </th>
+                                            <th class="sort align-middle text-start pe-0" scope="col" data-sort="status"
+                                                style="width:10%;">memberproducermatch_id
+                                            </th>
+                                            <th class="align-middle text-start" scope="col" style="width:5%;">Status veranderen</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody class="list" id="producer-table-body">
+                                        {% for producer in match_suppliers %}
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                             <td class="ranking align-middle white-space-nowrap text-900 fs--1 text-start">
+                                        <div class="form-check form-switch" id="matchprintproject_checkbox"
+                                             onchange="SupplierSelectCheck({{ producer.printprojectmatch_id }})">
+                                            <input class="form-check-input" id="matchprintproject_switch"
+                                                   type="checkbox" data-onstyle="info"
+                                                    {% if producer.matchprintproject %} checked=""{% endif %}/>
+                                            <label class="line-clamp-1 mb-0 fw-semi-bold" for="matchprintproject_switch"
+                                                   id="matchprintproject_status">
+                                                {% if producer.matchprintproject == True %}
+                                                    Aanvragen
+                                                {% else %}--{% endif %}</label>
+                                        </div>
+                                    </td>
+                                                <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
+                                                <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
+                                                <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
+                                                <td class="align-middle white-space-nowrap text-900 fs--1 text-start"><a
+                                                        href="https://{{ producer.producer.url }}/">{{ producer.producer.url }}</a>
+                                                </td>
+
+                                                <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a
+                                                        href="{% url 'producer_details' producer.producer.producer_id %}"
+                                                        class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                                        aria-pressed="true"><i
+                                                        class="fas fa-info text-info fs-1"></i></a></td>
+                                                <td class="city align-middle fw-semi-bold text-1000">{{ producer.memberproducermatch_id }}</td>
+
+                                             {% comment %}<td class="city align-middle fw-semi-bold text-1000">{{ producer.memberproducermatch.memberproducerstatus.memberproducerstatus }}</td>
+                                                <td class="status align-middle white-space-nowrap text-start fw-bold text-700"><span
+                                                        {% if producer.memberproducermatch.memberproducerstatus_id == 1 %}
+                                                            class="badge badge-phoenix fs--2 badge-phoenix-success">
+                                                            {{ producer.memberproducermatch.memberproducerstatus.memberproducerstatus }}
+                                                            <span
+                                                                    {% elif producer.memberproducermatch.memberproducerstatus_id == 2 %}
+                                                                    class="badge badge-phoenix fs--2 badge-phoenix-info">
+                                                            {{ producer.memberproducermatch.memberproducerstatus.memberproducerstatus }}
+                                                            <span
+                                                                    {% elif producer.producer.memberproducerstatus_id == 3 %}
+                                                                    class="badge badge-phoenix fs--2 badge-phoenix-danger">
+                                                            {{ producer.memberproducermatch.memberproducerstatus.memberproducerstatus }}
+                                                            <span
+                                                                    {% elif producer.producer.memberproducerstatus_id == 4 %}
+                                                                    class="badge badge-phoenix fs--2 badge-phoenix-warning">
+                                                            {{ producer.memberproducermatch.memberproducerstatus.memberproducerstatus }}
+                                                            <span
+                                                        {% endif %}
+                                                class="badge-label">{{ producer.producer.printprojectstatus }}</span>
+                                                <span
+                                                        class="ms-1"
+                                                        style="height:12.8px;width:12.8px;"></span>{{ producer.producer.memberproducerstatus }}
+                                                </span>
+                                                </td>
+                                            {% include 'buttons/producer_status_actions.html' %}{% endcomment %}
+
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                                    <div class="col-auto d-flex">
+                                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                           data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!"
+                                                                                  data-list-view="*">Toon
+                                        alles<span class="fas fa-angle-right ms-1"
+                                                   data-fa-transform="down-1"></span></a><a
+                                            class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
+                                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                                    </div>
+                                    <div class="col-auto d-flex">
+                                        <button class="page-link" data-list-pagination="prev"><span
+                                                class="fas fa-chevron-left"></span></button>
+                                        <ul class="mb-0 pagination"></ul>
+                                        <button class="page-link pe-0" data-list-pagination="next"><span
+                                                class="fas fa-chevron-right"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   END Table-->
+        <!-- ===============================================-->
+    </div>
+</body>
+</html>

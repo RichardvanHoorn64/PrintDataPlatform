@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matriaal menu</title>
+</head>
+<body>
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-euro-sign kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Materialen</h4>
+        </li>
+
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_papiersoorten' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-align-justify"></i><span
+                    class="kt-menu__link-text">Papiercatalogus</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_papiersoortenmatrix' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-align-justify"></i><span
+                    class="kt-menu__link-text">Papier-productmatrix</span></a>
+        </li>
+        {% if productaanbod.enveloppen %}
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'mijn_envelopsoorten' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-envelope-open"></i><span
+                        class="kt-menu__link-text">Enveloppencatalogus</span></a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+</body>
+</html>
+

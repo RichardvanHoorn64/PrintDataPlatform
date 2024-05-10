@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold text-info">Papierinkoop omslag:
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Netto aantal vel omslag</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.net_paper_quantity_cover }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.net_paper_quantity_cover1000extra }}
+                        <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_paper_cover }} {{ paper_cover.paper_height_mm }}
+                                    x {{ paper_cover.paper_width_mm }} mm
+                            </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Inschiet drukken omslag</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_printing_cover }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_printing_cover1000extra }}
+                        </td>
+                    </tr>
+
+                                         <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Inschiet binden omslag</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_binding_cover }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_binding_cover1000extra }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Totaal aantal vel omslag</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.paper_quantity_cover }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.paper_quantity_cover1000extra }}
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                       <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Omslag papier incl. toeslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.papercost_cover_total }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.papercost_cover_total1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ paper_cover.price_1000sheets }} per 1.000 vel + {{ calculation.purchase_paper_perc_added }} % toeslag
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                  <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+</body>
+</html>

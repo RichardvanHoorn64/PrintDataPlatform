@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--  Contact General tel and email -->
+<!-- ===============================================-->
+<hr class="text-info">
+<div class="row">
+    <h4 class="mb-3 text-info">Contact</h4>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
+        <p>{{ form.tel_general }}</p>
+        <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label" for="e_mail_general">Email algemeen:</label>
+        <p>{{ form.e_mail_general }}</p>
+        <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <label class="form-label" for="url">Website:</label>
+        <p>{{ form.url }}</p>
+        <span class="form-text text-muted">{{ form.url.help_text }}</span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Overzichten producenten</title>
+</head>
+<body>
+
+
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'producent_dashboard' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-home"></i><span
+                    class="kt-menu__link-text">Mijn dashboard</span></a>
+        </li>
+    </ul>
+</div>
+
+
+<!--begin:Productie overzicht -->
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-chart-bar kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Productie overzichten</h4>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_productieopdrachten' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-handshake"></i><span
+                    class="kt-menu__link-text">Ontvangen orders</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_uitgebrachteoffertes' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-file-signature"></i><span
+                    class="kt-menu__link-text">Uitgebrachte offertes</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_klanten' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-check"></i><span
+                    class="kt-menu__link-text">Mijn klanten</span></a>
+        </li>
+    </ul>
+</div>
+<!--end:Productie overzicht -->
+{% comment %}<!--begin:Productie overzicht -->
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-chart-bar kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Test overzichten</h4>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_aanbiedingen' %}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-calculator"></i><span
+                    class="kt-menu__link-text">Mijn (test)aanbiedingen</span></a>
+        </li>
+        <li class="kt-menu__item " aria-haspopup="true">
+            <a href="{% url 'mijn_opdrachten' 'Alles'%}" class="kt-menu__link "><i
+                    class="kt-menu__link-icon fa fa-shopping-cart"></i><span
+                    class="kt-menu__link-text">Mijn (test)opdrachten</span></a>
+        </li>
+    </ul>
+</div>
+<!--end:Productie overzicht -->{% endcomment %}
+</body>
+</html>

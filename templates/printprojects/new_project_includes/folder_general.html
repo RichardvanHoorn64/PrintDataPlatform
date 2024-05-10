@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Folder general</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--   Title ands productcategory -->
+<!-- ===============================================-->
+<div class="container" id="folder_general"
+        {% if update and productcategory_id == 2%}
+     style="display: block">
+        {% else %}
+            style="display: none">
+        {% endif %}
+
+<div class="row">
+    <h4 class="mb-3 text-info">Folder uitvoering</h4>
+    {% if update %}
+        <h6 class="mb-3">{{ printproject_finishing }}</h6>
+    {% endif %}
+    <!-- ===============================================-->
+    <!--   Row Size -->
+    <!-- ===============================================-->
+</div>
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <label class="form-label" for="folding">Vouwmethode</label>
+        <select class="form-select" id="folding" name="folding">
+            <option value="0">Kies vouwmethode</option>
+            {% for i in foldingmethods %}
+                <option value="{{ i.foldingmethod_id }}">{{ i.foldingmethod }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <br><br>
+        <h5 class="mb-3 text-info align-bottom" id="number_of_folder_pages"></h5>
+    </div>
+    <br>
+</div>
+
+<hr class="text-info">
+</div>
+
+</body>
+</html>

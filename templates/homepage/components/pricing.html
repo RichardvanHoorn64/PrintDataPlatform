@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<section class="bg-white">
+        <div class="bg-holder d-none d-md-block" style="background-image:url({% static "assets/img/bg/bg-left-15.png" %});background-position:left;background-size:auto;">
+        </div>
+        <!--/.bg-holder-->
+
+        <div class="bg-holder d-none d-md-block" style="background-image:url({% static "assets/img/bg/bg-right-15.png" %});background-position:right;background-size:auto;">
+        </div>
+        <!--/.bg-holder-->
+
+        <div class="container-small position-relative px-lg-7 px-xxl-3">
+          <div class="row">
+            <div class="col-12 mb-4 text-center text-sm-start">
+              <h2 class="text-info fw-bolder mb-3"><span class="text-warning">PrintDataPlatform abonnementen</span></h2>
+                <h3 class="text-info fw-bolder mb-3">{{ plan1.feature2 }}</h3>
+            </div>
+          </div>
+          <div class="row pt-9 g-3 g-xl-0">
+            <div class="col-md-6 col-xl-3">
+              <div class="card h-100 rounded-xl-end-0 rounded-start">
+                <div class="card-body px-6">
+                  <div class="px-5">
+                    <div class="text-center pt-5"><img src="{% static "assets/img/icons/illustrations/pie.png" %}" width="48" height="48" alt="" />
+                      <h3 class="fw-semi-bold my-4">{{ plan1.plan_name }}  </h3>
+                    </div>
+                    <div class="text-center">
+                        <h1 class="fw-semi-bold text-info">€ <span class="fw-bolder">{{ plan1.plan_tariff |floatformat:"0" }},-<br></span><span class="text-black fs-1 ms-1 fw-bolder">30 dagen</span></h1>
+                         <h5 class="mb-4 text-900"></h5>
+                      <a class="btn btn-lg mb-6 w-100 btn-outline-info" href="{% url 'signup' 1 %}" role="button">Aanvragen</a>
+                    </div>
+                  </div>
+                  <ul class="fa-ul pricing-list">
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan1.feature1 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan1.feature2 }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <div class="card h-100  rounded-top-0 rounded-xl-0 border border-2 border-info dark__border-info mt-5 mt-md-0">
+                <div class="position-absolute d-flex flex-center bg-info-100 rounded-top py-1 end-0 start-0 badge-pricing">
+                  <p class="text-info-600 mb-0 dark__text-info-200">Meest gebruikt</p>
+                </div>
+                <div class="card-body px-6">
+                  <div class="px-5">
+                    <div class="text-center pt-5"><img src="{% static "assets/img/icons/illustrations/bolt.png" %}" width="48" height="48" alt="" />
+                      <h3 class="fw-semi-bold my-4">{{ plan2.plan_name }}</h3>
+                    </div>
+                    <div class="text-center">
+                      <h1 class="fw-semi-bold text-info">€ <span class="fw-bolder">{{ plan2.plan_tariff |floatformat:"0"  }},-<br></span><span class="text-black fs-1 ms-1 fw-bolder">EUR/maand</span></h1>
+                      <h5 class="mb-4 text-900"></h5>
+                        <a class="btn btn-lg mb-6 w-100 btn-info" href="{% url 'signup' 2 %}" role="button">Aanvragen</a>
+                    </div>
+                  </div>
+                  <ul class="fa-ul pricing-list">
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan2.feature1 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan2.feature2 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan2.feature3 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan2.feature4 }}</span>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+              <div class="card h-100 rounded-start rounded-xl-start-0 mt-5 mt-md-0">
+                <div class="card-body px-6">
+                  <div class="px-5">
+                    <div class="text-center pt-5"><img src="{% static "assets/img/icons/illustrations/edit.png" %}" width="48" height="48" alt="" />
+                      <h3 class="fw-semi-bold my-4">{{ plan3.plan_name }}</h3>
+                    </div>
+                    <div class="text-center">
+                      <h1 class="fw-semi-bold text-info">€ <span class="fw-bolder">{{ plan3.plan_tariff |floatformat:"0" }},-<br></span><span class="text-black fs-1 ms-1 fw-bolder">EUR/maand</span></h1>
+                      <h5 class="mb-4 text-900"></h5>
+                        <a class="btn btn-lg mb-6 w-100 btn-outline-info" href="{% url 'signup' 3 %}" role="button">Aanvragen</a>
+                    </div>
+                  </div>
+                  <ul class="fa-ul pricing-list">
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan3.feature1 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan3.feature2 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan3.feature3 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan3.feature4 }}</span>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3 ps-xl-3">
+              <div class="row g-0 h-100 justify-content-center">
+                <div class="col-xl-12">
+                  <div class="card h-100 mt-5 mt-md-0">
+                    <div class="card-body">
+                      <div class="px-5">
+                        <div class="text-center pt-5"><img src="{% static "assets/img/icons/illustrations/shield.png" %}" width="48" height="48" alt="" />
+                          <h3 class="fw-semi-bold my-4">{{ plan4.plan_name }}</h3>
+                        </div>
+                        <div class="text-center">
+                          <h1 class="fw-semi-bold text-info">€ <span class="fw-bolder">{{ plan4.plan_tariff |floatformat:"0"  }},-<br></span><span class="text-black fs-1 ms-1 fw-bolder">EUR/maand</span></h1>
+                          <h5 class="mb-4 text-900"></h5>
+                            <a class="btn btn-lg mb-6 w-100 btn-outline-info" href="{% url 'signup' 4 %}" role="button">Aanvragen</a>
+                        </div>
+                      </div>
+                      <ul class="fa-ul pricing-list">
+                        <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan4.feature1 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan4.feature2 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan4.feature3 }}</span>
+                    </li>
+                    <li class="mb-4 d-flex align-items-center"><span class="fa-li"><span class="fas fa-check text-info"></span></span><span class="text-800" style="--phoenix-text-opacity:1;">{{ plan4.feature4 }}</span>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-center mt-8">
+              <p>Meer informatie of een persoonlijke demo, contact: <a href="https://www.richardvanhoorn.nl/" target=”_blank” class="text-info">Richard van Hoorn</a></p>
+            </div>
+          </div>
+        </div>
+      </section>

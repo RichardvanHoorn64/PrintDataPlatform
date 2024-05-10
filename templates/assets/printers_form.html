@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Order</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="printer_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'asset_dashboard' %}">Productiemiddelen</a></li>
+                    <li class="breadcrumb-item active">{{ asset_form_title }}</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">{{ asset_form_title }} {{ asset.asset_name }}</h2>
+            <h5 class="mb-3">Instellingen, * verplichte velden</h5>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   Printer form-->
+        <!-- ===============================================-->
+
+        <form name="update_create_printer_form" method="post" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Client title -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Algemeen *</h4>
+                    </div>
+                </div>
+                <!-- ===============================================-->
+                <!--   Row client -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-label" id="asset_name" for="asset_name">Machinenaam:</label>
+                        <input class="form-control" type="text" id="asset_name" name="asset_name"
+                                {% if update %}
+                               value="{{ asset.asset_name }}" {% else %} required
+                                {% endif %}
+                               placeholder="machinenaam opgeven"/>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="productionspeed_sheets_hour">Productiesnelheid vel/uur:</label>
+                        <input class="form-control" type="number" id="productionspeed_sheets_hour"
+                               name="productionspeed_sheets_hour"
+                                {% if update %}
+                               value="{{ asset.productionspeed_sheets_hour }}"  {% else %} required
+                                {% endif %} />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_number_colors">Aantal kleuren per doorgang:</label>
+                        <input class="form-control" type="number" id="max_number_colors" name="max_number_colors"
+                                {% if update %}
+                               value="{{ asset.max_number_colors }}"
+                                {% endif %} />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
+                        <input class="form-control" type="number" step="0.01" id="tariff_eur_hour"
+                               name="tariff_eur_hour"
+                                {% if update %}
+                               value="{{ asset.tariff_eur_hour |floatformat:2 }}"  {% else %} required
+                                {% endif %} />
+
+                    </div>
+                </div>
+                <hr class="text-info">
+                <br>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Max / Min Pers / drukvelformaat *</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="printsize_height">max pers / velformaat hoogte mm:</label>
+                        <input class="form-control" type="number" id="printsize_height" name="printsize_height"
+                                {% if update %}
+                               value="{{ asset.printsize_height }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="printsize_width">max pers / velformaat breedte mm:</label>
+                        <input class="form-control" type="number" id="printsize_width" name="printsize_width"
+                                {% if update %}
+                               value="{{ asset.printsize_width }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="sheetsize_height_min">min drukvelformaat hoogte mm:</label>
+                        <input class="form-control" type="number" id="sheetsize_height_min" name="sheetsize_height_min"
+                                {% if update %}
+                               value="{{ asset.sheetsize_height_min }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="sheetsize_width_min">min drukvelformaat breedte mm:</label>
+                        <input class="form-control" type="number" id="sheetsize_width_min" name="sheetsize_width_min"
+                                {% if update %}
+                               value="{{ asset.sheetsize_width_min }}" {% else %} required
+                                {% endif %}/>
+                    </div>
+                </div>
+
+                <hr class="text-info">
+                <br>
+                <div class="row">
+                    <div class="col-sm-6 col-md-9">
+                        <h4 class="mb-1 text-info">Persopties </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" id="perfecting" name="perfecting" type="checkbox"
+                                    {% if update and asset.perfecting %}  checked="" {% endif %}/>
+                            <label class="form-check-label" for="perfecting">Schoon en Weer instelling</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" id="pms_offered" name="pms_offered" type="checkbox"
+                                    {% if update and asset.pms_offered %}  checked="" {% endif %}/>
+                            <label class="form-check-label" for="pms_offered">beschikbaar voor pms kleuren</label>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" id="varnish_unit" name="varnish_unit" type="checkbox"
+                                    {% if update and asset.varnish_unit %}  checked="" {% endif %}/>
+                            <label class="form-check-label" for="varnish_unit">persvernistoren beschikbaar</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" id="varnish_at_printunit" name="varnish_at_printunit"
+                                   type="checkbox"
+                                    {% if update and asset.varnish_at_printunit %}  checked="" {% endif %}/>
+                            <label class="form-check-label" for="varnish_at_printunit">vernis op druktunits
+                                mogelijk</label>
+                        </div>
+                    </div>
+                </div>
+                <hr class="text-info">
+                <br>
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Voor schoon en weer persen </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_number_colors_front_sw">Aantal kleuren schoondruk:</label>
+                        <input class="form-control" type="number" id="max_number_colors_front_sw"
+                               name="max_number_colors_front_sw"
+                                {% if update %}
+                               value="{{ asset.max_number_colors_front_sw }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_number_colors_back_sw">Aantal kleuren weerdruk:</label>
+                        <input class="form-control" type="number" id="max_number_colors_back_sw"
+                               name="max_number_colors_back_sw"
+                                {% if update %}
+                               value="{{ asset.max_number_colors_back_sw }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <hr class="text-info">
+
+                <br>
+                <hr class="text-info">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Marges </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="extra_mm_sheet_sidemargin">extra mm zijmarges(2x): </label>
+                        <input class="form-control" type="number" id="extra_mm_sheet_sidemargin"
+                               name="extra_mm_sheet_sidemargin"
+                                {% if update %}
+                               value="{{ asset.extra_mm_sheet_sidemargin }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="strips_extra_margin_mm">kijp & strips extra mm:</label>
+                        <input class="form-control" type="number" id="strips_extra_margin_mm"
+                               name="strips_extra_margin_mm"
+                                {% if update %}
+                               value="{{ asset.strips_extra_margin_mm }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="central_extra_margin_mm">middenwit extra mm (optie):</label>
+                        <input class="form-control" type="number" id="central_extra_margin_mm"
+                               name="central_extra_margin_mm"
+                                {% if update %}
+                               value="{{ asset.central_extra_margin_mm }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="extra_strip_option">stripwit extra mm (optie):</label>
+                        <input class="form-control" type="number" id="extra_strip_option" name="extra_strip_option"
+                                {% if update %}
+                               value="{{ asset.extra_strip_option }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <br>
+                <hr class="text-info">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info"> Insteltijden en snelheid </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="starttime_per_order">starttijd per order min:</label>
+                        <input class="form-control" type="number" id="starttime_per_order" name="starttime_per_order"
+                                {% if update %}
+                               value="{{ asset.starttime_per_order }}"
+                                {% endif %} />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="start_time_sheet_frontside">Opstarttijd drukvel
+                            voorzijde: </label>
+                        <input class="form-control" type="number" id="start_time_sheet_frontside"
+                               name="start_time_sheet_frontside"
+                                {% if update %}
+                               value="{{ asset.start_time_sheet_frontside }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="start_time_sheet_backside">Opstarttijd drukvel achterzijde
+                            :</label>
+                        <input class="form-control" type="number" id="start_time_sheet_backside"
+                               name="start_time_sheet_backside"
+                                {% if update %}
+                               value="{{ asset.start_time_sheet_backside }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="start_time_varnish">Extra opstarttijd persvernis: </label>
+                        <input class="form-control" type="number" id="start_time_varnish"
+                               name="start_time_varnish"
+                                {% if update %}
+                               value="{{ asset.start_time_varnish }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="start_time_pms_color">Extra opstarttijd per pms
+                            kleur:</label>
+                        <input class="form-control" type="number" id="start_time_pms_color"
+                               name="start_time_pms_color"
+                                {% if update %}
+                               value="{{ asset.start_time_pms_color }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_speedreduction_heavy_paper">% vertraging zwaar
+                            matriaal: </label>
+                        <input class="form-control" type="number" id="perc_speedreduction_heavy_paper"
+                               name="perc_speedreduction_heavy_paper"
+                                {% if update %}
+                               value="{{ asset.perc_speedreduction_heavy_paper }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="weight_heavy_paper">Van toepassing vanaf g/m2
+                            gewicht: </label>
+                        <input class="form-control" type="number" id="weight_heavy_paper"
+                               name="weight_heavy_paper"
+                                {% if update %}
+                               value="{{ asset.weight_heavy_paper }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_speedreduction_light_paper">% vertraging licht
+                            matriaal: </label>
+                        <input class="form-control" type="number" id="perc_speedreduction_light_paper"
+                               name="perc_speedreduction_light_paper"
+                                {% if update %}
+                               value="{{ asset.perc_speedreduction_light_paper }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="weight_light_paper">Van toepassing onder g/m2 gewicht: </label>
+                        <input class="form-control" type="number" id="weight_light_paper"
+                               name="weight_light_paper"
+                                {% if update %}
+                               value="{{ asset.weight_light_paper }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-1 text-info"> Alleen voor sw persen</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="changetime_perfector">Omsteltijd sw drukken:</label>
+                        <input class="form-control" type="number" id="changetime_perfector"
+                               name="changetime_perfector"
+                                {% if update %}
+                               value="{{ asset.changetime_perfector }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_speedreduction_perfecting">% vertraging sw drukken:</label>
+                        <input class="form-control" type="number" id="perc_speedreduction_perfecting"
+                               name="perc_speedreduction_perfecting"
+                                {% if update %}
+                               value="{{ asset.perc_speedreduction_perfecting }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <br>
+                <hr class="text-info">
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info"> Inktkosten</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="ink_1000_prints_zw">Inkt per 1000 druks zwart:
+                            voorzijde: </label>
+                        <input class="form-control" type="number" id="ink_1000_prints_zw"
+                               name="ink_1000_prints_zw"
+                                {% if update %}
+                               value="{{ asset.ink_1000_prints_zw }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="ink_1000_prints_fc">Inkt per 1000 druks FC: </label>
+                        <input class="form-control" type="number" id="ink_1000_prints_fc"
+                               name="ink_1000_prints_fc"
+                                {% if update %}
+                               value="{{ asset.ink_1000_prints_fc }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="ink_1000_prints_varnish">Inkt per 1000 druks vernis: </label>
+                        <input class="form-control" type="number" id="ink_1000_prints_varnish"
+                               name="ink_1000_prints_varnish"
+                                {% if update %}
+                               value="{{ asset.ink_1000_prints_varnish }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="ink_start_costs_pms">Startkosten per PMS: </label>
+                        <input class="form-control" type="number" id="ink_start_costs_pms"
+                               name="ink_start_costs_pms"
+                                {% if update %}
+                               value="{{ asset.ink_start_costs_pms }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="ink_1000_prints_pms">Inkt per 1000 druks PMS: </label>
+                        <input class="form-control" type="number" id="ink_1000_prints_pms"
+                               name="ink_1000_prints_pms"
+                                {% if update %}
+                               value="{{ asset.ink_1000_prints_pms }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <hr class="text-info">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Plaatkosten</h4>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="buy_tariff_plate_eur">Inkoop per plaat Eur:</label>
+                        <input class="form-control" type="number" step="0.01" id="buy_tariff_plate_eur"
+                               name="buy_tariff_plate_eur"
+                                {% if update %}
+                               value="{{ asset.buy_tariff_plate_eur |floatformat:2 }}"
+                                {% endif %} />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="margin_plate_eur">TW per plaat Eur:</label>
+                        <input class="form-control" type="number" step="0.01" id="margin_plate_eur"
+                               name="margin_plate_eur"
+                                {% if update %}
+                               value="{{ asset.margin_plate_eur }}"
+                                {% endif %} />
+                    </div>
+                </div>
+                <br>
+                <hr class="text-info">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info"> Papier inschiet </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="paperwaste_per_order">inschiet per order: </label>
+                        <input class="form-control" type="number" id="paperwaste_per_order"
+                               name="paperwaste_per_order"
+                                {% if update %}
+                               value="{{ asset.paperwaste_per_order }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="paperwaste_per_side_black">inschiet per zijde zwart: </label>
+                        <input class="form-control" type="number" id="paperwaste_per_side_black"
+                               name="paperwaste_per_side_black"
+                                {% if update %}
+                               value="{{ asset.paperwaste_per_side_black }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="paperwaste_per_side_fc">inschiet per zijde full color: </label>
+                        <input class="form-control" type="number" id="paperwaste_per_side_fc"
+                               name="paperwaste_per_side_fc"
+                                {% if update %}
+                               value="{{ asset.paperwaste_per_side_fc }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="paperwaste_per_side_pms">extra inschiet per zijde per pms
+                            kleur: </label>
+                        <input class="form-control" type="number" id="paperwaste_per_side_pms"
+                               name="paperwaste_per_side_pms"
+                                {% if update %}
+                               value="{{ asset.paperwaste_per_side_pms }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="paperwaste_per_side_varnish">extra inschiet per zijde
+                            persvernis: </label>
+                        <input class="form-control" type="number" id="paperwaste_per_side_varnish"
+                               name="paperwaste_per_side_varnish"
+                                {% if update %}
+                               value="{{ asset.paperwaste_per_side_varnish }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_paperwaste_printing_1000_sheets">% inschiet drukken per 1000
+                            vel: </label>
+                        <input class="form-control" type="number" id="perc_paperwaste_printing_1000_sheets"
+                               name="perc_paperwaste_printing_1000_sheets"
+                                {% if update %}
+                               value="{{ asset.perc_paperwaste_printing_1000_sheets }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_extra_paperwaste_printing_pms">% extra inschiet drukken per
+                            pms kleur:
+                        </label>
+                        <input class="form-control" type="number" id="perc_extra_paperwaste_printing_pms"
+                               name="perc_extra_paperwaste_printing_pms"
+                                {% if update %}
+                               value="{{ asset.perc_extra_paperwaste_printing_pms }}"
+                                {% endif %}/>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="perc_paperwaste_printing_1000_sheet_perfector">% extra inschiet
+                            per 1000 vel sw: </label>
+                        <input class="form-control" type="number" id="perc_paperwaste_printing_1000_sheet_perfector"
+                               name="perc_paperwaste_printing_1000_sheet_perfector"
+                                {% if update %}
+                               value="{{ asset.perc_paperwaste_printing_1000_sheet_perfector }}"
+                                {% endif %}/>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <hr class="text-info">
+
+            <!-- ===============================================-->
+            <!--   Row asset submit buttons -->
+            <!-- ===============================================-->
+            {% include 'buttons/create_update_asset.html' %}
+
+
+            <hr class="text-info">
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

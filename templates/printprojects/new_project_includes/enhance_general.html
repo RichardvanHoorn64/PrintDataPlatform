@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enhance and packaging general</title>
+</head>
+<body>
+<div class="container" id="enhance_general">
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-12">
+            <h4 class="mb-3 text-info">Veredeling en verpakking</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_enhance }}</h6>
+        {% endif %}
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row Enhance choices -->
+    <!-- ===============================================-->
+    <div class="row">
+            <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="enhance_sided">Veredeling</label>
+            <select class="form-select" id="enhance_sided" name="enhance_sided">
+                {% for i in enhance_sided_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3" id="field_enhance_front" style="display : none">
+            <label class="form-label" id="field_enhance_front_label"  for="enhance">Veredeling voorzijde</label>
+            <select class="form-select" id="enhance" name="enhance">
+                {% for i in enhance_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3" id="field_enhance_rear" style="display : none">
+            <label class="form-label" id="field_enhance_rear_label" for="enhance_rear">Veredeling achterzijde</label>
+            <select class="form-select" id="enhance_rear" name="enhance_rear">
+                {% for i in enhance_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="packaging">Verpakking</label>
+            <select class="form-select" id="packaging" name="packaging">
+                {% for i in packaging_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <br>
+</div>
+<hr class="text-info">
+</body>
+</html>

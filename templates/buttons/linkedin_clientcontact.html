@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedIn clientcontact</title>
+</head>
+<body>
+{% if clientcontact.linkedin_url %}
+<a
+        href="{{  clientcontact.linkedin_url }}"
+        class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+        aria-pressed="true"><i class="far fab fa-linkedin text-info fs-1"></i></a>
+    {% else %} -----
+{% endif %}
+</body>
+</html>

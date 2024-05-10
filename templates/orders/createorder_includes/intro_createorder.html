@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro general</title>
+</head>
+<body>
+<div class="container" id="orderintro_general" name="orderintro_general">
+    <div class="col-sm-12 col-md-12">
+        <!-- ===============================================-->
+        <!--   Client title -->
+        <!-- ===============================================-->
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <h4 class="mb-3 text-info">Opdacht</h4>
+                <h6 class="mb-3">Eventueel eigen ordernummer en oplage indien anders dan {{ printproject.volume }}
+                    ex.</h6>
+            </div>
+            <!-- ===============================================-->
+            <!--   Row client -->
+            <!-- ===============================================-->
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"  for="order_volume">Order oplage</label>
+                    <input class="form-control" type="text" id="order_volume" name="order_volume"
+                           placeholder={{ printproject.volume }}>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"  for="ordernumber">Ordernummer</label>
+                    <input class="form-control" type="text" id="ordernumber" name="ordernumber"
+                           placeholder="Geen"/>
+                </div>
+            </div>
+        </div>
+        <hr class="text-info">
+
+        <!-- ===============================================-->
+        <!--   General intro title -->
+        <!-- ===============================================-->
+        <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <h4 class="mb-3 text-info">Planning</h4>
+                </div>
+                <!-- ===============================================-->
+                <!--   Row productcategory and project title -->
+                <!-- ===============================================-->
+                <br>
+            </div>
+            <!-- ===============================================-->
+            <!--   Row volume, ordernumber and planning -->
+            <!-- ===============================================-->
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"  for="printfiles_availeble">aanleverdatum</label>
+                    <input class="form-control" type="date" id="printfiles_availeble" name="printfiles_availeble">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"  for="delivery_date_request">leverdatum</label>
+                    <input class="form-control" type="date" id="delivery_date_request" name="delivery_date">
+                </div>
+
+
+                <!-- ===============================================-->
+                <!--   Row description -->
+                <!-- ===============================================-->
+
+                <div class="col-12 gy-4">
+                    <label class="form-label" for="order_description">Aanvullende opdrachtinstructie
+                        voor {{ offer.producer.company }}</label>
+                    <textarea class="form-control" id="order_description" name="order_description"
+                              placeholder="Extra opdrachtinstructie voor {{ offer.producer.company }}."
+                              style="height: 100px" value="Geen"></textarea>
+                </div>
+            </div>
+            <hr class="text-info">
+        </div>
+        <br>
+    </div>
+</div>
+</body>
+</html>

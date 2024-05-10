@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_open.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+{% block main_content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>Aanvraag bedrijfsprofiel</title>
+        <h4> Je eigen Productiebedrijf profiel Aangemaakt door {{ user.first_name }}
+            uit {{ user.profile.klant_id }} </h4>
+
+    </head>
+    <body>
+
+    <!-- begin:: Content -->
+    <div class="kt-content kt-grid__item kt-grid__item--fluid" id="kt_content">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!--begin::Form-->
+                <form class="kt-form kt-form--fit kt-form--label-right" method="post">  {% csrf_token %}
+                    <!--begin::Portlet form algemeen-->
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    <p> Welkom {{ user.first_name }} {{ user.last_name }} hier maak je voor het
+                                        bedrijfsprofiel aan voor: {{ user.profile.bedrijfsnaam }}
+                                        later kun je collega's aan {{ user.profile.bedrijfsnaam }} toevoegen. </p>
+                                </h3>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label">Productiemamager:</label>
+                            <div class="col-lg-3">
+                                <p>{{ form.productiemanager }}</p>
+                                <span class="form-text text-muted">{{ form.productiemanager.help_text }}</span>
+                            </div>
+                            <label class="col-lg-2 col-form-label">Algemeen telefoonnummer:</label>
+                            <div class="col-lg-3">
+                                <p>{{ form.telefoonnummer }}</p>
+                                <span class="form-text text-muted">{{ form.telefoonnummer.help_text }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label">Straat huisnummer:</label>
+                            <div class="col-lg-8">
+                                <p>{{ form.straat_huisnummer }}</p>
+                                <span class="form-text text-muted">{{ form.straat_huisnummer.help_text }}</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-2 col-form-label">Postcode:</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.postcode }}</p>
+                                <span class="form-text text-muted">{{ form.postcode.help_text }}</span>
+                            </div>
+                            <label class="col-lg-1 col-form-label">Plaats:</label>
+                            <div class="col-lg-5">
+                                <p>{{ form.plaats }}</p>
+                                <span class="form-text text-muted">{{ form.plaats.help_text }}</span>
+                            </div>
+                        </div>
+
+
+                        <div class="kt-portlet__body">
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">e mail verkoop:</label>
+                                <div class="col-lg-3">
+                                    <p>{{ form.e_mail_verkoop }}</p>
+                                    <span class="form-text text-muted">{{ form.e_mail_verkoop.help_text }}</span>
+                                </div>
+                                <label class="col-lg-2 col-form-label">email orderaanlevering:</label>
+                                <div class="col-lg-3">
+                                    <p>{{ form.e_mail_orderaanlevering }}</p>
+                                    <span class="form-text text-muted">{{ form.e_mail_orderaanlevering.help_text }}</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">email ordermanagement:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.e_mail_ordermanagement }}</p>
+                                        <span class="form-text text-muted">{{ form.e_mail_ordermanagement.help_text }}</span>
+                                    </div>
+                                </div>
+                                <label class="col-lg-2 col-form-label">Website:</label>
+                                <div class="col-lg-3">
+                                    <p>{{ form.website }}</p>
+                                    <span class="form-text text-muted">{{ form.website.help_text }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Portlet form algemeen-->
+                    <!--begin::Portlet form productkeuze-->
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Geef hier aan welke producten {{ user.profile.bedrijfsnaam }} voor de deelnemers van
+                                    Drukwerk Professionals kan produceren, deze instellingen kuin je later altijd weer
+                                    aanpassen
+                                    .
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="kt-portlet__body">
+
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">Offset plano:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.offset_plano }}</p>
+                                        <span class="form-text text-muted">{{ form.offset_plano.help_text }}</span>
+                                    </div>
+                                </div>
+
+                                <label class="col-lg-2 col-form-label">Offset folders:</label>
+                                <div class="col-lg-3">
+
+                                    <p>{{ form.offset_folders }}</p>
+                                    <span class="form-text text-muted">{{ form.offset_folders.help_text }}</span>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">Offset brochures gehecht:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.offset_brochures_gehecht }}</p>
+                                        <span class="form-text text-muted">{{ form.offset_brochures_gehecht.help_text }}</span>
+                                    </div>
+                                </div>
+
+                                <label class="col-lg-2 col-form-label">Offset brochures gehecht
+                                    garenloos/genaaid:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.offset_brochures_garenloos_genaaid }}</p>
+                                        <span class="form-text text-muted">{{ form.offset_brochures_garenloos_genaaid.help_text }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">Printen direct mail:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.printen_dm }}</p>
+                                        <span class="form-text text-muted">{{ form.printen_dm.help_text }}</span>
+                                    </div>
+                                </div>
+
+                                <label class="col-lg-2 col-form-label">Print productie:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.printen_booklets }}</p>
+                                        <span class="form-text text-muted">{{ form.printen_booklets.help_text }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">Enveloppen productie:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.enveloppen }}</p>
+                                        <span class="form-text text-muted">{{ form.enveloppen.help_text }}</span>
+                                    </div>
+                                </div>
+
+
+                                <label class="col-lg-2 col-form-label">Sign productie:</label>
+                                <div class="col-lg-3">
+                                    <div class="kt-input-icon">
+                                        <p>{{ form.sign }}</p>
+                                        <span class="form-text text-muted">{{ form.sign.help_text }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end::Portlet form productkeuze-->
+                        <!--begin::Portlet form reclame-->
+
+
+                        <div class="kt-portlet">
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-label">
+                                    <h3 class="kt-portlet__head-title">
+                                        Vertel hier waarom deelnemers van Drukwerk Professionals het
+                                        beste {{ user.profile.bedrijfsnaam }} kiezen voor hun opdrachten.
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label">Bedrijfsbeschrijving :</label>
+                                <div class="col-lg-9">
+                                    <p>{{ form.producentomschrijving }}</p>
+                                    <span class="form-text text-muted">{{ form.producentomschrijving.help_text }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-10">
+                                        <input type="submit" value="Regristreer" class="btn btn-success">
+
+                                        <button type="reset" class="btn btn-secondary">Annuleer</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

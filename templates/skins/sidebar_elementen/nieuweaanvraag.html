@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submenu Nieuwe Aanvraag</title>
+</head>
+<body>
+<div>
+    <ul class="kt-menu__nav ">
+        <li class="kt-menu__section ">
+            <i class="kt-menu__section-icon fa fa-chart-bar kt-font-light"></i>
+            <h4 class="kt-menu__section-text kt-font-light">Nieuwe aanvraag</h4>
+        </li>
+        {% if productaanbod.brochures %}
+
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_brochures' 'standaard' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-book"></i><span
+                        class="kt-menu__link-text">Brochures</span></a>
+            </li>
+        {% endif %}
+
+        {% if productaanbod.selfcovers %}
+
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_selfcovers' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-book-reader"></i><span
+                        class="kt-menu__link-text">Selfcovers</span></a>
+            </li>
+
+        {% endif %}
+
+        {% if productaanbod.folders %}
+
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_folders' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-book-open"></i><span
+                        class="kt-menu__link-text">Gevouwen folders</span></a>
+            </li>
+
+        {% endif %}
+
+        {% if productaanbod.plano %}
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_plano' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-images"></i><span
+                        class="kt-menu__link-text">Plano producten</span></a>
+            </li>
+        {% endif %}
+
+        {% if productaanbod.enveloppen %}
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_enveloppen' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-envelope"></i><span
+                        class="kt-menu__link-text">Enveloppen</span></a>
+            </li>
+
+        {% endif %}
+        {% if productaanbod.sheets %}
+            <li class="kt-menu__item " aria-haspopup="true">
+                <a href="{% url 'aanvraag_drukvellen' %}" class="kt-menu__link "><i
+                        class="kt-menu__link-icon fa fa-align-justify"></i><span
+                        class="kt-menu__link-text">Drukvellen</span></a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SocialMedia form</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--  Social media -->
+<!-- ===============================================-->
+<hr class="text-info">
+<div class="row">
+    <h4 class="mb-3 text-info">Social Media</h4>
+    <h6>Vul de volledige url incl 'https://www' in</h6>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <label class="form-label" for="linkedin_url">LinkedIn:</label>
+        <p>{{ form.linkedin_url }}</p>
+        <span class="form-text text-muted">{{ linkedin_url.help_text }}</span>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="facebook_url">Facebook:</label>
+        <p>{{ form.facebook_url }}</p>
+        <span class="form-text text-muted">{{ facebook_url.help_text }}</span>
+    </div>
+</div>
+<!-- ===============================================-->
+<!--  Social media -->
+<!-- ===============================================-->
+</body>
+</html>

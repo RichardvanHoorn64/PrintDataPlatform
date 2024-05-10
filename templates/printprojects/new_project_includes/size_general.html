@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Size general</title>
+</head>
+<body>
+<!-- ===============================================-->
+<!--   Title ands productcategory -->
+<!-- ===============================================-->
+<div class="container" id="size_general">
+    <div class="row">
+        <h4 class="mb-3 text-info">Formaat
+                   {% if update %}
+        <h6 class="mb-3">{{ printproject_size }}</h6>
+        {% endif %}
+
+        </h4>
+        <!-- ===============================================-->
+        <!--   Row Size -->
+        <!-- ===============================================-->
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="standard_size">Standaardformaat</label>
+            <select class="form-select" id="standard_size" name="standard_size"
+                    onchange="standaard_sizeSelectCheck(this)">
+                {% if update %}
+                    <option value="{{ printproject.standard_size }}">Wijzig formaat</option>
+                {% else %}
+                    <option value="0">Vrij formaat</option>
+                {% endif %}
+                {% for i in standardsizes %}
+                    <option value="{{ i.standardsize_id }}">{{ i.description }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3" id="width_mm_input">
+            <label class="form-label" for="width_mm_product">breedte mm (vrij formaat)</label>
+            <input type="text" class="form-control" id="width_mm_product"  name="width_mm_product"
+                    {% if update %}
+                   value="{{ printproject.width_mm_product }}"
+                    {% endif %} >
+        </div>
+        <div class="col-sm-6 col-md-3" id="height_mm_input">
+            <label class="form-label" for="height_mm_product">hoogte mm (vrij formaat)</label>
+            <input type="text" class="form-control" id="height_mm_product" name="height_mm_product"
+                    {% if update %}
+                   value="{{ printproject.height_mm_product }}"
+                    {% endif %} >
+        </div>
+        <!-- ===============================================-->
+        <!--    portrait_landscape  -->
+        <!-- ===============================================-->
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="portrait_landscape">Stand
+             {% if update %}
+            : &nbsp; {{ printproject.portrait_landscape }} {% endif %}
+            </label>
+            <select class="form-select" id="portrait_landscape" name="portrait_landscape">
+            {% if update %}
+                    <option value="{{ printproject.portrait_landscape }}">Wijzig stand</option>
+                    {% endif %} >
+                {% for i in portrait_landscape_choices %}
+                    <option value="{{ i.type }}">{{ i.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <hr class="text-info">
+</div>
+<br>
+</body>
+</html>

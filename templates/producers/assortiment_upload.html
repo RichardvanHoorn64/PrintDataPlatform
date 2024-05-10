@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Assortiment upload</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="assortiment_upload_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item active">Assortiment upload</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">Assortiment upload</h2>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Subheader -->
+                <!-- ===============================================-->
+                <div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <h4 class="mb-3 text-info">CSV</h4>
+                        </div>
+                    </div>
+                    <!-- ===============================================-->
+                    <!--   Input Rows -->
+                    <!-- ===============================================-->
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="customFile">File input example</label>
+                        <input class="form-control" id="customFile" name="assortiment_file"
+                                               type="file">
+                      </div>
+                            <hr class="text-info">
+                            <br>
+                             </div>
+                            <div class="col-sm-6 col-md-6">Productsoorten:<br>
+                                {% for product in Productcategories %}
+                            {{ product.productcategory_id }} {{ product.productcategory }}<br>
+                                {% endfor %}
+                            </div>
+                            <!-- ===============================================-->
+                            <!--   Row asset submit buttons -->
+                            <!-- ===============================================-->
+
+                        <div class="container" id="submit_general">
+                        <div class="row">
+                            <h4 class="mb-1 text-info">Assortiment vervangen</h4>
+                            {% if error %}
+                            <h4 class="mb-1 text-danger">{{ error }}</h4>
+                                {% else %}
+                                <h4 class="mb-1 text-success">{{ instruction }}</h4>
+                            {% endif %}
+                            <div class="col-12 gy-3 ">
+                                <div class="row g-3 justify-content-start">
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-info px-5 px-sm-5">
+                                           <i class="fa fa-upload"></i>&nbsp;Upload assortiment </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

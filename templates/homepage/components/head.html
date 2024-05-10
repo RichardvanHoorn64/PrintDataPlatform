@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="nl" dir="ltr">
+
+    <section class="bg-white pb-8" id="home">
+        <div class="container-small hero-header-container px-lg-7 px-xxl-3">
+          <div class="row align-items-center">
+            <div class="col-12 col-lg-auto order-0 order-md-1 text-end order-1">
+              <div class="position-relative p-5 p-md-7 d-lg-none">
+                <div class="bg-holder" style="background-image:url({% static "assets/img/bg/bg-23.png" %});background-size:contain;">
+                </div>
+                <!--/.bg-holder-->
+
+                <div class="position-relative"><img class="w-100 shadow-lg d-dark-none rounded-2" src="{% static "assets/img/bg/bg-31.png" %}" alt="hero-header" /><img class="w-100 shadow-lg d-light-none rounded-2" src="{% static "assets/img/bg/bg-30.png" %}" alt="hero-header" /></div>
+              </div>
+              <div class="hero-image-container position-absolute top-0 bottom-0 end-0 d-none d-lg-block">
+                <div class="position-relative h-100 w-100">
+                  <div class="position-absolute h-100 top-0 d-flex align-items-center end-0 hero-image-container-bg"><img class="pt-7 pt-md-0 w-100" src="{% static "assets/img/bg/bg-1-2.png" %}" alt="hero-header" /></div>
+                  <div class="position-absolute h-100 top-0 d-flex align-items-center end-0"><img class="pt-7 pt-md-0 w-100 shadow-lg d-dark-none rounded-2" src="{% static "assets/img/bg/bg-28.png" %}" alt="hero-header" /><img class="pt-7 pt-md-0 w-100 shadow-lg d-light-none rounded-2" src="{% static "assets/img/bg/bg-29.png" %}" alt="hero-header" /></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-6 text-lg-start text-center pt-8 pb-6 order-0 position-relative">
+              <h5 class="fs-5 fs-lg-5 fs-md-7   fs fw-black mb-3"><span class="text-info me-3">PrintDataPlatform</span></h5>
+                <h3 class="fs-3 fs-lg-2 fs-md-7 mb-3"><span class="text-warning">Voorsprong</span> voor printprofessionals</h3><br>
+                <a class="btn btn-lg btn-outline-info rounded-pill me-3" href="{% url 'account_login' %}" role="button"><span data-feather="log-in"></span> Inloggen</a>
+                <a class="btn btn-lg btn-outline-warning rounded-pill me-3" href="{% url 'signup' 1 %}" role="button">Gratis proefaccount</a>            </div>
+          </div>
+        </div>
+      </section>

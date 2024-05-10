@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Printproject</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+    <div class="container" id="new_project_header" style="background-color:whitesmoke;">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info" href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                <li class="breadcrumb-item active">Start nieuw printproject</li>
+            </ol>
+        </nav>
+        <hr class="text-info">
+        <h2  class="mb-4 text-info">{{ form_title }}</h2>
+        <h5 class="mb-3">
+            {% if update %}
+            Pas op als de aanvraag of opdracht al naar leveranciers is verzonden. Updaters worden niet verstuurd!
+            {% else %}
+            Maak een printproject aan, kies je leveranciers, verzend je aanvraag, beoordeel offertes.
+            {% endif %}
+        </h5>
+        <hr class="text-info"></div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+        <form name="printproject_form" method="post" onsubmit="return validateFormPrintProjects()" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-12">
+
+                    <!-- ===============================================-->
+                    <!--   include intro general-->
+                    {% include 'printprojects/new_project_includes/intro_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include size generaL -->
+                    {% include 'printprojects/new_project_includes/size_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include brochures_finishing -->
+                    {% include 'printprojects/new_project_includes/brochures_finishing.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include folder generaL -->
+                    {% include 'printprojects/new_project_includes/folder_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include paper generaL -->
+                   {% include 'printprojects/new_project_includes/paper_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include print general -->
+                    {% include 'printprojects/new_project_includes/print_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include paper cover -->
+                    {% include 'printprojects/new_project_includes/paper_cover.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include print general -->
+                    {% include 'printprojects/new_project_includes/print_cover.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include enhance and packaging generaL -->
+                    {% include 'printprojects/new_project_includes/enhance_general.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   include massage extra work -->
+                    {% include 'printprojects/new_project_includes/message_extra_work.html' %}
+                    <!-- ===============================================-->
+
+                    <!-- ===============================================-->
+                    <!--   Row submit buttons -->
+                    <!-- ===============================================-->
+                    <div class="container" id="submit_general">
+                        <div class="row">
+                            <h4 class="mb-1 text-info">Project starten</h4>
+                            <div class="col-12 gy-3 ">
+                                <div class="row g-3 justify-content-start">
+                                    <div class="col-auto">
+                                        <button class="btn btn-info px-5 px-sm-5" type="submit">
+                                            {{ button_text }}
+                                        </button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a type="button" href="{% url 'home' %}" class="btn btn-warning px-5 px-sm-5">Annuleren</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <hr class="text-info">
+                </div>
+            </div>
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

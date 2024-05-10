@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>salesprice_update</title>
+</head>
+<body>
+<div class="card h-100 rounded-2 border border-info">
+    <form method="post">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="row g-0">
+                <h4 class="mb-1 text-info">Verkoopprijs Invoeren / update </h4>
+                <p class="card-text">Verkoopprijs en factuurbedrag voor communicatie naar klant en eigen overzichten </p>
+            <hr class="text-info">
+                    <!-- ===============================================-->
+                    <!--   Button -->
+                    <!-- ===============================================-->
+                <div class="col-md-2">
+                    <br>
+                    <button class="btn btn-info">Invoeren / update</button>
+                </div>
+                <div class="col-md-8">
+                    <!-- ===============================================-->
+                    <!--   Row salesprice, salesprice_1000extra, invoiceturnover -->
+
+                    <!-- ===============================================-->
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="salesprice">Verkoopprijs {{ printproject.volume }}
+                                ex.</label>
+                            <input class="form-control" id="salesprice" name="salesprice"
+                                   {% if printproject.salesprice %}
+                                   value="{{ printproject.salesprice }}"
+                                   {% else %}
+                                   placeholder="€"
+                                    {% endif %}/>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="salesprice_1000extra">1000ex meer</label>
+                            <input class="form-control" id="salesprice_1000extra" name="salesprice_1000extra"
+                                   {% if printproject.salesprice_1000extra %}
+                                   value="{{ printproject.salesprice_1000extra }}"
+                                   {% else %}
+                                   placeholder="€"
+                                    {% endif %}/>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="invoiceturnover">Factuurbedrag</label>
+                            <input class="form-control" id="invoiceturnover" name="invoiceturnover"
+                                   {% if printproject.invoiceturnover %}
+                                   value="{{ printproject.invoiceturnover }}"
+                                   {% else %}
+                                   placeholder="€"
+                                    {% endif %}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% include 'messages/form_valid_errormelding.html' %}
+</div>
+</body>
+</html>

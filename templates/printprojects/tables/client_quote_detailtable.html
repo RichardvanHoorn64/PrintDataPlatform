@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Printproject client table</title>
+</head>
+<body>
+
+</body>
+</html>
+<!-- ===============================================-->
+<!--    Client table -->
+<!-- ===============================================-->
+<div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    <div class="row g-4">
+                        <div class="px-0">
+                            <div class="table-responsive scrollbar">
+                                <table class="table table-sm text-900 mb-0">
+                                    <thead class="bg-200">
+                                    <tr>
+                                        <th scope="col" style="width: 24px;"></th>
+                                        <th scope="col" style="width: 200px;">Klant</th>
+                                        <th scope="col" style="min-width: 500px;">{{ printproject.client }}</th>
+                                        <th scope="col" style="width: 24px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_clientcontact }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                     <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Eigen ordernummer</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_client_quotenumber }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Adres</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.client.street_number }} {{ printproject.client.postal_code }}, {{ printproject.client.city }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Contact</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Tel: {{ printproject.client.tel_general }}, mail:
+                                            <a class="mb-0"
+                                               href="mailto:{{ printproject.client.e_mail_general }}"> {{ printproject.client.e_mail_general }}</a></p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- ===============================================-->
+<!--    End Client table -->
+<!-- ===============================================-->

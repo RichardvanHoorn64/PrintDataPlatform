@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>display notes</title>
+</head>
+<body>
+<div class="fs--1 fw-semi-bold pb-3 mb-4 border-bottom border-dashed border-300">
+    <div class="row">
+        <div class="col-8">
+            <p class="text-1000 mb-1"> {{ note.note }}</p>
+
+        </div>
+        <div class="col-4">
+            <div class="text-end">
+                <p class="text-600 mb-0">{{ note.user.first_name }} {{ note.user.last_name }}<br>{{ note.created |date:'d-m-Y ' }}
+                </p><br>
+                <a type="button" href="{% url 'delete_note' note.note_id %}"
+                   class="btn btn-phoenix-warning w-15 mb-4">Verwijderen</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

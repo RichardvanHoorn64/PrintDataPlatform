@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Producer details</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Account</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">PrintDataHub account</h2>
+                </div>
+                <div class="col-auto">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            {% include 'buttons/update_account.html' %}
+                            {% include 'buttons/delete_account.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-12 col-xxl-4">
+                    <div class="row g-3 g-xxl-0 h-100">
+                        <div class="col-12 col-md-7 col-xxl-12 mb-xxl-3">
+                            <div class="card h-100 rounded-2 border border-info">
+                                <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                    <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+
+                                        <div class="col-12 col-sm-auto flex-1">
+                                            <h3>{{ member.company }}
+                                                <a href="{% url 'my_account_update' member.member_id %}"
+                                                   class="btn btn-link p-0"><span
+                                                        class="fas fa-pen fs-0 ms-3 text-500"></span></a></h3>
+                                            <p class="text-800">Actief sinds {{ member.created |date:'d-m-Y ' }}<br>
+                                                Contactpersoon: {{ member.manager }}<br>
+                                            </p>
+                                            <div>
+                                            </div>
+                                             <hr class="text-info">
+                                            <h4>Abonnement:</h4>
+
+
+                                            <p class="text-800">
+                                                {{ plan_name }} {% if memberplan.member_plan ==  "1" %}
+                                                tot {{ expire_date |date:'d-m-Y ' }} {% endif %}<br>
+                                                € {{ memberplan.plan_tariff |floatformat:"0" }},- / maand
+
+                                            </p>
+                                            <hr class="text-info">
+                                        <p class="text-800">
+                                                <h4>Contactpersoon: </h4>
+                                                {{ user.member.manager }}
+
+                                            </p>
+                                           {% comment %} {% if memberplan.member_plan in  '"1", "2"' %}
+                                                <hr class="text-info">
+                                                <div class="row">
+                                                <div class="col-3">
+                                                <p><h5 class="mb-2">Collega's toevoegen:</h5><br></div>
+                                                <div class="col-6"><br>
+                                                <a type="button" href="{% url 'upgrade' member.member_id %}"
+                                                   class="btn btn-info me- mb-1">Upgrade
+                                                    naar {{ upgrade_member_plan }}</a>
+                                                </div></div>
+                                            {% endif %}{% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 col-xxl-12 mb-xxl-3">
+                            <div class="card h-100 rounded-2 border border-info">
+                                <div class="card-body pb-3">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h3 class="me-1">Contact
+                                            <a href="{% url 'my_account_update' member.member_id %}"
+                                               class="btn btn-link p-0"><span
+                                                    class="fas fa-pen fs-0 ms-3 text-500"></span></a></h3>
+                                    </div>
+                                    <p class="text-800">{{ member.street_number }}<br/>{{ member.postal_code }} {{ member.city }}<br/>Nederland
+                                    </p>
+                                    <div class="mb-3">
+                                        <h5 class="text-800">Email</h5><a
+                                            href="mailto:{{ member.e_mail_general }}">{{ member.e_mail_general }}</a>
+                                    </div>
+                                    <h5 class="text-800">Telefoon</h5><a class="text-800"
+                                                                         href="tel:+1234567890">{{ member.tel_general }}</a>
+                                    <div>
+                                        <p class="text-800">
+                                        <h5 class="text-800">Website</h5>
+                                        <a href="{{ member.url }}" target="_blank">{{ member.url }}</a><br></div>
+                                    {% comment %}<div><br>
+                                        <h5 class="text-800">Social media</h5>
+                                        {% if  member.linkedin_url %}
+                                            <a class="me-2" href="{{ member.linkedin_url }}" target="_blank"><span
+                                                    class="fab fa-linkedin text-400 hover-primary"></span></a>
+                                        {% endif %}
+                                        {% if  member.facebook_url %}
+                                            <a class="me-2" href="{{ member.facebook_url }}" target="_blank"><span
+                                                    class="fab fa-facebook text-400 hover-primary"></span></a>
+                                        {% endif %}
+                                    </div>{% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===============================================-->
+        <!--    Membercontact Table-->
+        <!-- ===============================================-->
+        {% include 'members/membercontact_table.html' %}
+        <!-- ===============================================-->
+        <!--    End Membercontact Table-->
+        <!-- ===============================================-->
+
+            <!-- ===============================================-->
+        <!--    Membercontact Table-->
+        <!-- ===============================================-->
+        {% if memberplan.member_plan ==  "4" %}
+            <br>
+        {% include 'members/../producers/tables/product_offering_table.html' %}
+        {% endif %}
+        <!-- ===============================================-->
+        <!--    End Membercontact Table-->
+        <!-- ===============================================-->
+    </div>
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

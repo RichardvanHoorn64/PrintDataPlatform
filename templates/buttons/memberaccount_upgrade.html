@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memberaccount upgrade</title>
+</head>
+<body>
+<a type="button" href="{% url 'upgrade' member.member_id %}"
+   class="btn btn-info me- mb-1">Upgrade
+    naar {{ upgrade_member_plan }}</a>
+</body>
+</html>

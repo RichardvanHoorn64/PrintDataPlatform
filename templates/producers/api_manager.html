@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>API Manager</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="new_project_header" name="new_project_header" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item active">API Manager</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-4 text-info">API Manager {{ memberproducermatch.member.company }}</h2>
+            <h5 class="mb-3">Koppel om autamatisch offertes uit te brengen.</h5>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form name="api_manager_form" method="post" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-12">
+
+                    <div class="container" id="api_general" name="api_general">
+                        <!-- ===============================================-->
+                        <!--   API title -->
+                        <!-- ===============================================-->
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <h4 class="mb-3 text-info">API</h4>
+                                <h6 class="mb-3">Zet de API aan of uit, per klant.</h6>
+                            </div>
+                        </div>
+                        <!-- ===============================================-->
+                        <!--   Row API switch -->
+                        <!-- ===============================================-->
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label"
+                                       for="api">Klant {{ memberproducermatch.member.company }}</label>
+                                <select class="form-select" id="api" name="api">
+                                    <option value="True">API AAN</option>
+                                    <option value="False">API UIT</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <!-- ===============================================-->
+                        <!--   API connect title -->
+                        <!-- ===============================================-->
+                        <hr class="text-info">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <h4 class="mb-3 text-info">API koppelgegevens</h4>
+                                <h6 class="mb-3">API koppling bijwerken, per klant.</h6>
+                            </div>
+                        </div>
+                        <!-- ===============================================-->
+                        <!--   Row API connect -->
+                        <!-- ===============================================-->
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label" id="producerclient_id" for="producerclient_id">Klant nr</label>
+                                <input class="form-control" type="text" name="producerclient_id"
+                                       placeholder=
+                                               {% if  memberproducermatch.producerclient_id %}
+                                              {{ memberproducermatch.producerclient_id }}
+                                               {% else %}
+                                               "Indien nodig"
+                                                {% endif %}
+                                value="{{ memberproducermatch.producerclient_id }}"
+                                />
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label" id="api_username" for="api_username">API Inlognaam
+                                    </label>
+                                <input class="form-control" type="text" name="api_username"
+                                       placeholder="Geen"/>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <label class="form-label" id="api_password" for="api_password">API wachtwoord</label>
+                                <input class="form-control" type="text" name="api_password"
+                                       placeholder="Indien nodig"/>
+                            </div>
+                        </div>
+                        <br>
+                        <hr class="text-info">
+
+
+                        <!-- ===============================================-->
+                        <!--   Row submit buttons -->
+                        <!-- ===============================================-->
+
+                        <div class="row">
+                            <h4 class="mb-1 text-info">Api update</h4>
+                            <div class="col-12 gy-3 ">
+                                <div class="row g-3 justify-content-start">
+                                    <div class="col-auto">
+                                        <button class="btn btn-info px-5 px-sm-5" type="submit">Api update</button>
+                                    </div>
+                                    <div id="testveld" class="col-auto">
+                                        <a type="button" href="{% url 'home' %}" class="btn btn-warning px-5 px-sm-5">Annuleren</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <hr class="text-info">
+                </div>
+                </div>
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

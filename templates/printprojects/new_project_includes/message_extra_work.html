@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extra work</title>
+</head>
+<body>
+<div class="container" id="message_general">
+    <!-- ===============================================-->
+    <!--   Extra work title -->
+    <!-- ===============================================-->
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="accordion" id="accordionExtraInput">
+                <div class="accordion-item border-top border-300">
+                    <h2 class="accordion-header" id="extra_work_heading">
+                        <button id="ExtraWorkSwitch" class="accordion-button collapsed text-info" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#extraWorkSpec" aria-expanded="false"
+                                aria-controls="extraWorkSpec">
+                            Meerwerk aanvragen of aanvullingen doorgeven?
+                        </button>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- ===============================================-->
+            <!--   Row message extra work -->
+            <!-- ===============================================-->
+            <div class="accordion-collapse collapse collapsed" id="extraWorkSpec" aria-labelledby="extraWorkField"
+                 data-bs-parent="#accordionExtraWorkInput">
+                <div class="row">
+                    <p></p>
+                    <h5 class="mb-3">Opgave meerwerk en aanvullingen, wordt met de aanvraag naar leveranciers
+                        verzonden.</h5>
+                    <div class="col-12 gy-2">
+                        <label class="form-label" for="message_extra_work">Extra werk bericht, indien nodig</label>
+                        <textarea class="form-control" id="message_extra_work" name="message_extra_work"
+                                  placeholder="Beschrijf extra werkzaamheden. Wordt met de aanvraag naar leveranciers verzonden."
+                                  style="height: 100px" value="Geen extra werk aangevraagd."></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<hr class="text-info">
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="kt-content kt-grid__item kt-grid__item--fluid" id="kt_content">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Portlet inleiding-->
+            <div class="kt-portlet  kt-portlet--border-bottom-dark kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            <strong>
+                                <h4> {% now "H" as current_time %}
+                                    {% if current_time|add:"0" < 12 %}
+                                        Goedemorgen,
+                                    {% elif current_time|add:"0" < 18 %}
+                                        Goedemiddag,
+                                    {% else %}
+                                        Goedenavond,
+                                    {% endif %}
+                                    {{ user.first_name }} {{ user.last_name }}<br>
+                                    <h5>Welkom bij {{ user.producent.producentnaam }}</h5>
+                                </h4>
+                            </strong>
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-portlet__content">
+                        <button type="submit" class="btn btn-success">
+                            <a class="kt-font-light" href="{% url 'home' %}">mijn dashboard </a>
+                        </button>
+                        <button type="submit" class="btn btn-warning">
+                            <a class="kt-font-light" href="{% url 'account_logout' %}">uitloggen </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Portlet inleiding-->
+        </div>
+    </div>
+</div>
+</body>
+</html>

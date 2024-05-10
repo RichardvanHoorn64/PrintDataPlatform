@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Producer order dashboard</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Orders {{ orderstatus }}</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Orders: {{ orderstatus }}</h2>
+                </div>
+            </div>
+
+            <ul class="nav nav-links g-3 mb-4">
+               <li class="nav-item"><a class="nav-link px-2 py-1 text-warning"
+                                        href="{% url 'producer_orders' 0 %}">Alles <span
+                        class="text-700 fw-semi-bold">({{ all_orders }})</span></a></li>
+                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_orders' 1 %}">Aangevraagd <span
+                        class="text-700 fw-semi-bold">({{ req_orders }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_orders' 2 %}">In productie <span
+                        class="text-700 fw-semi-bold">({{ prod_orders }})</span></a></li>
+
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_orders' 3 %}">Geweigerd <span
+                        class="text-700 fw-semi-bold">({{ denied_orders }})</span></a></li>
+
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_orders' 4 %}">Gefactureerd <span
+                        class="text-700 fw-semi-bold">({{ inv_orders }})</span></a></li>
+                                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_orders' 5 %}">Geannuleerd <span
+                        class="text-700 fw-semi-bold">({{ closed_orders }})</span></a></li>
+            </ul>
+            <!-- ===============================================-->
+            <!--  END  Header-->
+            <!-- ===============================================-->
+
+                <!-- ===============================================-->
+                <!--    Order Table-->
+                <!-- ===============================================-->
+                {% include 'orders/order_table_producers.html' %}
+                <!-- ===============================================-->
+                <!--    End Order Table-->
+                <!-- ===============================================-->
+                <hr>
+            </div>
+        </div>
+
+
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+</html>

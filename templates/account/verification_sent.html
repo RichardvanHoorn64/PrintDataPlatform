@@ -1,0 +1,49 @@
+{% extends "skins/skin_open.html" %}
+{% load static %}
+{% load i18n %}
+{% block main_content %}
+
+    <!-- begin:: Content -->
+    <div class="kt-content kt-grid__item kt-grid__item--fluid" id="kt_content">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--begin::Portlet -->
+                <div class="kt-portlet" data-ktportlet="true" id="kt_portlet_tools_2">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <div class="kt-portlet__head-title kt-font-dark">
+                                Bevestig je email
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="kt-error404-v1">
+                                    <div class="kt-error404-v1__title">
+                                        <h1><br><i class="flaticon2-new-email kt-font-success"></i><br></h1>
+                                        <strong>Welkom!</strong><br>
+                                        Om in te loggen ga je eerst per
+                                        email je aanmelding bevestigen<br>
+                                        Je ontvangt enkele minuten een e-mail met daarin een
+                                        link. <br><br>
+
+                                        <strong>Mail niet ontvangen? </strong><br>
+                                        Kijk eerst in je spambox en neem daarna contact op.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="kt-error404-v1__image">
+                                    <img src='{% static 'assets/media/misc/404-bg1.jpg' %}' alt="bevestiging"
+                                         class="img-fluid"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end:: Content -->
+{% endblock %}

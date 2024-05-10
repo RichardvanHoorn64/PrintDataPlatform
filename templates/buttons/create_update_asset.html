@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Create update asset buttons</title>
+</head>
+<body>
+
+<div class="container" id="submit_general">
+                        <div class="row">
+                            <h4 class="mb-1 text-info">Versturen</h4>
+                            <div class="col-12 gy-3 ">
+                                <div class="row g-3 justify-content-start">
+                                    <div class="col-auto">
+                                        <button class="btn btn-info px-5 px-sm-5" type="submit">
+                                           {{ button_text }} </button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a type="button" href="{% url 'asset_dashboard' %}" class="btn btn-warning px-5 px-sm-5">Annuleren</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+</body>
+</html>
+

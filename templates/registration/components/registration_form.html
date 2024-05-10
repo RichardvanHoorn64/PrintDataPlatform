@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration form</title>
+</head>
+<body>
+<!--begin::Form-->
+<form class="kt-form kt-form--fit kt-form--label-right" method="post">   {% csrf_token %}
+    <div class="kt-portlet__body">
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Gebruikersnaam:</label>
+            <div class="col-lg-3">
+                <p>{{ form.username }}</p>
+                <span class="form-text text-muted">{{ form.username.help_text }}</span>
+            </div>
+            <label class="col-lg-2 col-form-label">Email:</label>
+            <div class="col-lg-3">
+                <p>{{ form.email }}</p>{{ form.email.error }}
+                <span class="form-text text-muted">{{ form.email.help_text }}</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Kies je wachtwoord:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.password1 }}</p>
+                    <span class="form-text text-muted">{{ form.password1.help_text }} Minstens 6 tekens</span>
+                </div>
+            </div>
+            <label class="col-lg-2 col-form-label">Herhaal je wachtwoord:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.password2 }}</p>
+                    <span class="form-text text-muted">{{ form.password2.help_text }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Aanhef:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.man_vrouw }}</p>
+                    <span class="form-text text-muted">{{ form.man_vrouw.help_text }}</span>
+                </div>
+            </div>
+            <label class="col-lg-2 col-form-label">Functie:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.functie }}</p>
+                    <span class="form-text text-muted">{{ form.functie.help_text }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Voornaam:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.first_name }}</p>
+                    <span class="form-text text-muted">{{ form.first_name.help_text }}</span>
+                </div>
+            </div>
+            <label class="col-lg-2 col-form-label">Achternaam:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.last_name }}</p>
+                    <span class="form-text text-muted">{{ form.last_name.help_text }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Telefoonnummer:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.algemeen_telefoonnummer }}</p>
+                    <span class="form-text text-muted">{{ form.algemeen_telefoonnummer.help_text }}</span>
+                </div>
+            </div>
+            <label class="col-lg-2 col-form-label">Mobiel telefoonnummer:</label>
+            <div class="col-lg-3">
+                <div class="kt-input-icon">
+                    <p>{{ form.mobiel_telefoonnummer }}</p>
+                    <span class="form-text text-muted">{{ form.mobiel_telefoonnummer.help_text }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kt-portlet__foot">
+        <div class="kt-form__actions">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-10">
+                    <input type="submit" value="Regristreer" class="btn btn-success">
+
+                    <button type="reset" class="btn btn-secondary">Annuleer</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--end::Form-->
+</body>
+</html>

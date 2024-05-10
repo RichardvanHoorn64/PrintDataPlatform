@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Printproject dashboard</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Printproject dashboard</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Printproject dashboard</h2>
+                </div>
+            </div>
+            <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-warning"
+                                        href="{% url 'printproject_dashboard' 0 %}">Alles<span
+                        class="text-700 fw-semi-bold">({{ open_projects }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'printproject_dashboard' 1 %}">Open<span
+                        class="text-700 fw-semi-bold">({{ open_projects }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'printproject_dashboard' 2 %}">Aangevraagd<span
+                        class="text-700 fw-semi-bold">({{ rfq_projects }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'printproject_dashboard' 3 %}">In productie <span
+                        class="text-700 fw-semi-bold">({{ prod_projects }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'printproject_dashboard' 4 %}">Gesloten <span
+                        class="text-700 fw-semi-bold">({{ closed_projects }})</span></a></li>
+            </ul>
+            <!-- ===============================================-->
+            <!--  END  Header-->
+            <!-- ===============================================-->
+            <!-- ===============================================-->
+            <!--    Printproject table-->
+            <!-- ===============================================-->
+
+            <div id="printprojectTable"
+                 data-list='{"valueNames":["printproject_id","rfq_date", "printprojectstatus", "customer","project_title"],"page":20,"pagination":true}'>
+                <div class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search"
+                                           placeholder="Zoek project" aria-label="Search"/>
+                                    <span class="fas fa-search search-box-icon"></span>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                            <div class="btn-group position-static" role="group">
+                <!-- ===============================================-->
+                <!--    Buttons -->
+                <!-- ===============================================-->
+                                <div class="col-auto">
+                                    {% include 'buttons/start_printproject.html' %}&nbsp;
+                                    {% include 'buttons/projectdata_download.html' %}
+                <!-- ===============================================-->
+                <!--    End Buttons -->
+                <!-- ===============================================-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===============================================-->
+                <!--    Printproject Table-->
+                <!-- ===============================================-->
+                {% include 'printprojects/printproject_table.html' %}</div>
+            <!-- ===============================================-->
+            <!--    End Printproject Table-->
+            <!-- ===============================================-->
+            <br>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+</html>

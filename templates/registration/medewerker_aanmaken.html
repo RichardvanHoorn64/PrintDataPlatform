@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends skin_template_name %}
+{% load static %}
+
+
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Medewerker aan klantprofiel toevoegen</title>
+</head>
+<body>
+{% block page %}
+    <!-- begin:: Content -->
+    <div class="kt-content kt-grid__item kt-grid__item--fluid" id="kt_content">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!--begin::Portlet-->
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <div class="kt-portlet__head-title">
+                                Medewerker toevoegen aan klant: {{ deelnemer.bedrijfsnaam }},
+                                van {{ user.bedrijfsnaam }}
+                            </div>
+                            <br>
+                        </div>
+
+                    </div>
+                    <div class="h5 kt-portlet__body">Laat de nieuwe medewerker bij {{ deelnemer.bedrijfsnaam }} na het
+                        inloggen het wachtwoord wijzigen.
+                    </div>
+                    <hr>
+                    <!--begin::Form-->
+                    {% include 'registration/components/registration_form.html' %}
+                    <!--end::Form-->
+                    {% include 'messages/form_valid_errormelding.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end:: Content -->
+
+
+    </body>
+    <!-- end::Body -->
+
+{% endblock %}
+
+</html>

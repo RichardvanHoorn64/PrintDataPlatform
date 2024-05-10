@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>customer-details</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'client_dashboard' %}">Klant
+                    dashboard {{ user.company }}</a></li>
+                <li class="breadcrumb-item active">Klant details</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0">Klant details</h2>
+                </div>
+                <div class="col-auto">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <button class="btn btn-phoenix-danger"><span class="fa-solid fa-trash-can me-2"></span>Klant
+                                verwijderen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-12 col-xxl-4">
+                    <div class="row g-3 g-xxl-0 h-100">
+                        <div class="col-12 col-md-7 col-xxl-12 mb-xxl-3">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                    <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+
+                                        <div class="col-12 col-sm-auto flex-1">
+                                            <h3>{{ client.client }}       <a href="{% url 'update_client' client.client_id %}"
+                                               class="btn btn-link p-0"><span
+                                                    class="fas fa-pen fs-0 ms-3 text-500"></span></a></h3>
+                                            <p class="text-800">Actief sinds {{ client.created |date:'d-m-Y ' }}</p>
+                                            <p class="text-800">
+                                                Contactpersoon: {{ client.manager_first_name }} {{ client.manager_last_name }}</p>
+                                            <div>
+                                                {% if client.linkedin_url %}
+                                                <a class="me-2" href="#!"><span
+                                                    class="fab fa-linkedin-in text-400 hover-primary"></span></a>
+                                                {% endif %}
+                                             {% if client.facebook_url  %}
+                                                <a  class="me-2" href="#!"><span
+                                                    class="fab fa-facebook text-400 hover-primary"></span></a>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-between-center border-top border-dashed border-300 pt-4">
+                                        <div>
+                                            <h6>Following</h6>
+                                            <p class="fs-1 text-800 mb-0">297</p>
+                                        </div>
+                                        <div>
+                                            <h6>Projects</h6>
+                                            <p class="fs-1 text-800 mb-0">56</p>
+                                        </div>
+                                        <div>
+                                            <h6>Completion</h6>
+                                            <p class="fs-1 text-800 mb-0">97</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-5 col-xxl-12 mb-xxl-3">
+                            <div class="card h-100">
+                                <div class="card-body pb-3">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h3 class="me-1">Adres</h3>
+                                        <a href="{% url 'update_client' client.client_id %}"
+                                               class="btn btn-link p-0"><span
+                                                    class="fas fa-pen fs-0 ms-3 text-500"></span></a>
+                                    </div>
+                                    <h5 class="text-800">Adres</h5>
+                        <p class="text-800">{{ client.street_number }}<br />{{ client.postal_code }} {{ client.city }}<br />Nederland</p>
+                        <div class="mb-3">
+                          <h5 class="text-800">Email</h5><a class="text-info" href="mailto:{{ client.e_mail_general }}">{{ client.e_mail_general }}</a>
+                        </div>
+                        <h5 class="text-800">Telefoon</h5><a class="text-800" href="tel:+1234567890">{{ client.tel_general }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ===============================================-->
+                        <!--    Note's-->
+                        <!-- ===============================================-->
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-info">Notities: {{ client.client }}</h3>
+
+
+                                    <!-- ===============================================-->
+                                    <!--   End noteform -->
+                                    <!-- ===============================================-->
+                                    <form name="client_note_form" method="post">
+                                        {% csrf_token %}
+                                        <label class="form-label" for="note">Schrijf hier een notitie
+                                            over {{ client.client }}</label>
+                                        <textarea id="note" name="note" class="form-control mb-3" rows="4"
+                                                  placeholder="Notitie schrijven, om te bewaren voor eigen gebruik."></textarea>
+                                        <div class="col-auto">
+                                            <button class="btn btn-phoenix-info w-15 mb-4" type="submit">Notitie
+                                                opslaan
+                                            </button>
+                                            <a type="button" href="{% url 'client_details' client.client_id %}"
+                                               class="btn btn-phoenix-warning w-15 mb-4">Annuleren</a>
+                                        </div>
+                                    </form>
+                                    {% include 'messages/form_valid_errormelding.html' %}
+                                    <hr class="text-info">
+                                    <!-- ===============================================-->
+                                    <!--   End noteform -->
+                                    <!-- ===============================================-->
+                                    {% for note in client_notes %}
+                                        {% include 'notes/display_notes.html' %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- ===============================================-->
+            <!--    Tables-->
+            <!-- ===============================================-->
+            <div class="col-12 col-xxl-8">
+                          <!-- ===============================================-->
+                <!--    Printproject Table-->
+                <!-- ===============================================-->
+             <div class="col-12 col-xxl-8">
+                {% include 'clients/clientcontact_table.html' %}
+             </div><br>
+                <!-- ===============================================-->
+                <!--    End Printproject Table-->
+                <!-- ===============================================-->
+                 <!-- ===============================================-->
+                <!--    Printproject Table-->
+                <!-- ===============================================-->
+              <div class="col-12 col-xxl-8">
+                {% include 'printprojects/printproject_table.html' %}
+               </div><br>
+                <!-- ===============================================-->
+                <!--    End Printproject Table-->
+                <!-- ===============================================-->
+                <!-- ===============================================-->
+                <!--    Order Table-->
+                <!-- ===============================================-->
+               <div class="col-12 col-xxl-8">
+                {% include 'orders/order_table.html' %}
+               </div>
+                <!-- ===============================================-->
+                <!--    End Order Table-->
+                <!-- ===============================================-->
+                <!-- ===============================================-->
+                <!--    Clientcontact Table-->
+                <!-- ===============================================-->
+
+    <!-- ===============================================-->
+    <!--    End Tables-->
+    <!-- ===============================================-->
+
+
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}
+</html>

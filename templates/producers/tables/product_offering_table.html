@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>membercontact table</title>
+</head>
+<body>
+<div class="col-6">
+    <div class="card h-100 rounded-2 border border-info">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Productieaanbod {{ member.company }}</h3>
+                <hr>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                    <tr>
+                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"  style="width:10%;">Productgroep</th>
+                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"  style="width:10%;">Beschikbaarheid</th>
+                          <th class="sort white-space-nowrap align-middle pe-3" scope="col"  style="width:10%;">Aanpassen</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="list" id="order-table-body">
+
+                    {% for product in productoffer_list %}
+                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                          <td class="printproject_id align-middle white-space-nowrap py-0">{{ product.productcategory.productcategory }}</td>
+                         <td class="printproject_id align-middle white-space-nowrap py-0">
+                             {% if product.availeble == True %}Aangeboden{% else %}Niet aangeboden{% endif %}</td>
+                        <td>
+                         {% if product.availeble == True %}
+                             <a href="{% url 'select_supplier_productoffering_switch' product.setting_id %}" class="btn btn-danger btn-sm me-1 mb-1" role="button"
+                                        aria-pressed="true"><i class="far fa-window-close"></i></a>
+                         {% else %}<a href="{% url 'select_supplier_productoffering_switch' product.setting_id %}" class="btn btn-success btn-sm me-1 mb-1" role="button"
+                                        aria-pressed="true"><i class="far fa-square"></i></a>
+                         {% endif %}  </td>
+
+                          {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+</body>
+</html>

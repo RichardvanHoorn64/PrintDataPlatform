@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <div class="px-3"><a class="btn btn-phoenix-info d-flex flex-center w-100"
+                         href="{% url 'account_logout' %}"> <span class="me-2"
+                                                                  data-feather="log-in"> </span>Uitloggen</a></div>
+{% else %}
+    <div class="px-3"><a class="btn btn-phoenix-info d-flex flex-center w-100"
+                         href="{% url 'account_login' %}"> <span class="me-2"
+                                                                 data-feather="log-in"> </span>Inloggen</a>
+    </div>
+{% endif %}
+
+</body>
+</html>

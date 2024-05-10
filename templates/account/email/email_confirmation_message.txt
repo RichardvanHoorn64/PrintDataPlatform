@@ -1,0 +1,26 @@
+{% load account %}
+{% load i18n %}
+{% user_display user as user_display %}
+
+{% autoescape off %}
+
+Welkom op het PrintDataPlatform,
+
+
+Klik op de link {{ activate_url }} om je aanmelding op het PrintDataPlatform te bevestigen.
+
+{% endautoescape %}
+Je ontvangt deze email na aanmelding op het PrintDataPlatform met jouw email adres.
+Heb je geen account voor het PrintDataPlatform aangevraagd? Dan kun je deze mail veilig negeren. Het account wordt gesloten, je emailadres wordt na enkele dagen niet meer bewaard.
+
+Grafische groeten,
+Richard van Hoorn
+
+De PrintDataPlatform
+
+www.printdataplatform.com
+mail: printdataplatform@richardvanhoorn.nl
+tel: 06-55962062
+
+
+

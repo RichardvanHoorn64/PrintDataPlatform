@@ -1,0 +1,15 @@
+{% autoescape off %}
+
+Hallo,
+
+Op het PrintDataPlatform {{ offer.requester }} heeft namens {{ member_company }} op {{ offer.created |date:'d-m-Y ' }} aan {{ producer.company }} offerteaanvraag voor {{ printproject.volume }} ex. {{ printproject.project_title }} geplaatst.<br>
+Bekijk en beantwoord de offerteaanvraag op: <a href="https://deprintmanager.nl{% url 'offer_producers_form' offer.offer_id %}">{{ offer_producers_form }}/{{ offer.offer_id }}</a>, Hier kunt u ook uw offertedocument uploaden.
+
+Open de aanvraag met deze unieke  toegangscode: {{ offer.offer_key }}
+
+Hartelijke groet,
+PrintDataPlatform
+
+
+
+{% endautoescape %}

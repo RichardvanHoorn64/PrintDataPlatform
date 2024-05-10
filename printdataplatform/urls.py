@@ -1,22 +1,257 @@
-"""
-URL configuration for printdataplatform project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from api.views import *
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from assets.asset_views import *
+from assets.asset_deleteviews import *
+from calculations.assortiment_views import *
+from downloads.download_paperspecs import *
+from downloads.download_producer_docs import *
+from downloads.downloads import *
+# from downloads.download_client_docs import *
+from index.dashboard_views import *
+from index.index_views import *
+from index.note_views import *
+from index.json_views import *
+from materials.material_views import *
+from materials.paper_views import *
+from materials.views_json import *
+from members.account_views import *
+from members.client_views import *
+from members.crm_functions import *
+from members.crm_views import *
+from offers.offer_views import *
+from offers.rfq_workflows import *
+from orders.order_views import *
+from printprojects.detail_views import *
+from printprojects.printproject_views import *
+from producers.offer_views import *
+from producers.producer_views import *
+from producers.tariff_views import *
+from profileuseraccount.accountviews.CreateUserProfileView import *
+from profileuseraccount.accountviews.RegistratieViews import *
 
+# printdata URL Configuration
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    # open homepages, no inlog required
+    path('', WelcomeView.as_view(), name=''),  # redirect page
+    path('welcome/', WelcomeView.as_view(), name='welcome'),  # redirect page
+    path('home/', HomeView.as_view(), name='home'),
+    path('signup/<int:plan_id>', UserProfileCreateView.as_view(), name='signup'),
+    path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
+    path('no_access/', NoAccessView.as_view(), name='no_access'),
+    path('wait_for_approval/', WaitForApproval.as_view(), name='wait_for_approval'),
+
+    # dashboards after member accept and inlog
+    path('printdataplatform_dashboard/', PrintDataPlatformDashboard.as_view(),
+         name='printdataplatform_dashboard'),
+
+    path('printproject_dashboard/<int:printprojectstatus_id>', PrintprojectDashboard.as_view(),
+         name='printproject_dashboard'),
+
+    # printdataplatform
+    path('conditions/', ConditionView.as_view(), name='conditions'),
+    path('faq/', FaqView.as_view(), name='faq'),
+    path('contact/', ConditionView.as_view(), name='contact'),
+
+    # printprojects
+    path('new_printproject/', CreateNewPrintProjectView.as_view(), name='new_printproject'),
+    path('printproject_details/<int:printproject_id>', PrintProjectDetailsView.as_view(),
+         name='printproject_details'),   # update pricing
+    path('printproject_clone/<int:printproject_id>', PrintProjectCloneView.as_view(),
+         name='printproject_clone'),
+    path('printproject_update/<int:printproject_id>', PrintProjectCloneUpdateView.as_view(),
+         name='printproject_update'),
+
+
+    path('printproject_delete/<int:printproject_id>', PrintProjectDeleteView.as_view(),
+         name='printproject_delete'),
+
+    # offers
+    path('offer_details/<int:pk>', OfferDetailsMembersView.as_view(),
+         name='offer_details'),
+
+    path('offer_producers_form/<int:pk>', OfferProducersFormCheckView.as_view(),
+         name='offer_producers_form'),
+    path('offer_producers_update/<int:pk>', OfferProducersUpdateView.as_view(),
+         name='offer_producers_update'),
+    path('offer_producers_update_form/<int:pk>/<int:reference_key>', OfferProducersOpenUpdateView.as_view(),
+         name='offer_producers_update_form'),
+    path('deny_offer/<int:pk>', DenyOfferView.as_view(), name='deny_offer'),
+    path('close_offer/<int:pk>/', CloseOfferView.as_view(), name='close_offer'),
+
+    path('thanks_submit_offer/', ThanksSubmitView.as_view(), name='thanks_submit_offer'),
+
+    # orders
+    path('order_dashboard/<int:order_status_id>', OrderDashboard.as_view(), name='order_dashboard'),
+    path('create_order/<int:offer_id>', CreateOrderView.as_view(), name='create_order'),
+    path('order_details/<int:order_id>', OrderDetailsView.as_view(), name='order_details'),
+    path('order_delete/<int:order_id>', OrderDeleteView.as_view(), name='order_delete'),
+    path('change_orderstatus/<int:order_id>/<int:order_status_id>',
+         ChangeOrderStatus.as_view(), name='change_orderstatus'),
+
+
+    # account
+    path('my_account/<int:pk>', MyAccountView.as_view(), name='my_account'),
+    path('my_account_update/<int:pk>', MyAccountUpdateView.as_view(), name='my_account_update'),
+    path('my_account_delete/<int:pk>', MyAccountDeleteView.as_view(), name='my_account_delete'),
+    path('create_co_worker/<int:member_id>', CoWorkerUserProfileCreateView.as_view(),
+         name='create_co_worker'),
+    path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
+         name='update_co_worker'),
+    path('deactivate_co_worker/<int:id>', DeactivateUser.as_view(), name='deactivate_co_worker'),
+    path('upgrade/<int:member_id>', UpgradeView.as_view(), name='upgrade'),
+
+    # clients
+    path('client_dashboard/', ClientDashboard.as_view(), name='client_dashboard'),
+    path('client_details/<int:pk>', ClientDetails.as_view(), name='client_details'),
+    path('create_client/', CreateNewClient.as_view(), name='create_client'),
+    path('create_clientcontact/<int:client_id>', CreateNewClientContact.as_view(),
+         name='create_clientcontact'),
+    path('update_client/<int:pk>', UpdateClient.as_view(), name='update_client'),
+    path('update_clientcontact/<int:pk>', UpdateClientContact.as_view(),
+         name='update_clientcontact'),
+    path('delete_client/<int:client_id>', DeleteClient.as_view(), name='delete_client'),
+    path('delete_clientcontact/<int:pk>', DeleteClientContact.as_view(),
+         name='delete_clientcontact'),
+
+    # producers
+    path('producer_dashboard/<int:producerstatus_id>', ProducersDashboard.as_view(),
+         name='producer_dashboard'),
+    path('create_producer/', CreateNewProducer.as_view(), name='create_producer'),
+    path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
+    path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
+         ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
+    path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
+         name='create_producercontact'),
+    path('update_producercontact/<int:producercontact_id>', UpdateProducerContact.as_view(),
+         name='update_producercontact'),
+    path('delete_producercontact/<int:producercontact_id>', DeleteProducerContact.as_view(),
+         name='delete_producercontact'),
+    path('producer_close_order//<int:pk>', ProducerCloseOrderView.as_view(), name='producer_close_order'),
+    path('producer_accept_order//<int:pk>', ProducerAcceptOrderView.as_view(), name='producer_accept_order'),
+
+    # producer sales dashboard
+    path('producer_sales_dashboard/<int:offerstatus_id>', ProducerSalesDashboard.as_view(),
+         name='producer_sales_dashboard'),
+
+    # producer offers
+    path('producer_offers/<int:offerstatus_id>', ProducerOffers.as_view(), name='producer_offers'),
+    path('producer_offer_details/<int:offer_id>', ProducerOfferDetails.as_view(), name='producer_offer_details'),
+    path('select_supplier_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
+         name='select_supplier_productoffering_switch'),
+
+    # producers member dashboard
+    path('member_dashboard/', ProducerMemberDashboard.as_view(), name='member_dashboard'),
+    path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),
+
+    # producer orders
+    path('producer_orders/<int:order_status_id>', ProducerOrders.as_view(), name='producer_orders'),
+
+    # rfq workflow
+    path('select_clientcontact_json/<int:client_id>', select_clientcontact_json,
+         name='select_clientcontact_json'),
+    path('select_supplier_switch_json/<str:printprojectmatch_id>', select_supplier_switch_json,
+         name='select_supplier_switch_json'),
+    path('send_rfq/<int:printproject_id>', SendRFQView.as_view(), name='send_rfq'),
+    path('offer_acceskey_submit/<int:offer_id>/<int:offer_key_test>/', offer_acceskey_submit,
+         name='offer_acceskey_submit'),
+
+    path('paper_catalog/', ProducerPaperCatalog.as_view(), name='paper_catalog'),
+    path('producer_paper_catalog_download/', DownloadProducerPaperCatalog.as_view(), name='producer_paper_catalog_download'),
+    path('producer_paper_catalog_upload/', UploadProducerPaperCatalog.as_view(), name='producer_paper_catalog_upload'),
+
+    # paper
+    path('paper_brands/<int:papercategory_id>', PaperBrands.as_view(), name='paper_brands'),
+    path('download_paperbrands', DownloadPaperBrands.as_view(), name='download_paperbrands'),
+
+    # java / ajax urls paperchoices for quotes paperselection
+    path('papercategory_json/<str:productcategory_id>', get_json_papercategory, name='papercategory_json'),
+    path('paperbrand_json/<str:papercategory_id>', get_json_paperbrand, name='paperbrand_json'),
+    path('paperweight_json/<str:paperbrand_id>/<str:productcategory_id>', get_json_paperweight,
+         name='paperweight_json'),
+    path('papercolor_json/<int:paperweight_id>', get_json_papercolor, name='papercolor_json'),
+
+    path('papercategory_cover_json', get_json_cover_papercategory, name='papercategory_cover_json'),
+    path('paperbrand_cover_json/<str:papercategory_id>', get_json_cover_paperbrand,
+         name='paperbrand_cover_json'),
+    path('paperweight_cover_json/<str:paperbrand_id>', get_json_cover_paperweight,
+         name='paperweight_cover_json'),
+    path('papercolor_cover_json/<str:paperweight_id>', get_json_cover_papercolor,
+         name='papercolor_cover_json'),
+
+    # java / ajax urls paperchoices for quotes calculate folder number of pages
+    path('folder_number_of_pages_json/<str:foldingmethod_id>', get_json_folder_number_of_pages,
+         name='folder_number_of_pages_json'),
+    path('brochure_finishingmethods_json/<str:productcategory_id>', get_json_brochure_finishingmethods,
+         name='brochure_finishingmethods_json'),
+
+    # create notes
+    path('delete_note/<int:note_id>', DeleteNoteView.as_view(), name='delete_note'),
+
+    # api's
+    path('producer_api_manager/<int:pk>', APIproducerManager.as_view(), name='producer_api_manager'),
+    path('api_producer_accept/<int:pk>', APIproducerAccept.as_view(), name='api_producer_accept'),
+
+    # downloads
+    path('member_download_printprojects/', MemberDownloadPrintprojects.as_view(),
+         name='member_download_printprojects'),
+    path('member_download_clients/', MemberDownloadClients.as_view(),
+         name='member_download_clients'),
+
+
+    path('producer_download_offer/<int:offer_id>/<int:doc_id>', DownloadProducerOffer.as_view(),
+         name='producer_download_offer'),  # doc_id 1= offer, 2 =invoice
+
+    # Assets producers
+    path('asset_dashboard/', AssetDashboardView.as_view(), name='asset_dashboard'),
+    path('create_printer/', CreatePrinter.as_view(), name='create_printer'),
+    path('update_printer/<int:printer_id>', UpdatePrinter.as_view(), name='update_printer'),
+
+    path('create_foldingmachine/<int:foldingtype_id>', CreateFoldingmachine.as_view(), name='create_foldingmachine'),
+    path('update_foldingmachine/<int:foldingmachine_id>', UpdateFoldingmachine.as_view(), name='update_foldingmachine'),
+
+    path('create_cuttingmachine/', CreateCuttingmachine.as_view(), name='create_cuttingmachine'),
+    path('update_cuttingmachine/<int:cuttingmachine_id>', UpdateCuttingmachine.as_view(), name='update_cuttingmachine'),
+
+    path('create_bindingmachine/', CreateBindingmachine.as_view(), name='create_bindingmachine'),
+    path('update_bindingmachine/<int:bindingmachine_id>', UpdateBindingmachine.as_view(), name='update_bindingmachine'),
+
+    # Tariff and settings producers
+    path('producer_tariffs/', ProducerTariffs.as_view(), name='producer_tariffs'),
+    path('producer_tariffs_update/<int:settings_id>', ProducerTariffsUpdate.as_view(), name='producer_tariffs_update'),
+    path('enhancement_create/', ProducerEnhancementCreate.as_view(),
+         name='enhancement_create'),
+    path('change_enhancement_added_value/<int:enhancementtariff_id>', ChangeEnhancementAddedValue.as_view(),
+         name='change_enhancement_added_value'),
+    path('enhancement_update/<int:enhancementtariff_id>', ProducerEnhancementUpdate.as_view(),
+         name='enhancement_update'),
+    path('enhancement_delete/<int:enhancementtariff_id>', ProducerEnhancementDelete.as_view(),
+         name='enhancement_delete'),
+    path('packaging_update/<int:packagingtariff_id>', ProducerPackagingUpdate.as_view(), name='packaging_update'),
+    path('transport_update/<int:transporttariff_id>', ProducerTransportUpdate.as_view(), name='transport_update'),
+
+    path('change_pms_availability/<int:setting_id>', ChangePMSAvailability.as_view(), name='change_pms_availability'),
+
+    # change tariff availability
+    path('change_enhancement_availability/<int:enhancementtariff_id>', ChangeEnhancementAvailability.as_view(), name='change_enhancement_availability'),
+    path('change_packaging_availability/<int:packagingtariff_id>', ChangePackagingAvailability.as_view(),
+         name='change_packaging_availability'),
+    path('change_transport_availability/<int:transporttariff_id>', ChangeTransportAvailability.as_view(),
+         name='change_transport_availability'),
+
+    # delete production assets
+    path('delete_printer/<int:pk>', PrinterDelete.as_view(), name='delete_printer'),
+    path('delete_cuttingmachine/<int:pk>', CuttingmachineDelete.as_view(), name='delete_cuttingmachine'),
+    path('delete_foldingmachine/<int:pk>', FoldingmachineDelete.as_view(), name='delete_foldingmachine'),
+    path('delete_bindingmachine/<int:pk>', BindingmachineDelete.as_view(),
+         name='delete_bindingmachine'),
+
+    # Producer assortiment view, upload and download
+    path('producer_assortiment/', AssortimentView.as_view(), name='producer_assortiment'),
+    path('producer_assortiment_upload/<str:error>', UploadAssortimentCSV.as_view(), name='producer_assortiment_upload'),
+    path('producer_assortiment_calculate/', CalculateAssortiment.as_view(), name='producer_assortiment_calculate'),
+    path('producer_assortiment_download/', DownloadAssortiment.as_view(), name='producer_assortiment_download'),
+    path('producer_calculationdetails/<int:calculation_id>', ProducerCalculationDetails.as_view(), name='producer_calculationdetails'),
 ]

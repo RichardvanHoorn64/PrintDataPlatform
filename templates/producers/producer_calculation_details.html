@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order details</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                <li class="breadcrumb-item active">Calculatie details</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">{% if assortiment_item %}
+                        Assortimentscalculatie: {{ calculation.productcategory.productcategory }}<br>
+                    {% endif %}</h2>
+                </div>
+                            <div class="p-4 mb-0 rounded-2 border border-info bg-white">
+
+
+                                <div class="card-body d-flex flex-column justify-content-between pb-3">
+                                    <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
+
+                                        <div class="col-12 col-sm-auto flex-1">
+                                            <h4>Project:</h4>
+                                            <p class="text-800">
+                                                 Calculatiedatum: {{ calculation.offer_date |date:'d-m-Y'}}, status: {{ calculation.status }}<br>
+                                                Error: {{ calculation.error }} <br>
+                                                {{ printproject_title }} <br>
+                                                Formaat: {{ printproject_size }} <br>
+                                                {{ printproject_number_of_pages }}<br>
+
+                                            </p>
+                                            <div>
+                                            </div>
+                                            <hr class="text-info">
+                                            <h4>Productiemiddelen:</h4>
+                                            <p class="text-800">
+                                                Pers binnenwerk: {{ calculation.printer_booklet }}<br>
+                                                Vouwmachine binnenwerk {{ calculation.foldingmachines_booklet }}<br>
+                                                Pers omslag: {{ calculation.printer_cover }}
+
+                                            </p>
+                                            <hr class="text-info">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                        <!-- ===============================================-->
+                        <!--    Calculation Detail table -->
+                        <!-- ===============================================-->
+
+                        {% include 'producers/tables/producer_calculation_brochures_detailtable.html' %}
+
+                        <!-- ===============================================-->
+                        <!--    Offer Detail table -->
+                        <!-- ===============================================-->
+
+                    </div></div></div></div>
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientcontact table</title>
+</head>
+<body>
+<div class="col-12 rounded-2 border border-info">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Medewerkers {{ client.client }}</h3>
+            <hr>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                    <tr>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:15%;">Naam
+                        </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:15%;">Functie
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:10%; min-width: 100px;">Tel
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:10%; min-width: 100px;">Mail
+                        </th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:5%;">LinkedIn</th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Facebbook</th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Update</th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="list" id="order-table-body">
+                    {% for clientcontact in clientcontact_list %}
+                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ clientcontact.first_name }} {{ clientcontact.last_name }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ clientcontact.jobtitle }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ clientcontact.mobile_number }}</td>
+                        <td class="align-middle white-space-nowrap text-900 fs--1 text-start"><a class="text-info"
+                                                    href="mailto://{{ clientcontact.e_mail_personal }}/">{{ clientcontact.e_mail_personal }}</a>
+                        </td>
+
+                            <td class="align-middle white-space-nowrap text-900 fs--1 text-center">{% include 'buttons/linkedin_clientcontact.html' %}
+                        </td>
+                            <td class="align-middle white-space-nowrap text-900 fs--1 text-center">{% include 'buttons/facebook_clientcontact.html' %}
+                        </td>
+
+                            <td class="align-middle white-space-nowrap text-900 fs--1 text-center">{% include 'buttons/update_member_clientcontact.html' %}
+                        </td>
+                        <td class="align-middle white-space-nowrap text-900 fs--1 text-center">{% include 'buttons/delete_member_clientcontact.html' %}
+                        </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            <hr class="text-info">
+            </div>
+            <a type="button" href="{% url 'create_clientcontact' client.client_id %}"
+               class="btn btn-warning me-1 mb-1">Contact toevoegen</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

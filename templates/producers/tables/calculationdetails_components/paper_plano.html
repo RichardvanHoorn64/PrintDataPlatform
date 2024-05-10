@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-bold text-info">Papierinkoop
+                                {% if calculation.productcategory_id ==  3 %}
+                                        selfcover:</p>
+                                      {% elif calculation.productcategory_id in brochures %}
+                                        binnenwerk:
+                                    {% endif %}:
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Netto aantal vel</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.net_paper_quantity }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.net_paper_quantity1000extra }}
+                        <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ printproject_paper }} {{ paper.paper_height_mm }}
+                                    x {{ paper.paper_width_mm }} mm
+                            </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Inschiet drukken </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_printing }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_printing1000extra }}
+                        </td>
+                    </tr>
+
+                                        <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Inschiet vouwen </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_folding }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_folding1000extra }}
+                        </td>
+                    </tr>
+
+                                        <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Inschiet binden </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_binding }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.waste_binding1000extra }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Totaal aantal vel</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.paper_quantity }}
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {{ calculation.paper_quantity1000extra }}
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                                            <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Papier incl. toeslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.papercost_total }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {{ calculation.papercost_total1000extra }}
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    € {{ paper.price_1000sheets }} per 1.000 vel + {{ calculation.purchase_paper_perc_added }} % toeslag
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                  <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold"><br></p>
+                        </td>
+                    </tr>
+</body>
+</html>

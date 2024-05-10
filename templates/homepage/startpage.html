@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_open.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PrintDataPlatform homepage</title>
+  </head>
+
+
+    {% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+        <!-- begin:: Content -->
+        {% include 'homepage/components/head.html' %}
+        <hr class="text-info">
+        {% include 'homepage/components/pricing.html' %}
+         <hr class="text-info">
+        {% include 'homepage/components/connect.html' %}
+         <hr class="text-info">
+        <!-- end:: Content -->
+
+
+
+{% endblock %}

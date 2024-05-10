@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Order</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <!-- begin:: Content -->
+    <div class="content">
+        <section class="bg-white pb-8" id="email_confirmation">
+            <div class="container-small hero-header-container px-lg-7 px-xxl-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--begin::Portlet -->
+
+
+                            <form method="post">{% csrf_token %}
+<p>{{ object }} verwijderen?</p>
+    <input type="submit" value="Bevestigen">
+</form>
+
+
+                    </div>
+                    <div class="col-sm">
+                        <img src='{% static 'assets/img/spot-illustrations/dark_15.png' %}'
+                             class="img-fluid" alt="Image"/>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- end:: Content -->
+
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

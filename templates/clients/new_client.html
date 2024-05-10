@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_members.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New client</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content heading-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="create_client-header" name="create_client_header" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                    <li class="breadcrumb-item active">{{ title }}</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-4 text-info">{{ title }}</h2>
+            <h5 class="mb-3">Voor {{ user.company }}</h5>
+
+            <!-- ===============================================-->
+            <!--    End Header-->
+            <!-- ===============================================-->
+            <!-- ===============================================-->
+            <!--    Main Content signup form-->
+            <!-- ===============================================-->
+
+            <form method="post">  {% csrf_token %}
+
+                <!-- ===============================================-->
+                <!--   Row username / email -->
+                <!-- ===============================================-->
+                <hr class="text-info">
+                <div class="row">
+                    <h4 class="mb-3 text-info">Nieuwe klant</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label" for="client">Nieuwe klant:</label>
+                        <p>{{ form.client }}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label" for=" e_mail_general">Email:</label>
+                        <p>{{ form.e_mail_general }}</p>
+                    </div>
+                </div>
+
+                    <!-- ===============================================-->
+                    <!--  Manager First and lastname -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="row">
+                    <h4 class="mb-3 text-info">Contactpersoon, naam en functie</h4>
+                         <h5 class="mb-3">Je kunt later meer contactpersonen toevoegen</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="manager_first_name">Voornaam:</label>
+                            <p>{{ form.manager_first_name }}</p>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label" for="manager_last_name">Achternaam:</label>
+                            <p>{{ form.manager_last_name }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="manager_jobtitle">Functie:</label>
+                            <p>{{ form.manager_jobtitle }}</p>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label" for="manager_e_mail">Email, manager:</label>
+                            <p>{{ form.manager_e_mail }}</p>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--  General and mobile number -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="row">
+                    <h4 class="mb-3 text-info">Telefoonnummers</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
+                            <p>{{ form.tel_general }}</p>
+                            <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="manager_mobile_number">Manager, mobiel/direct nummer:</label>
+                            <p>{{ form.manager_mobile_number }}</p>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--  Adress -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="row">
+                    <h4 class="mb-3 text-info">Adres</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label" for="street_number">Straat en huisnummer</label>
+                            <p>{{ form.street_number }}</p>
+                            <span class="form-text text-muted">{{ form.street_number.help_text }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="postal_code">Postcode</label>
+                            <p>{{ form.postal_code }}</p>
+                            <span class="form-text text-muted">{{ form.postal_code.help_text }}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label" for="city">Plaats</label>
+                            <p>{{ form.city }}</p>
+                            <span class="form-text text-muted">{{ form.city.help_text }}</span>
+                        </div>
+                    </div>
+                    <!-- ===============================================-->
+                    <!--  Social media-->
+                    <!-- ===============================================-->
+                    {% include 'members/includes/social_media.html' %}
+                    <!-- ===============================================-->
+                    <!--  Submit button -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="col-12">
+                        <button class="btn btn-warning" type="submit">{{ button_text }}</button>
+                    </div>
+                    <br>
+            </form>
+            <br>
+            {% include 'messages/form_valid_errormelding.html' %}
+
+        </div></div>
+    </html>
+    <!-- end:: Content -->
+{% endblock %}

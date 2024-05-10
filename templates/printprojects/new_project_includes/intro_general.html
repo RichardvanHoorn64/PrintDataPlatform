@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro general</title>
+</head>
+<body>
+<div class="container" id="intro_general">
+    <!-- ===============================================-->
+    <!--   Client title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h4 class="mb-3 text-info">Klant</h4>
+            <h6 class="mb-3">Niet verplicht. Voor eigen gebruik, wordt niet naar leveranciers verzonden.</h6>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <a href="{% url 'create_client' %}" class="btn btn-warning px-5 px-sm-5">
+                + Nieuwe klant aanmaken</a>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row client -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="client_id">
+                Klant  {% if update %}: &nbsp; {{ printproject.client }} {% endif %}</label>
+            <select class="form-select" id="client_id" name="client_id">
+                {% if update %}
+                    <option value="{{ printproject.client_id }}">Wijzig klant</option>
+                {% else %}
+                    <option value="">Geen klantopgave</option>
+                {% endif %}
+                {% for i in clients %}
+                    <option value="{{ i.client_id }}">{{ i.client }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="clientcontact_id">
+                Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>
+            <select class="form-select" id="clientcontact_id" name="clientcontact_id">
+                {% if update %}
+                    <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'
+                {% else %}
+                    <option value="">Geen contactpersoon</option>'
+                {% endif %}
+
+                {% for i in clientcontact_id %}
+                    <option value="{{ i.clientcontact_id }}">{{ i.first_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="client_quotenumber" for="client_quotenumber">Klant ordernr</label>
+            <input class="form-control" type="text" id="client_quotenumber" name="client_quotenumber"
+                    {% if update %}
+                   value="{{ printproject.client_quotenumber }}"
+                    {% endif %}
+                   placeholder="Geen opgave"/>
+        </div>
+    </div>
+    <br>
+    <hr class="text-info">
+    <!-- ===============================================-->
+    <!--   General intro title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <h4 class="mb-3 text-info">Project</h4>
+        {% if update %}
+        <h6 class="mb-3">{{ printproject_title }}</h6>
+        {% endif %}
+    </div>
+    <!-- ===============================================-->
+    <!--   Row productcategory and project title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="productcategory_id">
+                {% if update %}
+                    Categorie: {{ printproject.productcategory }}
+                {% else %}
+                    Kies productcategorie *
+                {% endif %}
+
+            </label>
+            <select class="form-select" id="productcategory_id" name="productcategory_id">
+                {% if update %}
+                    <option value="{{ printproject.productcategory_id }}">Wijzig productcategorie</option>
+                {% else %}
+                    <option value="0">Kies productcategorie</option>
+                {% endif %}
+
+                {% for i in productcategories %}
+                    <option value="{{ i.productcategory_id }}">{{ i.productcategory }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-sm-6 col-md-9">
+            <label class="form-label" for="project_title">Projectnaam *</label>
+            <input type="text" class="form-control" id="project_title" name="project_title"
+                    {% if update %}
+                   value="{{ printproject.project_title }}"
+                    {% else %}
+                   placeholder="Geef een projectnaam op"
+                    {% endif %}/>
+        </div>
+    </div>
+    <br>
+    <!-- ===============================================-->
+    <!--   Row volume, ordernumber and planning -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="volume">Oplage *</label>
+            <input class="form-control" type="text" id="volume" name="volume"
+                    {% if update %}
+                   value="{{ printproject.volume }}"
+                    {% else %}
+                   placeholder="Oplage"
+                    {% endif %}required/>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="own_quotenumber" for="own_quotenumber">Eigen ordernr</label>
+            <input class="form-control" type="text" id="own_quotenumber" name="own_quotenumber"
+                    {% if update %}
+                   value="{{ printproject.own_quotenumber }}"
+                    {% else %}
+                   placeholder="Geen"
+                    {% endif %} />
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="supply_date">aanleverdatum
+                {% if update %}
+                    : &nbsp; {{ printproject.supply_date | date:'d-m-Y ' }}
+                {% endif %}
+            </label>
+            <input class="form-control" id="supply_date" type="date" name="supply_date"
+                    {% if update %}
+                   value="{{ printproject.supply_date }}"
+                    {% endif %}>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="delivery_date">leverdatum
+                {% if update %}
+                    : &nbsp; {{ printproject.delivery_date | date:'d-m-Y ' }}
+                {% endif %}
+            </label>
+            <input class="form-control" type="date" id="delivery_date" name="delivery_date"
+                    {% if update %}
+                   value="{{ printproject.delivery_date }}"
+                    {% endif %}>
+        </div>
+        <!-- ===============================================-->
+        <!--   Row description -->
+        <!-- ===============================================-->
+
+        <div class="col-12 gy-4">
+            <label class="form-label" for="description">Eigen projectomschrijving, wordt niet naar leveranciers
+                verzonden</label>
+            <textarea class="form-control" id="description" name="description"
+                      style="vertical-align: top">{% if update %}{{ printproject.description }}{% else %}Geen
+                projectomschrijving{% endif %}
+            </textarea>
+        </div>
+    </div>
+    <br>
+    <hr class="text-info">
+
+</div>
+<br>
+
+</body>
+</html>

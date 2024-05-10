@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% extends 'skins/skin_open.html' %}
+{% load static %}
+<head title="welkom">
+    <title>Inloggen</title>
+</head>
+<html lang="nl">
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <div class="container-fluid px-0">
+            <div class="container-fluid">
+                <div class="bg-holder bg-auth-card-overlay"
+                     style="background-image:url(https://drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/producent1/inlog_achtergrond.jpg);">
+                </div>
+                <!--/.bg-holder-->
+                <div class="row flex-center position-relative min-vh-100 g-0 py-5">
+                    <div class="col-11 col-sm-10 col-xl-8">
+                        <div class="card border border-300 auth-card">
+                            <div class="card-body pe-md-0">
+                                <div class="row align-items-center gx-0 gy-7">
+                                    <div class="col-auto bg-100 dark__bg-1100 rounded-3 position-relative overflow-hidden auth-title-box">
+                                        <div class="bg-holder"
+                                             style="background-image:url({% static "assets/img/bg/38.png" %});">
+                                        </div>
+                                        <!--/.bg-holder-->
+                                        <div class="position-relative px-4 px-lg-7 pt-7 pb-7 pb-sm-5 text-center text-md-start pb-lg-7 pb-md-7">
+                                            <h3 class="mb-3 text-black fs-1">Inloggen op het PrintDataplatforn</h3>
+                                            <p class="text-700">Neem een voorsprong en bespaar tijd door op het PrintDataPlatform!                                            </p>
+                                            <ul class="list-unstyled mb-0 w-max-content w-md-auto mx-auto">
+                                                <li class="d-flex align-items-center"><span
+                                                        class="uil uil-check-circle text-success me-2"></span><span
+                                                        class="text-700 fw-semi-bold">- Snel</span></li>
+                                                <li class="d-flex align-items-center"><span
+                                                        class="uil uil-check-circle text-success me-2"></span><span
+                                                        class="text-700 fw-semi-bold">- Gemakkelijk</span></li>
+                                                <li class="d-flex align-items-center"><span
+                                                        class="uil uil-check-circle text-success me-2"></span><span
+                                                        class="text-700 fw-semi-bold">- Voorsprong met data</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center mt-md-15">
+                                            <img class="auth-title-box-img d-dark-none"
+                                                 src="{% static "assets/img/spot-illustrations/auth.png" %}"
+                                                 alt=""/><img class="auth-title-box-img d-light-none"
+                                                              src="{% static "assets/img/spot-illustrations/auth-dark.png"%}"
+                                                              alt=""/></div>
+                                    </div>
+                                    <!-- Form -->
+
+
+                                    <div class="col mx-auto">
+                                        <form class="auth-form-box" method="post" action="{% url 'account_login' %}"
+                                              autocomplete="off"> {% csrf_token %}
+                                            <div class="text-center mb-7"><a
+                                                    class="d-flex flex-center text-decoration-none mb-4"
+                                                    href="{% url 'welcome' %}">
+                                                <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
+                                                    <img src="{% static "assets/img/icons/logo.png" %}" alt="phoenix"
+                                                         width="58"/>
+                                                </div>
+                                            </a>
+                                                <h3 class="text-1000">Inloggen</h3>
+                                                <p class="text-700">Op het PrintDataPlatform</p>
+                                            </div>
+                                            <div class="position-relative">
+                                                <hr class="bg-200 mt-5 mb-4"/>
+                                                <div class="divider-content-center bg-white">inloggen</div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label class="form-label" for="login">email adres</label>
+                                                <div class="form-icon-container">
+                                                    <input class="form-control form-icon-input" name="login" id="login"
+                                                           type="email" placeholder="naam@deprintmanager.nl"/><span
+                                                        class="fas fa-user text-900 fs--1 form-icon"></span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label class="form-label" for="password">Wachtwoord</label>
+                                                <div class="form-icon-container">
+                                                    <input class="form-control form-icon-input" name="password"
+                                                           id="password" type="password" placeholder="Wachtwoord"/><span
+                                                        class="fas fa-key text-900 fs--1 form-icon"></span>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-info w-50 mb-3 "><span class="me-3"
+                                                                 data-feather="log-in"> </span>Inloggen</button>
+
+                                            <div class="row flex-between-center mb-2">
+                                                <div class="col-auto"><a class="fs--1 fw-semi-bold text-info"
+                                                                         href="{% url 'account_reset_password' %}">Wachtwoord
+                                                    vergeten?</a></div>
+                                            </div>
+                                                                                    <div class="row flex-between-center mb-7">
+                                                <div class="col-auto"><a class="fs--1 fw-semi-bold text-info"
+                                                                         href="{% url 'home' %}">Terug
+                                                    </a></div>
+                                            </div>
+
+                                            <div class="m3-text-warning">
+                                                {% if form.non_field_errors %}
+                                                    {{ form.non_field_errors }}
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main><
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+{% endblock %}
+</html>
