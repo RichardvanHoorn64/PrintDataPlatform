@@ -29,11 +29,20 @@ def brochure_calculation(user, rfq):
         producer_id=producer_id).purchase_paper_perc_added
 
     # packaging and transport
-    packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
-    packagingoption_id = packagingtariff.packagingoption_id
-    transport = "Verzenden, naar één adres in Nederland"
-    transporttariff = TransportOptions.objects.get(transport=transport)
-    transportoption_id = transporttariff.transportoption_id
+    if not error:
+        try:
+            packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
+            packagingoption_id = packagingtariff.packagingoption_id
+        except Exception as e:
+            error = 'No packagingtariff available, update settings.' + str(e)
+
+    if not error:
+        try:
+            transport = "Verzenden, naar één adres in Nederland"
+            transporttariff = TransportOptions.objects.get(transport=transport)
+            transportoption_id = transporttariff.transportoption_id
+        except Exception as e:
+            error = 'No transporttariff available, update settings.' + str(e)
 
     # Test paper choice availability
     paper_fit_for_rfq = []
@@ -515,7 +524,7 @@ def brochure_calculation(user, rfq):
                                                        row['orderweight_kg'], ), axis=1)
 
         except Exception as e:
-            error = 'Packaging calculation failed.' + str(e)
+            error = 'Packaging calculation failed. Update settings' + str(e)
 
     if not error:
         try:

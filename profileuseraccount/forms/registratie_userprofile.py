@@ -11,38 +11,39 @@ class UserProfileCreationForm(UserCreationForm):
         error_messages={'required': 'Kies een gebruikersnaam'})
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Persoonlijk emailadres'}),
-        error_messages={'required': 'Vul een geldig email adres in!'})
+        error_messages={'required': 'Vul een geldig email adres in!'}, max_length=254)
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Kies een wachtwoord'}))
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Herhaal je wachtwoord'}))
 
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw voornaam'}),
-                                 max_length=30, )
+                                 max_length=100, )
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw achternaam'}),
-                                max_length=30)
+                                max_length=100)
     jobtitle = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw functie'}),
-                               max_length=20, required=False)
+                               max_length=100, required=False)
     mobile_number = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mobiel telefoonnummer'}), max_length=12)
     company = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw bedrijfsnaam'}), max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw bedrijfsnaam'}), max_length=150,
         required=True)
     street_number = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw straat en huisnummer'}),
-        max_length=30)
+        max_length=254)
     tel_general = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw algemeen telefoonnummer'}),
         max_length=30)
 
     e_mail_general = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Algemeen emailadres'}),
-        max_length=30, required=False)
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Algemeen emailadres'}),
+        max_length=254, required=False)
 
     postal_code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Postcode'}),
                                   max_length=7, )
     city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Plaats'}),
                            max_length=30)
+
     linkedin_url = url_field_false
     facebook_url = url_field_false
 

@@ -18,11 +18,20 @@ def plano_folder_calculation(user, rfq):
     calculationsettings = GeneralCalculationSettings.objects.get(producer_id=producer_id)
 
     # packaging and transport
-    packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
-    packagingoption_id = packagingtariff.packagingoption_id
-    transport = "Verzenden, naar één adres in Nederland"
-    transporttariff = TransportOptions.objects.get(transport=transport)
-    transportoption_id = transporttariff.transportoption_id
+    if not error:
+        try:
+            packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
+            packagingoption_id = packagingtariff.packagingoption_id
+        except Exception as e:
+            error = 'No packagingtariff available, update settings.' + str(e)
+
+    if not error:
+        try:
+            transport = "Verzenden, naar één adres in Nederland"
+            transporttariff = TransportOptions.objects.get(transport=transport)
+            transportoption_id = transporttariff.transportoption_id
+        except Exception as e:
+            error = 'No transporttariff available, update settings.' + str(e)
 
     # Test productsize input
     if not error:

@@ -7,7 +7,7 @@ from django.views.generic.edit import FormView
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registratie_userprofile import UserProfileCreationForm
 from profileuseraccount.models import UserProfile
-from allauth.exceptions import ImmediateHttpResponse
+from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.utils import get_request_param
 from allauth.account.utils import (
     complete_signup,
@@ -34,34 +34,21 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
     def dispatch(self, request, *args, **kwargs):
         return super(UserProfileCreateView, self).dispatch(request, *args, **kwargs)
 
-    # def get_form_class(self):
-    #     return get_form_class(app_settings.FORMS, 'signup', self.form_class)
-
-    # def get_success_url(self):
-    #     # Explicitly passed ?next= URL takes precedence
-    #     ret = (
-    #             get_next_redirect_url(
-    #                 self.request,
-    #                 self.redirect_field_name) or self.success_url)
-    #     return ret
-
     def form_valid(self, form):
-        member_plan_id = self.kwargs['plan_id']
         # By assigning the User to a property on the view, we allow subclasses
         # of SignupView to access the newly created User instance
         new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
         form.instance.id = new_id
-        form.instance.member_plan_id = member_plan_id
-        form.instance.language_id = 1
+        form.instance.member_plan_id = self.kwargs['member_plan_id']
 
         self.user = form.save(self.request)
         try:
-             return complete_signup(
-                 self.request, self.user,
-                 ACCOUNT_EMAIL_VERIFICATION,
-                 self.get_success_url())
+            return complete_signup(
+                self.request, self.user,
+                ACCOUNT_EMAIL_VERIFICATION,
+                self.get_success_url())
         except ImmediateHttpResponse as e:
-             return e.response
+            return e.response
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -73,8 +60,7 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
         form = ret['form']
         email = self.request.session.get('account_verified_email')
         if email:
-            email_keys = ['email']
-            email_keys.append('email2')
+            email_keys = ['email', 'email2']
             for email_key in email_keys:
                 form.fields[email_key].initial = email
         login_url = passthrough_next_redirect_url(self.request,
@@ -90,5 +76,3 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
 
 
 signup = UserProfileCreateView.as_view()
-
-

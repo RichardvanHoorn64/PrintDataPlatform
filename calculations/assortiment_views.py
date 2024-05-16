@@ -24,11 +24,11 @@ class AssortimentView(LoginRequiredMixin, TemplateView):
         catalog = Calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by('calculation_id')
 
         try:
-            laatste_upload = catalog[0].upload_date
+            last_upload = catalog[0].upload_date
         except:
-            laatste_upload = None
+            last_upload = None
         context['catalog'] = catalog
-        context['laatste_upload'] = laatste_upload
+        context['last_upload'] = last_upload
         return context
 
 
@@ -306,7 +306,7 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                         offer_value=0,
                         offer_value1000extra=0,
                     )
-                    new_calculation.save(0)
+                    new_calculation.save()
 
             except Exception as e:
                 error = 'File not loaded, error:' + str(e)

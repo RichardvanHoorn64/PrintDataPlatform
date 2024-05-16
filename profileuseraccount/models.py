@@ -11,9 +11,9 @@ class Languages(models.Model):
 
 
 class MemberPlans(models.Model):
-    plan_id = models.AutoField(primary_key=True)
-    memberplan_id = models.PositiveIntegerField(null=True)
-    memberplan = models.CharField(max_length=100, unique=True)
+    id = models.AutoField(primary_key=True)
+    member_plan_id = models.PositiveIntegerField(null=True)
+    producer = models.BooleanField(default=False)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     plan_name = models.CharField(max_length=100)
     plan_tariff = models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -24,7 +24,7 @@ class MemberPlans(models.Model):
     active = models.BooleanField(default=True, blank=True, null=True)
 
     def __str__(self):
-        return self.memberplan
+        return self.plan_name
 
     class Meta:
         verbose_name = 'Member_plan'
@@ -33,6 +33,7 @@ class MemberPlans(models.Model):
 
 class Producers(models.Model):
     producer_id = models.AutoField(primary_key=True)
+    member_plan = models.ForeignKey(MemberPlans, null=True, on_delete=models.SET_NULL)
     manager = models.CharField(max_length=50, blank=True, null=True)
     user_admin = models.PositiveIntegerField(blank=True, null=True)
     company = models.CharField(max_length=100, unique=True)
@@ -48,7 +49,6 @@ class Producers(models.Model):
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
     facebook_url = models.URLField(null=True, blank=True, max_length=200)
 
-    productcategories = models.CharField(null=True, blank=True, max_length=200)
     api_available = models.BooleanField(default=False)
     api_function = models.CharField(max_length=200, blank=True, null=True)
     api_url = models.CharField(max_length=300, blank=True, null=True)
@@ -72,8 +72,11 @@ class Producers(models.Model):
 class Members(models.Model):
     member_id = models.AutoField(primary_key=True)
     member_plan = models.ForeignKey(MemberPlans, null=True, on_delete=models.SET_NULL)
-    exclusive_producer = models.ForeignKey(Producers, null=True, on_delete=models.SET_NULL)
-    expire_date = models.DateTimeField(blank=True)
+    producerplan = models.BooleanField(default=False)
+    exclusive = models.BooleanField(default=False)
+    # This member is exclusive for  producer or is producer
+    exclusive_producer = models.ForeignKey(Producers, null=True,
+                                           on_delete=models.SET_NULL)
     manager = models.CharField(max_length=50, unique=False, default='')
     user_admin = models.PositiveIntegerField(blank=True, null=True)
     company = models.CharField(max_length=100, unique=True)
@@ -88,7 +91,6 @@ class Members(models.Model):
     url = models.URLField(null=True, blank=True, max_length=200)
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
     facebook_url = models.URLField(null=True, blank=True, max_length=200)
-    producer = models.BooleanField(default=False)
     doc_templates = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")

@@ -87,6 +87,8 @@ def translate_dataframe(dataframe):
         empty_cols = ['folding', 'print_front', 'print_rear', 'pressvarnish_front', 'pressvarnish_rear',
                       'enhance_front', 'enhance_rear', 'number_pms_colors_front', 'number_pms_colors_rear',
                       'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
+        dataframe['printsided'] = 2
+        dataframe['enhance_sided'] = 1
 
     for col in empty_cols:
         try:
@@ -122,20 +124,35 @@ def translate_dataframe(dataframe):
         if col == 'bedrukking':
             dataframe['print_booklet'] = dataframe['bedrukking']
 
+        if col == 'bedrukking_bw':
+            dataframe['print_booklet'] = dataframe['bedrukking_bw']
+
         if col == 'persvernis':
             dataframe['pressvarnish_booklet'] = dataframe['persvernis']
 
         if col == 'papiersoort':
             dataframe['paperbrand'] = dataframe['papiersoort']
 
+        if col == 'papiersoort_bw':
+            dataframe['paperbrand'] = dataframe['papiersoort_bw']
+
         if col == 'papiergewicht_m2':
             dataframe['paperweight'] = (dataframe['papiergewicht_m2'])
+
+        if col == 'papiergewicht_m2_bw':
+            dataframe['paperweight'] = (dataframe['papiergewicht_m2_bw'])
 
         if col == 'papierkleur':
             dataframe['papercolor'] = dataframe['papierkleur']
 
+        if col == 'papierkleur_bw':
+            dataframe['papercolor'] = dataframe['papierkleur_bw']
+
         if col == 'aantal_pms_kleuren':
             dataframe['number_pms_colors_booklet'] = dataframe['aantal_pms_kleuren']
+
+        if col == 'aantal_pms_kleuren_bw':
+            dataframe['number_pms_colors_booklet'] = dataframe['aantal_pms_kleuren_bw']
 
         if col == 'aantal_pms_kleuren_voorzijde':
             dataframe['number_pms_colors_front'] = dataframe['aantal_pms_kleuren_voorzijde']

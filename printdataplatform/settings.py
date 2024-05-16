@@ -190,7 +190,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # 1 day in seconds
+
 # ACCOUNT_RATE_LIMITS['login_failed']
 SIGNUP_EMAIL_ENTER_TWICE = True
 AUTHENTICATION_METHOD = 'username_email'
@@ -227,7 +227,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 
 AUTHENTICATION_BACKENDS = (
@@ -268,22 +267,24 @@ SITE_ID = 1
 
 STATIC_URL = 'static/'
 
-if not DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
+
+if not DEBUG:
     DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
     STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
 
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
 
-    AZURE_ACCOUNT_NAME = "printdataopslag"
+    AZURE_ACCOUNT_NAME = "printdataplatform"
     AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
-else:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

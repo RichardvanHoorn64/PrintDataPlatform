@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import timedelta
 from members.forms.accountforms import MemberUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.signals import got_request_exception
@@ -15,23 +15,24 @@ def log(*args, **kwargs):
     logging.exception('error', args, kwargs)
 
 
-class SignupWelkomView(TemplateView):
-    got_request_exception.connect(log)
-    template_name = 'homepage/startpage.html'
-
-
-class TestView(TemplateView):
-    def get_template_names(self):
-        template_name = 'homepage/components/pricing.html'
-        return template_name
-
-
 class NoAccessView(TemplateView):
     template_name = 'no_access.html'
 
 
 class WaitForApproval(TemplateView):
     template_name = 'wait_for_approval.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif user.is_authenticated and user.member_id and user.member.member_plan_id == 4:
+            return redirect('/producer_sales_dashboard/0')
+
+        elif user.is_authenticated and user.member_id and user.member.member_plan_id != 4:
+            return redirect('/printdataplatform_dashboard/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class ThanksSubmitView(TemplateView):
@@ -45,6 +46,12 @@ class SignupLandingView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
+        memberplan = MemberPlans.objects.get(member_plan_id=user.member_plan_id)
+
+        if memberplan.producer:
+            producerplan = True
+        else:
+            producerplan = False
 
         if not user.is_authenticated:
             return redirect('/welcome/')
@@ -60,17 +67,46 @@ class SignupLandingView(TemplateView):
                 street_number=user.street_number,
                 postal_code=user.postal_code,
                 city=user.city,
-                expire_date=datetime.now() + timedelta(days=30),
-                member_plan_id=user.member_plan_id,
-                language_id=1,
+                member_plan_id=memberplan.member_plan_id,
+                language_id=memberplan.language_id,
+                producerplan=producerplan,
             )
 
             try:
                 new_member.save()
                 my_profile = UserProfile.objects.get(id=user.id)
                 my_profile.member_id = new_member.member_id
-                my_profile.member_plan_id = 1
+                my_profile.member_plan_id = new_member.member_plan_id
                 my_profile.language_id = 1
+                my_profile.save()
+            except Exception as e:
+                print('SignupLandingView error: ', e)
+                pass
+
+        else:
+            pass
+
+        if producerplan and not user.producer_id:
+            new_producer = Producers(
+                active=False,
+                user_admin=user.id,
+                company=user.company,
+                manager=user.first_name + " " + user.last_name,
+                tel_general=user.tel_general,
+                e_mail_general=user.e_mail_general,
+                street_number=user.street_number,
+                postal_code=user.postal_code,
+                city=user.city,
+                member_plan_id=memberplan.member_plan_id,
+                language_id=memberplan.language_id,
+            )
+
+            try:
+                new_producer.save()
+                my_profile = UserProfile.objects.get(id=user.id)
+                my_profile.producer_id = new_producer.producer_id
+                my_profile.member_plan_id = new_producer.member_plan_id
+                my_profile.language_id = memberplan.language_id
                 my_profile.save()
             except Exception as e:
                 print('SignupLandingView error: ', e)
@@ -82,7 +118,7 @@ class SignupLandingView(TemplateView):
         try:
             new_member_confirmationmail(user)
         except Exception as e:
-            print('SignupLandingViewe error: ', e)
+            print('SignupLandingView error: ', e)
             pass
 
         return redirect('/printproject_dashboard/0')

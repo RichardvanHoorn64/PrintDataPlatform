@@ -5,7 +5,6 @@ from django.views.generic.edit import CreateView, UpdateView
 
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registratie_userprofile import *
-from profileuseraccount.forms.regristratie_forms import *
 from profileuseraccount.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages

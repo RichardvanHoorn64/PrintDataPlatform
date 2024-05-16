@@ -112,10 +112,20 @@
                                                 style="width:40%; min-width: 100px;">Papiersoort
                                             </th>
                                             <th class="align-middle text-start pe-3" scope="col"
-                                                style="width:10%; min-width: 100px;">Ecolabel
-                                            </th>
-                                            <th class="align-middle text-start pe-3" scope="col"
                                                 style="width:10%; min-width: 100px;">FSC Keurmerk
+                                            </th>
+
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
+                                                Folders
+                                            </th>
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
+                                               Brochure omslag
+                                            </th>
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
+                                                Brochure binnenwerk
+                                            </th>
+                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
+                                                Link
                                             </th>
                                             <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
                                                 Omschrijving
@@ -135,6 +145,13 @@
                                                     {% endif %}
                                                 <td class="ranking align-middle white-space-nowrap text-900 fs--1 text-start">{{ paperbrand.fsc }}</td>
                                                 <td class="producer align-middle fw-semi-bold text-1000">{{ paperbrand.description }}</td>
+                                             <td class="producer align-middle fw-semi-bold text-1000">
+                                                 {% if paperbrand.folders %}
+                                                 Ja
+                                                 {%  else %}
+                                                 Nee
+                                                 {% endif %} 
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -164,11 +181,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
                 <!-- ===============================================-->
                 <!--    End of Main Content-->
                 <!-- ===============================================-->
-
+            </div>
+        </div>
+    </div>
     </body>
 {% endblock %}
 

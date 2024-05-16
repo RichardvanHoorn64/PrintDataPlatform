@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
-
 from index.models import Conditions, Faqs
 from profileuseraccount.models import MemberPlans
 
@@ -23,10 +22,10 @@ class WelcomeView(TemplateView):
         elif user.is_authenticated and not user.member.active:
             return redirect('/wait_for_approval/')
 
-        elif user.is_authenticated and user.member_id and user.member.memberplan_id == 4:
+        elif user.is_authenticated and user.member_id and user.member.member_plan_id == 4:
             return redirect('/producer_sales_dashboard/0')
 
-        elif user.is_authenticated and user.member_id and user.member.memberplan_id != 4:
+        elif user.is_authenticated and user.member_id and user.member.member_plan_id != 4:
             return redirect('/printdataplatform_dashboard/')
 
         else:
@@ -37,11 +36,13 @@ class HomeView(TemplateView):
     template_name = 'homepage/startpage.html'
 
     def get_context_data(self, *args, **kwargs):
+        language_id = 1
+
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['plan1'] = MemberPlans.objects.filter(memberplan=1).first()
-        context['plan2'] = MemberPlans.objects.filter(memberplan=2).first()
-        context['plan3'] = MemberPlans.objects.filter(memberplan=3).first()
-        context['plan4'] = MemberPlans.objects.filter(memberplan=4).first()
+        context['plan1'] = MemberPlans.objects.filter(member_plan_id=1, language_id=language_id).first()
+        context['plan2'] = MemberPlans.objects.filter(member_plan_id=2, language_id=language_id).first()
+        context['plan3'] = MemberPlans.objects.filter(member_plan_id=3, language_id=language_id).first()
+        context['plan4'] = MemberPlans.objects.filter(member_plan_id=4, language_id=language_id).first()
 
         return context
 
