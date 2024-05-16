@@ -46,28 +46,6 @@ def printerfilter_booklet(printer_id, rfq):
     return printerfilter
 
 
-def printerfilter_cover(printer_id, rfq):
-    printerfilter = 'fit'
-    printer = Printers.objects.get(printer_id=printer_id)
-
-    number_pms_colors = rfq.number_pms_colors_front + rfq.number_pms_colors_rear
-    if number_pms_colors > 0 and not printer.pms_offered:
-        printerfilter = 'not fit'
-
-    pressvarnish = rfq.pressvarnish_front + rfq.pressvarnish_rear
-    if int(pressvarnish) > 0 and not printer.varnish_unit:
-        printerfilter = 'not fit'
-
-    number_of_colors_cover = calculate_number_of_colors_cover(rfq, printer.varnish_unit)
-    number_of_colors_rear_cover = calculate_number_of_colors_rear_cover(rfq, printer.varnish_unit)
-
-    max_number_of_colors = max(number_of_colors_cover, number_of_colors_rear_cover)
-    if printer.max_number_colors >= max_number_of_colors:
-        printerfilter = 'not fit'
-
-    return printerfilter
-
-
 #  calculate number of booklet pages per printer
 def pages_per_sheet_booklet_calculation(printer_id, katernheight8_mm, katernwidth8_mm):
     printer = Printers.objects.get(printer_id=printer_id)
@@ -106,24 +84,6 @@ def paperidselector_booklet(printer_id, pages_per_sheet_booklet, paper_fit_for_r
         'paperspec_id'].iloc[0]
 
     return paperspec_id_booklet
-
-
-def height_mm_cover_plano_calculation(portrait_landscape, rfq, book_thickness):
-    if portrait_landscape == 'staand':
-        height = rfq.height_mm_product
-    else:
-        height = rfq.width_mm_product + int(math.ceil(book_thickness / 2))
-
-    return height
-
-
-def width_mm_cover_plano_calculation(portrait_landscape, rfq, book_thickness):
-    if portrait_landscape == 'staand':
-        width = rfq.width_mm_product + int(math.ceil(book_thickness / 2))
-    else:
-        width = rfq.height_mm_product
-
-    return 2 * width
 
 
 def multiple_of4(number_of_pages):
@@ -262,7 +222,6 @@ def filter_foldingmachines_fit_rfq(producer_id, rfq):
     return fit_foldingmachines_rfq
 
 
-# bepaal foldingmachine voor binnenwerken
 def filter_foldingmachines_booklet(fit_foldingmachines_rfq, katern_width_mm, katern_height_mm,
                                    pages_per_sheet_booklet):
     fit_foldingmachines_booklet = fit_foldingmachines_rfq
@@ -520,22 +479,6 @@ def foldingwaste_booklet_calculation(set_up, volume, foldingfactor, paper_width_
     return foldingwaste
 
 
-def foldingcalculation1000extra(foldingmachine, number_of_katerns, paper_width, paper_height):
-    perc_wastefactor = 1.0 + float(foldingmachine.paperwaste_1000sheet_perc / 100)
-    volume_1000extra = 1000 * perc_wastefactor
-    runlength_1000extra = 0.0
-
-    if foldingmachine.sheet_input == '1':
-        runlength_1000extra = (paper_height + foldingmachine.margin_katern_mm) * number_of_katerns * volume_1000extra
-
-    if foldingmachine.sheet_input == '2':
-        runlength_1000extra = (paper_width + foldingmachine.margin_katern_mm) * number_of_katerns * volume_1000extra
-
-    runtime_1000extra_minutes = (runlength_1000extra * 0.001) / float(foldingmachine.meter_per_hour)
-    foldingcost_1000extra = runtime_1000extra_minutes * float(foldingmachine.tariff_eur_hour / 60)
-    return foldingcost_1000extra
-
-
 def calculate_number_of_rest_pages(number_of_pages, pages_per_sheet_booklet):
     aantal_sheet_compleet = math.floor(number_of_pages / pages_per_sheet_booklet)
     number_of_pages_compleet_productie = aantal_sheet_compleet * pages_per_sheet_booklet
@@ -581,9 +524,6 @@ def calculate_net_paper_quantity_incomplete_booklet(volume, number_of_rest_pages
 def calculate_net_paper_quantity_complete_booklet(volume, number_of_sheets_complete_booklet, ):
     net_paper_quantity_complete_booklet = (volume * number_of_sheets_complete_booklet)
     return net_paper_quantity_complete_booklet
-
-
-# waste binding cove
 
 
 def bindingwaste_booklet_calculation(bindingmachine_id, net_paper_quantity_booklet_total):
@@ -683,7 +623,6 @@ def printingwaste_booklet_calculation(rfq, printer_id, printingwaste_booklet1000
     return printingwaste_booklet
 
 
-# snijden binnenwerk
 def define_cuttingmachine_booklet(producer_id, paperspec_id, number_of_sheets_incomplete_booklet, foldingfactor):
     cuttingmachine_id = 0
     if number_of_sheets_incomplete_booklet > 0 or foldingfactor > 0:

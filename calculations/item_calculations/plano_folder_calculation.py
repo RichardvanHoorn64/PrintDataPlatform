@@ -1,4 +1,3 @@
-from assets.models import *
 from calculations.functions.function_save_calculation import save_calculation
 from calculations.functions.functions_folders import *
 from calculations.functions.functions_general import *
@@ -231,13 +230,13 @@ def plano_folder_calculation(user, rfq):
                 # printing_runtime_calculation(rfq, printer_id, paper_quantity, items_per_sheet):
                 calculation_plano['printing_runtime'] = calculation_plano.apply(
                     lambda row: printing_runtime_calculation(rfq, row['printer_id'], row['paper_quantity'],
-                                                             row['items_per_sheet'], rfq.paperweight),
+                                                             rfq.paperweight),
                     axis=1)
 
                 calculation_plano['printing_runtime1000extra'] = calculation_plano.apply(
                     lambda row: printing_runtime_calculation(rfq, row['printer_id'],
                                                              row['paper_quantity1000extra'],
-                                                             row['items_per_sheet'], rfq.paperweight),
+                                                             rfq.paperweight),
                     axis=1)
 
                 calculation_plano['printingcost'] = calculation_plano.apply(
@@ -381,12 +380,10 @@ def plano_folder_calculation(user, rfq):
             except Exception as e:
                 error = 'No order_startcost defined:' + str(e)
 
-
-
         if not error:
             try:
                 calculation_plano['total_cost'] = (
-                    calculation_plano['order_startcost'] +
+                        calculation_plano['order_startcost'] +
                         calculation_plano['printingcost'] +
                         calculation_plano['cuttingcost'] +
                         calculation_plano['enhancecost'] +
@@ -412,22 +409,21 @@ def plano_folder_calculation(user, rfq):
             except Exception as e:
                 error = "Total cost calculation plano product failed: " + str(error) + str(e)
 
-
     if not error:
         try:
             calculation_plano['added_value'] = calculation_plano.apply(
                 lambda row: added_value_plano_calculation(producer_id, rfq,
-                                                            row['total_cost'], row['papercost'],
-                                                            row['foldingmachine'], row['foldingcost'],
-                                                            row['inkcost'], row['purchase_plates'],
-                                                            row['paperspec_id'], row['enhancecost']), axis=1)
+                                                          row['total_cost'], row['papercost'],
+                                                          row['foldingmachine'], row['foldingcost'],
+                                                          row['inkcost'], row['purchase_plates'],
+                                                          row['paperspec_id'], row['enhancecost']), axis=1)
 
             calculation_plano['added_value1000extra'] = calculation_plano.apply(
                 lambda row: added_value_plano_calculation(producer_id, rfq,
-                                                            row['total_cost1000extra'], row['papercost1000extra'],
-                                                            row['foldingmachine'], row['foldingcost1000extra'],
-                                                            row['inkcost1000extra'], 0,
-                                                            row['paperspec_id'], row['enhancecost']), axis=1)
+                                                          row['total_cost1000extra'], row['papercost1000extra'],
+                                                          row['foldingmachine'], row['foldingcost1000extra'],
+                                                          row['inkcost1000extra'], 0,
+                                                          row['paperspec_id'], row['enhancecost']), axis=1)
 
             calculation_plano['perc_added_value'] = calculation_plano.apply(
                 lambda row: perc_added_value_calculation(row['total_cost'], row['added_value'], ), axis=1)
@@ -463,17 +459,10 @@ def plano_folder_calculation(user, rfq):
                 'memberdiscount']
 
             calculation_plano['offer_value1000extra'] = calculation_plano['total_cost1000extra'] - \
-                                                          calculation_plano[
-                                                              'memberdiscount1000extra']
+                                                        calculation_plano[
+                                                            'memberdiscount1000extra']
         except Exception as e:
             error = 'Brochure calculation not completed.' + str(e)
-    
-    
-    
-    
-    
-    
-
 
     #  Save best offer---------------------------------------------------------------------------------------------
     best_offer = []

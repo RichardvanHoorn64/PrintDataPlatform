@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from assets.models import *
 from materials.models import *
-from printprojects.models import MemberProducerMatch, MemberProducerSalesAllowance
+from printprojects.models import MemberProducerSalesAllowance
 from producers.models import *
 
 
@@ -12,6 +12,7 @@ def productsize_check(rfq):
     if not rfq.height_mm_product or not rfq.width_mm_product:
         error = 'No productsize defined.'
         return error
+
 
 def paper_available_plano(rfq, producer_id):
     paper = PaperCatalog.objects.filter(producer_id=producer_id, paperbrand=rfq.paperbrand,
@@ -259,7 +260,7 @@ def printing_starttime_calculation(rfq, printer_id, items_per_sheet):
     return printing_starttime
 
 
-def printing_runtime_calculation(rfq, printer_id, paper_quantity, items_per_sheet, paperweight_m2):
+def printing_runtime_calculation(rfq, printer_id, paper_quantity, paperweight_m2):
     printer = Printers.objects.get(printer_id=printer_id)
     paperweight_m2 = int(paperweight_m2)
     printing_runtime = float(paper_quantity / printer.productionspeed_sheets_hour) * 60.0
@@ -391,8 +392,6 @@ def paperprice_1000sheets_calculation(producer_id, paperspec_id):
     return paperprice_1000sheets
 
 
-# Berekening papiercost
-
 def papercost_calculation(paper_quantity, paperprice_1000sheets):
     papercost = float(paper_quantity) * float(paperprice_1000sheets) * float(0.001)
     return papercost
@@ -405,16 +404,6 @@ def papiertoeslag(producer_id, papiercost_input):
     else:
         toeslag = float(perc / 100) * papiercost_input
     return toeslag
-
-
-def inkoop_papier(papier_code, aantaldrukvelbruto, producer_id):
-    paksinhoud_test = PaperCatalog.objects.get(paperspec_id=papier_code, producer_id=producer_id).paksinhoud
-
-    try:
-        inkoop_papier_calc = int(math.ceil(aantaldrukvelbruto / paksinhoud)) * paksinhoud_test
-    except:
-        inkoop_papier_calc = aantaldrukvelbruto
-    return inkoop_papier_calc
 
 
 def paksinhoud(papier_code, producer_id):

@@ -201,13 +201,13 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             # printing_runtime_calculation(rfq, printer_id, paper_quantity, items_per_sheet):
             calculation_cover['printing_runtime_cover'] = calculation_cover.apply(
                 lambda row: printing_runtime_calculation(rfq, row['printer_id_cover'], row['paper_quantity_cover'],
-                                                         row['items_per_sheet_cover'], rfq.paperweight_cover),
+                                                         rfq.paperweight_cover),
                 axis=1)
 
             calculation_cover['printing_runtime_cover1000extra'] = calculation_cover.apply(
                 lambda row: printing_runtime_calculation(rfq, row['printer_id_cover'],
                                                          row['paper_quantity_cover1000extra'],
-                                                         row['items_per_sheet_cover'], rfq.paperweight_cover),
+                                                         rfq.paperweight_cover),
                 axis=1)
 
             calculation_cover['printingcost_cover'] = calculation_cover.apply(
