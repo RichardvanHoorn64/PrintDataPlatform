@@ -58,8 +58,7 @@ class NewProducerForm(forms.ModelForm):
     class Meta:
         model = Producers
         fields = ('company', 'tel_general', 'e_mail_general', 'street_number', 'postal_code', 'city',
-                  'manager',
-                  'manager_e_mail')
+                  'manager', 'manager_e_mail')
 
 
 class NewProducerContactForm(forms.ModelForm):

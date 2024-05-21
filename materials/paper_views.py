@@ -7,25 +7,29 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
+from index.exclusive_functions import define_exclusive_producer_id
 from materials.models import *
 from materials.papercatalog_uploadform import UploadProducerPaperCatalogCSVForm
 
 
-class PaperBrands(LoginRequiredMixin, TemplateView):
+class PaperBrandsDisplay(LoginRequiredMixin, TemplateView):
     template_name = "materials/paper_brands.html"
     pk_url_kwarg = 'papercategory_id'
 
     def get_context_data(self, **kwargs):
-        context = super(PaperBrands, self).get_context_data(**kwargs)
+        context = super(PaperBrandsDisplay, self).get_context_data(**kwargs)
         papercategory_id = self.kwargs['papercategory_id']
+        user = self.request.user
+
+        exclusive_producer_id = define_exclusive_producer_id(user)
 
         if papercategory_id == 0:
-            paperbrand_list = PaperBrand.objects.all()
+            paperbrand_list = PaperBrands.objects.filter(producer_id=exclusive_producer_id)
         else:
-            papercategory = PaperCategoryReference.objects.get(papercategory_id=papercategory_id).papercategory
-            paperbrand_list = PaperBrandReference.objects.filter(papercategory=papercategory)
+            papercategory = PaperCategories.objects.get(papercategory_id=papercategory_id).papercategory
+            paperbrand_list = PaperBrands.objects.filter(papercategory=papercategory, producer_id=exclusive_producer_id)
         context['paperbrand_list'] = paperbrand_list
-        context['papercategory_list'] = PaperCategoryReference.objects.all()
+        context['papercategory_list'] = PaperCategories.objects.filter(producer_id=exclusive_producer_id)
         return context
 
 
@@ -149,7 +153,7 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
                     paperweight_m2=row['paperweight_m2'],
                     paper_height_mm=row['paper_height_mm'],
                     paper_width_mm=row['paper_width_mm'],
-                    paper_surface =row['paper_height_mm'] * row['paper_width_mm'],
+                    paper_surface=row['paper_height_mm'] * row['paper_width_mm'],
                     fiber_direction=row['fiber_direction'],
                     paper_thickening=row['paper_thickening'],
                     sheets_per_pack=row['sheets_per_pack'],
@@ -169,23 +173,30 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
 
         # papercategory dropdown
         try:
-            old_paperpapercategories = ProducerPaperCategory.objects.filter(producer_id=producer_id)
-            for old_papercategory in old_paperpapercategories:
+            old_papercategories = PaperCategories.objects.filter(producer_id=producer_id)
+            for old_papercategory in old_papercategories:
                 old_papercategory.delete()
 
-            new_paperbandlist = pd.DataFrame(
+            new_papercategorylist = pd.DataFrame(
                 new_catalog[['producer_id', 'papercategory']].drop_duplicates())
 
-            for index, row in new_paperbandlist.iterrows():
-                new_papercategories = PaperBrand(
-                    producer_id=row['producer_id'],
-                    upload_date=upload_date,
-                    papercategory=row['papercategory'],
-                )
-                new_papercategories.save()
+            for index, row in new_papercategorylist.iterrows():
+                if len(PaperCategories.objects.filter(papercategory=row['papercategory'],producer_id=producer_id)) == 0:
+                    new_papercategory = PaperCategories(
+                        papercategory=row['papercategory'],
+                        producer_id=row['producer_id'],
+                    )
+                    new_papercategory.save()
+
+            for index, row in new_papercategorylist.iterrows():
+                if len(PaperCategories.objects.filter(papercategory=row['papercategory'],producer_id=None)) == 0:
+                    new_general_papercategory = PaperCategories(
+                        papercategory=row['papercategory'],
+                    )
+                    new_general_papercategory.save()
 
         except Exception as e:
-            error = 'Paperbrands not loaded:' + str(e)
+            error = 'Papercategories not loaded:' + str(e)
             print(error)
             return render(request, self.template, {'form': form,
                                                    'instruction': 'Correct file, please refresh page and try again',
@@ -196,7 +207,7 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
 
         # paperbrand dropdown
         try:
-            old_paperbands = PaperBrand.objects.filter(producer_id=producer_id)
+            old_paperbands = PaperBrands.objects.filter(producer_id=producer_id)
             for old_paperband in old_paperbands:
                 old_paperband.delete()
 
@@ -204,13 +215,22 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
                 new_catalog[['producer_id', 'papercategory', 'paperbrand']].drop_duplicates())
 
             for index, row in new_paperbandlist.iterrows():
-                new_paperbands = PaperBrand(
+                new_paperbands = PaperBrands(
                     producer_id=row['producer_id'],
                     upload_date=upload_date,
                     papercategory=row['papercategory'],
                     paperbrand=row['paperbrand'],
                 )
                 new_paperbands.save()
+
+            for index, row in new_paperbandlist.iterrows():
+                if len(PaperBrands.objects.filter(papercategory=row['papercategory'],paperbrand=row['paperbrand'], producer_id=None)) == 0:
+                    new_general_paperbrand = PaperBrands(
+                        upload_date=upload_date,
+                        papercategory=row['papercategory'],
+                        paperbrand=row['paperbrand'],
+                    )
+                    new_general_paperbrand.save()
 
         except Exception as e:
             error = 'Paperbrands not loaded:' + str(e)
@@ -240,6 +260,16 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
                     paperweight_m2=row['paperweight_m2'],
                 )
                 new_paperweights.save()
+
+            for index, row in new_paperweightslist.iterrows():
+                if len(PaperWeights.objects.filter(papercategory=row['papercategory'],paperbrand=row['paperbrand'], paperweight_m2=row['paperweight_m2'], producer_id=None)) == 0:
+                    new_general_paperweight = PaperWeights(
+                        upload_date=upload_date,
+                        papercategory=row['papercategory'],
+                        paperbrand=row['paperbrand'],
+                        paperweight_m2=row['paperweight_m2'],
+                    )
+                    new_general_paperweight.save()
 
         except Exception as e:
             error = 'New_paperweights not loaded:' + str(e)

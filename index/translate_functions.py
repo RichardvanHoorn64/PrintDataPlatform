@@ -1,5 +1,13 @@
 from methods.models import *
 
+empty_cols_folders = ['print_booklet', 'pressvarnish_booklet', 'finishing_brochures', 'number_of_pages',
+                      'number_pms_colors_booklet',
+                      'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
+
+empty_cols_brochures = ['folding', 'print_front', 'print_rear', 'pressvarnish_front', 'pressvarnish_rear',
+                        'enhance_front', 'enhance_rear', 'number_pms_colors_front', 'number_pms_colors_rear',
+                        'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
+
 
 def find_enhancement_id(rfq_input):
     try:
@@ -9,45 +17,45 @@ def find_enhancement_id(rfq_input):
     return enhancement_id
 
 
-def find_finishingmethod_id(rfq_input):
+def find_brochure_finishingmethod_id(rfq_input):
     try:
-        finishingmethod_id = BrochureFinishingMethods.objects.get(finishingmethod=rfq_input).finishingmethod_id
+        brochure_finishingmethod_id = BrochureFinishingMethods.objects.get(finishingmethod=rfq_input).finishingmethod_id
     except BrochureFinishingMethods.DoesNotExist:
-        finishingmethod_id = 0
-    return finishingmethod_id
+        brochure_finishingmethod_id = 0
+    return brochure_finishingmethod_id
 
 
-def find_foldingmethod_id(rfq_input):
+def find_foldingspecs(rfq_input):
     try:
-        foldingmethod = FoldingMethods.objects.get(foldingmethod=rfq_input).foldingmethod_id
+        folding = FoldingMethods.objects.get(foldingmethod=rfq_input).foldingmethod_id
+        foldingmethod_id = folding.foldingmethod_id
+        number_of_pages = folding.number_of_pages
+
     except FoldingMethods.DoesNotExist:
-        foldingmethod = 0
-    return foldingmethod
+        foldingmethod_id = 0
+        number_of_pages = 0
+    return foldingmethod_id, number_of_pages
 
 
 def find_orientation(rfq_input):
     orientation = 0
-    if rfq_input in ['Staand', 'staand', 'Portrait', 'portrait']:
+    if rfq_input in [1, 'Staand', 'staand', 'Portrait', 'portrait']:
         orientation = 1
-    if rfq_input in ['Liggend' 'liggend', 'Landscape', 'landscape']:
+    if rfq_input in [2, 'Liggend' 'liggend', 'Landscape', 'landscape']:
         orientation = 2
-    if rfq_input in ['Vierkant' 'vierkoant', 'Square', 'square']:
+    if rfq_input in [3, 'Vierkant' 'vierkant', 'Square', 'square']:
         orientation = 3
     return orientation
 
 
 def modify_printsided(rfq_input):
     printsided = 0
-    if rfq_input in [1, 'Eenzijdig']:
+    if rfq_input in [1, 'Eenzijdig', 'Alleen voorzijde', 'Alleen achterzijde']:
         printsided = 1
     if rfq_input in [2, 'Tweezijdig gelijk']:
         printsided = 2
     if rfq_input in [3, 'Tweezijdig verschillend']:
         printsided = 3
-    if rfq_input in [4, 'Alleen voorzijde']:
-        printsided = 4
-    if rfq_input in [5, 'Alleen achterzijde']:
-        printsided = 5
 
     return printsided
 
@@ -79,14 +87,10 @@ def translate_dataframe(dataframe):
     empty_cols = []
 
     if dataframe.productcategory_id[0] == 2:  # Folders
-        empty_cols = ['print_booklet', 'pressvarnish_booklet', 'finishing_brochures', 'number_of_pages',
-                      'number_pms_colors_booklet',
-                      'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
+        empty_cols = empty_cols_folders
 
     if dataframe.productcategory_id[0] in [4, 5]:  # Brochures
-        empty_cols = ['folding', 'print_front', 'print_rear', 'pressvarnish_front', 'pressvarnish_rear',
-                      'enhance_front', 'enhance_rear', 'number_pms_colors_front', 'number_pms_colors_rear',
-                      'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
+        empty_cols = empty_cols_brochures
         dataframe['printsided'] = 2
         dataframe['enhance_sided'] = 1
 

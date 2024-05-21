@@ -1,79 +1,4 @@
-// Dropdown paper choiches----------------------------------------------------------------------------------->
-
-// get productcategory selected -------------------------------------------------------------------------------->
-const productCategoryInput = document.getElementById('productcategory_id');
-
-
-// select papercategorie
-productCategoryInput.addEventListener('change', e => {
-    const selectedProductCategoryId = e.target.value
-    const cover = ["4", "5"].includes(selectedProductCategoryId);
-    const brochure = ["3", "4", "5"].includes(selectedProductCategoryId);
-    console.log("productCategoryInputId: ", selectedProductCategoryId);
-
-    $.ajax({
-        type: 'GET', url: `/papercategory_json/${selectedProductCategoryId}`, success: function (response) {
-            console.log(response.data)
-            data = response.data
-
-            let html_data = '<option value="">Kies papiercategorie</option>'
-            data.forEach(function (data) {
-                html_data += `<option value="${data.papercategory_id}">${data.papercategory}</option>`
-
-            })
-            $("#papercategory").html(html_data)
-
-        }, error: function (error) {
-            console.log(error)
-        }
-    });
-
-    if (cover === true) {
-        console.log("Cover true");
-        $.ajax({
-            type: 'GET', url: `/papercategory_cover_json`,
-
-            success: function (response) {
-                console.log("coverdata: ", response.data)
-                data = response.data
-
-                let html_data = '<option value="">Kies papiercategorie</option>'
-                data.forEach(function (data) {
-                    html_data += `<option value="${data.papercategory_id}">${data.papercategory}</option>`
-
-                })
-                $("#papercategory_cover").html(html_data)
-
-            }, error: function (error) {
-                console.log("covererror: ", error)
-            }
-        })
-    }
-    ;
-
-    if (brochure === true) {
-        console.log("Start finishing options")
-        $.ajax({
-            type: 'GET', url: `/brochure_finishingmethods_json/${selectedProductCategoryId}`,
-
-            success: function (response) {
-                console.log("finishingmethoddata: ", response.data)
-                data = response.data
-
-                let html_data = '<option value="">Kies nabewerking</option>'
-                data.forEach(function (data) {
-                    html_data += `<option value="${data.finishingmethod}">${data.finishingmethod}</option>`
-
-                })
-                $("#finishing_brochures").html(html_data)
-
-            }, error: function (error) {
-                console.log("finishingmethod error: ", error)
-            }
-        })
-    }
-    ;
-});
+// Dropdown paper choices----------------------------------------------------------------------------------->
 
 
 // get paperscategory selected -------------------------------------------------------------------------------->
@@ -92,7 +17,7 @@ paperCategoryInput.addEventListener('change', e => {
             console.log(response.data);
             data = response.data
 
-            let html_data = '<option value="">Geen merkvoorkeur</option>'
+            let html_data = '<option value="">Kies papiermerk</option>'
             data.forEach(function (data) {
                 html_data += `<option value="${data.paperbrand_id}">${data.paperbrand}</option>`
 
@@ -112,12 +37,11 @@ const paperBrandInput = document.getElementById('paperbrand')
 // select paperweight
 paperBrandInput.addEventListener('change', e => {
     const selectedPaperBrandId = e.target.value
-    const productCategoryId = document.getElementById('productcategory_id').value;
     console.log("selectedBrandId: ", selectedPaperBrandId);
 
 
     $.ajax({
-        type: 'GET', url: `/paperweight_json/${selectedPaperBrandId}/${productCategoryId}`,
+        type: 'GET', url: `/paperweight_json/${selectedPaperBrandId}`,
 
         success: function (response) {
             console.log(response.data)

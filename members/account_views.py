@@ -1,5 +1,6 @@
 import logging
 from datetime import timedelta
+from index.categories_groups import *
 from members.forms.accountforms import MemberUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.signals import got_request_exception
@@ -17,22 +18,6 @@ def log(*args, **kwargs):
 
 class NoAccessView(TemplateView):
     template_name = 'no_access.html'
-
-
-class WaitForApproval(TemplateView):
-    template_name = 'wait_for_approval.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif user.is_authenticated and user.member_id and user.member.member_plan_id == 4:
-            return redirect('/producer_sales_dashboard/0')
-
-        elif user.is_authenticated and user.member_id and user.member.member_plan_id != 4:
-            return redirect('/printdataplatform_dashboard/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
 
 
 class ThanksSubmitView(TemplateView):
@@ -141,21 +126,21 @@ class MyAccountView(DetailView, LoginRequiredMixin):
         context = super(MyAccountView, self).get_context_data(**kwargs)
         user = self.request.user
         member = Members.objects.get(member_id=user.member_id)
-        member_plan = member.member_plan_id
+        member_plan_id = member.member_plan_id
 
-        memberplan = MemberPlans.objects.get(member_plan=member_plan)
+        memberplan = MemberPlans.objects.get(member_plan_id=member_plan_id)
         context['memberplan'] = memberplan
-        context['upgrade_member_plan'] = MemberPlans.objects.get(member_plan=member_plan).plan_name
+        context['upgrade_member_plan'] = MemberPlans.objects.get(member_plan_id=member_plan_id).plan_name
         context['member'] = member
         context['plan_name'] = memberplan.plan_name
         context['expire_date'] = member.created + timedelta(days=30)
 
-        if memberplan.member_plan in ["3", "4"]:
+        if member_plan_id in producer_memberplans:
             context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True)
         else:
             context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True,
                                                                        first_user=True)
-        if memberplan.member_plan == "4":
+        if member_plan_id in calculator_memberplans:
             productoffer_list = ProducerProductOfferings.objects.filter(producer_id=user.producer_id)
             if not productoffer_list:
                 categories = ProductCategory.objects.filter(language_id=self.request.user.language_id)

@@ -5,12 +5,7 @@
     <title>Print cover</title>
 </head>
 <body>
-<div class="container" id="printing_cover"
-        {% if update and productcategory_id in productcategory_cover %}
-     style="display: block">
-        {% else %}
-            style="display: none">
-        {% endif %}
+<div class="container" id="printing_cover">
 <!-- ===============================================-->
     <!--   Row print cover title -->
     <!-- ===============================================-->
@@ -27,11 +22,11 @@
     <!-- ===============================================-->
     <div class="row" id="print_front">
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="printsided_cover">Eén- of tweezijdig</label>
-            <select class="form-select" id="printsided_cover" name="printsided_cover"
+            <label class="form-label" for="printsided">Eén- of tweezijdig</label>
+            <select class="form-select" id="printsided" name="printsided"
                     onchange="print_rearCoverSelectCheck(this)">
                 {% for i in printsided_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                     <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -41,10 +36,10 @@
         <!-- ===============================================-->
 
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="print_front_label_cover" for="print_cover">Bedrukking</label>
-            <select class="form-select" id="print_cover" name="print_cover">
+            <label class="form-label" id="print_front_label_cover" for="print_front">Bedrukking</label>
+            <select class="form-select" id="print_front" name="print_front">
                 {% for i in print_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -55,9 +50,9 @@
 
 
             <div class="col-sm-6 col-md-3">
-                <label class="form-label" id="number_pms_colors_cover_label" for="number_pms_colors_cover">Aantal PMS kleuren
+                <label class="form-label" id="number_pms_colors_cover_label" for="number_pms_colors_front">Aantal PMS kleuren
                     omslag</label>
-                <input type="text" class="form-control" id="number_pms_colors_cover" name="number_pms_colors_cover"
+                <input type="text" class="form-control" id="number_pms_colors_front" name="number_pms_colors_front"
                        placeholder=0 value=0>
             </div>
         <!-- ===============================================-->
@@ -65,10 +60,10 @@
         <!-- ===============================================-->
 
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="pressvarnish_cover_label" for="pressvarnish_cover">Vernis omslag</label>
-            <select class="form-select" id="pressvarnish_cover" name="pressvarnish_cover">
+            <label class="form-label" id="pressvarnish_cover_label" for="pressvarnish_front">Vernis omslag</label>
+            <select class="form-select" id="pressvarnish_front" name="pressvarnish_front">
                 {% for i in pressvarnish_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -84,31 +79,54 @@
             <div class="col-sm-6 col-md-3">
             </div>
             <div class="col-sm-6 col-md-3">
-                <label class="form-label" for="print_rear_cover">Bedrukking binnnezijde omslag</label>
-                <select class="form-select" id="print_rear_cover" name="print_rear_cover">
+                <label class="form-label" id="print_rear_cover" for="print_rear">Bedrukking binnnezijde omslag</label>
+                <select class="form-select" id="print_rear" name="print_rear">
                     {% for i in print_choices %}
-                        <option value="{{ i.type }}">{{ i.type }}</option>
+                          <option value="{{ i.value }}">{{ i.text }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-sm-6 col-md-3">
-                <label class="form-label" id="number_pms_colors_rear_cover" for="number_pms_colors_rear_cover">Aantal PMS kleuren
+                <label class="form-label" id="number_pms_colors_rear_cover" for="number_pms_colors_rear">Aantal PMS kleuren
                     binnenzijde omslag</label>
-                <input type="text" class="form-control" id="number_pms_colors_rear_cover" name="number_pms_colors_rear_cover"
+                <input type="text" class="form-control" id="number_pms_colors_rear" name="number_pms_colors_rear"
                        placeholder=0 value=0>
             </div>
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="pressvarnish_rear_cover">Persvernis binnnezijde omslag</label>
-            <select class="form-select" id="pressvarnish_rear_cover" name="pressvarnish_rear_cover">
+            <label class="form-label" id="pressvarnish_rear_cover" for="pressvarnish_rear">Persvernis binnnezijde omslag</label>
+            <select class="form-select" id="pressvarnish_rear" name="pressvarnish_rear">
                 {% for i in pressvarnish_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
         </div>
     </div>
-    <br>
-    <hr class="text-info">
+    <hr class="text-info"><br>
+    <!-- ===============================================-->
+    <!--   Row Enhance choices outside cover-->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h4 class="mb-3 text-info">Vedeling buitenzijde omslag</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_printing_cover }}</h6>
+        {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-3" id="field_enhance_front">
+            <label class="form-label" id="field_enhance_front_label"  for="enhance">Veredeling buitenzijde omslag</label>
+            <select class="form-select" id="enhance" name="enhance">
+                <option value=0>{{ no_enhancement }}</option>
+                {% for i in enhance_choices %}
+                    <option value="{{ i.enhancement_id }}">{{ i.enhancement }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <hr class="text-info"><br>
 </div>
+
 </body>
 </html>

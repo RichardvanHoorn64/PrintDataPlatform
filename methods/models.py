@@ -28,12 +28,13 @@ class Notes(models.Model):
 class StandardSize(models.Model):
     standardsize_id = models.AutoField(primary_key=True)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
-    description = models.TextField(max_length=200, blank=True)
+    standard = models.CharField(max_length=50, blank=True, null=True)
+    size_description = models.TextField(max_length=200, blank=True)
     height_mm_product = models.PositiveIntegerField(blank=True, null=True)
     width_mm_product = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.description
+        return self.size_description
 
     class Meta:
         verbose_name = 'standardsizes'
@@ -60,6 +61,7 @@ class FoldingMethods(models.Model):
 class BrochureFinishingMethods(models.Model):
     finishingmethod_id = models.AutoField(primary_key=True)
     finishingmethod = models.TextField(max_length=200, blank=True)
+    productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
     def __str__(self):

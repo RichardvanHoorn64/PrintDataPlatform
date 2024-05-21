@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Packaging and transport</title>
+</head>
+<body>
+<div class="container" id="packaging">
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-12">
+            <h4 class="mb-3 text-info">Verpakking</h4>
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row Enhance choices -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" for="packaging">Verpakking</label>
+            <select class="form-select" id="packaging" name="packaging">
+                {% for i in packaging_choices %}
+                    <option value="{{ i.packagingoption_id }}">{{ i.packaging }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <hr class="text-info"><br>
+</div>
+</body>
+</html>

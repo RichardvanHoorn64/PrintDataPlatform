@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
 from assets.asset_forms import *
-from assets.models import *
 from index.dq_functions import *
 from index.forms.form_invalids import form_invalid_message_quotes
 from members.crm_functions import *
@@ -17,7 +16,7 @@ from django.db.models import Sum
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
-from django.views.generic.edit import FormMixin, DeleteView
+from django.views.generic.edit import FormMixin
 from profileuseraccount.form_invalids import form_invalid_message
 
 
@@ -321,33 +320,6 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
         context = get_ordercontext(producer_id, context, order_status_id)
         context['order_pagination'] = 25
         return context
-
-
-class CreateNewProducer(CreateView, LoginRequiredMixin):
-    model = Producers
-    profile = Producers
-    form_class = NewProducerForm
-    template_name = 'producers/new_producer.html'
-    success_url = '/producer_dashboard/0'
-
-
-def form_valid(self, form):
-    user = self.request.user
-    form.instance.language_id = user.language_id
-    return super().form_valid(form)
-
-
-def form_invalid(self, form):
-    response = super().form_invalid(form)
-    form_invalid_message(form, response)
-    return self.render_to_response(self.get_context_data(form=form))
-
-
-def get_context_data(self, **kwargs):
-    context = super(CreateNewProducer, self).get_context_data(**kwargs)
-    context['title'] = "Nieuwe producent aanmaken"
-    context['button_text'] = "Producent toevoegen"
-    return context
 
 
 class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):

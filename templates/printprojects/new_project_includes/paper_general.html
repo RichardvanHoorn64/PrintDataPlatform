@@ -10,7 +10,7 @@
     <!--   Row title -->
     <!-- ===============================================-->
     <div class="row">
-        <h4 id="paper_general_header" class="mb-3 text-info">Papier</h4>
+        <h4 id="paper_general_header" class="mb-3 text-info">Papier {{ type_booklet }}</h4>
             {% if update %}
         <h6 class="mb-3">{{ printproject_paper }}</h6>
         {% endif %}
@@ -25,13 +25,14 @@
                 <select class="form-select" id="papercategory" name="papercategory" onclick="popUpEmpyProductCategory()"
                         {% if not update %} required {% endif %}>
                     {% if update %}
-                    {%  for i in papercategories_general %}
-                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
+                        <option value="">Wijzig papiercategorie</option>
+                    {%  for i in papercategories %}
+                        <option value="{{ i.papercategory_id }}">{{ i.papercategory }}</option>
                     {% endfor %}
                     {% else %}
+                        <option value="">Kies papiercategorie</option>
                     {% for i in papercategories %}
-
-                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
+                        <option value="{{ i.papercategory_id }}">{{ i.papercategory }}</option>
                     {% endfor %}
                 {% endif %}
                 </select>
@@ -78,10 +79,10 @@
                 <div class="accordion-item border-top border-300">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="new_paper_heading">
-                            <button id="NewPaperSwitch" class="accordion-button collapsed text-info" type="button"
+                            <button id="NewPaperSwitch" class="accordion-button collapsed text-warning" type="button"
                                     data-bs-toggle="collapse" data-bs-target="#newPaperSpec" aria-expanded="false"
                                     aria-controls="newPaperSpec" onclick="new_paperSelectCheck()">
-                                Papiersoort niet gevonden? Maak een nieuwe specificatie aan.
+                                Papiersoort niet gevonden? Nieuwe specificatie aanvragen.
                             </button>
                         </h2>
                     </div>
@@ -108,11 +109,6 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="border p-3 rounded">Elke nieuwe papiersoort wordt beoordeeld en zo mogelijk aan
-                                het keuzemenu toegevoegd.
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

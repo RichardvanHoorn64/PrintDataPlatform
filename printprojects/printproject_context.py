@@ -1,3 +1,4 @@
+from index.categories_groups import *
 from index.display_functions import *
 from printprojects.models import ProductCategory
 
@@ -5,6 +6,19 @@ from printprojects.models import ProductCategory
 def createprintproject_context(context, user, printproject):
     productcategory = ProductCategory.objects.get(productcategory_id=printproject.productcategory_id).productcategory
     printproject_title = printproject_description(printproject, productcategory)
+
+    context['categories_all'] = categories_all
+    context['categories_plano'] = categories_plano
+    context['categories_folders'] = categories_folders
+    context['categories_selfcovers'] = categories_selfcovers
+    context['categories_brochures_all'] = categories_brochures_all
+    context['categories_brochures_cover'] = categories_brochures_cover
+
+    context['open_memberplans'] = open_memberplans
+    context['exclusive_memberplans'] = exclusive_memberplans
+    context['producer_memberplans'] = producer_memberplans
+    context['calculator_memberplans'] = calculator_memberplans
+
     context['productcategory_id'] = printproject.productcategory_id
     context['printproject_title'] = printproject_title
     context['printproject_own_quotenumber'] = printproject_own_quotenumber(printproject)

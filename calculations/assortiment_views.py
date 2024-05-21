@@ -11,6 +11,7 @@ from calculations.assortiment_uploadform import *
 from calculations.item_calculations.brochure_calculation import brochure_calculation
 from calculations.item_calculations.plano_folder_calculation import plano_folder_calculation
 from index.translate_functions import *
+from index.categories_groups import *
 
 
 class AssortimentView(LoginRequiredMixin, TemplateView):
@@ -40,9 +41,9 @@ class CalculateAssortiment(View):
         assortiment = PrintProjects.objects.filter(producer_id=user.producer_id, assortiment_item=True).order_by()
 
         for rfq in assortiment:
-            if rfq.productcategory_id in [1, 2]:
+            if rfq.productcategory_id in categories_plano:
                 plano_folder_calculation(user, rfq)
-            if rfq.productcategory_id in [3, 4, 5]:
+            if rfq.productcategory_id in categories_brochures_all:
                 brochure_calculation(user, rfq)
         return redirect('producer_assortiment')
 
@@ -164,7 +165,6 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
         user = self.request.user
         producer_id = user.producer_id
         user_id = user.id
-        upload_date = timezone.now().today().date()
         catalog = PrintProjects.objects.filter(producer_id=producer_id, printprojectstatus_id=5)
         new_catalog = []
 
@@ -232,9 +232,6 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                     item.delete()
 
                 new_catalog = new_catalog[new_catalog['volume'] > 0]
-
-                # new_catalog['aantal_pms_kleuren_bw'] = new_catalog['aantal_pms_kleuren_bw'].astype(int)
-
                 new_catalog['volume'] = new_catalog['volume'].astype(int)
 
             except Exception as e:
@@ -271,10 +268,10 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                         enhance_front=find_enhancement_id(row['enhance_front']),
                         enhance_rear=find_enhancement_id(row['enhance_rear']),
                         packaging=row['packaging'],
-                        folding= find_foldingmethod_id(row['folding']),
+                        folding=find_foldingspecs(row['folding'][0]),
                         number_of_pages=row['number_of_pages'],
                         portrait_landscape=find_orientation(row['portrait_landscape']),
-                        finishing_brochures= find_finishingmethod_id(row['finishing_brochures']),
+                        finishing_brochures=find_brochure_finishingmethod_id(row['finishing_brochures']),
                         print_front=modify_printcolors(row['print_front']),
                         print_rear=modify_printcolors(row['print_rear']),
                         print_booklet=modify_printcolors(row['print_booklet']),

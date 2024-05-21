@@ -51,7 +51,7 @@
         <!--    Client an clientcontact printproject -->
         <!-- ===============================================-->
         {% if printproject.client_id %}
-            {% include 'printprojects/tables/client_quote_detailtable.html' %}
+            {% include 'printprojects/tables/client_offer_detailtable.html' %}
              <br>
         {% endif %}
         <!-- ===============================================-->
@@ -70,7 +70,7 @@
         <!--    Select suppliers table -->
         <!-- ===============================================-->
         {% if printproject.printprojectstatus_id == 1 %}
-            {% include 'printprojects/selectsuppliers_table.html' %}
+            {% include 'printprojects/tables/selectsuppliers_table.html' %}
             <br>
         {% endif %}
         <!-- ===============================================-->

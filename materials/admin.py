@@ -3,5 +3,5 @@ from materials.models import *
 
 
 admin.site.register(PaperCatalog)
-admin.site.register(PaperBrand)
+admin.site.register(PaperBrands)
 admin.site.register(PaperWeights)

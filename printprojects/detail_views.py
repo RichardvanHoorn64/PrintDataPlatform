@@ -1,9 +1,9 @@
 from django.shortcuts import redirect
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from index.categories_groups import *
 from index.forms.form_invalids import form_invalid_message_quotes
-from index.product_choices import *
-from members.crm_functions import update_producersmatch, update_printprojectsmatch
+from index.models import DropdownChoices
 from offers.models import *
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
@@ -23,15 +23,6 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
         printproject_id = self.kwargs['printproject_id']
         return '/printproject_details/' + str(printproject_id)
 
-    def dispatch(self, request, *args, **kwargs):
-        printproject_id = self.kwargs['printproject_id']
-        if not self.request.user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            update_producersmatch(self.request)
-            update_printprojectsmatch(self.request, printproject_id)
-            return super().dispatch(request, *args, **kwargs)
-
     def form_valid(self, form):
         return super().form_valid(form)
 
@@ -47,6 +38,25 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         printproject = PrintProjects.objects.get(member_id=user.member_id, printproject_id=printproject_id)
         context = createprintproject_context(context, user, printproject)
+        member_plan_id = user.member.member_plan_id
+
+        printproject_subtitle = []
+        if printproject.printprojectstatus_id == 1:
+            printproject_subtitle = '  Kies leveranciers en verstuur offerteaanvragen'
+
+        if printproject.printprojectstatus_id == 2:
+            printproject_subtitle = 'Beoordeel aanbiedingen, plaats opdracht'
+
+        if member_plan_id in exclusive_memberplans:
+            exclusive_producer = Producers.objects.get(producer_id=user.member.exclusive_producer_id)
+            context['exclusive_producer'] = exclusive_producer.company
+            printproject_subtitle = 'Aanbieding van: ' + str(exclusive_producer.company)
+            context['offer'] = Offers.objects.get(printproject_id=printproject_id)
+
+
+        context['printproject_subtitle'] = printproject_subtitle
+
+        context['member_plan_id'] = member_plan_id
 
         # for select suppliers
         context['match_suppliers'] = (PrintProjectMatch.objects.filter(printproject_id=printproject_id,
@@ -120,6 +130,8 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         printproject_id = self.kwargs['printproject_id']
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
         user = self.request.user
+        language_id = user.language_id
+        dropdowns = DropdownChoices.objects.filter(language_id=language_id)
         context = createprintproject_context(context, user, printproject)
         context['update'] = True
         context['button_text'] = "Update Project"
@@ -128,16 +140,16 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         context['member_id'] = user.member_id
         context['clients'] = Clients.objects.filter(member_id=user.member_id).order_by('client')
         context['standardsizes'] = StandardSize.objects.filter(productcategory_id=1)
-        context['printsided_choices'] = printsided_choices
-        context['print_choices'] = print_choices
-        context['portrait_landscape_choices'] = portrait_landscape_choices
-        context['pressvarnish_choices'] = pressvarnish_choices
-        context['enhance_sided_choices'] = enhance_sided_choices
-        context['enhance_choices'] = enhance_choices
-        context['packaging_choices'] = packaging_choices
-        context['foldingmethods'] = FoldingMethods.objects.all().order_by('foldingmethod_id')
-
-        context['papercategories_general'] = PaperCategory.objects.all()
+        context['printsided_choices'] = dropdowns.filter(dropdown="printsided_choices")
+        # context['print_choices'] = print_choices
+        # context['portrait_landscape_choices'] = portrait_landscape_choices
+        # context['pressvarnish_choices'] = pressvarnish_choices
+        # context['enhance_sided_choices'] = enhance_sided_choices
+        # context['enhance_choices'] = enhance_choices
+        # context['packaging_choices'] = packaging_choices
+        # context['foldingmethods'] = FoldingMethods.objects.all().order_by('foldingmethod_id')
+        #
+        # context['papercategories_general'] = PaperCategory.objects.all()
         return context
 
 

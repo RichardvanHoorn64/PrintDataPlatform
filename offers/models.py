@@ -28,7 +28,7 @@ class Offers(models.Model):
     requester = models.CharField(max_length=200, blank=True, null=True)
 
     offer = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    offer_1000extra = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    offer1000extra = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     producer_contact = models.CharField(max_length=200, blank=True, null=True)
     producer_quote = models.CharField(max_length=200, blank=True, null=True)
     producer_notes = models.TextField(max_length=2500, blank=True)

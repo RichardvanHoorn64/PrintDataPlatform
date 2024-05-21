@@ -22,9 +22,13 @@ class PaperBrandReference(models.Model):
         verbose_name_plural = 'paperbrands'
 
 
-class PaperCategoryReference(models.Model):
+class PaperCategories(models.Model):
     papercategory_id = models.AutoField(primary_key=True)
     papercategory = models.CharField(max_length=250, blank=True)
+    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
+    folders_cover = models.BooleanField(default=True)
+    brochures_booklet = models.BooleanField(default=True)
+    brochures_cover = models.BooleanField(default=True)
 
     def __str__(self):
         return self.papercategory
@@ -34,21 +38,7 @@ class PaperCategoryReference(models.Model):
         verbose_name_plural = 'papercategories'
 
 
-class ProducerPaperCategory(models.Model):
-    producerpapercategory_id = models.AutoField(primary_key=True)
-    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
-    producerpapercategory = models.CharField(max_length=250, blank=True)
-    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return self.producerpapercategory
-
-    class Meta:
-        verbose_name = 'producerpapercategory'
-        verbose_name_plural = 'producerpapercategories'
-
-
-class PaperBrand(models.Model):
+class PaperBrands(models.Model):
     paperbrand_id = models.AutoField(primary_key=True)
     producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
     papercategory = models.CharField(max_length=250, blank=True)

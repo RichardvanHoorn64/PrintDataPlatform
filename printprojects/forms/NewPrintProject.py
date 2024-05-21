@@ -5,7 +5,6 @@ from index.forms.form_fieldtypes import *
 class PrintProjectsForm(forms.ModelForm):
     client_id = integer_field_notreq
     clientcontact_id = integer_field_notreq
-    productcategory_id = integer_field
     project_title = char_field_1000_false
     description = char_field_1000_false
     message_extra_work = char_field_1000_false
@@ -67,7 +66,7 @@ class PrintProjectsForm(forms.ModelForm):
     class Meta:
         model = PrintProjects
         fields = (
-            'client_id', 'clientcontact_id', 'productcategory_id', 'project_title', 'description', 'message_extra_work',
+            'client_id', 'clientcontact_id', 'project_title', 'description', 'message_extra_work',
             'own_quotenumber', 'client_quotenumber', 'volume', 'format_selection', 'standard_size',
             'height_mm_product', 'width_mm_product', 'papercategory', 'paperbrand', 'paperweight', 'papercolor',
             'printsided', 'print_front', 'print_rear', 'print_booklet','number_pms_colors_front', 'number_pms_colors_rear',

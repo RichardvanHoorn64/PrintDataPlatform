@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print general</title>
+</head>
+<body>
+<div class="container" id="print_general" name="print_general">
+    <!-- ===============================================-->
+    <!--   Row title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h4 id="print_general_header" class="mb-3 text-info">Bedrukking {{ type_booklet }}</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_printing }}</h6>
+        {% endif %}
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row print front -->
+    <!-- ===============================================-->
+    <div class="row" id="print_booklet">
+
+        <!-- ===============================================-->
+        <!--   Print choice -->
+        <!-- ===============================================-->
+
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="print_booklet_label" for="print_booklet">Bedrukking</label>
+            <select class="form-select" id="print_booklet" name="print_booklet">
+                {% for i in print_choices %}
+                     <option value="{{ i.value }}">{{ i.text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   PMS colors and pressvarnish -->
+        <!-- ===============================================-->
+
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="pms_colors_booklet_label" for="number_pms_colors">Aantal extra PMS kleuren</label>
+            <input type="text" class="form-control" id="number_pms_colors" name="number_pms_colors" placeholder=0 value=0>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="pressvarnish_booklet_label" for="pressvarnish_booklet">Vernis</label>
+            <select class="form-select" id="pressvarnish_booklet" name="pressvarnish_booklet">
+                {% for i in pressvarnish_choices %}
+                      <option value="{{ i.value }}">{{ i.text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+   
+    <hr class="text-info"><br>
+</div>
+</body>
+</html>

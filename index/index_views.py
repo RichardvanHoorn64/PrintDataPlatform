@@ -10,7 +10,8 @@ class WelcomeView(TemplateView):
         user = self.request.user
 
         if not user.is_authenticated:
-            if host in ['127.0.0.1:8000', 'www.printdatahub.com', 'printdatahub-dev.azurewebsites.net', 'localhost:8000' ]:
+            if host in ['127.0.0.1:8000', 'www.printdatahub.com', 'printdatahub-dev.azurewebsites.net',
+                        'localhost:8000']:
                 return redirect('/home/')
             else:
                 return redirect('/accounts/login/')
@@ -22,14 +23,30 @@ class WelcomeView(TemplateView):
         elif user.is_authenticated and not user.member.active:
             return redirect('/wait_for_approval/')
 
-        elif user.is_authenticated and user.member_id and user.member.member_plan_id == 4:
+        elif user.is_authenticated and user.member.active and user.member.producerplan:
             return redirect('/producer_sales_dashboard/0')
 
-        elif user.is_authenticated and user.member_id and user.member.member_plan_id != 4:
+        elif user.is_authenticated and user.member.active and not user.member.producerplan:
             return redirect('/printdataplatform_dashboard/')
 
         else:
             return redirect('/no_access/')
+
+
+class WaitForApproval(TemplateView):
+    template_name = 'wait_for_approval.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif user.is_authenticated and user.member.active and user.member.producerplan:
+            return redirect('/producer_sales_dashboard/0')
+
+        elif user.is_authenticated and user.member.active and not user.member.producerplan:
+            return redirect('/printdataplatform_dashboard/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
 
 class HomeView(TemplateView):

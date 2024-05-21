@@ -26,7 +26,7 @@
             <select class="form-select" id="printsided" name="printsided"
                     onchange="print_rearSelectCheck(this)">
                 {% for i in printsided_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                    <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -37,9 +37,9 @@
 
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="print_front_label" for="print">Bedrukking</label>
-            <select class="form-select" id="print" name="print">
+            <select class="form-select" id="print_front" name="print_front">
                 {% for i in print_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                     <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -49,14 +49,14 @@
         <!-- ===============================================-->
 
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="number_pms_colors">Aantal extra PMS kleuren</label>
+            <label class="form-label" id="pms_colors_front_label" for="number_pms_colors">Aantal extra PMS kleuren</label>
             <input type="text" class="form-control" id="number_pms_colors" name="number_pms_colors" placeholder=0 value=0>
         </div>
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="pressvarnish_front_label" for="pressvarnish">Vernis</label>
-            <select class="form-select" id="pressvarnish" name="pressvarnish">
+            <select class="form-select" id="pressvarnish_front" name="pressvarnish_front">
                 {% for i in pressvarnish_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -75,7 +75,7 @@
                 <label class="form-label" for="print_rear">Bedrukking achterzijde</label>
                 <select class="form-select" id="print_rear" name="print_rear">
                     {% for i in print_choices %}
-                        <option value="{{ i.type }}">{{ i.type }}</option>
+                       <option value="{{ i.value }}">{{ i.text }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -90,7 +90,7 @@
             <label class="form-label" for="pressvarnish_rear">Vernis achterzijde</label>
             <select class="form-select" id="pressvarnish_rear" name="pressvarnish_rear">
                 {% for i in pressvarnish_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>

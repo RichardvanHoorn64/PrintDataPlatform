@@ -29,7 +29,7 @@
                     <option value="0">Vrij formaat</option>
                 {% endif %}
                 {% for i in standardsizes %}
-                    <option value="{{ i.standardsize_id }}">{{ i.description }}</option>
+                    <option value="{{ i.standardsize_id }}">{{ i.size_description }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -60,7 +60,7 @@
                     <option value="{{ printproject.portrait_landscape }}">Wijzig stand</option>
                     {% endif %} >
                 {% for i in portrait_landscape_choices %}
-                    <option value="{{ i.type }}">{{ i.type }}</option>
+                    <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
             </select>
         </div>

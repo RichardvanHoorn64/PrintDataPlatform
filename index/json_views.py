@@ -10,12 +10,3 @@ def get_json_folder_number_of_pages(request, **kwargs):
     except ValueError:
         pass
 
-
-def get_json_brochure_finishingmethods(request, **kwargs):
-    user = request.user
-    productcategory = kwargs.get('productcategory_id')
-    try:
-        brochure_finishingmethods = list(BrochureFinishingMethods.objects.filter(productcategory=productcategory).values().order_by('finishingmethod_id'))
-        return JsonResponse({'data': brochure_finishingmethods})
-    except ValueError:
-        pass

@@ -61,7 +61,7 @@ def update_printprojectsmatch(request, printproject_id):
         'producer_id',
         flat=True)
 
-    producers = Producers.objects.filter(productcategories__contains=productcategory_id).values_list('producer_id',
+    producers = ProducerProductOfferings.objects.filter(productcategory_id=productcategory_id).values_list('producer_id',
                                                                                                      flat=True)
     preferred_suppliers = MemberProducerMatch.objects.filter(member_id=member_id).exclude(
         memberproducerstatus=3).values_list('producer_id',

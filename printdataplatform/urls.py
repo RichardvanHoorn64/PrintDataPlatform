@@ -23,7 +23,8 @@ from offers.offer_views import *
 from offers.rfq_workflows import *
 from orders.order_views import *
 from printprojects.detail_views import *
-from printprojects.printproject_views import *
+from printprojects.start_printproject_view import *
+from printprojects.start_workflow_view import PrintProjectStartWorkflowView
 from producers.offer_views import *
 from producers.producer_views import *
 from producers.tariff_views import *
@@ -56,7 +57,10 @@ urlpatterns = [
     path('contact/', ConditionView.as_view(), name='contact'),
 
     # printprojects
-    path('new_printproject/', CreateNewPrintProjectView.as_view(), name='new_printproject'),
+    path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
+    path('start_printproject_workflow/<int:printproject_id>', PrintProjectStartWorkflowView.as_view(),
+         name='start_printproject_workflow'),   # update pricing
+
     path('printproject_details/<int:printproject_id>', PrintProjectDetailsView.as_view(),
          name='printproject_details'),   # update pricing
     path('printproject_clone/<int:printproject_id>', PrintProjectCloneView.as_view(),
@@ -119,7 +123,7 @@ urlpatterns = [
     # producers
     path('producer_dashboard/<int:producerstatus_id>', ProducersDashboard.as_view(),
          name='producer_dashboard'),
-    path('create_producer/', CreateNewProducer.as_view(), name='create_producer'),
+    path('create_new_producer/', CreateNewProducer.as_view(), name='create_new_producer'),
     path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
@@ -163,13 +167,12 @@ urlpatterns = [
     path('producer_paper_catalog_upload/', UploadProducerPaperCatalog.as_view(), name='producer_paper_catalog_upload'),
 
     # paper
-    path('paper_brands/<int:papercategory_id>', PaperBrands.as_view(), name='paper_brands'),
+    path('paper_brands/<int:papercategory_id>', PaperBrandsDisplay.as_view(), name='paper_brands'),
     path('download_paperbrands', DownloadPaperBrands.as_view(), name='download_paperbrands'),
 
     # java / ajax urls paperchoices for quotes paperselection
-    path('papercategory_json/<str:productcategory_id>', get_json_papercategory, name='papercategory_json'),
     path('paperbrand_json/<str:papercategory_id>', get_json_paperbrand, name='paperbrand_json'),
-    path('paperweight_json/<str:paperbrand_id>/<str:productcategory_id>', get_json_paperweight,
+    path('paperweight_json/<str:paperbrand_id>', get_json_paperweight,
          name='paperweight_json'),
     path('papercolor_json/<int:paperweight_id>', get_json_papercolor, name='papercolor_json'),
 
@@ -184,8 +187,6 @@ urlpatterns = [
     # java / ajax urls paperchoices for quotes calculate folder number of pages
     path('folder_number_of_pages_json/<str:foldingmethod_id>', get_json_folder_number_of_pages,
          name='folder_number_of_pages_json'),
-    path('brochure_finishingmethods_json/<str:productcategory_id>', get_json_brochure_finishingmethods,
-         name='brochure_finishingmethods_json'),
 
     # create notes
     path('delete_note/<int:note_id>', DeleteNoteView.as_view(), name='delete_note'),

@@ -34,12 +34,7 @@
             <div class="row g-3 mb-2">
                 <div class="col-auto">
                     <h2 class="mb-0 text-info mb-2">Printproject {{ printproject_title }} </h2>
-                     {% if printproject.printprojectstatus_id == 1 %}
-                    <h4> Kies leveranciers en verstuur offerteaanvragen</h4>
-                    {% endif %}
-                 {% if printproject.printprojectstatus_id == 2 %}
-                    <h4> Beoordeel aanbiedingen, plaats opdracht</h4>
-                    {% endif %}
+                    <h4> {{ printproject_subtitle }}</h4>
                 </div>
             </div>
         </div>
@@ -51,7 +46,7 @@
         <!--    Client an clientcontact printproject -->
         <!-- ===============================================-->
         {% if printproject.client_id %}
-            {% include 'printprojects/tables/client_quote_detailtable.html' %}
+            {% include 'printprojects/tables/client_offer_detailtable.html' %}
              <br>
         {% endif %}
         <!-- ===============================================-->
@@ -66,12 +61,13 @@
             <!-- ===============================================-->
             <!--    End Printproject Detail table -->
             <!-- ===============================================-->
+        {%  if member_plan_id in open_memberplans %}
         <!-- ===============================================-->
         <!--    Select suppliers table -->
         <!-- ===============================================-->
         {% if printproject.printprojectstatus_id == 1 %}
-            {% include 'printprojects/selectsuppliers_table.html' %}
-            <br>
+            {% include 'printprojects/tables/selectsuppliers_table.html' %}
+           
         {% endif %}
         <!-- ===============================================-->
         <!--    End Select suppliers table -->
@@ -92,6 +88,7 @@
         <!-- <section> close ============================-->
 
             {% include 'printprojects/new_project_includes/salesprice_update.html' %}
+            {%  endif %}
     </div>
     </body>
     <!-- ===============================================-->

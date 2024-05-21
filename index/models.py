@@ -2,6 +2,21 @@ from django.db import models
 from profileuseraccount.models import Languages, Producers
 
 
+class DropdownChoices(models.Model):
+    dropdown_id = models.AutoField(primary_key=True)
+    dropdown = models.CharField(max_length=200, null=True, blank=True)
+    value = models.PositiveIntegerField(default=0)
+    text = models.CharField(max_length=200, null=True, blank=True)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.dropdown
+
+    class Meta:
+        verbose_name = 'dropdowns'
+        verbose_name_plural = 'dropdown'
+
+
 class ProductCategory(models.Model):
     productcategory_id = models.AutoField(primary_key=True)
     productcategory = models.CharField(max_length=100, unique=True)

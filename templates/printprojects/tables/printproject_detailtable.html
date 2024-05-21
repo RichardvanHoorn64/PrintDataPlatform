@@ -226,6 +226,33 @@
                                             <td class="border-0"></td>
                                         </tr>
                                     {% endif %}
+                                    
+                                    {%  if member_plan_id in exclusive_memberplans %}
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >€ {{ offer.offer }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >€ {{ offer.offer1000extra }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    {%  endif %}
+                                    
+                                    {%  if member_plan_id in open_memberplans %}
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
@@ -268,6 +295,12 @@
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
+                                    {%  endif %}
+                                    
+                                    
+                                    
+                                    
+                                    
                                     </tbody>
                                 </table>
 

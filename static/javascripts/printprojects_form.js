@@ -4,124 +4,6 @@
 /*jshint esversion: 6 */
 /* jshint browser: true */
 
-// get categoryscategory selected -------------------------------------------------------------------------------->
-const formDisplayInput = document.getElementById('productcategory_id');
-
-// select papercategorie
-formDisplayInput.addEventListener('change', e => {
-
-    const productCategoryID = document.getElementById('productcategory_id').value;
-    console.log(productCategoryID, " = Input");
-
-
-    const paper_general = document.getElementById('paper_general');
-    const printing_cover = document.getElementById('printing_cover');
-    const paper_cover = document.getElementById('paper_cover');
-    const folder_general = document.getElementById('folder_general');
-    const brochures_finishing = document.getElementById('brochures_finishing');
-
-
-    // Inner HTML field textoptions
-    const finishing_brochures = document.getElementById('finishing_brochures');
-    const paper_general_header = document.getElementById('paper_general_header');
-    const print_general_header = document.getElementById('print_general_header');
-    const printsided_plano_folders = document.getElementById('printsided_plano_folders');
-
-    // required field options
-    const folding = document.getElementById('folding');
-
-
-    if (productCategoryID === "1") {
-        console.log(productCategoryID, " = Plano");
-        paper_general.style.display = "block";
-        folder_general.style.display = "none";
-        paper_cover.style.display = "none";
-        printing_cover.style.display = "none";
-        brochures_finishing.style.display = "none";
-        // inner HTML
-        paper_general_header.innerHTML = "Papier";
-        print_general_header.innerHTML = "Bedrukking";
-        // required
-        folding.required = false;
-        // field display
-        printsided_plano_folders.style.display = "block";
-
-    }
-    if (productCategoryID === "2") {
-        console.log(productCategoryID, " = Folders");
-        paper_general.style.display = "block";
-        folder_general.style.display = "block";
-        paper_cover.style.display = "none";
-        brochures_finishing.style.display = "none";
-        printing_cover.style.display = "none";
-        // inner HTML
-        paper_general_header.innerHTML = "Papier";
-        print_general_header.innerHTML = "Bedrukking";
-        // required
-        folding.required = true;
-        // field display
-        printsided_plano_folders.style.display = "block";
-    }
-
-    if (productCategoryID === "3") {
-        console.log(productCategoryID, " = Selfcovers");
-        paper_general.style.display = "block";
-        folder_general.style.display = "none";
-        paper_cover.style.display = "none";
-        brochures_finishing.style.display = "block";
-        printing_cover.style.display = "none";
-        // inner HTML
-        paper_general_header.innerHTML = "Papier selfcovers";
-        print_general_header.innerHTML = "Bedrukking selfcover";
-        finishing_brochures.innerHTML = "Nabewerking Selfcovers";
-        // required
-        folding.required = false;
-        // field display
-        printsided_plano_folders.style.display = "none";
-
-
-    }
-
-    if (productCategoryID === "4") {
-        console.log(productCategoryID, " = Brochures gehecht");
-        paper_general.style.display = "block";
-        folder_general.style.display = "none";
-        paper_cover.style.display = "block";
-        brochures_finishing.style.display = "block";
-        printing_cover.style.display = "block";
-        // inner HTML
-        paper_general_header.innerHTML = "Papier binnenwerk";
-        print_general_header.innerHTML = "Bedrukking binnenwerk";
-        finishing_brochures.innerHTML = "Nabewerking Gehecht";
-        // required
-        folding.required = false;
-        // field display
-        printsided_plano_folders.style.display = "none";
-
-
-    }
-
-    if (productCategoryID === "5") {
-        console.log(productCategoryID, " = Brochures gebonden");
-        paper_general.style.display = "block";
-        folder_general.style.display = "none";
-        paper_cover.style.display = "block";
-        brochures_finishing.style.display = "block";
-        printing_cover.style.display = "block";
-        // inner HTML
-        paper_general_header.innerHTML = "Papier binnenwerk";
-        print_general_header.innerHTML = "Bedrukking binnenwerk";
-        finishing_brochures.innerHTML = "Nabewerking Gebonden";
-        // required
-        folding.required = false;
-        // field display
-        printsided_plano_folders.style.display = "none";
-    }
-
-    return productCategoryID;
-});
-
-
 // New paper input
 function new_paperSelectCheck() {
     const ProductCategoryID = returnProductCategoryID()
@@ -185,9 +67,8 @@ function print_rearSelectCheck(nameSelect) {
     const print_front_label = document.getElementById("print_front_label")
     const pressvarnish_front_label = document.getElementById("pressvarnish_front_label")
 
-
-    console.log("print choiche: ", nameSelect.value);
-    if (nameSelect.value === "Tweezijdig verschillend") {
+    console.log("print rear plano choice: ", nameSelect.value);
+    if (nameSelect.value === "3") {
         print_rear_row.style.display = "block";
         print_front_label.innerHTML = "BEDRUKKING VOORZIJDE";
         pms_colors_front_label.innerHTML = "AANTAL PMS KLEUREN VOORZIJDE";
@@ -209,8 +90,8 @@ function print_rearCoverSelectCheck(nameSelect) {
     const print_front_label_cover = document.getElementById("print_front_label_cover")
     const pressvarnish_cover_label = document.getElementById("pressvarnish_cover_label")
 
-
-    if (nameSelect.value === "Tweezijdig verschillend") {
+     console.log("print cover choice: ", nameSelect.value);
+    if (nameSelect.value === "3") {
         print_rear_cover_row.style.display = "block";
         print_front_label_cover.innerHTML = "BEDRUKKING VOORZIJDE OMSLAG";
         number_pms_colors_cover_label.innerHTML = "AANTAL PMS KLEUREN VOORZIJDE OMSLAG";
@@ -222,33 +103,6 @@ function print_rearCoverSelectCheck(nameSelect) {
         pressvarnish_cover_label.innerHTML = "PERSVERNIS OMSLAG";
     }
 }
-
-
-// Calculate number of pages folder -------------------------------------------------------------------------------->
-const foldermethodInput = document.getElementById('folding')
-
-// select paperbrands
-foldermethodInput.addEventListener('change', e => {
-    const foldermethodInputId = e.target.value
-    console.log("selectedfoldermethodInputId: ", foldermethodInputId);
-
-
-    $.ajax({
-        type: 'GET', url: `/folder_number_of_pages_json/${foldermethodInputId}`,
-
-        success: function (response) {
-            console.log(response.data)
-            data = response.data
-            console.log("data: ", data)
-            let html_data = data + " pagina's"
-            console.log(html_data)
-            $("#number_of_folder_pages").html(html_data)
-
-        }, error: function (error) {
-            console.log(error)
-        }
-    })
-})
 
 // Display enhance options -------------------------------------------------------------------------------->
 
@@ -265,7 +119,7 @@ enhanceDisplayInput.addEventListener('change', e => {
 
     console.log(enhanceChoice, " = enhanceChoice");
 
-    if (enhanceChoice === "Geen veredeling") {
+    if (enhanceChoice === 0) {
         field_enhance_front.style.display = "none";
         field_enhance_rear.style.display = "none";
     }

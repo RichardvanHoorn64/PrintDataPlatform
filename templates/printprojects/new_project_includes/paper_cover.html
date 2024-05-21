@@ -5,11 +5,8 @@
     <title>Paper cover</title>
 </head>
 <body>
-<div class="container" id="paper_cover" {% if update and productcategory_id in productcategory_cover %}
-     style="display: block">
-        {% else %}
-            style="display: none">
-        {% endif %}
+<div class="container" id="paper_cover" >
+
     <!-- ===============================================-->
     <!--   Row title -->
     <!-- ===============================================-->
@@ -27,8 +24,16 @@
         <div class="col-sm-6 col-md-6">
             <label class="form-label" for="papercategory_cover">1. Papiercategorie omslag *</label>
             <select class="form-select" id="papercategory_cover" name="papercategory_cover">
-
-                {% for i in papercategories_cover %}
+            {% if not update %} required {% endif %}>
+                    {% if update %}
+                        <option value="">Wijzig papiercategorie</option>
+                    {% else %}
+                        <option value="">Kies papiercategorie</option>
+                    {% endif %}
+                    {%  for i in papercategories %}
+                        <option value="{{ i.papercategory_id }}">{{ i.papercategory }}</option>
+                         {% endfor %}
+                {% for i in papercategories_cove %}
                     <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
                 {% endfor %}
             </select>
@@ -37,6 +42,7 @@
             <label class="form-label" for="paperbrand_cover">Kies papiermerk omslag *</label>
             <select class="form-select" id="paperbrand_cover" name="paperbrand_cover" onclick="popUpEmpyPaperCategoryCover()">
                 {% for i in paperbrands_cover %}
+                     
                     <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
                 {% endfor %}
             </select>
@@ -78,8 +84,8 @@
 
 
     <h2 class="accordion-header" id="new_paper_heading">
-      <button id="NewPaperSwitch" class="accordion-button collapsed text-info" type="button" data-bs-toggle="collapse" data-bs-target="#newPaperSpec_cover" aria-expanded="false" aria-controls="newPaperSpec" onclick="new_paperSelectCheck()">
-        Omslag papiersoort niet gevonden? Maak een nieuwe specificatie aan.
+      <button id="NewPaperSwitch" class="accordion-button collapsed text-warning" type="button" data-bs-toggle="collapse" data-bs-target="#newPaperSpec_cover" aria-expanded="false" aria-controls="newPaperSpec" onclick="new_paperSelectCheck()">
+        Omslag papiersoort niet gevonden? Nieuwe specificatie aanvragen.
       </button>
     </h2>
         </div>

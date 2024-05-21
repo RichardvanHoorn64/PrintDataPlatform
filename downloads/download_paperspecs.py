@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
-from materials.models import PaperBrand
+from materials.models import PaperBrands
 
 
 class DownloadPaperBrands(LoginRequiredMixin, TemplateView):
@@ -12,8 +12,8 @@ class DownloadPaperBrands(LoginRequiredMixin, TemplateView):
         papercategory_id = self.kwargs['papercategory_id']
 
         if papercategory_id == 0:
-            paperbrand_list = PaperBrand.objects.all()
+            paperbrand_list = PaperBrands.objects.all()
         else:
-            paperbrand_list = PaperBrand.objects.filter(papercategory_id=papercategory_id)
+            paperbrand_list = PaperBrands.objects.filter(papercategory_id=papercategory_id)
         context['paperbrand_list'] = paperbrand_list
         return context

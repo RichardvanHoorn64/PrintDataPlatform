@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Store</title>
+</head>
+<body>
+<div class="d-flex justify-content-left">
+        
+        {% if 1 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            {# Card Plano products #}
+             
+            <div class="card-img-top jhj">
+                <img class="card-img-top"
+                     src='https://{{ src_loc }}{{ media_loc }}/plano.png'
+                     alt="Image Plano">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Plano producten</h5>
+                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
+                    verwerken.</p>
+                <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 1 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+            </div>
+                {% endif %}
+        
+        </div>
+         {# Card Folders #}
+         {% if 2 in categories_available %}
+         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            <div class="card-img-top jhj">
+                <img class="card-img-top"
+                     src='https://{{ src_loc }}{{ media_loc }}/folders.png'
+                     alt="Image Folders">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Folders</h5>
+                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
+                    verwerken.</p>
+                <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 2 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+            </div>
+                {% endif %}
+        </div>
+        {# Card Selfcovers #}
+         {% if 3 in categories_available %}
+         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            <div class="card-img-top jhj">
+                <img class="card-img-top"
+                     src='https://{{ src_loc }}{{ media_loc }}/selfcovers.png'
+                     alt="Image Folders">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Selfcovers</h5>
+                <p class="card-text">Brochures geniet zonder omslag.</p>
+                <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 3 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+            </div>
+                {% endif %}
+        </div>
+ {# Card Folders #}
+         {% if 4 in categories_available %}
+         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            <div class="card-img-top jhj">
+                <img class="card-img-top"
+                     src='https://{{ src_loc }}{{ media_loc }}/geniet_met_omslag.png'
+                     alt="Image Folders">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Geniet met omslag</h5>
+                <p class="card-text">Brochures geniet in een omslag.</p>
+                <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 4 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+            </div>
+                {% endif %}
+        </div>
+ {# Card Folders #}
+         {% if 5 in categories_available %}
+         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            <div class="card-img-top jhj">
+                <img class="card-img-top"
+                     src='https://{{ src_loc }}{{ media_loc }}/brochures.png'
+                     alt="Image Folders">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Folders</h5>
+                <p class="card-text">Brochurs, genaaid of garenloos.</p>
+                <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 5 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+            </div>
+                {% endif %}
+        </div>
+</div>
+<br>
+
+
+</body>
+</html>

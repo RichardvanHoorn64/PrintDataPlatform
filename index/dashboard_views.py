@@ -4,11 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from offers.models import Offers
 from orders.models import Orders
+from producers.models import ProducerProductOfferings
 from printprojects.models import *
 
 
 class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "members/printdataplatform_memberdashboard.html"
+    template_name = "homepage/member_dashboard.html"
     pk_url_kwarg = 'printprojectstatus_id'
     context_object_name = 'printprojectstatus_id'
 
@@ -30,6 +31,24 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         printprojects = PrintProjects.objects.filter(member_id=member_id, active=True)
         orders = Orders.objects.filter(member_id=member_id, active=True)
         offers = Offers.objects.filter(member_id=member_id, active=True)
+
+        context['user'] =user
+
+        # store
+        categories_available = [1,2,3,4,5]
+
+        if user.member.member_plan_id == 3:
+            excl_producer_id = user.member.exclusive_producer_id
+            categories_available = ProducerProductOfferings.objects.filter(producer_id=excl_producer_id)
+
+        context['categories_available'] = categories_available
+
+
+        src_loc = 'drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/producent'
+        media_loc = str(1)
+
+        context['src_loc'] = src_loc
+        context['media_loc'] = media_loc
 
         # dashboard lists and titles
         context['printproject_list'] = printprojects.order_by('-rfq_date')[:10][::-1]
@@ -95,6 +114,7 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
             empty_table_text = "Geen printprojecten"
 
         context['empty_table_text'] = empty_table_text
+
 
         # dashboard lists
         if printprojectstatus_id == 0:
