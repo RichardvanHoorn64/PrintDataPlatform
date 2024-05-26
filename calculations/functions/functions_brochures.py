@@ -935,15 +935,15 @@ def margin_plates_booklet_calculation(printer_id, number_of_printruns_booklet, r
 
 
 def calc_book_thickness(selfcover, rfq, producer_id):
+    thickness_cover = 0
+
     paper_thickness_booklet = \
         PaperCatalog.objects.filter(producer_id=producer_id, paperbrand=rfq.paperbrand, papercolor=rfq.papercolor,
                                     paperweight_m2=rfq.paperweight).values()[0].get('paper_thickening')
     thickness_booklet = float(rfq.paperweight) * float(0.001) * float(paper_thickness_booklet) * float(
         rfq.number_of_pages / 2)
 
-    if selfcover:
-        thickness_cover = 0
-    else:
+    if not selfcover:
         paper_thickness_cover = \
             PaperCatalog.objects.filter(producer_id=producer_id, paperbrand=rfq.paperbrand_cover,
                                         papercolor=rfq.papercolor_cover,

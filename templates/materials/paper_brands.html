@@ -50,7 +50,7 @@
                         <tbody>
                         <tr>
                             <th>
-                                <a class="text-warning" href="{% url 'paper_brands' 0 %}">Alle
+                                <a class="text-warning" href="{% url 'paper_brands' 'All' %}">Alle
                                     categoriën<span class="text-700 fw-semi-bold"></span></a>
                             </th>
 
@@ -58,7 +58,7 @@
                         <tr>
                             {% for papercategory in papercategory_list %}
                                 <th><a class="nav-link px-2 py-1 text-info"
-                                       href="{% url 'paper_brands' papercategory.papercategory_id %}">{{ papercategory.papercategory }}<span
+                                       href="{% url 'paper_brands' papercategory.papercategory %}">{{ papercategory.papercategory }}<span
                                         class="text-700 fw-semi-bold"></span></a></th></tr>
                             {% endfor %}
                         </tbody>
@@ -75,7 +75,7 @@
                                 <div class="search-box">
                                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                                         <input class="form-control search-input search" type="search"
-                                               placeholder="Zoek papiersoort" aria-label="Search"/>
+                                               placeholder="Zoek papiersoort / categorie" aria-label="Search"/>
                                         <span class="fas fa-search search-box-icon"></span>
 
                                     </form>
@@ -113,16 +113,6 @@
                                             </th>
                                             <th class="align-middle text-start pe-3" scope="col"
                                                 style="width:10%; min-width: 100px;">FSC Keurmerk
-                                            </th>
-
-                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
-                                                Folders
-                                            </th>
-                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
-                                               Brochure omslag
-                                            </th>
-                                            <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
-                                                Brochure binnenwerk
                                             </th>
                                             <th class="align-middle text-start pe-0" scope="col" style="width:30%;">
                                                 Link

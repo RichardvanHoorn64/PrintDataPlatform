@@ -4,12 +4,11 @@ from calculations.functions.functions_general import *
 from calculations.item_calculations.brochure_cover_calculation import brochure_cover_calculation
 
 
-def brochure_calculation(user, rfq):
-    producer_id = user.producer_id
+def brochure_calculation(producer_id, rfq):
+    selfcover = False
     if rfq.productcategory_id == 3:
         selfcover = True
-    else:
-        selfcover = False
+
 
     # Test productsize input
     error = []
@@ -31,7 +30,7 @@ def brochure_calculation(user, rfq):
     # packaging and transport
     if not error:
         try:
-            packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
+            packagingtariff = PackagingOptions.objects.get(packagingoption_id=rfq.packaging)
             packagingoption_id = packagingtariff.packagingoption_id
         except Exception as e:
             error = 'No packagingtariff available, update settings.' + str(e)
@@ -49,6 +48,8 @@ def brochure_calculation(user, rfq):
     if not error:
         try:
             paper_fit_for_rfq = paper_available_booklet(rfq, producer_id)
+            if len(paper_fit_for_rfq) == 0:
+                error = 'Paper for brochure booklet not available.'
         except Exception as e:
             error = 'Paper fit_for rfq brochure booklet not available.' + str(e)
 
@@ -62,7 +63,7 @@ def brochure_calculation(user, rfq):
         try:
             book_thickness = calc_book_thickness(selfcover, rfq, producer_id)
         except Exception as e:
-            error = 'book thickness calculation failed' + str(e)
+            error = 'book thickness calculation failed, ' + str(e)
 
     # booklet------------------------------------------------------------------------------------------
     # paper booklet

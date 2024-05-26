@@ -2,8 +2,8 @@ from index.categories_groups import *
 
 
 def define_exclusive_producer_id(user):
-    member_plan_id = user.member.member_plan_id
-    exclusive_producer_id = None
+    member_plan_id = user.member_plan_id
+    exclusive_producer_id = 1
 
     if member_plan_id in producer_memberplans:
         exclusive_producer_id = user.producer.producer_id

@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import *
+
+from calculations.models import Calculations
 from index.forms.form_invalids import form_invalid_message_quotes
 from offers.form.offer_forms import *
 from offers.models import Offers
@@ -32,9 +34,23 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
         offer_id = self.kwargs['pk']
         user = self.request.user
         offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
+        printproject_id = offer.printproject_id
+
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         context = createprintproject_context(context, user, printproject)
+
+        producer_id= offer.producer_id
+        calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=printproject_id)
+        # createprintproject_context(user, printproject_id)
+        context['calculation'] = calculation
         context['offer'] = offer
+        context['printproject'] = printproject
+
+        error = calculation.error
+        if not error == 'No error':
+            context['error'] = error
+
+        print('calculation error: ', calculation.error)
         return context
 
 

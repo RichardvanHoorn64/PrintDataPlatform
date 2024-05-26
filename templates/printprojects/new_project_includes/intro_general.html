@@ -95,6 +95,7 @@
 <!-- ===============================================-->
     <!--   Row client -->
     <!-- ===============================================-->
+ {% if member_plan_id in open_memberplans %}
     <div class="row">
         <div class="col-sm-6 col-md-6">
             <h4 class="mb-3 text-info">Klant</h4>
@@ -146,6 +147,7 @@
         </div>
     </div>
     <hr class="text-info"><br>
+{% endif %}
 </div>
 </body>
 </html>

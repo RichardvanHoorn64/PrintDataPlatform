@@ -48,13 +48,14 @@
         <!--   PMS colors front cover-->
         <!-- ===============================================-->
 
-
+            {% if brandportal.brandportal_show_pms_input %}
             <div class="col-sm-6 col-md-3">
                 <label class="form-label" id="number_pms_colors_cover_label" for="number_pms_colors_front">Aantal PMS kleuren
                     omslag</label>
                 <input type="text" class="form-control" id="number_pms_colors_front" name="number_pms_colors_front"
                        placeholder=0 value=0>
             </div>
+            {% endif %}
         <!-- ===============================================-->
         <!--   Pressvarnish front cover-->
         <!-- ===============================================-->
@@ -120,7 +121,7 @@
             <select class="form-select" id="enhance" name="enhance">
                 <option value=0>{{ no_enhancement }}</option>
                 {% for i in enhance_choices %}
-                    <option value="{{ i.enhancement_id }}">{{ i.enhancement }}</option>
+                    <option value="{{ i.enhancement }}">{{ i.enhancement }}</option>
                 {% endfor %}
             </select>
         </div>

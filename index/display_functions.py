@@ -54,7 +54,7 @@ def printproject_size(printproject):
 
 
 def printproject_paper(papercategory, paperbrand, paperweight, papercolor):
-    printprojectpaper = str(paperbrand) + " " + str(paperweight) + " " + str(papercolor)
+    printprojectpaper = str(paperbrand) + ", " + str(paperweight) + " g/m2 ," + str(papercolor)
     return printprojectpaper
 
 
@@ -69,8 +69,7 @@ def printproject_printing_booklet(print_booklet, number_pms_colors_booklet, pres
     if pressvarnish_booklet > 0:
         pressvarnish = " en persvernis"
 
-    print_booklet_text = write_print_text(print_booklet)
-
+    print_booklet_text = "Geheel in " + write_print_text(print_booklet)
     printprojectprinting_booklet = print_booklet_text + pms_colors + pressvarnish
     return printprojectprinting_booklet
 
@@ -82,7 +81,10 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
     pms_colors_front = write_print_text(number_pms_colors_front)
     pms_colors_rear = write_print_text(number_pms_colors_rear)
 
-    printprojectprinting = printsided_text + " in " + print_front_text + pms_colors_front
+    printprojectprinting = []
+    if printsided in [1,2]:  # "Eenzijdig" or "Tweezijdig gelijk"
+        printprojectprinting = printsided_text + " in " + print_front_text
+
     if printsided == 3:  # "Tweezijdig verschillend"
         printprojectprinting = "Voorzijde in " + print_front_text + pms_colors_front + ", achterzijde in " + print_rear_text + " " + pms_colors_rear
 
@@ -90,9 +92,24 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
 
 
 def printproject_varnish(printsided, pressvarnish, pressvarnish_rear, ):
-    if pressvarnish == pressvarnish_rear:
-        printproject_varnish_description = pressvarnish
-    elif printsided == "Tweezijdig verschillend":
+    pressvarnish = "Geen persvernis"
+    pressvarnish_rear = "Geen persvernis"
+
+    printproject_varnish_description = pressvarnish
+
+    if pressvarnish == 1:
+        pressvarnish = "Persvernis"
+
+    if pressvarnish_rear == 1:
+        pressvarnish_rear = "Persvernis"
+
+    if pressvarnish == pressvarnish_rear and pressvarnish == 1:
+        if printsided == 1:
+            printproject_varnish_description = "Eenzijdig " +pressvarnish
+        if printsided == 2 and pressvarnish == 1:
+            printproject_varnish_description = "Tweeijdig " + pressvarnish
+
+    if printsided == 3:
         printproject_varnish_description = "Voorzijde " + pressvarnish + " en achterzijde " + pressvarnish_rear
     else:
         printproject_varnish_description = pressvarnish
@@ -123,6 +140,14 @@ def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_
             enhance_description = "Achterzijde " + enhance_rear_text + ", voorzijde geen veredeling "
 
     return enhance_description
+
+def printproject_packaging(packaging):
+    packaging_description = "Packaging_description error: "
+    try:
+        packaging_description = PackagingOptions.objects.get(packagingoption_id=packaging).packaging
+    except Exception as e:
+        print(packaging_description + str(e))
+    return packaging_description
 
 
 def printproject_message_extra_work(message_extra_work):

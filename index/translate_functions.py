@@ -17,6 +17,14 @@ def find_enhancement_id(rfq_input):
     return enhancement_id
 
 
+def find_packaging_id(rfq_input):
+    try:
+        packagingoption_id = PackagingOptions.objects.get(packaging=rfq_input).packagingoption_id
+    except EnhancementOptions.DoesNotExist:
+        packagingoption_id = rfq_input
+    return packagingoption_id
+
+
 def find_brochure_finishingmethod_id(rfq_input):
     try:
         brochure_finishingmethod_id = BrochureFinishingMethods.objects.get(finishingmethod=rfq_input).finishingmethod_id
@@ -29,12 +37,10 @@ def find_foldingspecs(rfq_input):
     try:
         folding = FoldingMethods.objects.get(foldingmethod=rfq_input).foldingmethod_id
         foldingmethod_id = folding.foldingmethod_id
-        number_of_pages = folding.number_of_pages
 
     except FoldingMethods.DoesNotExist:
         foldingmethod_id = 0
-        number_of_pages = 0
-    return foldingmethod_id, number_of_pages
+    return foldingmethod_id
 
 
 def find_orientation(rfq_input):

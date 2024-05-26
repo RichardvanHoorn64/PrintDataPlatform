@@ -53,7 +53,6 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
             printproject_subtitle = 'Aanbieding van: ' + str(exclusive_producer.company)
             context['offer'] = Offers.objects.get(printproject_id=printproject_id)
 
-
         context['printproject_subtitle'] = printproject_subtitle
 
         context['member_plan_id'] = member_plan_id

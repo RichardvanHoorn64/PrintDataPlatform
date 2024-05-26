@@ -52,13 +52,8 @@ function validateFormPrintProjects() {
     return true;
 }
 
-function popUpEmpyProductCategory() {
-     const productcategory = document.getElementById('productcategory_id').value;
-     console.log("Papiercategorie alert started: ", productcategory);
-     if (productcategory === "") {
-         alert("Kies eerst een productcategorie: ", productcategory);
-         }
-}
+
+
 
 // Paper general
 function popUpEmpyPaperCategory() {
@@ -88,7 +83,7 @@ function popUpEmpyPaperWeight() {
 // Paper general cover
 function popUpEmpyPaperCategoryCover() {
      const papercategory_cover = document.getElementById('papercategory_cover').value;
-     console.log("Papiercategorie omslag alert started: ", papercategory_cover);
+     console.log("Papiercategory cover alert started: ", papercategory_cover);
      if (papercategory_cover === "") {
          alert("Kies eerst een omslag papiercategorie.");
          }
@@ -97,6 +92,7 @@ function popUpEmpyPaperCategoryCover() {
 
 function popUpEmpyPaperBrandCover() {
      const paperbrand_cover = document.getElementById('paperbrand_cover').value;
+     console.log("Papierbrand cover alert started: ", paperbrand_cover);
      if (paperbrand_cover === "") {
          alert("Kies eerst een omslag papiermerk.");
          }
@@ -104,6 +100,7 @@ function popUpEmpyPaperBrandCover() {
 
 function popUpEmpyPaperWeightCover() {
      const paperweight_cover = document.getElementById('paperweight_cover').value;
+     console.log("Papierweight cover alert started: ", paperweight_cover);
      if ( paperweight_cover === "") {
          alert("Kies eerst het omslag papiergewicht.");
          }

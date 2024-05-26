@@ -38,13 +38,14 @@ class CalculateAssortiment(View):
 
     def get(self, request):
         user = self.request.user
-        assortiment = PrintProjects.objects.filter(producer_id=user.producer_id, assortiment_item=True).order_by()
+        producer_id = user.producer_id
+        assortiment = PrintProjects.objects.filter(producer_id=producer_id, assortiment_item=True).order_by()
 
         for rfq in assortiment:
             if rfq.productcategory_id in categories_plano:
-                plano_folder_calculation(user, rfq)
+                plano_folder_calculation(producer_id, rfq)
             if rfq.productcategory_id in categories_brochures_all:
-                brochure_calculation(user, rfq)
+                brochure_calculation(producer_id, rfq)
         return redirect('producer_assortiment')
 
 
@@ -267,8 +268,8 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                         enhance_sided=modify_printsided(row['enhance_sided']),
                         enhance_front=find_enhancement_id(row['enhance_front']),
                         enhance_rear=find_enhancement_id(row['enhance_rear']),
-                        packaging=row['packaging'],
-                        folding=find_foldingspecs(row['folding'][0]),
+                        packaging=find_packaging_id(row['packaging']),
+                        folding=find_foldingspecs(row['folding']),
                         number_of_pages=row['number_of_pages'],
                         portrait_landscape=find_orientation(row['portrait_landscape']),
                         finishing_brochures=find_brochure_finishingmethod_id(row['finishing_brochures']),

@@ -36,7 +36,9 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_requester }} op {{ printproject.rfq_date |date:'d-m-Y ' }}</p>
                                         </td>
                                         <td class="border-0"></td>
+                                        
                                     </tr>
+                                     {%  if member_plan_id in open_memberplans %}
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
@@ -47,6 +49,7 @@
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
+                                    {%  endif %}
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
@@ -130,14 +133,14 @@
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis 
+                                            {% if printproject.productcategory_id in productcategory_cover %}
+                                                binnenwerk {% endif %}
+                                            </p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish }}
-                                             {% if printproject.productcategory_id in productcategory_cover %}
-                                                binnenwerk {% endif %}
-
-
+                                             
                                             </p>
                                         </td>
                                         <td class="border-0"></td>
@@ -150,7 +153,6 @@
                                         </td>
                                         <td class="align-middle">
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish_cover }}
-                                                omslag
                                             </p>
                                         </td>
                                         <td class="border-0"></td>
@@ -184,7 +186,7 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Verpakking</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.packaging }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_packaging }}</p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>

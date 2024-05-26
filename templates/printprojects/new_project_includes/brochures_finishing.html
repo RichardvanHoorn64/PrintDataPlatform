@@ -29,7 +29,9 @@
         <div class="col-sm-6 col-md-4">
             <label class="form-label" for="finishing_brochures">Nabewerking</label>
             <select class="form-select" id="finishing_brochures" name="finishing_brochures">
+            {% if brochure_finishingmethods.count > 1  %} 
             <option value="0">Kies nabewerking</option>
+            {% endif %}
                 {% for i in brochure_finishingmethods  %}
                     <option value="{{ i.finishingmethod_id }}">{{ i.finishingmethod }}</option>
                 {% endfor %}

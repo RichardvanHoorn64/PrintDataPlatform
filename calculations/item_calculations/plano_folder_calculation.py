@@ -3,10 +3,9 @@ from calculations.functions.functions_folders import *
 from calculations.functions.functions_general import *
 
 
-def plano_folder_calculation(user, rfq):
+def plano_folder_calculation(producer_id, rfq):
     error = []
     calculation_plano = []
-    producer_id = user.producer_id
     planoproduct_height_mm = rfq.height_mm_product
     planoproduct_width_mm = rfq.width_mm_product
     number_of_pages = 1

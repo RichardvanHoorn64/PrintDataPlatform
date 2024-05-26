@@ -37,12 +37,21 @@
                             <th class="align-middle ps-0" scope="col" style="width:5%; ">Klant<BR>Ordernr</th>
                             <th class="sort align-middle text-start" scope="col" data-sort="project_title"
                                 style="width:30%;">Printproject
+                                
+                                {% if user.member_pla_id in open_menberplans %}
                             </th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Open<br>aanbiedingen
                             </th>
+                                    {% endif %}
+                            
+                            {% if user.member_pla_id in open_menberplans %}
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Offerte</th>
+                            {% endif %}
+                    
+                        {% if user.member_pla_id in open_menberplans %}
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Factuur</th>
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Update</th>
+                            {% endif %}
+                        
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Kopie</th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
                         </tr>
@@ -72,6 +81,8 @@
                                         class="ms-1"
                                         style="height:12.8px;width:12.8px;"></span>
                                     </span></td>
+                                
+                                
                                 <td class="customer align-middle white-space-nowrap ps-0"><a
                                         class="d-flex align-items-center"
                                         {% if printproject.client_id %}
@@ -85,24 +96,25 @@
                                 <td class="project_title align-middle white-space-nowrap text-900 fs--1 text-start">{{ printproject.volume }}
                                     ex. {{ printproject.project_title }}</td>
 
-
+                                {% if user.member_pla_id in open_menberplans %}
                                 <td class="printproject_id align-middle white-space-nowrap py-0">
                                     {% if printproject.printprojectstatus.printprojectstatus_id == 2 %}
                                         <a href="{% url 'printproject_details' printproject.printproject_id %}"></a>
                                         {{ printproject.number_of_offers }}</td>
                                     {% else %}-{% endif %}
-
+                                {% endif  %}
+                                {% if user.member_plan_id in open_memberplans %}
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% include 'buttons/download_client_offer.html' %}
                                 </td>
-
+                                {% endif %}
+            
+                                {% if user.member_plan_id in open_memberplans %}
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% include 'buttons/download_client_invoice.html' %}
                                 </td>
-
-                                <td class="align-middle white-space-nowrap task ps-0 py-0">
-                                    {% include 'buttons/update_printproject.html' %}
-                                </td>
+                                {% endif %}
+                            
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% include 'buttons/clone_printproject.html' %}
                                 </td>

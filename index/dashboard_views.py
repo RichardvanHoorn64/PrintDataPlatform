@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
+
+from index.exclusive_functions import define_exclusive_producer_id
 from members.crm_functions import update_number_of_open_offers
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
@@ -6,6 +8,7 @@ from offers.models import Offers
 from orders.models import Orders
 from producers.models import ProducerProductOfferings
 from printprojects.models import *
+from index.categories_groups import *
 
 
 class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
@@ -35,12 +38,13 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] =user
 
         # store
+        categories_available = ProducerProductOfferings.objects.filter(producer_id=1).values_list('productcategory_id', flat=True)
+
+        if user.member_plan_id in exclusive_memberplans:
+            exclusive_producer_id = define_exclusive_producer_id(user)
+            categories_available = ProducerProductOfferings.objects.filter(producer_id=exclusive_producer_id).values_list('productcategory_id', flat=True)
+
         categories_available = [1,2,3,4,5]
-
-        if user.member.member_plan_id == 3:
-            excl_producer_id = user.member.exclusive_producer_id
-            categories_available = ProducerProductOfferings.objects.filter(producer_id=excl_producer_id)
-
         context['categories_available'] = categories_available
 
 

@@ -6,12 +6,12 @@ const paperCategoryInput = document.getElementById('papercategory')
 
 // select paperbrands
 paperCategoryInput.addEventListener('change', e => {
-    const selectedPaperCategoryId = e.target.value
-    console.log("selectedPaperCategoryId: ", selectedPaperCategoryId);
+    const selectedPaperCategory = e.target.value
+    console.log("selectedPaperCategory: ", selectedPaperCategory);
 
 
     $.ajax({
-        type: 'GET', url: `/paperbrand_json/${selectedPaperCategoryId}`,
+        type: 'GET', url: `/paperbrand_json/${selectedPaperCategory}`,
 
         success: function (response) {
             console.log(response.data);
@@ -19,7 +19,7 @@ paperCategoryInput.addEventListener('change', e => {
 
             let html_data = '<option value="">Kies papiermerk</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperbrand_id}">${data.paperbrand}</option>`
+                html_data += `<option value="${data.paperbrand}">${data.paperbrand}</option>`
 
             })
             $("#paperbrand").html(html_data)
@@ -36,12 +36,12 @@ const paperBrandInput = document.getElementById('paperbrand')
 
 // select paperweight
 paperBrandInput.addEventListener('change', e => {
-    const selectedPaperBrandId = e.target.value
-    console.log("selectedBrandId: ", selectedPaperBrandId);
+    const selectedPaperBrand = e.target.value
+    console.log("selectedBrand: ",selectedPaperBrand);
 
 
     $.ajax({
-        type: 'GET', url: `/paperweight_json/${selectedPaperBrandId}`,
+        type: 'GET', url: `/paperweight_json/${selectedPaperBrand}`,
 
         success: function (response) {
             console.log(response.data)
@@ -49,7 +49,7 @@ paperBrandInput.addEventListener('change', e => {
 
             let html_data = '<option value="">Kies papiergewicht m2</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperweight_id}">${data.paperweight_m2}</option>`
+                html_data += `<option value="${data.paperweight_m2}">${data.paperweight_m2}</option>`
 
             })
             $("#paperweight").html(html_data)
@@ -65,21 +65,24 @@ const paperWeightInput = document.getElementById('paperweight')
 
 
 paperWeightInput.addEventListener('change', e => {
-    const selectedPaperWeightId = e.target.value
-    console.log("selectedPaperWeightId : ", selectedPaperWeightId);
+    const selectedPaperWeight = e.target.value
+    console.log("selectedPaperWeightId : ", selectedPaperWeight);
 
+    const selectedPaperBrand = document.getElementById('paperbrand').value;
+    console.log("selectedPaperBrand : ", selectedPaperBrand);
 // select papercolors
 
     $.ajax({
-        type: 'GET', url: `/papercolor_json/${selectedPaperWeightId}`,
+        type: 'GET', url: `/papercolor_json/${selectedPaperBrand}/${selectedPaperWeight}`,
 
         success: function (response) {
             console.log(response.data)
             data = response.data
 
-            let html_data = '<option value="">Kies kleur</option>'
+            let html_data =
+                 '<option value="">Kies kleur</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperspec_id}">${data.papercolor}</option>`
+                html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
 
             })
             $("#papercolor").html(html_data)
@@ -93,20 +96,19 @@ paperWeightInput.addEventListener('change', e => {
 // End dropdown paper general---------------------------------------------------------------------------------->
 
 
-// paper brand weight and color for covers:
-
+// COVER:
 // get paperategory cover selected -------------------------------------------------------------------------------->
 
 const paperCategoryInputCover = document.getElementById('papercategory_cover')
 
 // select paperbrands
 paperCategoryInputCover.addEventListener('change', e => {
-    const selectedPaperCategoryCoverId = e.target.value
-    console.log("selectedPaperCategoryCoverId: ", selectedPaperCategoryCoverId);
+    const selectedPaperCategoryCover = e.target.value
+    console.log("selectedPaperCategoryCover: ", selectedPaperCategoryCover);
 
 
     $.ajax({
-        type: 'GET', url: `/paperbrand_cover_json/${selectedPaperCategoryCoverId}`,
+        type: 'GET', url: `/paperbrand_cover_json/${selectedPaperCategoryCover}`,
 
         success: function (response) {
             console.log(response.data)
@@ -114,7 +116,7 @@ paperCategoryInputCover.addEventListener('change', e => {
 
             let html_data = '<option value="">Geen merkvoorkeur</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperbrand_id}">${data.paperbrand}</option>`
+                html_data += `<option value="${data.paperbrand}">${data.paperbrand}</option>`
 
             })
             $("#paperbrand_cover").html(html_data)
@@ -126,17 +128,17 @@ paperCategoryInputCover.addEventListener('change', e => {
 })
 
 
-// get paperbrand cover selected -------------------------------------------------------------------------------->
-const paperBrandCoverInput = document.getElementById('paperbrand_cover')
+// get paperbrand selected -------------------------------------------------------------------------------->
+const paperBrandInputCover = document.getElementById('paperbrand_cover')
 
 // select paperweight
-paperBrandCoverInput.addEventListener('change', e => {
-    const selectedPaperBrandCoverId = e.target.value
-    console.log("selectedBrandCoverId: ", selectedPaperBrandCoverId);
+paperBrandInputCover.addEventListener('change', e => {
+    const selectedPaperBrandCover = e.target.value
+    console.log("selectedPaperBrandCover: ",selectedPaperBrandCover);
 
 
     $.ajax({
-        type: 'GET', url: `/paperweight_cover_json/${selectedPaperBrandCoverId}`,
+        type: 'GET', url: `/paperweight_cover_json/${selectedPaperBrandCover}`,
 
         success: function (response) {
             console.log(response.data)
@@ -144,29 +146,33 @@ paperBrandCoverInput.addEventListener('change', e => {
 
             let html_data = '<option value="">Kies papiergewicht m2</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperweight_id}">${data.paperweight_m2}</option>`
+                html_data += `<option value="${data.paperweight_m2}">${data.paperweight_m2}</option>`
 
             })
             $("#paperweight_cover").html(html_data)
 
         }, error: function (error) {
-            console.log("cover weight error: ", error)
+            console.log(error)
         }
     })
-})
+});
 
-// get papierweight cover selected -------------------------------------------------------------------------------->
+// get cover papercolor selected -------------------------------------------------------------------------------->
 const paperWeightCoverInput = document.getElementById('paperweight_cover')
 
 
 paperWeightCoverInput.addEventListener('change', e => {
-    const selectedPaperWeightCoverId = e.target.value
-    console.log("selectedPaperWeightCoverId : ", selectedPaperWeightCoverId);
+    const selectedPaperWeightCover = e.target.value
+    console.log("selectedPaperWeightCover : ", selectedPaperWeightCover);
+
+// select papercolors cover
+    const selectedPaperBrandCover = document.getElementById('paperbrand_cover').value;
+    console.log("selectedPaperBrandCover 2 : ", selectedPaperBrandCover);
 
 // select papercolors
 
     $.ajax({
-        type: 'GET', url: `/papercolor_cover_json/${selectedPaperWeightCoverId}`,
+        type: 'GET', url: `/papercolor_cover_json/${selectedPaperBrandCover}/${selectedPaperWeightCover}`,
 
         success: function (response) {
             console.log(response.data)
@@ -174,8 +180,7 @@ paperWeightCoverInput.addEventListener('change', e => {
 
             let html_data = '<option value="">Kies kleur</option>'
             data.forEach(function (data) {
-                html_data += `<option value="${data.paperspec_id}">${data.papercolor}</option>`
-
+                html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
             })
             $("#papercolor_cover").html(html_data)
 

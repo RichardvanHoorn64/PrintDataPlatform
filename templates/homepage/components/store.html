@@ -8,7 +8,7 @@
 <div class="d-flex justify-content-left">
         
         {% if 1 in categories_available %}
-        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+        <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
             {# Card Plano products #}
              
             <div class="card-img-top jhj">
@@ -18,8 +18,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Plano producten</h5>
-                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
-                    verwerken.</p>
+                <p class="card-text">Van visitekaartje tot posters.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 1 %}"><span
                         class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
             </div>
@@ -28,7 +27,7 @@
         </div>
          {# Card Folders #}
          {% if 2 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/folders.png'
@@ -36,8 +35,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Folders</h5>
-                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
-                    verwerken.</p>
+                <p class="card-text">Plano, maar dan gevouwen.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 2 %}"><span
                         class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
             </div>
@@ -45,7 +43,7 @@
         </div>
         {# Card Selfcovers #}
          {% if 3 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/selfcovers.png'
@@ -61,7 +59,7 @@
         </div>
  {# Card Folders #}
          {% if 4 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/geniet_met_omslag.png'
@@ -77,15 +75,15 @@
         </div>
  {# Card Folders #}
          {% if 5 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/brochures.png'
                      alt="Image Folders">
             </div>
             <div class="card-body">
-                <h5 class="card-title">Folders</h5>
-                <p class="card-text">Brochurs, genaaid of garenloos.</p>
+                <h5 class="card-title">Gebrocheerd</h5>
+                <p class="card-text">Brochures, genaaid of garenloos.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 5 %}"><span
                         class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
             </div>

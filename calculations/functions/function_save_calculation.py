@@ -185,7 +185,4 @@ def save_calculation(rfq, best_offer, error):
         calculation.error = error,
         calculation.total_cost = 0
         calculation.total_cost1000extra = 0
-        general_error = str(error)
-        error = 'General error: ' + general_error
-        print(error)
         calculation.save()

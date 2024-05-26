@@ -13,6 +13,7 @@ from index.index_views import *
 from index.note_views import *
 from index.json_views import *
 from materials.material_views import *
+from materials.paper_upload_view import UploadProducerPaperCatalog
 from materials.paper_views import *
 from materials.views_json import *
 from members.account_views import *
@@ -63,6 +64,7 @@ urlpatterns = [
 
     path('printproject_details/<int:printproject_id>', PrintProjectDetailsView.as_view(),
          name='printproject_details'),   # update pricing
+
     path('printproject_clone/<int:printproject_id>', PrintProjectCloneView.as_view(),
          name='printproject_clone'),
     path('printproject_update/<int:printproject_id>', PrintProjectCloneUpdateView.as_view(),
@@ -85,7 +87,10 @@ urlpatterns = [
     path('deny_offer/<int:pk>', DenyOfferView.as_view(), name='deny_offer'),
     path('close_offer/<int:pk>/', CloseOfferView.as_view(), name='close_offer'),
 
-    path('thanks_submit_offer/', ThanksSubmitView.as_view(), name='thanks_submit_offer'),
+
+    path('handle_offer/<int:offer_id>/<int:offerstatus_id>', HandleOfferView.as_view(),
+     name='handle_offer'),
+
 
     # orders
     path('order_dashboard/<int:order_status_id>', OrderDashboard.as_view(), name='order_dashboard'),
@@ -167,22 +172,22 @@ urlpatterns = [
     path('producer_paper_catalog_upload/', UploadProducerPaperCatalog.as_view(), name='producer_paper_catalog_upload'),
 
     # paper
-    path('paper_brands/<int:papercategory_id>', PaperBrandsDisplay.as_view(), name='paper_brands'),
+    path('paper_brands/<str:papercategory>', PaperBrandsDisplay.as_view(), name='paper_brands'),
     path('download_paperbrands', DownloadPaperBrands.as_view(), name='download_paperbrands'),
 
     # java / ajax urls paperchoices for quotes paperselection
-    path('paperbrand_json/<str:papercategory_id>', get_json_paperbrand, name='paperbrand_json'),
-    path('paperweight_json/<str:paperbrand_id>', get_json_paperweight,
+    path('paperbrand_json/<str:papercategory>', get_json_paperbrand, name='paperbrand_json'),
+    path('paperweight_json/<str:paperbrand>', get_json_paperweight,
          name='paperweight_json'),
-    path('papercolor_json/<int:paperweight_id>', get_json_papercolor, name='papercolor_json'),
+    path('papercolor_json/<str:paperbrand>/<int:paperweight>', get_json_papercolor, name='papercolor_json'),
 
-    path('papercategory_cover_json', get_json_cover_papercategory, name='papercategory_cover_json'),
-    path('paperbrand_cover_json/<str:papercategory_id>', get_json_cover_paperbrand,
+
+    # path('papercategory_cover_json', get_json_cover_papercategory, name='papercategory_cover_json'),
+    path('paperbrand_cover_json/<str:papercategory>', get_json_cover_paperbrand,
          name='paperbrand_cover_json'),
-    path('paperweight_cover_json/<str:paperbrand_id>', get_json_cover_paperweight,
+    path('paperweight_cover_json/<str:paperbrand>', get_json_cover_paperweight,
          name='paperweight_cover_json'),
-    path('papercolor_cover_json/<str:paperweight_id>', get_json_cover_papercolor,
-         name='papercolor_cover_json'),
+    path('papercolor_cover_json/<str:paperbrand>/<int:paperweight>', get_json_cover_papercolor, name='papercolor_cover_json'),
 
     # java / ajax urls paperchoices for quotes calculate folder number of pages
     path('folder_number_of_pages_json/<str:foldingmethod_id>', get_json_folder_number_of_pages,

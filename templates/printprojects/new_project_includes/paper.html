@@ -21,48 +21,49 @@
     <div id="default_paper_input">
         <div class="row">
             <div class="col-sm-6 col-md-6">
-                <label class="form-label" for="papercategory">1. Papier categorie *</label>
-                <select class="form-select" id="papercategory" name="papercategory" onclick="popUpEmpyProductCategory()"
+                <label class="form-label" for="papercategory">Papier categorie *</label>
+                <select class="form-select" id="papercategory" name="papercategory" 
                         {% if not update %} required {% endif %}>
                     {% if update %}
                         <option value="">Wijzig papiercategorie</option>
                     {%  for i in papercategories %}
-                        <option value="{{ i.papercategory_id }}">{{ i.papercategory }}</option>
+                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
                     {% endfor %}
                     {% else %}
                         <option value="">Kies papiercategorie</option>
                     {% for i in papercategories %}
-                        <option value="{{ i.papercategory_id }}">{{ i.papercategory }}</option>
+                        <option value="{{ i.papercategory }}">{{ i.papercategory }}</option>
                     {% endfor %}
                 {% endif %}
                 </select>
             </div>
             <div class="col-sm-6 col-md-6">
-                <label class="form-label" for="paperbrand">2. Kies papiermerk *</label>
-                <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmpyPaperCategory()">
+                <label class="form-label" for="paperbrand">Kies papiermerk *</label>
+                <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmpyPaperCategory()"
+                         {% if not update %} required {% endif %}>
                     {% for i in paperbrands %}
                         <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <br>
+
 
         <!-- ===============================================-->
-        <!--   Row paper weight and color -->
+        <!--   Paper weight and color -->
         <!-- ===============================================-->
-        <div class="row">
+
             <div class="col-sm-6 col-md-6">
-                <label class="form-label" for="paperweight">3. Kies papiergewicht *</label>
+                <label class="form-label" for="paperweight">Kies papiergewicht *</label>
                 <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmpyPaperBrand()"
                         {% if not update %} required {% endif %}>
                     {% for i in paperweights %}
-                        <option value="{{ i.paperweight_id }}">{{ i.paperweight_m2 }}</option>
+                        <option value="{{ i.paperweight_m2 }}">{{ i.paperweight_m2 }}</option>
                     {% endfor %}
                 </select>
             </div>
+        {% if show_papercolor %}
             <div class="col-sm-6 col-md-6">
-                <label class="form-label" for="papercolor">4. Kies papierkleur * </label>
+                <label class="form-label" for="papercolor">Kies papierkleur * </label>
                 <select class="form-select" id="papercolor" name="papercolor" onclick="popUpEmpyPaperWeight()"
                         {% if not update %} required {% endif %}>
                     {% for i in papercolors %}
@@ -70,8 +71,10 @@
                     {% endfor %}
                 </select>
             </div>
+        {% endif  %}
         </div>
     </div>
+    {% if member_plan_id in open_memberplans %}
     <br>
     <div class="row">
         <div class="col-sm-12 col-md-12">
@@ -114,6 +117,7 @@
             </div>
         </div>
     </div>
+{% endif  %}
     <hr class="text-info">
 </div>
 <br>

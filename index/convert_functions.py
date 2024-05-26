@@ -2,7 +2,7 @@ from methods.models import *
 
 
 def write_print_text(print_input):
-    print_text = ""
+    print_text = 'print text onbekend'
     if print_input == 1:
         print_text = "Zwart"
     if print_input == 4:
