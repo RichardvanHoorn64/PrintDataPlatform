@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'skins/skin_members.html' %}
+{% extends 'skins/skin.html' %}
 {% load static %}
 <html lang="nl" dir="ltr">
 
@@ -29,58 +29,30 @@
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
-                <li class="breadcrumb-item active">PrintDataPlatform dashboard</li>
+                <li class="breadcrumb-item active">{{ dashboard_title }}</li>
             </ol>
         </nav>
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info">PrintDataPlatform dashboard</h2>
+                    <h2 class="mb-0 text-info">{{ dashboard_title }}</h2>
                 </div>
             </div>
-                            <hr class="text-info">
-                <br>
-            <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-warning"
-                                        href="{% url 'printproject_dashboard' 0 %}">Alles<span
-                        class="text-700 fw-semi-bold">({{ open_projects }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'printproject_dashboard' 1 %}">Open<span
-                        class="text-700 fw-semi-bold">({{ open_projects }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'printproject_dashboard' 2 %}">Aangevraagd<span
-                        class="text-700 fw-semi-bold">({{ rfq_projects }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'printproject_dashboard' 3 %}">In productie <span
-                        class="text-700 fw-semi-bold">({{ prod_projects }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'printproject_dashboard' 4 %}">Gesloten <span
-                        class="text-700 fw-semi-bold">({{ closed_projects }})</span></a></li>
-            </ul>
+            <hr class="text-info">
+        
             <!-- ===============================================-->
             <!--  END  Header-->
             <!-- ===============================================-->
             <!-- ===============================================-->
             <!--    Printproject table-->
             <!-- ===============================================-->
+           
             <div class="mb-4">
-                <div class="row g-3">
-                    <div class="col-auto">
-                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
-                            <div class="btn-group position-static" role="group">
-                                <div class="col-auto">
-                                    {% include 'buttons/projectdata_download.html' %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="text-info">
-                <br>
+
                 <!-- ===============================================-->
                 <!--    Printproject store -->
                 <!-- ===============================================-->
-                   {% include 'homepage/components/store.html' %}
+                    {% include 'printprojects/start_printproject.html' %}
                 <!-- ===============================================-->
                 <!--    End Printproject store -->
                 <!-- ===============================================-->
@@ -88,20 +60,20 @@
                 <!-- ===============================================-->
                 <!--    Printproject Table-->
                 <!-- ===============================================-->
+                    {% if member_plan_id in open_memberplans %}
                    {% include 'printprojects/printproject_table.html' %}
+                        <br>
+                   {% endif %}
                 <!-- ===============================================-->
                 <!--    End Printproject Table-->
                 <!-- ===============================================-->
-
-                <br>
+            
                 <!-- ===============================================-->
                 <!--    Offers Table-->
                 <!-- ===============================================-->
-                {% if member_plan_id in open_memberplans %}
                {% include 'offers/offers_table.html' %}
-                {% endif %}
                 <!-- ===============================================-->
-                <!--    End Printproject Table-->
+                <!--    End PrintOffers Table-->
                 <!-- ===============================================-->
 
                 <br>

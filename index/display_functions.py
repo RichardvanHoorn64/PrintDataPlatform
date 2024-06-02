@@ -1,3 +1,4 @@
+from index.categories_groups import *
 from index.convert_functions import *
 from printprojects.models import ClientContacts
 
@@ -177,14 +178,14 @@ def printproject_number_of_pages(printproject):
 def printproject_finishing(printproject):
     productcategory_id = printproject.productcategory_id
     finishing_text  = ""
-    if productcategory_id == 1:
+    if productcategory_id == categories_plano:
         finishing_text = 'Gesneden tot afgewerkt formaat'
-    if productcategory_id == 2:
+    if productcategory_id == categories_folders:
         finishing_text = write_foldingmethod_text(printproject.folding)
-    if productcategory_id == 3:
-        finishing_text = write_finishingmethod_text(printproject.finishing_brochures) + " selfcover"
-    if productcategory_id in [4, 5]:
-        finishing_text = write_finishingmethod_text(printproject.finishing_brochures) + " pagina's binnenwerk in 4 pagina's omslag"
+    if productcategory_id == categories_selfcovers:
+        finishing_text = write_finishingmethod_text(printproject.finishing_brochures)
+    if productcategory_id in categories_brochures_cover:
+        finishing_text = write_finishingmethod_text(printproject.finishing_brochures)
 
     return finishing_text
 

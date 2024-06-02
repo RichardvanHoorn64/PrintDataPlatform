@@ -1,6 +1,6 @@
 import logging
 from datetime import timedelta
-from index.categories_groups import *
+from index.create_context import *
 from members.forms.accountforms import MemberUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.signals import got_request_exception
@@ -123,39 +123,21 @@ class MyAccountView(DetailView, LoginRequiredMixin):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MyAccountView, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(MyAccountView, self).get_context_data(**kwargs)
         member = Members.objects.get(member_id=user.member_id)
         member_plan_id = member.member_plan_id
-
         memberplan = MemberPlans.objects.get(member_plan_id=member_plan_id)
+        context = creatememberplan_context(context, user)
         context['memberplan'] = memberplan
-        context['upgrade_member_plan'] = MemberPlans.objects.get(member_plan_id=member_plan_id).plan_name
         context['member'] = member
+        context['member_plan_id'] = member_plan_id
+        context['upgrade_member_plan'] = MemberPlans.objects.get(member_plan_id=2, language_id=user.language_id)
+        context['member_plan_name'] = MemberPlans.objects.get(member_plan_id=member_plan_id,
+                                                              language_id=user.language_id).plan_name
         context['plan_name'] = memberplan.plan_name
         context['expire_date'] = member.created + timedelta(days=30)
-
-        if member_plan_id in producer_memberplans:
-            context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True)
-        else:
-            context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True,
-                                                                       first_user=True)
-        if member_plan_id in calculator_memberplans:
-            productoffer_list = ProducerProductOfferings.objects.filter(producer_id=user.producer_id)
-            if not productoffer_list:
-                categories = ProductCategory.objects.filter(language_id=self.request.user.language_id)
-
-                for product in categories:
-                    new_product = ProducerProductOfferings.objects.create(
-                        producer_id=self.request.user.producer_id,
-                        productcategory_id=product.productcategory_id,
-                        availeble=True
-                    )
-                    new_product.save()
-            productoffer_list = ProducerProductOfferings.objects.filter(producer_id=user.producer_id)
-
-            context['productoffer_list'] = productoffer_list
-
+        context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True)
         return context
 
 
@@ -231,7 +213,7 @@ class DeactivateUser(LoginRequiredMixin, View):
             return redirect('/my_account/' + str(user.member_id))
 
 
-class UpgradeView(LoginRequiredMixin, View):
+class MemberplanUpgradeView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -241,8 +223,8 @@ class UpgradeView(LoginRequiredMixin, View):
         else:
             member_id = self.kwargs['member_id']
 
-            if user.member_id == member_id and user.member.member_plan_id in [1, 2]:
+            if user.member_id == member_id and user.member.member_plan_id in [1, 3]:
                 upgrade_member = Members.objects.get(member_id=member_id)
-                upgrade_member.member_plan_id = 3
+                upgrade_member.member_plan_id = 2
                 upgrade_member.save()
             return redirect('/my_account/' + str(user.member_id))

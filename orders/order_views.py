@@ -9,7 +9,7 @@ from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from index.forms.form_invalids import form_invalid_message_quotes
 from offers.models import *
-from printprojects.printproject_context import createprintproject_context
+from index.create_context import createprintproject_context, creatememberplan_context
 
 
 class OrderDashboard(LoginRequiredMixin, TemplateView):
@@ -28,8 +28,9 @@ class OrderDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         order_status_id = kwargs['order_status_id']
-        context = super(OrderDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(OrderDashboard, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         member_id = user.member_id
         orders = Orders.objects.filter(member_id=member_id, active=True)
 
@@ -169,9 +170,10 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        offer_id = self.kwargs['offer_id']
         user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        offer_id = self.kwargs['offer_id']
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
 
@@ -215,15 +217,15 @@ class OrderDetailsView(LoginRequiredMixin, TemplateView):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        order_id = kwargs['order_id']
         user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        order_id = kwargs['order_id']
         order = Orders.objects.get(member_id=user.member_id, order_id=order_id)
         printproject_id = order.printproject_id
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
         context = createprintproject_context(context, user, printproject)
         context['order'] = order
-
         return context
 
 

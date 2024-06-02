@@ -8,7 +8,7 @@ from index.forms.note_form import *
 from index.forms.relationforms import *
 from methods.models import *
 from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
-from printprojects.printproject_context import createprintproject_context
+from index.create_context import createprintproject_context
 from producers.models import ProducerContacts
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,31 +20,29 @@ from django.views.generic.edit import FormMixin
 from profileuseraccount.form_invalids import form_invalid_message
 
 
-class ProducerOfferDetails(LoginRequiredMixin, UpdateView):
+class ProducerOfferDetails(UpdateView, LoginRequiredMixin):
     template_name = 'producers/producer_offer_details.html'
     pk_url_kwarg = 'offer_id'
-    context_object_name = 'offer_id'
-    model = PrintProjects
+    model = Offers
     form_class = PrintProjectPriceUpdateForm
 
     def get_success_url(self):
         offer_id = self.kwargs['offer_id']
         return '/printproject_details/' + str(offer_id)
 
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
     def form_valid(self, form):
         return super().form_valid(form)
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
-        form_invalid_message_quotes(form, response)
-        print("form_invalid_message:", response)
+        form_invalid_message(form, response)
         return self.render_to_response(self.get_context_data(form=form))
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,7 +102,7 @@ class ProducerCalculationDetails(LoginRequiredMixin, TemplateView):
 
 
 class ProducerMemberDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/clientmatch_dashboard.html"
+    template_name = "producers/producer_client_dashboard.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
@@ -236,10 +234,6 @@ class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
     model = Producers
     profile = Producers
     form_class = NoteForm
-
-    # def __init__(self, **kwargs):
-    #     super().__init__(kwargs)
-    #     self.object = None
 
     def get_success_url(self):
         return reverse('producer_details', kwargs={'pk': self.object.producer_id})

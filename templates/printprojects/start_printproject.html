@@ -5,12 +5,17 @@
     <title>Store</title>
 </head>
 <body>
+<div class="row g-3 mb-4">
+    <div class="col-auto">
+        <h2 class="mb-0 text-info">{{ start_printproject }}</h2>
+    </div>
+</div>
 <div class="d-flex justify-content-left">
-        
-        {% if 1 in categories_available %}
-        <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
+
+    {% if 1 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             {# Card Plano products #}
-             
+
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/plano.png'
@@ -18,16 +23,17 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Plano producten</h5>
-                <p class="card-text">Van visitekaartje tot posters.</p>
+                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
+                    verwerken.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 1 %}"><span
-                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
-                {% endif %}
-        
         </div>
-         {# Card Folders #}
-         {% if 2 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
+    {% endif %}
+
+    {# Card Folders #}
+    {% if 2 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/folders.png'
@@ -35,15 +41,16 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">Folders</h5>
-                <p class="card-text">Plano, maar dan gevouwen.</p>
+                <p class="card-text">Van visitekaartje tot posters. Of plano drukvellen/verpakking om verder te
+                    verwerken.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 2 %}"><span
-                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
-                {% endif %}
         </div>
-        {# Card Selfcovers #}
-         {% if 3 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
+    {% endif %}
+    {# Card Selfcovers #}
+    {% if 3 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/selfcovers.png'
@@ -53,45 +60,44 @@
                 <h5 class="card-title">Selfcovers</h5>
                 <p class="card-text">Brochures geniet zonder omslag.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 3 %}"><span
-                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
-                {% endif %}
         </div>
- {# Card Folders #}
-         {% if 4 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
+    {% endif %}
+    {# Card Folders #}
+    {% if 4 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/geniet_met_omslag.png'
                      alt="Image Folders">
             </div>
             <div class="card-body">
-                <h5 class="card-title">Geniet met omslag</h5>
-                <p class="card-text">Brochures geniet in een omslag.</p>
+                <h5 class="card-title">Brochures</h5>
+                <p class="card-text">Geniet in een omslag.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 4 %}"><span
-                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
-                {% endif %}
         </div>
- {# Card Folders #}
-         {% if 5 in categories_available %}
-         <div class="card overflow-hidden rounded-2 border border-info" style="height: 100%; width: 100%; margin-right:20px">
+    {% endif %}
+    {# Card Folders #}
+    {% if 5 in categories_available %}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
                      src='https://{{ src_loc }}{{ media_loc }}/brochures.png'
                      alt="Image Folders">
             </div>
             <div class="card-body">
-                <h5 class="card-title">Gebrocheerd</h5>
-                <p class="card-text">Brochures, genaaid of garenloos.</p>
+                <h5 class="card-title">Brochures</h5>
+                <p class="card-text">Genaaid of garenloos.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 5 %}"><span
-                        class="fa-solid fa-plus fs--1 me-2"></span>Start project</a>
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
-                {% endif %}
         </div>
+    {% endif %}
 </div>
+<hr class="text-info">
 <br>
-
-
 </body>
 </html>

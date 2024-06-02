@@ -11,7 +11,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>{{ asset_dashboard_title }}</title>
+    <title>Printproject dashboard</title>
 </head>
 
 <!-- ===============================================-->
@@ -29,53 +29,35 @@
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
-                <li class="breadcrumb-item active">{{ asset_dashboard_title }}</li>
+                <li class="breadcrumb-item active">Calculatie errors</li>
             </ol>
         </nav>
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info">{{ asset_dashboard_title }}</h2>
+                    <h2 class="mb-0 text-info">Calculatie errors</h2>
                 </div>
             </div>
             <!-- ===============================================-->
             <!--  END  Header-->
             <!-- ===============================================-->
+            <!-- ===============================================-->
+            <!--    Printproject table-->
+            <!-- ===============================================-->
+
 
                 <!-- ===============================================-->
-                <!--    Printers asset Table-->
+                <!--    Offer Table-->
                 <!-- ===============================================-->
-                {% include 'assets/asset_tables/asset_table_printers.html' %}<br>
+                {% include 'producers/tables/calculation_errors_table_producers.html' %}
                 <!-- ===============================================-->
-                <!--    End  Printers asset Table-->
+                <!--    End Offer Table-->
                 <!-- ===============================================-->
-
-                <!-- ===============================================-->
-                <!--    Cuttingmachines asset Table-->
-                <!-- ===============================================-->
-                {% include 'assets/asset_tables/asset_table_cuttingmachines.html' %}<br>
-                <!-- ===============================================-->
-                <!--    End  Cuttingmachines asset Table-->
-                <!-- ===============================================-->
-
-                <!-- ===============================================-->
-                <!--    Foldingmachines asset Table-->
-                <!-- ===============================================-->
-                {% include 'assets/asset_tables/asset_table_foldingmachines.html' %}<br>
-                <!-- ===============================================-->
-                <!--    End  Foldingmachines asset Table-->
-                <!-- ===============================================-->
-
-                 <!-- ===============================================-->
-                <!--    Bindingmachines asset Table-->
-                <!-- ===============================================-->
-                 {% include 'assets/asset_tables/asset_table_bindingmachines.html' %}<br>
-                <!-- ===============================================-->
-                <!--    End  Bindingmachines asset Table-->
-                <!-- ===============================================-->
-            <br>
+                <hr>
+            </div>
         </div>
     </div>
+
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->

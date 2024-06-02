@@ -56,15 +56,8 @@
                 </table>
             </div>
             <br>
-            {% if memberplan.member_plan in  '"3", "4"' %}
                 <a type="button" href="{% url 'create_co_worker' member.member_id %}"
                    class="btn btn-info me-1 mb-1">Contact toevoegen</a>
-            {% else %}
-                <h6 class="mb-0">Collaga's toevoegen?</h6>
-                <br>
-                {% include 'buttons/memberaccount_upgrade.html' %}
-
-            {% endif %}
         </div>
     </div>
 </div>

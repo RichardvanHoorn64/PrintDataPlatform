@@ -4,12 +4,11 @@ import xlsxwriter
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
+from index.create_context import creatememberplan_context
 from index.exclusive_functions import define_exclusive_producer_id
 from materials.models import *
-
 
 
 class PaperBrandsDisplay(LoginRequiredMixin, TemplateView):
@@ -17,10 +16,10 @@ class PaperBrandsDisplay(LoginRequiredMixin, TemplateView):
     pk_url_kwarg = 'papercategory'
 
     def get_context_data(self, **kwargs):
-        context = super(PaperBrandsDisplay, self).get_context_data(**kwargs)
-        papercategory = self.kwargs['papercategory']
         user = self.request.user
-
+        context = super(PaperBrandsDisplay, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        papercategory = self.kwargs['papercategory']
         exclusive_producer_id = define_exclusive_producer_id(user)
 
         paperbrand_references = PaperBrandReference.objects.filter(producer_id=exclusive_producer_id)
@@ -33,7 +32,6 @@ class PaperBrandsDisplay(LoginRequiredMixin, TemplateView):
         if not papercategory == 'All':
             paperbrand_list = paperbrand_references.filter(papercategory=papercategory).order_by('paperbrand')
 
-
         context['papercategory_list'] = papercategory_list
         context['paperbrand_list'] = paperbrand_list
         return context
@@ -43,7 +41,9 @@ class ProducerPaperCatalog(LoginRequiredMixin, TemplateView):
     template_name = "materials/paper_producer_catalog.html"
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super(ProducerPaperCatalog, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         context['papercatalog'] = PaperCatalog.objects.filter(producer_id=self.request.user.producer_id)
         return context
 

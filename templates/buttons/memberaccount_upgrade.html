@@ -5,8 +5,8 @@
     <title>Memberaccount upgrade</title>
 </head>
 <body>
-<a type="button" href="{% url 'upgrade' member.member_id %}"
-   class="btn btn-info me- mb-1">Upgrade
+<a type="button" href="{% url 'memberplan_upgrade' member.member_id %}"
+   class="btn btn-warning me- mb-1">Upgrade
     naar {{ upgrade_member_plan }}</a>
 </body>
 </html>

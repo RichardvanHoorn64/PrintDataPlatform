@@ -50,6 +50,7 @@ def write_foldingmethod_text(folding_input):
 
 
 def write_finishingmethod_text(finishing_input):
+
     try:
         brochurefinishing_text = BrochureFinishingMethods.objects.get(
             finishingmethod_id=finishing_input).finishingmethod

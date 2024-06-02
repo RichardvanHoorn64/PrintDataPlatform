@@ -11,7 +11,7 @@ from index.forms.form_invalids import form_invalid_message_quotes
 from offers.form.offer_forms import *
 from offers.models import Offers
 from printprojects.models import PrintProjects
-from printprojects.printproject_context import createprintproject_context
+from index.create_context import createprintproject_context, creatememberplan_context
 
 
 # Create your views here.
@@ -30,7 +30,10 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        context = creatememberplan_context(context)
         offer_id = self.kwargs['pk']
         user = self.request.user
         offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
@@ -40,22 +43,19 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
         context = createprintproject_context(context, user, printproject)
 
         producer_id= offer.producer_id
-        calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=printproject_id)
+        try:
+            calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=printproject_id)
+        except Calculations.DoesNotExist:
+            calculation = []
         # createprintproject_context(user, printproject_id)
         context['calculation'] = calculation
         context['offer'] = offer
         context['printproject'] = printproject
-
-        error = calculation.error
-        if not error == 'No error':
-            context['error'] = error
-
-        print('calculation error: ', calculation.error)
         return context
 
 
 class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
-    template_name = 'offers/offer_producucer.html'
+    template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
     form_class = OfferProducerFormAcces
@@ -89,6 +89,7 @@ class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context)
         offer_id = self.kwargs['pk']
         context['display'] = 0
         context['display_access'] = 1
@@ -104,7 +105,7 @@ class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
 
 
 class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'offers/offer_producucer.html'
+    template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
     form_class = OfferProducerForm
@@ -132,6 +133,7 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context)
         user = self.request.user
         offer_id = self.kwargs['pk']
 
@@ -148,7 +150,7 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class OfferProducersOpenUpdateView(UpdateView):
-    template_name = 'offers/offer_producucer.html'
+    template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
     form_class = OfferProducerForm
@@ -177,6 +179,7 @@ class OfferProducersOpenUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context)
         offer_id = self.kwargs['pk']
         offer = Offers.objects.get(offer_id=offer_id)
         if offer.offer_key_test == offer.offer_key:
@@ -228,7 +231,7 @@ class CloseOfferView(View):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
-class HandleOfferView(LoginRequiredMixin, TemplateView):
+class HandleOfferView(LoginRequiredMixin, View):
     model = Offers
     profile = Offers
     form_class = OfferProducerForm

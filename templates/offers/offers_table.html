@@ -6,8 +6,6 @@
 </head>
 <body>
 
-
-
 <div class="col-12 mb-0 rounded-2 border border-info">
     <div class="card h-100">
         <div class="card-body">
@@ -18,26 +16,31 @@
                     <table class="table table-sm fs--1 mb-0">
                         <thead>
                         <tr>
-                            <th class="white-space-nowrap align-middle pe-3" scope="col" data-sort="printproject_id"
-                                style="width:5%;">Details
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="offer_id"
                                 style="width:5%;">ID
                             </th>
-                            <th class="align-middle ps-0" scope="col" style="width:10%; ">Uitgebracht</th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"  data-sort="offer_date"
+                                style="width:5%;">Datum aanvraag
+                            <th class="align-middle ps-0" scope="col" data-sort="project_title" style="width:30%; ">Omschrijving</th>
+                            
+
+                            
+                             {% if member_plan_id in open_memberplans %}
                             <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
-                                style="width:15%;">
-                                Producent
-                            </th>
-                            <th class="sort align-middle text-start pe-3" scope="col" data-sort="offer"
+                                style="width:15%;">Producent
+                            </th>  {% endif %}
+                            
+                            <th class="align-middle text-start pe-3" scope="col" data-sort="offer"
                                 style="width:10%; min-width: 100px;">Aanbieding
                             </th>
-                            <th class="sort align-middle ps-0" scope="col" data-sort="customer"
+                            <th class="align-middle ps-0" scope="col" data-sort="customer"
                                 style="width:10%; min-width: 100px;; ">1000 meer
                             </th>
-                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Status</th>
-                            <th class="align-middle ps-0" scope="col" style="width:40%; ">Toelichting</th>
+                            <th class="sort align-middle ps-0" scope="col" data-sort="offer_status"  style="width:15%; ">Status</th>
+                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Details</th>
+                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Herbereken<br>aanvraag</th>
 
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Download<br>aanbieding
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Download<br>offerte
                             </th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Order plaatsen</th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
@@ -47,28 +50,36 @@
                         <tbody class="list" id="offer-table-body">
                         {% for offer in offers_list %}
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offer_id }}</td>
+                                <td class="offer_date align-middle fw-semi-bold text-1000">
+                                {{ offer.created |date:'d-m-Y ' }}</td>
+                               
+                                <td class="project_title align-middle fw-semi-bold text-1000">
+                                {{ offer.printproject.volume }} ex. {{ offer.printproject.project_title }}</td>
+                                 
+                                {% if member_plan_id in open_memberplans %}
+                                <td class="align-middle white-space-nowrap py-0">{{ offer.producer.company }}</td>
+                                {% endif %}
+                            
+                                <td class="align-middle white-space-nowrap py-0">
+                                    {% if offer.offer %}€ {{ offer.offer }}{% else %}---{% endif %}</td>
+                                <td class="align-middle white-space-nowrap py-0">
+                                    {% if offer.offer1000extra %}€ {{ offer.offer1000extra }}{% else %}
+                                        ---{% endif %}</td>
+                                <td class="offer_status align-middle white-space-nowrap py-0">{{ offer.offerstatus.offerstatus }}</td>
+                            
                                 <td class="align-middle white-space-nowrap task ps-0 py-0"><a
                                         href="{% url 'offer_details' offer.offer_id %}"
                                         class="btn btn-outline-info btn-sm me-1 mb-1" role="button" aria-pressed="true"><i
                                         class="fas fa-info text-info fs-1"></i></a></td>
-
-                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offer_id }}</td>
-                                <td class="rfq_date align-middle fw-semi-bold text-1000">
-                                    {% if offer.offer_date %}{{ offer.offer_date |date:'d-m-Y ' }}{% else %}
-                                        ---{% endif %}</td>
-                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.producer.company }}</td>
-
-                                <td class="offer_id align-middle white-space-nowrap py-0">
-                                    {% if offer.offer %}€ {{ offer.offer }}{% else %}Geen{% endif %}</td>
-                                <td class="offer_id align-middle white-space-nowrap py-0">
-                                    {% if offer.offer_1000extra %}€ {{ offer.offer_1000extra }}{% else %}
-                                        Geen{% endif %}</td>
-                                <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offerstatus.offerstatus }}</td>
-
-                                <td class="offer_id align-middle white-space-nowrap py-0">
-                                    {% if offer.producer_notes %}{{ offer.producer_notes }}{% else %}
-                                        Geen{% endif %}</td>
-
+                                
+                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                        <a href="{% url 'printproject_clone' offer.printproject_id %}"
+                                           class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                           aria-pressed="true"><i class="far fa-clone text-info fs-1"></i></a>
+                                </td>
+                                
+                                
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% if offer.offer_date %}
                                         <a href="{% url 'offer_details' offer.offer_id %}"
@@ -111,7 +122,7 @@
                                     class="fas fa-chevron-right"></span></button>
                         </div>
                 {% else %}
-                    {{ empty_table_text_offers }}
+                    {{ empty_table_text_offers }}    
                 {% endif %}
                 </div>
         </div>

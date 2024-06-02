@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
 
+from index.create_context import creatememberplan_context
 from index.exclusive_functions import define_exclusive_producer_id
 from members.crm_functions import update_number_of_open_offers
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -26,27 +27,51 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(PrintDataPlatformDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(PrintDataPlatformDashboard, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         member_id = user.member_id
+        member_plan_id = user.member_plan_id
         update_number_of_open_offers(member_id)
 
         printprojects = PrintProjects.objects.filter(member_id=member_id, active=True)
         orders = Orders.objects.filter(member_id=member_id, active=True)
-        offers = Offers.objects.filter(member_id=member_id, active=True)
+        offers = Offers.objects.filter(member_id=member_id, active=True).exclude(offerstatus_id=4)
+        # text
 
-        context['user'] =user
+        printproject_table_title = 'Laatste 10 printprojecten'
+        offer_table_title = 'Laatste 10 aanbiedingen'
+        order_table_title = 'Laatste 10 orders'
+        dashboard_title = "PrintDataPlatform dashboard"
+        start_printproject = 'start printproject'
+        start_project_buttontext = 'Start project'
+
+        context['user'] = user
+        context['member_plan_id'] = member_plan_id
 
         # store
-        categories_available = ProducerProductOfferings.objects.filter(producer_id=1).values_list('productcategory_id', flat=True)
+        categories_available = ProducerProductOfferings.objects.filter(producer_id=1).values_list('productcategory_id',
+                                                                                                  flat=True)
 
         if user.member_plan_id in exclusive_memberplans:
             exclusive_producer_id = define_exclusive_producer_id(user)
-            categories_available = ProducerProductOfferings.objects.filter(producer_id=exclusive_producer_id).values_list('productcategory_id', flat=True)
+            exclusive_producer = Producers.objects.get(producer_id=exclusive_producer_id)
 
-        categories_available = [1,2,3,4,5]
+            offers = offers.filter(producer_id=exclusive_producer_id)
+            orders = orders.filter(producer_id=exclusive_producer_id)
+            categories_available = ProducerProductOfferings.objects.filter(
+                producer_id=exclusive_producer_id).values_list('productcategory_id', flat=True)
+
+            # text
+            printproject_table_title = 'Laatste 10 printprojecten'
+            offer_table_title = 'Laatste 10 aanbiedingen van ' + str(exclusive_producer.company)
+            order_table_title = 'Laatste 10 orders geplaatst bij ' + str(exclusive_producer.company)
+
+            dashboard_title = "Welkom bij " + str(exclusive_producer.company)
+            start_printproject = 'Start nieuwe aanvraag'
+            start_project_buttontext = 'Start aanvraag'
+
         context['categories_available'] = categories_available
-
 
         src_loc = 'drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/producent'
         media_loc = str(1)
@@ -55,20 +80,17 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['media_loc'] = media_loc
 
         # dashboard lists and titles
+        context['dashboard_title'] = dashboard_title
+        context['start_printproject'] = start_printproject
+        context['start_project_buttontext'] = start_project_buttontext
         context['printproject_list'] = printprojects.order_by('-rfq_date')[:10][::-1]
         context['order_list'] = orders.order_by('-orderdate')[:10][::-1]
         context['offers_list'] = offers.order_by('-offer_date')[:10][::-1]
-        context['printproject_table_title'] = 'Laatste 10 printprojecten'
-        context['offer_table_title'] = 'Laatste 10 aanbiedingen'
-        context['order_table_title'] = 'Laatste 10 orders'
 
-        # counts
-        context['all_projects'] = printprojects.count()
-        context['open_projects'] = printprojects.filter(printprojectstatus=1).count()
-        context['rfq_projects'] = printprojects.filter(printprojectstatus=2).count()
-        context['prod_projects'] = printprojects.filter(printprojectstatus=3).count()
-        context['closed_projects'] = printprojects.filter(printprojectstatus=4).count()
-
+        # text
+        context['printproject_table_title'] = printproject_table_title
+        context['offer_table_title'] = offer_table_title
+        context['order_table_title'] = order_table_title
         context['order_list'] = orders  # .order_by('-rfq_date')
 
         context['empty_table_text'] = "Geen printprojecten"
@@ -93,16 +115,19 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         printprojectstatus_id = kwargs['printprojectstatus_id']
         context = super(PrintprojectDashboard, self).get_context_data(**kwargs)
-        user = self.request.user
+        context = creatememberplan_context(context, user)
         member_id = user.member_id
+
+        # printprojects
         printprojects = PrintProjects.objects.filter(member_id=member_id, active=True)
 
         update_number_of_open_offers(member_id)
 
         orders = Orders.objects.filter(member_id=member_id, active=True)
-        offers = Offers.objects.filter(member_id=member_id, active=True)
+        offers = Offers.objects.filter(member_id=member_id, active=True).exclude(offerstatus_id=4)
 
         if printprojectstatus_id == 0:
             empty_table_text = "Start je eerste printproject"
@@ -118,7 +143,6 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
             empty_table_text = "Geen printprojecten"
 
         context['empty_table_text'] = empty_table_text
-
 
         # dashboard lists
         if printprojectstatus_id == 0:
@@ -138,16 +162,15 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
         context['closed_projects'] = printprojects.filter(printprojectstatus=4).count()
 
         context['order_list'] = orders  # .order_by('-rfq_date')
-
         context['printproject_table_title'] = 'Printprojecten'
 
         return context
 
 
 class OfferDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "orders/order_dashboard.html"
-    pk_url_kwarg = 'offer_id'
-    context_object_name = 'offer_id'
+    template_name = "offers/offer_dashboard.html"
+    pk_url_kwarg = 'offerstatus_id'
+    context_object_name = 'offerstatus_id'
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -159,22 +182,23 @@ class OfferDashboard(LoginRequiredMixin, TemplateView):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        offer_id = kwargs['offer_id']
-        context = super(OfferDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        offerstatus_id = kwargs['offerstatus_id']
+        context = super(OfferDashboard, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         member_id = user.member_id
+
         offers = Offers.objects.filter(member_id=member_id, active=True)
+        if offerstatus_id > 0:
+            offers = offers.filter(offerstatus=offerstatus_id)
 
         # dashboard lists
-        if offer_id == 0:
-            context['offer_list'] = offers  # .order_by('-rfq_date')
-
-        else:
-            context['offer_list'] = offers.filter(offer_id=offer_id)  # .order_by('-rfq_date')
+        context['offers_list'] = offers
         # counts
         context['all_offers'] = offers.count()
-        context['open_offers'] = offers.filter(order_status=1).count()
-        context['rfq_offers'] = offers.filter(order_status=2).count()
-        context['prod_offers'] = offers.filter(order_status=3).count()
-        context['closed_offers'] = offers.filter(order_status=4).count()
+        context['open_offers'] = offers.filter(offerstatus=1).count()
+        context['submitted_offers'] = offers.filter(offerstatus=2).count()
+        context['production_offers'] = offers.filter(offerstatus=3).count()
+        context['closed_offers'] = offers.filter(offerstatus=4).count()
+        context['denied_offers'] = offers.filter(offerstatus=5).count()
         return context

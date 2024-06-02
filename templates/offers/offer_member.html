@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'skins/skin_members.html' %}
+{% extends 'skins/skin.html' %}
 {% load static %}
 <html lang="nl" dir="ltr">
 <head>
@@ -39,11 +39,12 @@
 
         <section class="pt-5 pb-9 bg-white dark__bg-1200 border-top border-300">
         <div class="container-small">
-        <div class="p-4 mb-0 rounded-2 border border-info bg-white">
-                <div class="d-flex justify-content-between align-items-end mb-4">
-                    <h2 class="mb-0 text-info">Aanbieding van:  {{ offer.producer.company }} </h2>
-                </div>
+        
+               
                 {% if error %}
+                    <div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    
+                    
                 <div class="d-flex justify-content-between align-items-end mb-4">
                     <h4 class="mb-0 text-warning">
                         {% if member_plan_id in producer_memberplans %}
@@ -54,7 +55,13 @@
                     {% endif %} </h4>
                 </div>
                 {% else %}
-             {% include 'offers/offer_detailtable.html' %}
+                    {% if offer.offerstatus_id in offer_availeble %}
+                        <div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                         <div class="d-flex justify-content-between align-items-end mb-4">
+                    <h2 class="mb-0 text-info">Aanbieding van:  {{ offer.producer.company }} </h2>
+                </div>
+                    {% include 'offers/offer_detailtable.html' %}
+                          {% endif %}
                 <!-- ===============================================-->
                 <!--    Offer Detail table -->
                 <!-- ===============================================-->

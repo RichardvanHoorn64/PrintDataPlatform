@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account details</title>
+</head>
+<body>
+<div class="col-12 col-md-7 col-xxl-12 mb-xxl-3">
+    <div class="card h-100 rounded-2 border border-info">
+        <div class="card-body d-flex flex-column justify-content-between pb-3">
+            <div class="row align-items-start g-5 mb-3 text-center text-sm-start">
+                <div class="col-12 col-sm-auto">
+                    <h3 class="mb-5">{{ member.company }}</h3>
+                    <div class="row g-4 flex-sm-column">
+                        <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="user"
+                                                                              style="stroke-width:2.5;"></span>
+                                <h5 class="mb-0">Contactpersoon</h5>
+                            </div>
+                            <a class="fs-9 ms-4">{{ member.manager }}</a>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="mail"
+                                                                              style="stroke-width:2.5;"></span>
+                                <h5 class="mb-0">Email</h5>
+                            </div>
+                            <a class="fs-9 ms-4"
+                               href="mailto:{{ member.e_mail_general }}:">{{ member.e_mail_general }}</a>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="home"
+                                                                              style="stroke-width:2.5;"></span>
+                                <h5 class="mb-0">Adres</h5>
+                            </div>
+                            <div class="ms-4">
+                                <p class="text-body-secondary mb-0 fs-9">{{ member.street_number }}<br/></p>
+                                <p class="text-body-secondary mb-0 fs-9">{{ member.postal_code }}, {{ member.city }}<br
+                                        class="d-none d-sm-block"/>{{ member.country }}</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="phone"
+                                                                              style="stroke-width:2.5;">  </span>
+                                <h5 class="mb-0">Tel</h5>
+                            </div>
+                            <a class="fs-9 ms-4"
+                               href="tel:{{ member.tel_general }}">{{ member.tel_general }}</a>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="linkedin"
+                                                                              style="stroke-width:2.5;">  </span>
+                                <h5 class="mb-0">linkedin</h5>
+                            </div>
+                            <a class="fs-9 ms-4"
+                               href="linkedin:{{ member.linkedin_url }}">linkedin url</a>
+                        </div>
+                    </div>
+                </div>
+                {% if member_plan_id in free_memberplans %}
+                {% include 'members/includes/printmanager_free_accountdetails.html' %}
+                {% endif %}
+                {% if member_plan_id in pro_memberplans %}
+                {% include 'members/includes/printmanager_pro_accountdetails.html' %}
+                {% endif %}
+                 {% if member_plan_id in exclusive_memberplans %}
+                {% include 'members/includes/exclusive_accountdetails.html' %}
+                {% endif %}
+        </div>
+        <hr class="text-info">
+        <div class="col-auto">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            {% include 'buttons/update_account.html' %}
+                            {% if member_plan_id in open_memberplans %}
+                            {% include 'buttons/delete_account.html' %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>            
+<br>
+</body>
+</html>

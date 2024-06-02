@@ -42,14 +42,23 @@ class Producers(models.Model):
     street_number = models.CharField(max_length=30, blank=True, null=True)
     postal_code = models.CharField(max_length=7, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
+    country_code = models.CharField(max_length=100, default=1)
     url = models.URLField(max_length=200, blank=True, null=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
+
     # social media
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
-    facebook_url = models.URLField(null=True, blank=True, max_length=200)
 
-    api_available = models.BooleanField(default=False)
+    # modulus
+    exclusive_module = models.BooleanField(default=False)
+    calculation_module = models.BooleanField(default=False)
+    brandportal_module = models.BooleanField(default=False)
+    powerplatform_module = models.BooleanField(default=False)
+    api_module = models.BooleanField(default=False)
+
+    # api settings
+    api_active = models.BooleanField(default=False)
     api_function = models.CharField(max_length=200, blank=True, null=True)
     api_url = models.CharField(max_length=300, blank=True, null=True)
     response_score = models.PositiveIntegerField(default=1, null=True)
@@ -84,13 +93,16 @@ class Members(models.Model):
     e_mail_general = models.EmailField(blank=True)
     street_number = models.CharField(max_length=30, blank=True)
     postal_code = models.CharField(max_length=7, blank=True)
-    city = models.CharField(max_length=100, blank=True)
+    country_code = models.CharField(max_length=100, default=1)
+    city = models.CharField(max_length=100, blank=True, null=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
     # social media
     url = models.URLField(null=True, blank=True, max_length=200)
+
+    # social media
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
-    facebook_url = models.URLField(null=True, blank=True, max_length=200)
+
     doc_templates = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
@@ -118,6 +130,7 @@ class UserProfile(AbstractUser):
     street_number = models.CharField(max_length=30, blank=True)
     postal_code = models.CharField(max_length=7, blank=True)
     city = models.CharField(max_length=100, blank=True)
+    country_code = models.CharField(max_length=100, default=1)
     first_user = models.BooleanField(default=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
@@ -125,6 +138,7 @@ class UserProfile(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
+    demo = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Profile'

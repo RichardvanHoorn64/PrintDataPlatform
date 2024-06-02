@@ -75,6 +75,8 @@ urlpatterns = [
          name='printproject_delete'),
 
     # offers
+    path('offer_dashboard/<int:offerstatus_id>', OfferDashboard.as_view(),
+         name='offer_dashboard'),
     path('offer_details/<int:pk>', OfferDetailsMembersView.as_view(),
          name='offer_details'),
 
@@ -110,7 +112,7 @@ urlpatterns = [
     path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
          name='update_co_worker'),
     path('deactivate_co_worker/<int:id>', DeactivateUser.as_view(), name='deactivate_co_worker'),
-    path('upgrade/<int:member_id>', UpgradeView.as_view(), name='upgrade'),
+    path('memberplan_upgrade/<int:member_id>', MemberplanUpgradeView.as_view(), name='memberplan_upgrade'),
 
     # clients
     path('client_dashboard/', ClientDashboard.as_view(), name='client_dashboard'),
@@ -150,9 +152,13 @@ urlpatterns = [
     path('producer_offer_details/<int:offer_id>', ProducerOfferDetails.as_view(), name='producer_offer_details'),
     path('select_supplier_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
          name='select_supplier_productoffering_switch'),
+    path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
+
 
     # producers member dashboard
-    path('member_dashboard/', ProducerMemberDashboard.as_view(), name='member_dashboard'),
+    path('producer_exlusive_clients/', ProducerExclusiveClients.as_view(), name='producer_exlusive_clients'),
+    path('producer_open_clients/', ProducerOpenClients.as_view(), name='producer_open_clients'),
+
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),
 
     # producer orders

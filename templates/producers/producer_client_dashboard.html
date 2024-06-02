@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'skins/skin_members.html' %}
+{% extends 'skins/skin.html' %}
 {% load static %}
 <html lang="nl" dir="ltr">
 
@@ -92,7 +92,7 @@
                                         <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
                                             Website
                                         </th>
-
+                                         {% if user.member_plan_id in open_memberplans %}
                                         <th class="sort align-middle text-start" scope="col" data-sort="status" style="width:5%;">Status
 
                                         </th>
@@ -102,26 +102,30 @@
                                          <th class="align-middle text-start" scope="col" style="width:5%;">API<br>aan/uit
                                         </th>
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
+                                        
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Blokkeren/<br>deblokkeren</th>
+                                        {% endif %}
                                     </tr>
                                     </thead>
 
                                     <tbody class="list" id="producer-table-body">
                                     {% for member in members_list %}
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                            <td class="client align-middle fw-semi-bold text-1000">{{ member.member.company }}</td>
-                                            <td class="city align-middle fw-semi-bold text-1000">{{ member.member.city }}</td>
-                                            <td class="align-middle fw-semi-bold text-1000">{{ member.member.tel_general }}</td>
+                                            <td class="client align-middle fw-semi-bold text-1000">{{ member.company }}</td>
+                                            <td class="city align-middle fw-semi-bold text-1000">{{ member.city }}</td>
+                                            <td class="align-middle fw-semi-bold text-1000">{{ member.tel_general }}</td>
                                             <td class="align-middle white-space-nowrap text-900 fs--1 text-start"><a
-                                                    href="https://{{ member.member.url }}/">{{ member.member.url }}</a>
+                                                    href="https://{{ member.url }}/">{{ member.url }}</a>
                                             </td>
-
+                                        
+                                        
+                                         {% if user.member_plan_id in open_memberplans %}
                                         <td class="status align-middle fw-semi-bold text-1000">
                                              {% if member.producer_accept %}
                                             Open{% else  %}Geblokkeerd{% endif %}</td>
 
 
-
+                                           
                                             <td class="align-middle fw-semi-bold text-1000">{{ member.producerclient_id }}</td>
                                             {% if member.api %}
                                            <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a
@@ -158,6 +162,7 @@
                                                     class="btn btn-outline-success btn-sm me-1 mb-1" role="button"
                                                     aria-pressed="true"><i class="far fa-handshake text-success fs-1"></i></a>
                                             </td>
+                                        {% endif %}
                                         {% endif %}
 
                                         </tr>

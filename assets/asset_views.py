@@ -3,11 +3,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+
+from index.create_context import creatememberplan_context
 from profileuseraccount.form_invalids import form_invalid_message
 from assets.asset_forms import *
 
 
 def context_create(self, context):
+    user = self.request.user
+    context = creatememberplan_context(context, user)
     context['asset_form_title'] = str(self.asset_category) + ' toevoegen'
     context['text'] = "Hier regristreer je een nieuwe " + str(self.asset_category)
     context['button_text'] = str(self.asset_category) + ' toevoegen'
@@ -16,6 +20,8 @@ def context_create(self, context):
 
 
 def context_update(self, context):
+    user = self.request.user
+    context = creatememberplan_context(context, user)
     context['asset_form_title'] = "Instellingen wijzigen "
     context['text'] = "Hier pas je de instelingen aan van je " + str(self.asset_category)
     context['button_text'] = str(self.asset_category) + ' instellingen wijzigen'
@@ -29,7 +35,10 @@ class AssetDashboardView(LoginRequiredMixin, TemplateView):
     asset = 'Printer'
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super(AssetDashboardView, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+
         context['asset_dashboard_title'] = "Productiemiddelen dashboard"
         context['assets_printers'] = Printers.objects.filter(producer_id=self.request.user.producer_id).order_by(
             'printer_id')

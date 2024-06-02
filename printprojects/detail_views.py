@@ -8,7 +8,7 @@ from offers.models import *
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
 from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
-from printprojects.printproject_context import createprintproject_context
+from index.create_context import createprintproject_context
 
 
 # Princing update included
