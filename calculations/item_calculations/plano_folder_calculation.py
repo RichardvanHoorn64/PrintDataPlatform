@@ -21,7 +21,8 @@ def plano_folder_calculation(producer_id, rfq):
             packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
             packagingoption_id = packagingtariff.packagingoption_id
         except Exception as e:
-            error = 'No packagingtariff available, update settings.' + str(e)
+            error = 'No packagingtariff available, update settings'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -29,7 +30,8 @@ def plano_folder_calculation(producer_id, rfq):
             transporttariff = TransportOptions.objects.get(transport=transport)
             transportoption_id = transporttariff.transportoption_id
         except Exception as e:
-            error = 'No transporttariff available, update settings.' + str(e)
+            error = 'No transporttariff available, update settings'
+            print('error log: ' + error + ' ' + str(e))
 
     # Test productsize input
     if not error:
@@ -40,7 +42,8 @@ def plano_folder_calculation(producer_id, rfq):
         try:
             paper_fit_for_rfq = paper_available_plano(rfq, producer_id)
         except Exception as e:
-            error = 'Paper fit_for rfq plano product not available.' + str(e)
+            error = 'Paper fit_for rfq plano product not available'
+            print('error log: ' + error + ' ' + str(e))
 
     # define plano product size
     if not error:
@@ -52,9 +55,11 @@ def plano_folder_calculation(producer_id, rfq):
                 foldingmachine_number_of_stations = folderspecs[2]
                 number_of_pages = folderspecs[3]
         except Exception as e:
-            error = 'Folderspecs definitions failed.' + str(e)
+            error = 'Folderspecs definitions failed'
+            print('error log: ' + error + ' ' + str(e))
 
-        # - Calculation plano product -----------------------------------------------------------------------------------------------
+        # - Calculation plano product
+        # -----------------------------------------------------------------------------------------------
         assets_printers_plano = []
 
         try:
@@ -71,7 +76,8 @@ def plano_folder_calculation(producer_id, rfq):
                                           ])
                 calculation_plano['printer'] = calculation_plano['asset_name']
             except Exception as e:
-                error = 'No plano product printers fit for plano product:' + str(e)
+                error = 'No plano product printers fit for plano product'
+                print('error log: ' + error + ' ' + str(e))
 
         # PAPER CALCULATION
         # select paperspec_id fit for printer plano product
@@ -83,7 +89,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                 planoproduct_width_mm), axis=1)
 
             except Exception as e:
-                error = 'No paperspec_id for requested plano product availeble.' + str(e)
+                error = 'No paperspec_id for requested plano product availeble'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error and len(calculation_plano) == 0:
             error = 'Paperbrand plano product not availeble.'
@@ -96,7 +103,8 @@ def plano_folder_calculation(producer_id, rfq):
                 calculation_plano['number_of_colors_rear'] = calculation_plano.apply(
                     lambda row: calculate_number_of_colors_rear(rfq, row['varnish_unit']), axis=1)
             except Exception as e:
-                error = 'Calculation number of colors plano product failed.' + str(e)
+                error = 'Calculation number of colors plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -105,7 +113,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                             planoproduct_width_mm),
                     axis=1)
             except Exception as e:
-                error = 'items per_sheet calculation failed.' + str(e)
+                error = 'items per_sheet calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
         # calculate paper_width height plano product
         if not error:
@@ -117,7 +126,8 @@ def plano_folder_calculation(producer_id, rfq):
                     lambda row: find_paper_height(row['paperspec_id'], ), axis=1)
 
             except Exception as e:
-                error = 'Papersizes plano product runs not defined.' + str(e)
+                error = 'Papersizes plano product runs not defined'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -125,7 +135,8 @@ def plano_folder_calculation(producer_id, rfq):
                 calculation_plano['number_of_printruns'] = calculation_plano.apply(
                     lambda row: number_of_printruns_calculation(rfq.printsided, row['printer_id']), axis=1)
             except Exception as e:
-                error = 'Number of_printruns plano product not defined.' + str(e)
+                error = 'Number of_printruns plano product not defined'
+                print('error log: ' + error + ' ' + str(e))
 
         # calculate platecost plano product
         if not error:
@@ -139,7 +150,8 @@ def plano_folder_calculation(producer_id, rfq):
                 calculation_plano['platecost'] = calculation_plano['purchase_plates'] + \
                                                  calculation_plano['margin_plates']
             except Exception as e:
-                error = 'Calculation platecost plano product failed.' + str(e)
+                error = 'Calculation platecost plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         # calculate printingwaste plano product
         if not error:
@@ -156,7 +168,8 @@ def plano_folder_calculation(producer_id, rfq):
                     axis=1)
 
             except Exception as e:
-                error = 'No printingwaste calculation for plano product.' + str(e)
+                error = 'No printingwaste calculation for plano product'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -168,7 +181,8 @@ def plano_folder_calculation(producer_id, rfq):
                     axis=1)
 
             except Exception as e:
-                error = 'net paper quantity calculation plano product failed.' + str(e)
+                error = 'net paper quantity calculation plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -179,7 +193,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                                    'net_paper_quantity1000extra'] + \
                                                                calculation_plano['waste_printing1000extra']
             except Exception as e:
-                error = 'net_paper_quantity_complete_plano failed.' + str(e)
+                error = 'net_paper_quantity_complete_plano failed'
+                print('error log: ' + error + ' ' + str(e))
 
         # plano product cutting
         if not error:
@@ -188,7 +203,8 @@ def plano_folder_calculation(producer_id, rfq):
                     lambda row: definecuttingmachine(producer_id, row['paperspec_id'], ), axis=1)
                 calculation_plano = calculation_plano[calculation_plano['cuttingmachine'] != 0]
             except Exception as e:
-                error = 'No cuttingmachine for plano product availeble.' + str(e)
+                error = 'No cuttingmachine for plano product availeble'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -204,7 +220,8 @@ def plano_folder_calculation(producer_id, rfq):
                     axis=1)
 
             except Exception as e:
-                error = 'Cutting plano product calculation failed.' + str(e)
+                error = 'Cutting plano product calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
             try:
                 calculation_plano['enhancecost'] = calculation_plano.apply(
@@ -218,7 +235,8 @@ def plano_folder_calculation(producer_id, rfq):
                     axis=1)
 
             except Exception as e:
-                error = 'Enhancement cost calculation plano product failed.' + str(e)
+                error = 'Enhancement cost calculation plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -249,7 +267,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                          row['printing_runtime1000extra']), axis=1)
 
             except Exception as e:
-                error = 'Calculation printingcost plano product failed.' + str(e)
+                error = 'Calculation printingcost plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         # inkcost plano product calculation
         if not error:
@@ -262,7 +281,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                     row['paper_quantity1000extra'],
                                                     rfq.printsided), axis=1)
             except Exception as e:
-                error = 'Inkcost calculation plano product failed.' + str(e)
+                error = 'Inkcost calculation plano product failed'
+                print('error log: ' + error + ' ' + str(e))
 
         # folding calculation
         if not error:
@@ -273,7 +293,9 @@ def plano_folder_calculation(producer_id, rfq):
                         lambda row: define_foldingmachine(foldingmachine_number_of_stations, producer_id,
                                                           planoproduct_width_mm, planoproduct_height_mm), axis=1)
                 except Exception as e:
-                    error = 'No folding machine fit for this request.' + str(e)
+                    error = 'No folding machine fit for this request'
+                    print('error log: ' + error + ' ' + str(e))
+
             # foldingcost  calculation
             if not error:
                 try:
@@ -287,7 +309,9 @@ def plano_folder_calculation(producer_id, rfq):
                         axis=1)
 
                 except Exception as e:
-                    error = 'Folding cost calculation failed.' + str(e)
+                    error = 'Folding cost calculation failed'
+                    print('error log: ' + error + ' ' + str(e))
+
             # foldingwaste calculation
             if not error:
                 try:
@@ -296,7 +320,8 @@ def plano_folder_calculation(producer_id, rfq):
                     calculation_plano['waste_folding1000extra'] = calculation_plano.apply(
                         lambda row: foldingwaste_calculation(False, rfq, row['foldingmachine']), axis=1)
                 except Exception as e:
-                    error = 'Folding waste calculation failed.' + str(e)
+                    error = 'Folding waste calculation failed'
+                    print('error log: ' + error + ' ' + str(e))
 
         # papercost  calculation
         if not error:
@@ -332,7 +357,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                                     'paper_added value1000extra']
 
             except Exception as e:
-                error = 'Papercost calculation failed.' + str(e)
+                error = 'Papercost calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -345,7 +371,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                                  planoproduct_width_mm, row['paperspec_id']),
                     axis=1)
             except Exception as e:
-                error = 'Orderweight calculation folders failed.' + str(e)
+                error = 'Orderweight calculation folders failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -358,7 +385,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                            row['orderweight_kg'], ), axis=1)
 
             except Exception as e:
-                error = 'Packaging calculation failed.' + str(e)
+                error = 'Packaging calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -371,13 +399,15 @@ def plano_folder_calculation(producer_id, rfq):
                                                             row['orderweight_kg']), axis=1)
 
             except Exception as e:
-                error = 'Transport calculation failed.' + str(e)
+                error = 'Transport calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
                 calculation_plano['order_startcost'] = calculate_order_startcost(producer_id)
             except Exception as e:
-                error = 'No order_startcost defined:' + str(e)
+                error = 'No order_startcost defined'
+                print('error log: ' + error + ' ' + str(e))
 
         if not error:
             try:
@@ -406,7 +436,8 @@ def plano_folder_calculation(producer_id, rfq):
                 )
 
             except Exception as e:
-                error = "Total cost calculation plano product failed: " + str(error) + str(e)
+                error = "Total cost calculation plano product failed: " + str(error)
+                print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -433,7 +464,8 @@ def plano_folder_calculation(producer_id, rfq):
             calculation_plano['purchase_paper_perc_added'] = purchase_paper_perc_added
 
         except Exception as e:
-            error = 'Plano added value calculation failed' + str(e)
+            error = 'Plano added value calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -449,7 +481,8 @@ def plano_folder_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = 'Brochure total client discount calculation failed' + str(e)
+            error = 'Brochure total client discount calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -461,7 +494,8 @@ def plano_folder_calculation(producer_id, rfq):
                                                         calculation_plano[
                                                             'memberdiscount1000extra']
         except Exception as e:
-            error = 'Brochure calculation not completed.' + str(e)
+            error = 'Brochure calculation not completed'
+            print('error log: ' + error + ' ' + str(e))
 
     #  Save best offer---------------------------------------------------------------------------------------------
     best_offer = []
@@ -492,7 +526,8 @@ def plano_folder_calculation(producer_id, rfq):
             for col in not_used_columns:
                 best_offer.insert(2, col, 0.0)
         except Exception as e:
-            error = 'Offer value calculation failed.' + str(e)
+            error = 'Offer value calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # save calculation
     save_calculation(rfq, best_offer, error)

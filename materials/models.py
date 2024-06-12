@@ -17,50 +17,6 @@ class PaperBrandReference(models.Model):
     class Meta:
         verbose_name = 'paperbrand'
         verbose_name_plural = 'paperbrands'
-#
-#
-# class PaperCategories(models.Model):
-#     papercategory_id = models.AutoField(primary_key=True)
-#     papercategory = models.CharField(max_length=250, blank=True)
-#     producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.papercategory
-#
-#     class Meta:
-#         verbose_name = 'papercategory'
-#         verbose_name_plural = 'papercategories'
-#
-#
-# class PaperBrands(models.Model):
-#     paperbrand_id = models.AutoField(primary_key=True)
-#     producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
-#     papercategory = models.CharField(max_length=250, blank=True)
-#     paperbrand = models.CharField(max_length=250, blank=True)
-#     upload_date = models.DateField(null=True)
-#
-#     def __str__(self):
-#         return self.paperbrand
-#
-#     class Meta:
-#         verbose_name = 'paperbrand'
-#         verbose_name_plural = 'paperbrands'
-#
-#
-# class PaperWeights(models.Model):
-#     paperweight_id = models.AutoField(primary_key=True)
-#     producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
-#     papercategory = models.CharField(max_length=250, blank=True)
-#     paperbrand = models.CharField(max_length=250, blank=True)
-#     paperweight_m2 = models.PositiveIntegerField(null=True, blank=True)
-#     upload_date = models.DateField(null=True)
-#
-#     def __str__(self):
-#         return self.paperweight_m2
-
-    # class Meta:
-    #     verbose_name = 'paperweight'
-    #     verbose_name_plural = 'paperweights'
 
 
 class PaperCatalog(models.Model):
@@ -82,7 +38,7 @@ class PaperCatalog(models.Model):
     sheets_per_pack = models.PositiveIntegerField(null=True, blank=True)
     price_1000sheets = models.DecimalField(null=True, blank=True, max_digits=20, decimal_places=2)
     upload_date = models.DateField(null=True)
-    uploaded_by = models.CharField(max_length=250, blank=True)
+    uploaded_by = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
         return self.paperbrand

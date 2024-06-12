@@ -89,7 +89,7 @@ urlpatterns = [
     path('deny_offer/<int:pk>', DenyOfferView.as_view(), name='deny_offer'),
     path('close_offer/<int:pk>/', CloseOfferView.as_view(), name='close_offer'),
 
-
+    path('close_calculation_error/<int:pk>/', CloseErrorCalculationView.as_view(), name='close_calculation_error'),
     path('handle_offer/<int:offer_id>/<int:offerstatus_id>', HandleOfferView.as_view(),
      name='handle_offer'),
 
@@ -106,12 +106,13 @@ urlpatterns = [
     # account
     path('my_account/<int:pk>', MyAccountView.as_view(), name='my_account'),
     path('my_account_update/<int:pk>', MyAccountUpdateView.as_view(), name='my_account_update'),
+    path('business_account_update/<int:pk>', BusinessAccountUpdateView.as_view(), name='business_account_update'),
     path('my_account_delete/<int:pk>', MyAccountDeleteView.as_view(), name='my_account_delete'),
     path('create_co_worker/<int:member_id>', CoWorkerUserProfileCreateView.as_view(),
          name='create_co_worker'),
-    path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
-         name='update_co_worker'),
-    path('deactivate_co_worker/<int:id>', DeactivateUser.as_view(), name='deactivate_co_worker'),
+    # path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
+         # name='update_co_worker'),
+    path('activate_co_worker/<int:id>', ActivateCoWorker.as_view(), name='activate_co_worker'),
     path('memberplan_upgrade/<int:member_id>', MemberplanUpgradeView.as_view(), name='memberplan_upgrade'),
 
     # clients
@@ -150,6 +151,7 @@ urlpatterns = [
     # producer offers
     path('producer_offers/<int:offerstatus_id>', ProducerOffers.as_view(), name='producer_offers'),
     path('producer_offer_details/<int:offer_id>', ProducerOfferDetails.as_view(), name='producer_offer_details'),
+    path('producer_error_details/<int:calculation_id>', ProducerErrorDetails.as_view(), name='producer_error_details'),
     path('select_supplier_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
          name='select_supplier_productoffering_switch'),
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
@@ -157,7 +159,7 @@ urlpatterns = [
 
     # producers member dashboard
     path('producer_exlusive_clients/', ProducerExclusiveClients.as_view(), name='producer_exlusive_clients'),
-    path('producer_open_clients/', ProducerOpenClients.as_view(), name='producer_open_clients'),
+    path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
 
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),
 

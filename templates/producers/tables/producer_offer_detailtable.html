@@ -35,10 +35,13 @@
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangeboden door</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Producent</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }} op {{ offer.offer_date |date:'d-m-Y ' }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }}
+                                                {% if offer.offer_date %}
+                                               , aanbieding op {{ offer.offer_date |date:'d-m-Y ' }}{% endif %}
+                                            </p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -56,44 +59,49 @@
                                         <td class="border-0"></td>
                                         <td class="align-middle">
 
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Oplage</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Omschrijving</p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.printproject.volume }} ex. {{ offer.printproject.project_title }}</p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
-                                                                        <tr>
+                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
-
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Geplande aanleverdatum</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                                {% if printproject.delivery_date %}
+                                                {{ printproject.supply_date |date:'d-m-Y ' }}</p>
+                                                {% else %} Geen opgave {% endif %}
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">1.000 ex meer</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Gevraagde leverdatum</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer_1000extra }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                                {% if printproject.delivery_date %}
+                                                {{ printproject.delivery_date |date:'d-m-Y ' }}</p>
+                                                {% else %} Geen opgave {% endif %}
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
+                                    
 
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer producent</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer</p>
                                         </td>
                                         <td class="align-middle">
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">
                                                 {% if offer.producer_quote  %}
-
                                                 {{ offer.producer_quote }}</p>
                                             {% else %} Geen opgave {% endif %}
                                         </td>

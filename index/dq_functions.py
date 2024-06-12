@@ -69,7 +69,7 @@ def update_packaging_tariffs(producer_id):
     producer_packaging_tariffs = PackagingTariffs.objects.values_list('packagingtariff_id', flat=True).filter(
         producer_id=producer_id)
     missing_producer_packagingoptions = [x for x in packaging_options if x not in producer_packaging_tariffs]
-    for  packagingoption_id in missing_producer_packagingoptions:
+    for packagingoption_id in missing_producer_packagingoptions:
         new_packaging = PackagingTariffs(
             producer_id=producer_id,
             packagingoption_id= packagingoption_id,

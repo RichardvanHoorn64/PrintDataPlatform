@@ -92,7 +92,7 @@
                                         <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
                                             Website
                                         </th>
-                                         {% if user.member_plan_id in open_memberplans %}
+                                
                                         <th class="sort align-middle text-start" scope="col" data-sort="status" style="width:5%;">Status
 
                                         </th>
@@ -104,18 +104,20 @@
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
                                         
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Blokkeren/<br>deblokkeren</th>
-                                        {% endif %}
+                                        
                                     </tr>
                                     </thead>
 
                                     <tbody class="list" id="producer-table-body">
-                                    {% for member in members_list %}
+                                    {% for member in open_members %}
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                             <td class="client align-middle fw-semi-bold text-1000">{{ member.company }}</td>
                                             <td class="city align-middle fw-semi-bold text-1000">{{ member.city }}</td>
                                             <td class="align-middle fw-semi-bold text-1000">{{ member.tel_general }}</td>
-                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start"><a
-                                                    href="https://{{ member.url }}/">{{ member.url }}</a>
+                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start">
+                                                {% if member.company_url  %}
+                                                <a href="https://{{ member.company_url }}/">{{ member.company_url }} </a>
+                                                {% else %}---{% endif %}
                                             </td>
                                         
                                         

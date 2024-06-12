@@ -3,6 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 
+from index.create_context import creatememberplan_context
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registratie_userprofile import *
 from profileuseraccount.models import *
@@ -47,7 +48,7 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
         new_user_profile.username = form.cleaned_data['username']
         new_user_profile.e_mail_general = member.e_mail_general
         new_user_profile.first_name = form.cleaned_data['first_name']
-        new_user_profile.last_name = form.cleaned_data['first_name']
+        new_user_profile.last_name = form.cleaned_data['last_name']
         new_user_profile.tel_general = member.tel_general
         new_user_profile.mobile_number = form.cleaned_data['mobile_number']
         new_user_profile.jobtitle = form.cleaned_data['jobtitle']
@@ -73,37 +74,39 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
         return context
 
 
-class CoWorkerUserProfileUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy('users:login')
-    form_class = UserProfileUpdateForm
-    pk_url_kwarg = 'id'
-    template_name = 'members/update_coworker.html'
-    model = UserProfile
-
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        success_url = '/my_account/' + str(self.request.user.member_id)
-        return success_url
-
-    def form_valid(self, form):
-        return super(CoWorkerUserProfileUpdateView, self).form_valid(form)
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        form_invalid_message(form, response)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(CoWorkerUserProfileUpdateView, self).get_context_data(**kwargs)
-        return context
+# class CoWorkerUserProfileUpdateView(LoginRequiredMixin, UpdateView):
+#     login_url = reverse_lazy('users:login')
+#     form_class = UserProfileUpdateForm
+#     pk_url_kwarg = 'id'
+#     template_name = 'members/update_coworker.html'
+#     model = UserProfile
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         user = self.request.user
+#         if not user.is_authenticated:
+#             return redirect('/home/')
+#         elif not user.member.active:
+#             return redirect('/wait_for_approval/')
+#         else:
+#             return super().dispatch(request, *args, **kwargs)
+#
+#     def get_success_url(self):
+#         success_url = '/my_account/' + str(self.request.user.member_id)
+#         return success_url
+#
+#     def form_valid(self, form):
+#         return super(CoWorkerUserProfileUpdateView, self).form_valid(form)
+#
+#     def form_invalid(self, form):
+#         response = super().form_invalid(form)
+#         form_invalid_message(form, response)
+#         return self.render_to_response(self.get_context_data(form=form))
+#
+#     def get_context_data(self, *args, **kwargs):
+#         user = self.request.user
+#         context = super(CoWorkerUserProfileUpdateView, self).get_context_data(**kwargs)
+#         context = creatememberplan_context(context, user)
+#         return context
 
 
 class ProducerCollegaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -158,6 +161,7 @@ class ProducerCollegaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateV
     def get_context_data(self, *args, **kwargs):
         context = super(ProducerCollegaCreateView, self).get_context_data(**kwargs)
         user = self.request.user
+        context = creatememberplan_context(context, user)
         # context['skin_template_name'] = get_skin_template_name(user)
         context['user_type'] = user.user_type
         # context['productaanbod'] = productaanbod_vaststellen(user)
@@ -207,7 +211,9 @@ class MedewerkerCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, *args, **kwargs):
+        user = self.request.user
         context = super(MedewerkerCreateView, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         context['user_type'] = self.request.user.user_type
         return context
 

@@ -1,14 +1,13 @@
 from django.http import HttpResponseRedirect
-from calculations.models import Calculations
 from materials.models import *
-from index.forms.form_invalids import form_invalid_message_quotes
 from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
 from index.forms.note_form import *
 from index.forms.relationforms import *
+from index.categories_groups import *
 from methods.models import *
 from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
-from index.create_context import createprintproject_context
+from index.create_context import createprintproject_context, creatememberplan_context
 from producers.models import ProducerContacts
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -45,12 +44,37 @@ class ProducerOfferDetails(UpdateView, LoginRequiredMixin):
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         offer_id = self.kwargs['offer_id']
-        offer = Offers.objects.get(offer_id=offer_id)
         user = self.request.user
-        context['offer'] = offer
+        context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
+        context['offer'] = offer
+        context['printproject'] = printproject
+        context = createprintproject_context(context, user, printproject)
+        return context
+
+
+class ProducerErrorDetails(TemplateView, LoginRequiredMixin):
+    template_name = 'producers/producer_offer_details.html'
+    pk_url_kwarg = 'offer_id'
+    model = Calculations
+    form_class = PrintProjectPriceUpdateForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        calculation_id = self.kwargs['calculation_id']
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        calculation = Calculations.objects.get(calculation_id=calculation_id)
+        printproject = PrintProjects.objects.get(printproject_id=calculation.printproject_id)
         context['printproject'] = printproject
         context = createprintproject_context(context, user, printproject)
         return context
@@ -64,53 +88,46 @@ class ProducerCalculationDetails(LoginRequiredMixin, TemplateView):
     form_class = PrintProjectPriceUpdateForm
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         calculation_id = self.kwargs['calculation_id']
         calculation = Calculations.objects.get(calculation_id=calculation_id)
-
-        plano_folders = [1,2]
-        folders = [2]
-        brochures_ids = [4, 5]
-        brochures_selfcovers_ids = [3, 4, 5]
-
-        user = self.request.user
         printproject = PrintProjects.objects.get(printproject_id=calculation.printproject_id)
+        context = createprintproject_context(context, user, printproject)
         context['calculation'] = calculation
         context['assortiment_item'] = calculation.assortiment_item
         context['printproject'] = printproject
-        context['plano_folders'] = plano_folders
-        context['folders'] = folders
-        context['brochures'] = brochures_ids
-        context['brochures_selfcovers'] = brochures_selfcovers_ids
 
-        if calculation.productcategory_id in brochures_selfcovers_ids:
+        if calculation.productcategory_id in categories_selfcovers:
             try:
                 paper_booklet = PaperCatalog.objects.get(paperspec_id=calculation.paperspec_id_booklet)
                 context['paper_booklet'] = paper_booklet
             except PaperCatalog.DoesNotExist:
                 context['paper_booklet'] = []
 
-        if calculation.productcategory_id in brochures_ids:
+        if calculation.productcategory_id in categories_brochures_cover:
             try:
                 paper_cover = PaperCatalog.objects.get(paperspec_id=calculation.paperspec_id_cover)
                 context['paper_cover'] = paper_cover
             except PaperCatalog.DoesNotExist:
                 context['paper_cover'] = 0
 
-        context = createprintproject_context(context, user, printproject)
+
         return context
 
 
 class ProducerMemberDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_client_dashboard.html"
+    template_name = "producers/producer_open_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProducerMemberDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(ProducerMemberDashboard, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         producer_id = user.producer_id
         members = MemberProducerMatch.objects.filter(producer_id=producer_id).order_by('memberproducerstatus')
 
@@ -130,10 +147,12 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
     profile = Members
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProducerMemberDetails, self).get_context_data(**kwargs)
-        user = self.request.user
-        producer_id = user.producer_id
         member_id = self.kwargs['pk']
+        user = self.request.user
+        context = super(ProducerMemberDetails, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        producer_id = user.producer_id
+
         turnover = Orders.objects.filter(member_id=member_id, producer_id=producer_id).aggregate(Sum('order_value'))[
             'order_value__sum']
         if turnover:
@@ -158,8 +177,9 @@ class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         offerstatus_id = kwargs['offerstatus_id']
-        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         producer_id = user.producer_id
         order_status_id = 0
 
@@ -178,10 +198,10 @@ class ProducerOffers(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         offerstatus_id = kwargs['offerstatus_id']
-        context = super(ProducerOffers, self).get_context_data(**kwargs)
         user = self.request.user
-        producer_id = user.producer_id
-        context = get_offercontext(producer_id, context, offerstatus_id)
+        context = super(ProducerOffers, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        context = get_offercontext(user.producer_id, context, offerstatus_id)
         context['offer_pagination'] = 25
         return context
 
@@ -193,7 +213,9 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         order_status_id = kwargs['order_status_id']
+        user = self.request.user
         context = super(ProducerOrders, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         user = self.request.user
         producer_id = user.producer_id
 
@@ -209,17 +231,16 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     template_name = 'producers/new_producer.html'
     success_url = '/producer_dashboard/0'
 
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.language_id = user.language_id
+        return super().form_valid(form)
 
-def form_valid(self, form):
-    user = self.request.user
-    form.instance.language_id = user.language_id
-    return super().form_valid(form)
 
-
-def form_invalid(self, form):
-    response = super().form_invalid(form)
-    form_invalid_message(form, response)
-    return self.render_to_response(self.get_context_data(form=form))
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message(form, response)
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 def get_context_data(self, **kwargs):

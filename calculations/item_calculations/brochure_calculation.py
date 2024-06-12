@@ -9,7 +9,6 @@ def brochure_calculation(producer_id, rfq):
     if rfq.productcategory_id == 3:
         selfcover = True
 
-
     # Test productsize input
     error = []
     if not error:
@@ -33,7 +32,8 @@ def brochure_calculation(producer_id, rfq):
             packagingtariff = PackagingOptions.objects.get(packagingoption_id=rfq.packaging)
             packagingoption_id = packagingtariff.packagingoption_id
         except Exception as e:
-            error = 'No packagingtariff available, update settings.' + str(e)
+            error = 'No packagingtariff available, update settings'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -41,7 +41,8 @@ def brochure_calculation(producer_id, rfq):
             transporttariff = TransportOptions.objects.get(transport=transport)
             transportoption_id = transporttariff.transportoption_id
         except Exception as e:
-            error = 'No transporttariff available, update settings.' + str(e)
+            error = 'No transporttariff available, update settings'
+            print('error log: ' + error + ' ' + str(e))
 
     # Test paper choice availability
     paper_fit_for_rfq = []
@@ -51,7 +52,8 @@ def brochure_calculation(producer_id, rfq):
             if len(paper_fit_for_rfq) == 0:
                 error = 'Paper for brochure booklet not available.'
         except Exception as e:
-            error = 'Paper fit_for rfq brochure booklet not available.' + str(e)
+            error = 'Paper fit_for rfq brochure booklet not available.'
+            print('error log: ' + error + str(e))
 
     # Test productsize input
     if not error:
@@ -63,7 +65,8 @@ def brochure_calculation(producer_id, rfq):
         try:
             book_thickness = calc_book_thickness(selfcover, rfq, producer_id)
         except Exception as e:
-            error = 'book thickness calculation failed, ' + str(e)
+            error = 'book thickness calculation failed'
+            print('error log: ' + error + str(e))
 
     # booklet------------------------------------------------------------------------------------------
     # paper booklet
@@ -81,7 +84,8 @@ def brochure_calculation(producer_id, rfq):
             katernheight8_mm = height_mm_calc(katern_aflopend, katern_height, producer_id)
             katernwidth8_mm = width_mm_calc(katern_aflopend, katern_width, producer_id)
         except Exception as e:
-            error = 'No katernsizes calculated.' + str(e)
+            error = 'No katernsizes calculated'
+            print('error log: ' + error + ' ' + str(e))
 
     # select printers for booklet
     calculation_booklet = []
@@ -91,7 +95,7 @@ def brochure_calculation(producer_id, rfq):
 
     except Printers.DoesNotExist:
         assets_printers_booklet = []
-        error = 'No booklet printer fit for this request.'
+        error = 'No booklet printer fit for this request'
 
     if not error:
         try:
@@ -105,16 +109,18 @@ def brochure_calculation(producer_id, rfq):
 
             calculation_booklet['printer_booklet'] = calculation_booklet['asset_name']
             if len(calculation_booklet) == 0:
-                error = 'No booklet printers fit for katern of 8 pages.'
+                error = 'No booklet printers fit for katern of 8 pages'
 
         except Exception as e:
-            error = 'No booklet printers fit for katern of 8 pages:' + str(e)
+            error = 'No booklet printers fit for katern of 8 pages'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
             calculation_booklet['order_startcost'] = calculate_order_startcost(producer_id)
         except Exception as e:
-            error = 'No order_startcost defined:' + str(e)
+            error = 'No order startcost defined'
+            print('error log: ' + error + ' ' + str(e))
 
             #  calculate number of booklet pages per printer
     if not error:
@@ -125,7 +131,8 @@ def brochure_calculation(producer_id, rfq):
                                                                 katernwidth8_mm), axis=1)
 
         except Exception as e:
-            error = 'Calculation max number of booklet pages per printer per sheet failed.  Error:' + str(e)
+            error = 'Calculation max number of booklet pages per printer per sheet failed'
+            print('error log: ' + error + ' ' + str(e))
 
         # PAPER CALCULATION
         # select paperspec_id fit for printer booklet
@@ -137,7 +144,8 @@ def brochure_calculation(producer_id, rfq):
                                                     katernheight8_mm, katernwidth8_mm, katernmargin), axis=1)
 
         except Exception as e:
-            error = 'Calculation paperspec_id for booklet failed.' + str(e)
+            error = 'Calculation paperspec_id for booklet failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # Define number of colors booklet, per printer, pressvarnish
     if not error:
@@ -145,7 +153,8 @@ def brochure_calculation(producer_id, rfq):
             calculation_booklet['number_of_colors_booklet'] = calculation_booklet.apply(
                 lambda row: calculate_number_of_colors_booklet(rfq, row['varnish_unit']), axis=1)
         except Exception as e:
-            error = 'Calculation number of_colors booklet failed.' + str(e)
+            error = 'Calculation number of_colors booklet failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate number of printing sheets
     if not error:
@@ -164,7 +173,8 @@ def brochure_calculation(producer_id, rfq):
                 lambda row: calculate_number_of_sheets_incomplete(number_of_pages,
                                                                   row['pages_per_sheet_booklet']), axis=1)
         except Exception as e:
-            error = 'Calculation number of printing sheets failed.' + str(e)
+            error = 'Calculation number of printing sheets failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate net paper quantity
     if not error:
@@ -203,7 +213,8 @@ def brochure_calculation(producer_id, rfq):
                                                                              'net_paper_quantity_incomplete_booklet1000extra']
 
         except Exception as e:
-            error = 'Calculation net paper quantity failed.' + str(e)
+            error = 'Calculation net paper quantity failed'
+            print('error log: ' + error + ' ' + str(e))
 
         # PRINTING CALCULATION
         # number of printruns_booklet
@@ -216,7 +227,8 @@ def brochure_calculation(producer_id, rfq):
                                                                   row['number_of_rest_pages'],
                                                                   row['pages_per_sheet_booklet']), axis=1)
         except Exception as e:
-            error = 'No calculation of number of printruns.' + str(e)
+            error = 'No calculation of number of printruns'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate platecost booklet
     if not error:
@@ -230,7 +242,8 @@ def brochure_calculation(producer_id, rfq):
             calculation_booklet['platecost_booklet'] = calculation_booklet['purchase_plates_booklet'] + \
                                                        calculation_booklet['margin_plates_booklet']
         except Exception as e:
-            error = 'No calculation of platecost booklet.' + str(e)
+            error = 'No calculation of platecost booklet'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -247,7 +260,8 @@ def brochure_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = 'Printingwaste calculation for booklet failed.' + str(e)
+            error = 'Printingwaste calculation for booklet failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # FOLDING CALCULATION
     # folding booklet, calculate foldingfactor and number of pages per foldingsheet
@@ -259,7 +273,8 @@ def brochure_calculation(producer_id, rfq):
                                                             row['pages_per_sheet_booklet']), axis=1)
         except Exception as e:
             foldingmachines_fit_rfq = []
-            error = 'Calculation booklet_foldingfactor failed.' + str(e)
+            error = 'Calculation booklet_foldingfactor failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -289,7 +304,8 @@ def brochure_calculation(producer_id, rfq):
             calculation_booklet = calculation_booklet[calculation_booklet['number_of_katerns_total'] != 0]
 
         except Exception as e:
-            error = 'Number of katerns not calculated.' + str(e)
+            error = 'Number of katerns not calculated'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error and len(calculation_booklet) == 0:
         error = 'No number of katerns calculation.'
@@ -304,7 +320,8 @@ def brochure_calculation(producer_id, rfq):
                 lambda row: find_paper_height(row['paperspec_id_booklet'], ), axis=1)
 
         except Exception as e:
-            error = 'Papersizes booklet runs not defined.' + str(e)
+            error = 'Papersizes booklet runs not defined'
+            print('error log: ' + error + ' ' + str(e))
 
     # cutting booklet sheets to katern size
     if not error:
@@ -318,7 +335,8 @@ def brochure_calculation(producer_id, rfq):
                 lambda row: define_cuttingmachine_name(producer_id, row['cuttingmachine_id_booklet'], ), axis=1)
 
         except Exception as e:
-            error = "No cuttingmachine booklet availeble" + str(e)
+            error = 'No cuttingmachine booklet availeble'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -347,7 +365,8 @@ def brochure_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = "Booklet cutting calculation failed" + str(e)
+            error = 'Booklet cutting calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # folding calculations
     if not error:
@@ -383,7 +402,8 @@ def brochure_calculation(producer_id, rfq):
                     row['foldingmachine_id_quarter']), axis=1)
 
         except Exception as e:
-            error = 'Needed foldingmachines not defined.' + str(e)
+            error = 'Needed foldingmachines not defined'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error and len(calculation_booklet) == 0:
         error = 'No fitting foldingmachine availeble.'
@@ -412,7 +432,8 @@ def brochure_calculation(producer_id, rfq):
                                                             ), axis=1)
 
         except Exception as e:
-            error = 'Folding cost booklet calculation failed.' + str(e)
+            error = 'Folding cost booklet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -438,7 +459,8 @@ def brochure_calculation(producer_id, rfq):
                                                              row['number_of_katerns_quarter'],
                                                              ), axis=1)
         except Exception as e:
-            error = 'Folding waste booklet calculation failed.' + str(e)
+            error = 'Folding waste booklet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # BINDING CALCULATION
     if not error:
@@ -455,13 +477,15 @@ def brochure_calculation(producer_id, rfq):
             calculation_booklet['bindingmachine'] = calculation_booklet.apply(
                 lambda row: define_bindingmachine_name(producer_id, row['bindingmachine_id'], ), axis=1)
         except Exception as e:
-            error = 'No fitting bindingmachine for this request.' + str(e)
+            error = 'No fitting bindingmachine for this request'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
             calculation_booklet = calculation_booklet[calculation_booklet['bindingmachine_id'] != 0]
         except Exception as e:
-            error = 'No fitting bindingmachines for this request.' + str(e)
+            error = 'No fitting bindingmachines for this request'
+            print('error log: ' + error + ' ' + str(e))
     if not error and len(calculation_booklet) == 0:
         error = 'No fitting bindingmachines for this request.'
 
@@ -485,7 +509,8 @@ def brochure_calculation(producer_id, rfq):
                                                         row['bindingmachine_id'], ), axis=1)
 
         except Exception as e:
-            error = 'Bindingcost booklet calculation failed.' + str(e)
+            error = 'Bindingcost booklet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -500,7 +525,8 @@ def brochure_calculation(producer_id, rfq):
                                                                       row['net_paper_quantity_booklet'],
                                                                       rfq.volume), axis=1)
         except Exception as e:
-            error = 'Bindingwaste booklet calculation failed.' + str(e)
+            error = 'Bindingwaste booklet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -511,7 +537,8 @@ def brochure_calculation(producer_id, rfq):
                 lambda row: orderweight_kg_brochures_calculation(False, selfcover, rfq, number_of_pages),
                 axis=1)
         except Exception as e:
-            error = 'Orderweight calculation brochures failed.' + str(e)
+            error = 'Orderweight calculation brochures failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -525,7 +552,8 @@ def brochure_calculation(producer_id, rfq):
                                                        row['orderweight_kg'], ), axis=1)
 
         except Exception as e:
-            error = 'Packaging calculation failed. Update settings' + str(e)
+            error = 'Packaging calculation failed. Update settings'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -538,7 +566,8 @@ def brochure_calculation(producer_id, rfq):
                                                         row['orderweight_kg']), axis=1)
 
         except Exception as e:
-            error = 'Transport calculation failed.' + str(e)
+            error = 'Transport calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -555,7 +584,8 @@ def brochure_calculation(producer_id, rfq):
                                                                      calculation_booklet[
                                                                          'waste_binding1000extra']
         except Exception as e:
-            error = 'Paper quantity booklet calculation failed.' + str(e)
+            error = 'Paper quantity booklet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate printingcost booklet
     if not error:
@@ -587,7 +617,8 @@ def brochure_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = 'Printingcost calculation for booklet failed.' + str(e)
+            error = 'Printingcost calculation for booklet failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # inkcost booklet calculation
     if not error:
@@ -600,7 +631,8 @@ def brochure_calculation(producer_id, rfq):
                                                         row['paper_quantity_booklet1000extra'],
                                                         ), axis=1)
         except Exception as e:
-            error = 'Booklet inkcost calculation failed.' + str(e)
+            error = 'Booklet inkcost calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # papercost booklet calculation
     if not error:
@@ -634,7 +666,8 @@ def brochure_calculation(producer_id, rfq):
                                                                           'paper_booklet_added value1000extra']
 
         except Exception as e:
-            error = 'Papercost calculation failed.' + str(e)
+            error = 'Papercost calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # Calculate and insert calculation cover --------------------------------------------------------------------------
     calculation_cover = []
@@ -645,7 +678,8 @@ def brochure_calculation(producer_id, rfq):
             error = calculation_cover[1]
 
         except Exception as e:
-            error = 'Cover calculation failed.' + str(calculation_cover[1]) + str(e)
+            error = 'Cover calculation failed.' + str(calculation_cover[1])
+            print('error log: ' + error + ' ' + str(e))
 
     if not selfcover and not error:
         try:
@@ -660,7 +694,8 @@ def brochure_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = 'Bindingwaste cover calculation failed.' + str(e)
+            error = 'Bindingwaste cover calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not selfcover and not error:
         try:
@@ -671,7 +706,8 @@ def brochure_calculation(producer_id, rfq):
                                                                        'paper_quantity_cover1000extra'] + \
                                                                    calculation_booklet['waste_binding_cover1000extra']
         except Exception as e:
-            error = 'paper_quantity_complete_cover failed.' + str(e)
+            error = 'paper_quantity_complete_cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
         # Papercost cover calculation
 
@@ -690,7 +726,8 @@ def brochure_calculation(producer_id, rfq):
                                                       row['paperprice_1000sheets_cover']
                                                       ), axis=1)
             except Exception as e:
-                error = 'Cover papercostcalculation failed.' + str(e)
+                error = 'Cover papercostcalculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
     # added value calculation
     if not error:
@@ -736,7 +773,8 @@ def brochure_calculation(producer_id, rfq):
                                                                             'paper_cover_added_value1000extra']
 
             except Exception as e:
-                error = 'Cover paper calculation failed.' + str(e)
+                error = 'Cover paper calculation failed'
+                print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -749,7 +787,8 @@ def brochure_calculation(producer_id, rfq):
                 calculation_booklet['cover_totalcost1000extra'] = calculation_booklet['cover_subtotal_cost1000extra'] + \
                                                                   calculation_booklet['papercost_cover_total1000extra']
         except Exception as e:
-            error = 'Cover totalcost calculation failed.' + str(calculation_cover[1]) + str(e)
+            error = 'Cover totalcost calculation failed.' + str(calculation_cover[1])
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -778,7 +817,8 @@ def brochure_calculation(producer_id, rfq):
                     calculation_booklet['cover_totalcost1000extra'])
 
         except Exception as e:
-            error = 'Brochure total cost calculation failed' + str(e)
+            error = 'Brochure total cost calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -814,7 +854,8 @@ def brochure_calculation(producer_id, rfq):
                 lambda row: perc_added_value_calculation(row['total_cost1000extra'], row['added_value1000extra'], ),
                 axis=1)
         except Exception as e:
-            error = 'Brochure added value calculation failed' + str(e)
+            error = 'Brochure added value calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -830,7 +871,8 @@ def brochure_calculation(producer_id, rfq):
                 axis=1)
 
         except Exception as e:
-            error = 'Brochure total client discount calculation failed' + str(e)
+            error = 'Brochure total client discount calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -842,7 +884,8 @@ def brochure_calculation(producer_id, rfq):
                                                           calculation_booklet[
                                                               'memberdiscount1000extra']
         except Exception as e:
-            error = 'Brochure calculation not completed.' + str(e)
+            error = 'Brochure calculation not completed'
+            print('error log: ' + error + ' ' + str(e))
 
     #  Save best offer---------------------------------------------------------------------------------------------
     best_offer = []
@@ -862,7 +905,8 @@ def brochure_calculation(producer_id, rfq):
             for col in not_used_columns:
                 best_offer.insert(2, col, 0.0)
         except Exception as e:
-            error = 'Offer value calculation failed.' + str(e)
+            error = 'Offer value calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # save calculation
     save_calculation(rfq, best_offer, error)

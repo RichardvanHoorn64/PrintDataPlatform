@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MyAccount update</title>
+    <title>BusinessAccount update</title>
 </head>
 
 
@@ -21,11 +21,11 @@
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
                                                    href="{% url 'home' %}">{{ user.company }}</a></li>
-                    <li class="breadcrumb-item active">Account update</li>
+                    <li class="breadcrumb-item active">Business account update</li>
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Mijn account update</h2>
+            <h2 class="mb-4 text-info">Bedrijfsaccount update</h2>
 
 
             <!-- ===============================================-->
@@ -39,55 +39,7 @@
                 <!-- ===============================================-->
                 <!--  Company  / e_mail_general -->
                 <!-- ===============================================-->
-
-                <!-- ===============================================-->
-                <!--   Row username / email -->
-                <!-- ===============================================-->
-                <hr class="text-info">
-                <div class="row">
-                    <h4 class="mb-3 text-info">Naam en functie</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label" for="first_name">Voornaam:</label>
-                        <p>{{ form.first_name }}</p>
-                        <span class="form-text text-muted">{{ form.first_name.help_text }}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="last_name">Achternaam:</label>
-                        <p>{{ form.last_name }}</p>
-                        <span class="form-text text-muted">{{ form.last_name.help_text }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label" for="mobile_number">Mobiel nummer:</label>
-                        <p>{{ form.mobile_number }}</p>
-                        <span class="form-text text-muted">{{ form.mobile_number.help_text }}</span>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label" for="email">Email:</label>
-                        <p>{{ form.email }}</p>
-                        <span class="form-text text-muted">{{ form.email.help_text }}</span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label" for="jobtitle">Functie:</label>
-                        <p>{{ form.jobtitle }}</p>
-                        <span class="form-text text-muted">{{ form.jobtitle.help_text }}</span>
-                    </div>
-                        <div class="col-md-4">
-        <label class="form-label" for="linkedin_url">LinkedIn:</label>
-        <p>{{ form.linkedin_url }}</p>
-        <span class="form-text text-muted">{{ linkedin_url.help_text }}</span>
-    </div>
-
-
-                </div>
-
+                
 
                 <hr class="text-info">
                 <div class="row">
@@ -126,37 +78,19 @@
                     </div>
                 </div>
                 
+{#                <div class="row">#}
+{#                    <div class="col-md-2">#}
+{#                        <label class="form-label" for="country_code">Land</label>#}
+{#                        <p>{{ form.country_code }}</p>#}
+{#                        <span class="form-text text-muted">{{ form.country_code.help_text }}</span>#}
+{#                    </div>#}
+{#                </div>#}
+{#                #}
                 <!-- ===============================================-->
                 <!--  Contact General tel and email -->
                 <!-- ===============================================-->
 
-                <!-- ===============================================-->
-<!--  Contact General tel and email -->
-<!-- ===============================================-->
-<hr class="text-info">
-<div class="row">
-    <h4 class="mb-3 text-info">Contact: {{ user.company }}</h4>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
-        <p>{{ form.tel_general }}</p>
-        <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
-    </div>
-    <div class="col-md-6">
-        <label class="form-label" for="e_mail_general">Email algemeen:</label>
-        <p>{{ form.e_mail_general }}</p>
-        <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8">
-        <label class="form-label" for="company_url">Website:</label>
-        <p>{{ form.company_url }}</p>
-        <span class="form-text text-muted">{{ form.company_url.help_text }}</span>
-    </div>
-</div>
-
+                {% include 'members/includes/contact.html' %}
 
                 <!-- ===============================================-->
                 <!--  Buttons -->

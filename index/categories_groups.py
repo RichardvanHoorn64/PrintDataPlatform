@@ -8,7 +8,7 @@ categories_brochures_all = [3, 4, 5]
 categories_brochures_cover = [4, 5]
 
 # memberplan_categories
-free_memberplans = [1]
+free_memberplans = [1,3]
 pro_memberplans = [2]
 non_exclusive_memberplans = [1, 2]
 exclusive_memberplans = [3]

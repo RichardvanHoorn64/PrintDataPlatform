@@ -1,3 +1,4 @@
+from calculations.models import Calculations
 from profileuseraccount.models import *
 from printprojects.models import *
 
@@ -18,6 +19,7 @@ class Offerstatus(models.Model):
 class Offers(models.Model):
     offer_id = models.AutoField(primary_key=True)
     printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.SET_NULL)
+    calculation = models.ForeignKey(Calculations, null=True, blank=True, on_delete=models.SET_NULL)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
     offerstatus = models.ForeignKey(Offerstatus, null=True, blank=True, on_delete=models.SET_NULL)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)

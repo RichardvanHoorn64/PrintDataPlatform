@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exclusive account details</title>
+</head>
+<body>
+<br>
+<div class="col-12 col-sm-auto">
+    <h3 class="mb-5"></h3><br>
+
+
+    <div class="row g-4 flex-sm-column">
+         <div class="col-6 col-sm-12">
+            <div class="d-flex align-items-baseline mb-1"><span class="me-2" data-feather="layers"
+                                                             style="stroke-width:2.5;"></span>
+                <h5 class="mb-0">Plan:</h5>
+            </div>
+            <p class="text-body-secondary mb-0 fs-9">{{ member_plan_name }}<br/></p>
+        </div>
+        
+        
+    {# calculation module#}
+        <div class="col-6 col-sm-12">
+        
+            <div class="d-flex align-items-start mb-1"><span class="me-2"  
+                                                             style="stroke-width:2.5;"></span>
+                <p class="icon fas fa-calculator"> 
+                <h5 class="mb-0">&nbsp; Calculation module:</h5>
+            </div>
+        
+            <a class="fs-9 ms-4">
+                {% if producer.calculation_module == True %}
+                Aan {% else %}Uit{% endif %} </a>
+        </div>
+        
+        {# api module#}
+        <div class="col-6 col-sm-12">
+        
+            <div class="d-flex align-items-start mb-1"><span class="me-2"  
+                                                             style="stroke-width:2.5;"></span>
+                <p class="icon fas fa-exchange-alt"> 
+                <h5 class="mb-0">&nbsp; API mmodule:</h5>
+            </div>
+        
+            <a class="fs-9 ms-4">
+                {% if producer.api_module == True %}
+                Aan {% else %}Uit{% endif %} </a>
+        </div>
+        {# calculation module#}
+        <div class="col-6 col-sm-12">
+        
+            <div class="d-flex align-items-start mb-1"><span class="me-2"  
+                                                             style="stroke-width:2.5;"></span>
+                <p class="icon fas fa-laptop-code"> 
+                <h5 class="mb-0">&nbsp; Brandportal module:</h5>
+            </div>
+        
+            <a class="fs-9 ms-4">
+                {% if producer.calculation_module == True %}
+                Aan {% else %}Uit{% endif %} </a>
+        </div>
+        {# calculation module#}
+        <div class="col-6 col-sm-12">
+        
+            <div class="d-flex align-items-start mb-1"><span class="me-2"  
+                                                             style="stroke-width:2.5;"></span>
+                <p class="icon fas fa-users"> 
+                <h5 class="mb-0">&nbsp; Exclusive mmodule:</h5>
+            </div>
+        
+            <a class="fs-9 ms-4">
+                {% if producer.exclusive_module == True %}
+                Aan {% else %}Uit{% endif %} </a>
+        </div>
+        
+        
+
+        
+    </div>
+</div>
+</body>
+</html>

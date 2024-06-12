@@ -33,7 +33,6 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
         user = self.request.user
         context = super().get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
-        context = creatememberplan_context(context)
         offer_id = self.kwargs['pk']
         user = self.request.user
         offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
@@ -88,8 +87,9 @@ class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context = creatememberplan_context(context)
+        context = creatememberplan_context(context, user)
         offer_id = self.kwargs['pk']
         context['display'] = 0
         context['display_access'] = 1
@@ -132,8 +132,9 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context = creatememberplan_context(context)
+        context = creatememberplan_context(context, user)
         user = self.request.user
         offer_id = self.kwargs['pk']
 
@@ -178,8 +179,9 @@ class OfferProducersOpenUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context = creatememberplan_context(context)
+        context = creatememberplan_context(context, user)
         offer_id = self.kwargs['pk']
         offer = Offers.objects.get(offer_id=offer_id)
         if offer.offer_key_test == offer.offer_key:
@@ -217,7 +219,6 @@ class DenyOfferView(View):
 class CloseOfferView(View):
     model = Offers
     profile = Offers
-    form_class = OfferProducerForm
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -230,6 +231,20 @@ class CloseOfferView(View):
             pass
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+class CloseErrorCalculationView(View):
+    model = Calculations
+    profile = Calculations
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            calculation_id = self.kwargs['pk']
+            calculation = Calculations.objects.get(calculation_id=calculation_id)
+            calculation.status = 4  # closed
+            calculation.save()
+        finally:
+            pass
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 class HandleOfferView(LoginRequiredMixin, View):
     model = Offers

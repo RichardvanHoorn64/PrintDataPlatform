@@ -11,7 +11,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
         try:
             paper_fit_for_rfq_cover = paper_available_cover(rfq, producer_id)
         except Exception as e:
-            error = 'Paper fit_for rfq brochure cover not available.' + str(e)
+            error = 'Paper fit_for rfq brochure cover not available'
+            print('error log: ' + error + ' ' + str(e))
 
     # Singe cover size
     single_cover_width = []
@@ -23,9 +24,10 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             single_cover_height = single_cover[1]
 
         except Exception as e:
-            error = 'No cover printsize calculated.' + str(e)
+            error = 'No cover printsize calculated'
+            print('error log: ' + error + ' ' + str(e))
 
-    # - Calculation cover -----------------------------------------------------------------------------------------------
+    # - Calculation cover ----------------------------------------------------------------------------------------
     assets_printers_cover = []
 
     try:
@@ -33,6 +35,7 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
 
     except Printers.DoesNotExist:
         error = 'No cover printer fit for this request.'
+        print('error log: ' + error)
 
     if not error:
         try:
@@ -42,7 +45,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                       ])
             calculation_cover['asset_name_cover'] = calculation_cover['asset_name']
         except Exception as e:
-            error = 'No cover printers fit for cover:' + str(e)
+            error = 'No cover printers fit for cover'
+            print('error log: ' + error + ' ' + str(e))
 
     # PAPER CALCULATION
     # select paperspec_id fit for printer cover
@@ -56,7 +60,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                                   single_cover_width), axis=1)
 
         except Exception as e:
-            error = 'Calculation paperspec_id for cover failed.' + str(e)
+            error = 'Calculation paperspec_id for cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error and len(calculation_cover) == 0:
         error = 'Paperbrand cover not availeble.'
@@ -69,7 +74,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             calculation_cover['number_of_colors_rear_cover'] = calculation_cover.apply(
                 lambda row: calculate_number_of_colors_rear(rfq, row['varnish_unit']), axis=1)
         except Exception as e:
-            error = 'Calculation number of colors cover failed.' + str(e)
+            error = 'Calculation number of colors cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -78,7 +84,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                                         single_cover_width),
                 axis=1)
         except Exception as e:
-            error = 'items per_sheet calculation failed.' + str(e)
+            error = 'items per_sheet calculation failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate paper_width height cover
     if not error:
@@ -90,7 +97,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 lambda row: find_paper_height(row['paperspec_id_cover'], ), axis=1)
 
         except Exception as e:
-            error = 'Papersizes cover runs not defined.' + str(e)
+            error = 'Papersizes cover runs not defined'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -98,7 +106,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             calculation_cover['number_of_printruns_cover'] = calculation_cover.apply(
                 lambda row: number_of_printruns_calculation(rfq.printsided, row['printer_id_cover']), axis=1)
         except Exception as e:
-            error = 'Number of_printruns cover not defined.' + str(e)
+            error = 'Number of_printruns cover not defined'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate platecost cover
     if not error:
@@ -112,7 +121,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             calculation_cover['platecost_cover'] = calculation_cover['purchase_plates_cover'] + \
                                                    calculation_cover['margin_plates_cover']
         except Exception as e:
-            error = 'Calculation platecost cover failed.' + str(e)
+            error = 'Calculation platecost cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate printing cover
 
@@ -131,7 +141,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 axis=1)
 
         except Exception as e:
-            error = 'No printingwaste calculation for cover.' + str(e)
+            error = 'No printingwaste calculation for cover'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -143,7 +154,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 axis=1)
 
         except Exception as e:
-            error = 'net_paper_quantity_complete_cover failed.' + str(e)
+            error = 'net_paper_quantity_complete_cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -154,7 +166,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                                                      'net_paper_quantity_cover1000extra'] + \
                                                                  calculation_cover['waste_printing_cover1000extra']
         except Exception as e:
-            error = 'net_paper_quantity_complete_cover failed.' + str(e)
+            error = 'net_paper_quantity_complete_cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # cover cutting
     if not error:
@@ -163,7 +176,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 lambda row: definecuttingmachine(producer_id, row['paperspec_id_cover'], ), axis=1)
             calculation_cover = calculation_cover[calculation_cover['cuttingmachine_cover'] != 0]
         except Exception as e:
-            error = 'No cuttingmachine for cover availeble.' + str(e)
+            error = 'No cuttingmachine for cover availeble'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -191,7 +205,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 axis=1)
 
         except Exception as e:
-            error = 'Enhancement cost calculation cover failed.' + str(e)
+            error = 'Enhancement cost calculation cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     if not error:
         try:
@@ -221,7 +236,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                                      row['printing_runtime_cover1000extra']), axis=1)
 
         except Exception as e:
-            error = 'Calculation printingcost cover failed.' + str(e)
+            error = 'Calculation printingcost cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # inkcost cover calculation
     if not error:
@@ -234,7 +250,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                                                 row['paper_quantity_cover1000extra'],
                                                rfq.printsided), axis=1)
         except Exception as e:
-            error = 'Inkcost calculation cover failed.' + str(e)
+            error = 'Inkcost calculation cover failed'
+            print('error log: ' + error + ' ' + str(e))
 
     best_calculation_cover = []
     if not error:
@@ -253,6 +270,7 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
             best_calculation_cover = calculation_cover.loc[
                 calculation_cover.groupby('producer_id')['cover_subtotal_cost'].idxmin()]
         except Exception as e:
-            error = "Total groupby error cover: " + str(error) + str(e)
+            error = "Total groupby error cover: " + str(error)
+            print('error log: ' + error + ' ' + str(e))
 
     return best_calculation_cover, error

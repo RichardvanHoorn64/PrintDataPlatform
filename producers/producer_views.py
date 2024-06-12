@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from calculations.models import Calculations
+from index.categories_groups import open_memberplans
 from index.exclusive_functions import define_exclusive_producer_id
 from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
@@ -26,12 +27,13 @@ class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         offerstatus_id = kwargs['offerstatus_id']
+        user = self.request.user
+
+        producer_id = user.producer_id
+        order_status_id = 0
         update_producersmatch(self.request)
         producer_dq_functions(self.request.user)
         context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
-        user = self.request.user
-        producer_id = user.producer_id
-        order_status_id = 0
 
         context = creatememberplan_context(context, user)
         context = get_offercontext(producer_id, context, offerstatus_id)
@@ -52,8 +54,8 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProducersDashboard, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(ProducersDashboard, self).get_context_data(**kwargs)
         member_id = user.member_id
         producers = MemberProducerMatch.objects.filter(member_id=member_id).order_by('memberproducerstatus')
         context = creatememberplan_context(context, user)
@@ -68,7 +70,7 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
 
 
 class ProducerExclusiveClients(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_client_dashboard.html"
+    template_name = "producers/producer_open_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
@@ -77,7 +79,6 @@ class ProducerExclusiveClients(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProducerExclusiveClients, self).get_context_data(**kwargs)
         user = self.request.user
-        producer_id = user.producer_id
         exclusive_producer_id = define_exclusive_producer_id(self.request.user)
         members = Members.objects.filter(exclusive_producer_id=exclusive_producer_id)
         context = creatememberplan_context(context, user)
@@ -90,22 +91,22 @@ class ProducerExclusiveClients(LoginRequiredMixin, TemplateView):
         return context
 
 
-class ProducerOpenClients(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_client_dashboard.html"
+class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
+    template_name = "producers/producer_open_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProducerOpenClients, self).get_context_data(**kwargs)
+        context = super(ProducerOpenMembers, self).get_context_data(**kwargs)
         user = self.request.user
         producer_id = user.producer_id
-        members = MemberProducerMatch.objects.filter(producer_id=producer_id).order_by('memberproducerstatus')
+        open_members = Members.objects.filter(member_plan_id__in=open_memberplans).order_by('company')
         context = creatememberplan_context(context, user)
         context['user'] = user
         # dashboard lists
-        context['members_list'] = members  # .filter(printprojectstatus=1).order_by('-rfq_date')
+        context['open_members'] = open_members  # .filter(printprojectstatus=1).order_by('-rfq_date')
 
         # counts
         context['suppliers_projects'] = 1  # producers.count()
@@ -119,8 +120,8 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
     profile = Members
 
     def get_context_data(self, *args, **kwargs):
-        context = super(ProducerMemberDetails, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(ProducerMemberDetails, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         producer_id = user.producer_id
         member_id = self.kwargs['pk']
@@ -143,16 +144,17 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
 
 
 class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_calculation_errors.html"
+    template_name = "producers/producer_error_dashboard.html"
     pk_url_kwarg = 'offerstatus_id'
     context_object_name = 'offerstatus_id'
 
     def get_context_data(self, **kwargs):
-        context = super(ProducerCalculationErrors, self).get_context_data(**kwargs)
         user = self.request.user
-        producer_id = user.producer_id
-        error_calculations = Calculations.objects.filter(producer_id=producer_id).exclude(error='No error').order_by('calculation_id')
+        context = super(ProducerCalculationErrors, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
+        producer_id = user.producer_id
+        error_calculations = Calculations.objects.filter(producer_id=producer_id).exclude(error=None).exclude(status=4).order_by('calculation_id')
+
         context['error_calculations'] = error_calculations
         context['offer_pagination'] = 25
         return context
@@ -164,9 +166,9 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
     context_object_name = 'order_status_id'
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         order_status_id = kwargs['order_status_id']
         context = super(ProducerOrders, self).get_context_data(**kwargs)
-        user = self.request.user
         producer_id = user.producer_id
         context = creatememberplan_context(context, user)
         context = get_ordercontext(producer_id, context, order_status_id)
@@ -217,8 +219,8 @@ class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
         return reverse('producer_details', kwargs={'pk': self.object.producer_id})
 
     def get_context_data(self, **kwargs):
-        context = super(ProducerDetails, self).get_context_data(**kwargs)
         user = self.request.user
+        context = super(ProducerDetails, self).get_context_data(**kwargs)
         member_id = user.member_id
         producer_id = self.kwargs['pk']
         producer = Producers.objects.get(producer_id=producer_id)

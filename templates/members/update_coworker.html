@@ -43,14 +43,14 @@
                 <!-- ===============================================-->
                 <hr class="text-info">
                 <div class="row">
-                    <h4 class="mb-3 text-info">Update account</h4>
+                    <h4 class="mb-3 text-info">Update account {{ user.username }}</h4>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <label class="form-label" for="username">Gebruikersnaam:</label>
-                        <p>{{ form.username }}</p>
-                        <span class="form-text text-muted">{{ form.username.help_text }}</span>
-                    </div>
+{#                    <div class="col-md-6">#}
+{#                        <label class="form-label" for="username">Gebruikersnaam:</label>#}
+{#                        <p>{{ form.username }}</p>#}
+{#                        <span class="form-text text-muted">{{ form.username.help_text }}</span>#}
+{#                    </div>#}
 
                     <div class="col-md-6">
                         <label class="form-label" for="email">Email:</label>
@@ -123,7 +123,6 @@
             </form>
             <br>
             {% include 'messages/form_valid_errormelding.html' %}
-
         </div>
     </div>
     </html>

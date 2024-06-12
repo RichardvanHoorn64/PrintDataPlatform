@@ -10,7 +10,7 @@ def save_calculation(rfq, best_offer, error):
     if not error:
         try:
             calculation.status = 'calculated'
-            calculation.error = 'No error'
+            calculation.error = None
             calculation.printer = best_offer['printer'].values[0]
             calculation.printer_booklet = best_offer['printer_booklet'].values[0]
             calculation.printer_cover = best_offer['printer_cover'].values[0]
@@ -24,7 +24,7 @@ def save_calculation(rfq, best_offer, error):
             calculation.paperspec_id = pd.to_numeric(best_offer['paperspec_id'].values[0])
             calculation.paperspec_id_booklet = pd.to_numeric(best_offer['paperspec_id_booklet'].values[0])
             calculation.paperspec_id_cover = pd.to_numeric(best_offer['paperspec_id_cover'].values[0])
-            calculation.purchase_paper_perc_added  = pd.to_numeric(best_offer['purchase_paper_perc_added'].values[0])
+            calculation.purchase_paper_perc_added = pd.to_numeric(best_offer['purchase_paper_perc_added'].values[0])
 
             calculation.pages_per_sheet_booklet = pd.to_numeric(best_offer['pages_per_sheet_booklet'].values[0])
             calculation.pages_per_katern_booklet = pd.to_numeric(best_offer['pages_per_katern_booklet'].values[0])
@@ -41,7 +41,8 @@ def save_calculation(rfq, best_offer, error):
             calculation.waste_printing_cover1000extra = pd.to_numeric(
                 best_offer['waste_printing_cover1000extra'].values[0])
             calculation.waste_binding_cover = pd.to_numeric(best_offer['waste_binding_cover'].values[0])
-            calculation.waste_binding_cover1000extra = pd.to_numeric(best_offer['waste_binding_cover1000extra'].values[0])
+            calculation.waste_binding_cover1000extra = pd.to_numeric(
+                best_offer['waste_binding_cover1000extra'].values[0])
 
             calculation.order_startcost = Decimal(best_offer['order_startcost'].values[0])
             calculation.printingcost = Decimal(best_offer['printingcost'].values[0])
@@ -171,7 +172,7 @@ def save_calculation(rfq, best_offer, error):
             calculation.save()
         except Exception as e:
             general_error = str(error)
-            error = 'General error: ' + general_error + 'Calculation save error: ' + str(e)
+            error = 'General error: ' + general_error + 'Calculation save error'
             calculation.error = error,
             calculation.total_cost = 0
             calculation.total_cost1000extra = 0
@@ -182,7 +183,8 @@ def save_calculation(rfq, best_offer, error):
     else:
         status = 'Calculation failed'
         calculation.status = status
-        calculation.error = error,
+        calculation.offer_date = timezone.now().today().date()
+        calculation.error = error
         calculation.total_cost = 0
         calculation.total_cost1000extra = 0
         calculation.save()

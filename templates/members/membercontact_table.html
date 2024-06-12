@@ -28,7 +28,7 @@
                         <th class="sort align-middle text-start" scope="col" data-sort="rfq_date" style="width:10%;">
                             Actief<BR>sinds
                         </th>
-                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Account<br>aanpassen
+                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Account<br>aaanpassen
                         </th>
                     </tr>
                     </thead>
@@ -45,10 +45,14 @@
                             <td class="printproject_id align-middle white-space-nowrap py-0">{{ account.mobile_number }}</td>
 
                             <td class="rfq_date align-middle fw-semi-bold text-1000">{{ account.created |date:'d-m-Y ' }}</td>
-
-
+                            
                             <td class="align-middle white-space-nowrap task ps-0 py-0">
-                                {% include 'buttons/update_member_coworker.html' %}
+                                {% if account.active == True %}
+                                {% include 'buttons/deactivate_co_worker.html' %} Deactiveren
+                                {% else %}
+                                 {% include 'buttons/activate_co_worker.html' %} Activeren
+                                {% endif %}
+                                
                             </td>
                         </tr>
                     {% endfor %}

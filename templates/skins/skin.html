@@ -35,20 +35,18 @@
                     <li class="nav-item">
                       {% if user.member.member_plan_id in producer_memberplans  %}
                                                          <!-- label-->
-                  <p class="navbar-vertical-label fs-8">Sales dashboard
-                  </p>
+                  <p class="navbar-vertical-label fs-8">Sales dashboard</p>
                   <hr class="navbar-vertical-line" />
 
                     <!-- Offers, for producers-->
                   <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#sales_dashboard"  role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="project-management">
                       <div class="d-flex align-items-center">
-                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right fs-3"></span></div><span class="nav-link-icon"><span class="far fa-handshake fs-3"></span></span><span class="nav-link-text fs-8">Aanbiedingen</span>
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right fs-3"></span></div><span class="nav-link-icon"><span class="far fa-handshake fs-3"></span></span><span class="nav-link-text fs-8">Uitgebrachte offertes</span>
                       </div>
                     </a>
                     <div class="parent-wrapper label-1">
                       <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="sales_dashboard">
-                        <li class="collapsed-nav-item-title d-none">Aanbiedingen
-                        </li>
+                        <li class="collapsed-nav-item-title d-none">Offertes</li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'producer_offers' 0 %}"  data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-text fs-8">Alle aanbiedingen</span>
                             </div>
@@ -131,18 +129,19 @@
                   <!-- Account-->
                   <li class="nav-item">
                   <!-- label-->
-                  <p class="navbar-vertical-label fs-8">Opdrachtgevers
-                  </p>
-                  <hr class="navbar-vertical-line" />
+                  <p class="navbar-vertical-label fs-8">Opdrachtgevers</p>
+
 
                    <!-- producer clients-->
+                  {% if  producer.exclusive_module %}     
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_exlusive_clients' %}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Exclusief</span></span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">{{ producer.company }}</span></span>
                       </div>
                     </a>
                   </div>
-                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_open_clients' %}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Open</span></span>
+                               {% endif %}
+                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_open_members' %}" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">{{ site_name }}</span></span>
                       </div>
                     </a>
                   </div>
@@ -200,7 +199,7 @@
 
                     
                     <!-- Exclusive members offers-->
-{#                  {% if user.member_plan_id in open_memberplans %}#}
+                  {% if user.member_plan_id in open_memberplans %}
 
                   <hr class="navbar-vertical-line" />
                   <!-- Printprojects-->
@@ -302,6 +301,7 @@
                       </ul>
                     </div>
                   </div>
+                    {% endif %}
                   
                   <!-- paper dashboard-->
                                       <li class="nav-item">
@@ -325,17 +325,19 @@
                    <!-- Account-->
                   <li class="nav-item">
                   <!-- label-->
-                  <p class="navbar-vertical-label fs-8">Mijn bedrijf
+                  <p class="navbar-vertical-label fs-8">Accountoverzicht
                   </p>
                   <hr class="navbar-vertical-line" />
 
-                      {% if user.member.member_plan_id in calculator_memberplans  %}
+                      {% if user.member.member_plan_id in pro_memberplans  %}
                    <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'client_dashboard' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-address-card fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn klanten</span></span>
                       </div>
                     </a>
                   </div>
+                          {% endif %}
+                   {% if user.member.member_plan_id in non_exclusive_memberplans  %}
 
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_dashboard' 0%}" role="button" data-bs-toggle="" aria-expanded="false">
@@ -345,14 +347,20 @@
                   </div>
                           {% endif %}
                   <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'my_account_update' user.id %}" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-user fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn profiel</span></span>
+                      </div>
+                    </a>
+                  </div>
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'my_account' user.member_id %}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-user fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn bedrijf</span></span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-building fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn bedrijf</span></span>
                       </div>
                     </a>
                   </div>
 
                   <!-- Assets production calculation-->
-                        {% if user.member.member_plan_id in producer_memberplans  %}
+                       {% if  producer.calculation_module %}     
+                            
                            <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'asset_dashboard' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-tools fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Productiemiddelen</span></span>
                       </div>
@@ -367,20 +375,14 @@
                   </div>
 
                 <!-- Assortiment-->
+                      
                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_assortiment' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-calculator fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Assortiment</span></span>
                       </div>
                     </a>
                   </div>
-                      {% endif %}
-                  <!-- parent pages-->
+                     {% endif %}
 
-                  <!-- parent pages-->
-{% comment %}                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_dashboard' 0%}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-line fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Abonnement</span></span>
-                      </div>
-                    </a>
-                  </div>{% endcomment %}
                    {% if user.member.member_plan_id in non_exclusive_memberplans %}
                 <li class="nav-item">
                   <!-- label-->

@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView
 from django.views.generic.edit import FormMixin
 from datetime import datetime
+
+from index.create_context import creatememberplan_context
 from members.crm_functions import update_clientdashboard
 from index.forms.note_form import *
 from index.forms.relationforms import *
@@ -53,7 +55,7 @@ class ClientDetails(DetailView, LoginRequiredMixin, FormMixin):
         member_id = user.member_id
         client_id = self.kwargs['pk']
         client = Clients.objects.get(member_id=member_id, client_id=client_id)
-
+        context = creatememberplan_context(context, user)
         printprojects = PrintProjects.objects.filter(member_id=member_id, active=True, client_id=client_id)
         orders = Orders.objects.filter(member_id=member_id, active=True, client_id=client_id)
 
@@ -134,6 +136,7 @@ class CreateNewClient(CreateView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(CreateNewClient, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
         context['title'] = "Nieuwe klant aanmaken"
         context['button_text'] = "Klant toevoegen"
         return context
@@ -168,6 +171,7 @@ class UpdateClient(UpdateView, LoginRequiredMixin):
         context = super(UpdateClient, self).get_context_data(**kwargs)
         client_id = self.kwargs['pk']
         client = Clients.objects.get(client_id=client_id)
+        context = creatememberplan_context(context, user)
         context['client'] = client
         context['title'] = "Update " + str(client.client)
         context['button_text'] = "Klant update"

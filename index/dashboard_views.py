@@ -28,6 +28,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
+        exclusive_producer_id = define_exclusive_producer_id(user)
         context = super(PrintDataPlatformDashboard, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         member_id = user.member_id
@@ -50,8 +51,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['member_plan_id'] = member_plan_id
 
         # store
-        categories_available = ProducerProductOfferings.objects.filter(producer_id=1).values_list('productcategory_id',
-                                                                                                  flat=True)
+        categories_available = ProducerProductOfferings.objects.all().values_list('productcategory_id', flat=True)
 
         if user.member_plan_id in exclusive_memberplans:
             exclusive_producer_id = define_exclusive_producer_id(user)
@@ -59,8 +59,10 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
             offers = offers.filter(producer_id=exclusive_producer_id)
             orders = orders.filter(producer_id=exclusive_producer_id)
-            categories_available = ProducerProductOfferings.objects.filter(
-                producer_id=exclusive_producer_id).values_list('productcategory_id', flat=True)
+
+            categories_available = ProducerProductOfferings.objects.filter(producer_id=exclusive_producer_id,
+                                                                           availeble=True).values_list(
+                'productcategory_id', flat=True)
 
             # text
             printproject_table_title = 'Laatste 10 printprojecten'
@@ -73,8 +75,9 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
         context['categories_available'] = categories_available
 
+        # store image location on Azure
         src_loc = 'drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/producent'
-        media_loc = str(1)
+        media_loc = str(define_exclusive_producer_id(user))
 
         context['src_loc'] = src_loc
         context['media_loc'] = media_loc

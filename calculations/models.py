@@ -1,4 +1,3 @@
-from offers.models import Offers
 from printprojects.models import PrintProjects
 from assets.models import *
 from methods.models import ProductCategory
@@ -10,7 +9,6 @@ class Calculations(models.Model):
     producer = models.ForeignKey(Producers, on_delete=models.CASCADE)
     member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
     printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.SET_NULL)
-    offer = models.ForeignKey(Offers, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.CharField(max_length=5000, blank=True, null=True)
 
     # status

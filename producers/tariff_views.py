@@ -215,25 +215,6 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_sales_dashboard.html"
-    pk_url_kwarg = 'offerstatus_id'
-    context_object_name = 'offerstatus_id'
-
-    def get_context_data(self, **kwargs):
-        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
-        user = self.request.user
-        producer_id = user.producer_id
-        order_status_id = 0
-        offerstatus_id = kwargs['offerstatus_id']
-        context = creatememberplan_context(context, user)
-        context = get_offercontext(producer_id, context, offerstatus_id)
-        context = get_ordercontext(producer_id, context, order_status_id)
-        context['offer_pagination'] = 10
-        context['order_pagination'] = 10
-
-        return context
-
 
 class ProducerOrders(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_order_dashboard.html"

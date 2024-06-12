@@ -43,14 +43,12 @@ class Producers(models.Model):
     postal_code = models.CharField(max_length=7, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     country_code = models.CharField(max_length=100, default=1)
-    url = models.URLField(max_length=200, blank=True, null=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
+    company_url = models.URLField(null=True, blank=True, max_length=200)
 
-    # social media
-    linkedin_url = models.URLField(null=True, blank=True, max_length=200)
 
-    # modulus
+    # modules
     exclusive_module = models.BooleanField(default=False)
     calculation_module = models.BooleanField(default=False)
     brandportal_module = models.BooleanField(default=False)
@@ -69,6 +67,7 @@ class Producers(models.Model):
     modified = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
     demo = models.BooleanField(default=False)
+    uploaded_by = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
         return self.company
@@ -93,15 +92,15 @@ class Members(models.Model):
     e_mail_general = models.EmailField(blank=True)
     street_number = models.CharField(max_length=30, blank=True)
     postal_code = models.CharField(max_length=7, blank=True)
-    country_code = models.CharField(max_length=100, default=1)
     city = models.CharField(max_length=100, blank=True, null=True)
+    country_code = models.CharField(max_length=100, default=1)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
-    # social media
-    url = models.URLField(null=True, blank=True, max_length=200)
+
 
     # social media
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
+    company_url = models.URLField(null=True, blank=True, max_length=200)
 
     doc_templates = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -134,7 +133,11 @@ class UserProfile(AbstractUser):
     first_user = models.BooleanField(default=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
+
     # social media
+    linkedin_url = models.URLField(null=True, blank=True, max_length=200)
+    company_url = models.URLField(null=True, blank=True, max_length=200)
+
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)

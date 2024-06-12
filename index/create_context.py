@@ -14,6 +14,9 @@ def creatememberplan_context(context, user):
     context['offer_availeble'] = offer_availeble
     context['printdataplatform_url'] = 'https://www.printdataplatform.nl'
     context['site_name_exclusive'] = define_exclusive_site_name(user)
+
+    if user.member_plan_id in producer_memberplans:
+        context['producer'] = Producers.objects.get(producer_id=user.producer_id)
     return context
 
 

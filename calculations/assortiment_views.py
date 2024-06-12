@@ -10,6 +10,7 @@ from django.views.generic import View, TemplateView
 from calculations.assortiment_uploadform import *
 from calculations.item_calculations.brochure_calculation import brochure_calculation
 from calculations.item_calculations.plano_folder_calculation import plano_folder_calculation
+from index.create_context import creatememberplan_context
 from index.translate_functions import *
 from index.categories_groups import *
 
@@ -21,6 +22,7 @@ class AssortimentView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AssortimentView, self).get_context_data(**kwargs)
         user = self.request.user
+        context = creatememberplan_context(context, user)
         producer_id = user.producer_id
         catalog = Calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by('calculation_id')
 

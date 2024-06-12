@@ -10,7 +10,7 @@
 <!-- ===============================================-->
 <hr class="text-info">
 <div class="row">
-    <h4 class="mb-3 text-info">Contact</h4>
+    <h4 class="mb-3 text-info">Contact: {{ user.company }}</h4>
 </div>
 <div class="row">
     <div class="col-md-2">
@@ -26,9 +26,16 @@
 </div>
 <div class="row">
     <div class="col-md-8">
-        <label class="form-label" for="url">Website:</label>
-        <p>{{ form.url }}</p>
-        <span class="form-text text-muted">{{ form.url.help_text }}</span>
+        <label class="form-label" for="company_url">Website:</label>
+        <p>{{ form.company_url }}</p>
+        <span class="form-text text-muted">{{ form.company_url.help_text }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <label class="form-label" for="linkedin_url">LinkedIn - {{ user.company }}:</label>
+        <p>{{ form.linkedin_url }}</p>
+        <span class="form-text text-muted">{{ form.linkedin_url.help_text }}</span>
     </div>
 </div>
 </body>

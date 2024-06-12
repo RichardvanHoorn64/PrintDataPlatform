@@ -64,22 +64,32 @@
                 {% endif %}
                  {% if member_plan_id in exclusive_memberplans %}
                 {% include 'members/includes/exclusive_accountdetails.html' %}
+                {% include 'members/includes/update_accountplan.html' %}
+                {% endif %}
+                {% if member_plan_id in producer_memberplans %}
+                {% include 'members/includes/producer_modules.html' %}
                 {% endif %}
         </div>
         <hr class="text-info">
         <div class="col-auto">
                     <div class="row g-3">
                         <div class="col-auto">
-                            {% include 'buttons/update_account.html' %}
-                            {% if member_plan_id in open_memberplans %}
+                            {% include 'buttons/update_business_account.html' %}&nbsp;
+                            {% if member_plan_id in free_memberplans %}
+                            {% include 'buttons/memberaccount_upgrade.html' %}&nbsp;
+                            {% endif %}
+                             {% if member_plan_id in non_exclusive_memberplans %}
                             {% include 'buttons/delete_account.html' %}
                             {% endif %}
+        </div>
+                        
+                        
                         </div>
                     </div>
                 </div>
             </div>
     </div>
-</div>            
+           
 <br>
 </body>
 </html>

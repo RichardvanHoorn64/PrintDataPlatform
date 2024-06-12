@@ -30,35 +30,35 @@
                     <tbody>
                     {% include 'producers/tables/calculationdetails_components/general.html' %}
 
-                    {% if calculation.productcategory_id in brochures_selfcovers %}
+                    {% if calculation.productcategory_id in categories_selfcovers %}
                         {% include 'producers/tables/calculationdetails_components/booklet.html' %}
                     {% endif %}
 
-                    {% if calculation.productcategory_id in plano_folders %}
+                    {% if calculation.productcategory_id in categories_plano %}
                         {% include 'producers/tables/calculationdetails_components/plano.html' %}
                     {% endif %}
 
-                     {% if calculation.productcategory_id in brochures %}
+                     {% if calculation.productcategory_id in categories_brochures_all %}
                         {% include 'producers/tables/calculationdetails_components/cover.html' %}
                      {% endif %}
 
                     {% include 'producers/tables/calculationdetails_components/logistics.html' %}
 
-                    {% if calculation.productcategory_id in brochures %}
+                    {% if calculation.productcategory_id in categories_brochures_all %}
 
                     {% endif %}
 
 
 
-                    {% if calculation.productcategory_id in brochures_selfcovers %}
+                    {% if calculation.productcategory_id in categories_selfcovers %}
                         {% include 'producers/tables/calculationdetails_components/paper_booklet.html' %}
                     {% endif %}
 
-                    {% if calculation.productcategory_id in plano_folders %}
+                    {% if calculation.productcategory_id in categories_plano %}
                         {% include 'producers/tables/calculationdetails_components/paper_plano.html' %}
                     {% endif %}
 
-                     {% if calculation.productcategory_id in brochures %}
+                     {% if calculation.productcategory_id in categories_brochures_all %}
                         {% include 'producers/tables/calculationdetails_components/paper_cover.html' %}
                      {% endif %}
 

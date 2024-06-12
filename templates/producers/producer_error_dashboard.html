@@ -29,15 +29,35 @@
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
-                <li class="breadcrumb-item active">Calculatie errors</li>
+                <li class="breadcrumb-item active">Foutcalculaties</li>
             </ol>
         </nav>
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info">Calculatie errors</h2>
+                    <h2 class="mb-0 text-info">Foutcalculaties</h2>
                 </div>
             </div>
+            <ul class="nav nav-links g-3 mb-4">
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-warning"
+                                        href="{% url 'producer_offers' 0 %}">Alles <span
+                        class="text-700 fw-semi-bold">({{ all_offers }})</span></a></li>
+                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 1 %}">Open <span
+                        class="text-700 fw-semi-bold">({{ open_offers }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 2 %}">Aangeboden <span
+                        class="text-700 fw-semi-bold">({{ offered_offers }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 3 %}">In productie <span
+                        class="text-700 fw-semi-bold">({{ prod_offers }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 4 %}">Afgewezen <span
+                        class="text-700 fw-semi-bold">({{ denied_offers }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 5 %}">Gesloten <span
+                        class="text-700 fw-semi-bold">({{ closed_offers }})</span></a></li>
+            </ul>
             <!-- ===============================================-->
             <!--  END  Header-->
             <!-- ===============================================-->
@@ -49,7 +69,9 @@
                 <!-- ===============================================-->
                 <!--    Offer Table-->
                 <!-- ===============================================-->
-                {% include 'producers/tables/calculation_errors_table_producers.html' %}
+
+            
+            {% include 'producers/tables/error_table_producers.html' %}
                 <!-- ===============================================-->
                 <!--    End Offer Table-->
                 <!-- ===============================================-->
