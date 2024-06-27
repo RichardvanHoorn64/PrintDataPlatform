@@ -25,8 +25,8 @@
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Nieuwe producent aanmaken</h2>
-            <h5 class="mb-3">Voor {{ user.company }}</h5>
+            <h2 class="mb-4 text-info">Producent toevoegen</h2>
+            <h5 class="mb-3">toevoegen country_code</h5>
 
             <!-- ===============================================-->
             <!--    End Header-->
@@ -45,64 +45,40 @@
                     <h4 class="mb-3 text-info">Nieuwe Producent</h4>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <label class="form-label" for="company">Nieuwe Producent:</label>
                         <p>{{ form.company }}</p>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label" for=" e_mail_general">Email:</label>
-                        <p>{{ form.e_mail_general }}</p>
-                    </div>
+                    <div class="col-md-3">
+                            <label class="form-label" for="manager">Manager:</label>
+                            <p>{{ form.manager }}</p>
+                            <span class="form-text text-muted">{{ form.manager.help_text }}</span>
+                        </div>
                 </div>
-
-                    <!-- ===============================================-->
-                    <!--  Manager First and lastname -->
-                    <!-- ===============================================-->
-                    <hr class="text-info">
-                    <div class="row">
-                    <h4 class="mb-3 text-info">Manager, naam en functie</h4>
-                         <h4 class="mb-3">Je kunt later meer contactpersonen toevoegen</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="manager_first_name">Voornaam:</label>
-                            <p>{{ form.manager_first_name }}</p>
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label" for="manager_last_name">Achternaam:</label>
-                            <p>{{ form.manager_last_name }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="manager_jobtitle">Functie:</label>
-                            <p>{{ form.manager_jobtitle }}</p>
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label" for="manager_e_mail">Email, manager:</label>
-                            <p>{{ form.manager_e_mail }}</p>
-                        </div>
-                    </div>
-
-
-
+                
                     <!-- ===============================================-->
                     <!--  General and mobile number -->
                     <!-- ===============================================-->
                     <hr class="text-info">
                     <div class="row">
-                    <h4 class="mb-3 text-info">Telefoonnummers</h4>
+                    <h4 class="mb-3 text-info">Contact</h4>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
+                        <div class="col-md-3">
+                            <label class="form-label" for="tel_general">Telefoon:</label>
                             <p>{{ form.tel_general }}</p>
                             <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label" for="e_mail_general">Email:</label>
+                            <p>{{ form.e_mail_general }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
-                            <label class="form-label" for="manager_mobile_number">Manager, mobiel/direct nummer:</label>
-                            <p>{{ form.manager_mobile_number }}</p>
+                            <label class="form-label" for="company_url">Website:</label>
+                            <p>{{ form.company_url }}</p>
                         </div>
                     </div>
 
@@ -114,24 +90,34 @@
                     <h4 class="mb-3 text-info">Adres</h4>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label class="form-label" for="street_number">Straat en huisnummer</label>
                             <p>{{ form.street_number }}</p>
                             <span class="form-text text-muted">{{ form.street_number.help_text }}</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label class="form-label" for="postal_code">Postcode</label>
                             <p>{{ form.postal_code }}</p>
                             <span class="form-text text-muted">{{ form.postal_code.help_text }}</span>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <label class="form-label" for="city">Plaats</label>
                             <p>{{ form.city }}</p>
                             <span class="form-text text-muted">{{ form.city.help_text }}</span>
                         </div>
                     </div>
+                      
+                 <div class="col-sm-6 col-md-4">
+                            <label class="form-label" for="country_code">Land </label>
+                            <select class="form-select" id="country_code" name="country_code">
+                                {% for i in countries %}
+                                    <option value="{{ i.country_code }}">{{ i.country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+            
                     <hr class="text-info">
                     <div class="col-12">
                         <button class="btn btn-warning" type="submit">Producent toevoegen</button>

@@ -20,13 +20,13 @@
             <nav class="mb-2" aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
-                                                   href="{% url 'home' %}">Welkom{{ user.company }}</a></li>
-                    <li class="breadcrumb-item active">Aanmelden op De Printmanager</li>
+                                                   href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Aanmelden op {{ site_name }}</li>
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Aanmelden PrintDataHub</h2>
-            <h5 class="mb-3">Maak een gratis proefaccount aan.</h5>
+            <h2 class="mb-4 text-info">Aanmelden {{ site_name }}</h2>
+
 
             <!-- ===============================================-->
             <!--    End Header-->
@@ -163,28 +163,40 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-4">
+                            <label class="form-label" for="country_code">Land </label>
+                            <select class="form-select" id="country_code" name="country_code">
+                                {% for i in countries %}
+                                    <option value="{{ i.country_code }}">{{ i.country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
 
                     <!-- ===============================================-->
                     <!--  Social media -->
                     <!-- ===============================================-->
                     {% include 'members/includes/social_media.html' %}
-
+                    <hr class="text-info">
 
                     <div class="row">
                         <h4 class="mb-1 text-info">Gratis basisaansluiting</h4>
                     </div>
-                        <div class="col-md-12">
+                    <div class="col-md-12">
                         <button class="btn btn-success" type="submit">Aanvragen</button>
                     </div>
                     <br>
 
                 </div>
-                 <hr class="text-info">
+                <hr class="text-info">
             </form>
             <br>
             {% include 'messages/form_valid_errormelding.html' %}
         </div>
-        </div>
+    </div>
     </html>
     <!-- end:: Content -->
 {% endblock %}

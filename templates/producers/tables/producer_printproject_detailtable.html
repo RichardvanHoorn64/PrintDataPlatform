@@ -43,7 +43,7 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.printprojectstatus.printprojectstatus }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.offerstatus.offerstatus }}</p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -112,7 +112,7 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing_booklet }}</p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -183,7 +183,7 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Verpakking</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.packaging }}</p>
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_packaging }}</p>
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -231,10 +231,11 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Verkoopprijs</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold
-                                            {% if offer.offer %} text-success {{ offer.offer }}
-                                            {% else %} text-warning
-                                            {% endif %}">Nog aanbieden</p>
+                                             {% if offer.offerstatus_id == 1 %}
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold text warning">---</p>
+                                            {% else %}
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold text-info">€ {{ offer.offer }}</p>
+                                            {% endif %}
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -244,10 +245,12 @@
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold
-                                        {% if offer.offer1000extra %} text-success {{ offer.offer1000extra }}
-                                            {% else %} text-warning
-                                            {% endif %}">--</p>
+                                             {% if offer.offerstatus_id == 1 %}
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold text warning">---</p>
+                                            {% else %}
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold text-info">€ {{ offer.offer1000extra }}</p>
+                                            {% endif %}
+                                        
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
@@ -258,16 +261,7 @@
                     </div>
 <hr class="text-info">
 
-{% if offer.offerstatus_id == 2 %}
-{% include 'buttons/download_clientoffer_large.html' %} 
-    <p>Aanbieding in ms-word download</p>
-{% else %}
-    
-    <a href="{% url 'offer_producers_update' offer.offer_id %}"
-   class="btn btn-success btn-lg" role="button"
-   aria-pressed="true"><i class="fa-solid fa-calculator fs--1 me-2"></i>Offerte uitbrengen</a>
 
-{% endif %}
                 </div>
 <!-- ===============================================-->
 <!--    End Printproject Detail table -->

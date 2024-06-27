@@ -6,7 +6,8 @@ from assets.asset_deleteviews import *
 from calculations.assortiment_views import *
 from downloads.download_paperspecs import *
 from downloads.download_producer_docs import *
-from downloads.downloads import *
+from downloads.member_downloads import *
+from downloads.producer_downloads import *
 # from downloads.download_client_docs import *
 from index.dashboard_views import *
 from index.index_views import *
@@ -20,12 +21,14 @@ from members.account_views import *
 from members.client_views import *
 from members.crm_functions import *
 from members.crm_views import *
+from offers.offer_functions import *
 from offers.offer_views import *
 from offers.rfq_workflows import *
 from orders.order_views import *
 from printprojects.detail_views import *
 from printprojects.start_printproject_view import *
 from printprojects.start_workflow_view import PrintProjectStartWorkflowView
+from producers.contact_views import *
 from producers.offer_views import *
 from producers.producer_views import *
 from producers.tariff_views import *
@@ -40,10 +43,11 @@ urlpatterns = [
     path('', WelcomeView.as_view(), name=''),  # redirect page
     path('welcome/', WelcomeView.as_view(), name='welcome'),  # redirect page
     path('home/', HomeView.as_view(), name='home'),
-    path('signup/<int:member_plan_id>', UserProfileCreateView.as_view(), name='signup'),
+    path('signup/<int:member_plan_id>/',   UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
     path('no_access/', NoAccessView.as_view(), name='no_access'),
     path('wait_for_approval/', WaitForApproval.as_view(), name='wait_for_approval'),
+
 
     # dashboards after member accept and inlog
     path('printdataplatform_dashboard/', PrintDataPlatformDashboard.as_view(),
@@ -55,7 +59,6 @@ urlpatterns = [
     # printdataplatform
     path('conditions/', ConditionView.as_view(), name='conditions'),
     path('faq/', FaqView.as_view(), name='faq'),
-    path('contact/', ConditionView.as_view(), name='contact'),
 
     # printprojects
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
@@ -93,6 +96,9 @@ urlpatterns = [
     path('handle_offer/<int:offer_id>/<int:offerstatus_id>', HandleOfferView.as_view(),
      name='handle_offer'),
 
+    path('thanks_submit_offer/', ThanksSubmitOffer.as_view(), name='thanks_submit_offer'),
+
+    path('pricing_dashboard/<int:memberproducermatch_id>/', ProducerPricingUpdateView.as_view(), name='pricing_dashboard'),
 
     # orders
     path('order_dashboard/<int:order_status_id>', OrderDashboard.as_view(), name='order_dashboard'),
@@ -129,18 +135,23 @@ urlpatterns = [
          name='delete_clientcontact'),
 
     # producers
-    path('producer_dashboard/<int:producerstatus_id>', ProducersDashboard.as_view(),
-         name='producer_dashboard'),
+    path('producer_dashboard/', ProducersDashboard.as_view(), name='producer_dashboard'),
     path('create_new_producer/', CreateNewProducer.as_view(), name='create_new_producer'),
     path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
+    path('create_producer_exclusive_member/<int:producer_id>', CreateProducerExclusiveMember.as_view(),
+         name='create_producer_exclusive_member'),
+
+    # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
          name='create_producercontact'),
+
     path('update_producercontact/<int:producercontact_id>', UpdateProducerContact.as_view(),
          name='update_producercontact'),
     path('delete_producercontact/<int:producercontact_id>', DeleteProducerContact.as_view(),
          name='delete_producercontact'),
+
     path('producer_close_order//<int:pk>', ProducerCloseOrderView.as_view(), name='producer_close_order'),
     path('producer_accept_order//<int:pk>', ProducerAcceptOrderView.as_view(), name='producer_accept_order'),
 
@@ -158,10 +169,13 @@ urlpatterns = [
 
 
     # producers member dashboard
-    path('producer_exlusive_clients/', ProducerExclusiveClients.as_view(), name='producer_exlusive_clients'),
+    path('producer_exlusive_members/', ProducerExclusiveMembers.as_view(), name='producer_exlusive_members'),
+
+
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
 
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),
+    path('producer_memberaccept/<int:pk>', ProducerMemberAccept.as_view(), name='producer_memberaccept'),
 
     # producer orders
     path('producer_orders/<int:order_status_id>', ProducerOrders.as_view(), name='producer_orders'),
@@ -205,8 +219,8 @@ urlpatterns = [
     path('delete_note/<int:note_id>', DeleteNoteView.as_view(), name='delete_note'),
 
     # api's
-    path('producer_api_manager/<int:pk>', APIproducerManager.as_view(), name='producer_api_manager'),
-    path('api_producer_accept/<int:pk>', APIproducerAccept.as_view(), name='api_producer_accept'),
+    # path('producer_api_manager/<int:pk>', APIproducerManager.as_view(), name='producer_api_manager'),
+    # path('api_producer_accept/<int:pk>', APIproducerAccept.as_view(), name='api_producer_accept'),
 
     # downloads
     path('member_download_printprojects/', MemberDownloadPrintprojects.as_view(),
@@ -217,6 +231,12 @@ urlpatterns = [
 
     path('producer_download_offer/<int:offer_id>/<int:doc_id>', DownloadProducerOffer.as_view(),
          name='producer_download_offer'),  # doc_id 1= offer, 2 =invoice
+
+    path('producer_download_offers/', ProducerDownloadOffers.as_view(),
+         name='producer_download_offers'),
+
+    path('producer_download_orders/', ProducerDownloadOrders.as_view(),
+         name='producer_download_orders'),
 
     # Assets producers
     path('asset_dashboard/', AssetDashboardView.as_view(), name='asset_dashboard'),

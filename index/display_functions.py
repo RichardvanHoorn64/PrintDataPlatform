@@ -180,12 +180,10 @@ def printproject_finishing(printproject):
     finishing_text  = ""
     if productcategory_id == categories_plano:
         finishing_text = 'Gesneden tot afgewerkt formaat'
-    if productcategory_id == categories_folders:
+    elif productcategory_id == categories_folders:
         finishing_text = write_foldingmethod_text(printproject.folding)
-    if productcategory_id == categories_selfcovers:
-        finishing_text = write_finishingmethod_text(printproject.finishing_brochures)
-    if productcategory_id in categories_brochures_cover:
-        finishing_text = write_finishingmethod_text(printproject.finishing_brochures)
+    else:
+        finishing_text = write_brochurefinishing_text(printproject.finishing_brochures)
 
     return finishing_text
 

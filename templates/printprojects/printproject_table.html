@@ -42,17 +42,11 @@
                             </th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Open<br>aanbiedingen
                             </th>
-                                    {% endif %}
+                              {% endif %}
                             
-                            {% if user.member_pla_id in open_menberplans %}
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Offerte</th>
-                            {% endif %}
-                    
-                        {% if user.member_pla_id in open_menberplans %}
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Factuur</th>
-                            {% endif %}
                         
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Kopie</th>
+                        
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Herberekenen</th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
                         </tr>
                         </thead>
@@ -103,17 +97,7 @@
                                         {{ printproject.number_of_offers }}</td>
                                     {% else %}-{% endif %}
                                 {% endif  %}
-                                {% if user.member_plan_id in open_memberplans %}
-                                <td class="align-middle white-space-nowrap task ps-0 py-0">
-                                    {% include 'buttons/download_client_offer.html' %}
-                                </td>
-                                {% endif %}
-            
-                                {% if user.member_plan_id in open_memberplans %}
-                                <td class="align-middle white-space-nowrap task ps-0 py-0">
-                                    {% include 'buttons/download_client_invoice.html' %}
-                                </td>
-                                {% endif %}
+                            
                             
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% include 'buttons/clone_printproject.html' %}

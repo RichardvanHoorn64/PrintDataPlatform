@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Producer error details</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <!-- ===============================================-->
+        <!--   New project details -->
+        <!-- ===============================================-->
+        <!-- ============================================-->
+        <!-- <section> begin ============================-->
+        <section class="pt-5 pb-9 bg-white dark__bg-1200 border-top border-300">
+            <div class="container-small">
+                <!-- ===============================================-->
+                <!--    General info-->
+                <!-- ===============================================-->
+                <div class="d-flex justify-content-between align-items-end mb-4">
+                    <h2 class="mb-0 text-info">{{ printproject_title }} </h2>
+                </div>
+                
+                <!-- ===============================================-->
+                <!--    Printproject Detail table -->
+                <!-- ===============================================-->
+                {% include 'producers/tables/producer_error_detailtable.html' %}
+                <!-- ===============================================-->
+                <!--    Offer Detail table -->
+                <!-- ===============================================-->
+                <br>
+                <!-- ===============================================-->
+                <!--    Printproject Detail table -->
+                <!-- ===============================================-->
+               {% include 'producers/tables/producer_printproject_detailtable.html' %}
+                <!-- ===============================================-->
+                <!--    End Printproject Detail table -->
+                <!-- ===============================================-->
+            </div>
+        </section>
+        <!-- ============================================-->
+        <!-- <section> close ============================-->
+        <!-- ============================================-->
+    </div>
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

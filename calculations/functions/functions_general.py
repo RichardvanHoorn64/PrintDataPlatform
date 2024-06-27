@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from assets.models import *
 from materials.models import *
-from printprojects.models import MemberProducerSalesAllowance
+from printprojects.models import MemberProducerMatch
 from producers.models import *
 
 
@@ -72,12 +72,34 @@ def net_paper_quantity_calculation(volume, items_per_sheet_cover):
 
 def clientrelated_sales_allowance_calculation(rfq, producer_id, perc_added_value, total_cost):
     sales_allowance = 0.00
+    perc_salesallowance = 0.00
+
     try:
-        match = MemberProducerSalesAllowance.objects.get(producer_id=producer_id, member_id=rfq.member_id,
-                                                         productcategory_id=rfq.productcategory_id)
-        perc_salesallowance = float(match.perc_salesallowance)
-        sales_allowance = total_cost * perc_salesallowance * perc_added_value * 0.01
-    except MemberProducerSalesAllowance.DoesNotExist:
+        match = MemberProducerMatch.objects.get(producer_id=producer_id, member_id=rfq.member_id)
+
+        if rfq.productcategory_id == 1:
+            perc_salesallowance = match.perc_salesallowance_1
+        if rfq.productcategory_id == 2:
+            perc_salesallowance = match.perc_salesallowance_2
+        if rfq.productcategory_id == 3:
+            perc_salesallowance = match.perc_salesallowance_3
+        if rfq.productcategory_id == 4:
+            perc_salesallowance = match.perc_salesallowance_4
+        if rfq.productcategory_id == 5:
+            perc_salesallowance = match.perc_salesallowance_5
+        if rfq.productcategory_id == 6:
+            perc_salesallowance = match.perc_salesallowance_6
+        if rfq.productcategory_id == 7:
+            perc_salesallowance = match.perc_salesallowance_7
+        if rfq.productcategory_id == 8:
+            perc_salesallowance = match.perc_salesallowance_8
+        if rfq.productcategory_id == 9:
+            perc_salesallowance = match.perc_salesallowance_9
+        if rfq.productcategory_id == 10:
+            perc_salesallowance = match.perc_salesallowance_10
+
+        sales_allowance = total_cost * float(perc_salesallowance/100) * float(perc_added_value)
+    except MemberProducerMatch.DoesNotExist:
         pass
     return sales_allowance
 

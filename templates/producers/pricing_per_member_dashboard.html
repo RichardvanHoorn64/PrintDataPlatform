@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Producer member pricing dashboard</title>
+</head>
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+    <body>
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Pricing dashboard {{ member }}</li>
+            </ol>
+        </nav>
+        <div class="mb-2">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Pricing dashboard {{ member }}</h2><br>
+                    <h4 class="mb-0 text-black-50">Aanpassing toeslag op toegevoegde waarde</h4>
+                </div>
+            </div>
+        </div>
+        <hr class="text-info">
+        <br>
+
+        <!-- ===============================================-->
+
+        <form name="update_member_pricing_form" method="post">
+            {% csrf_token %}
+            <div class="col-12 rounded-2 border border-info">
+                <div class="card h-100">
+                    <div class="card-body">
+                    
+                        <hr class="text-info">
+                    
+                    
+                        <br>
+                          {% if 1 in product_categories %}
+                            <h2 class="mb-0 text-info">{{ products.0 }}:</h2><br>
+                            <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-black*50 h-100">
+                                % toeslag TW</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.perc_salesallowance_1 }}</p>
+                            </div>
+                            <hr class="text-info"> 
+                            </div><br>
+                        {% endif %}
+                    
+                          {% if 2 in product_categories %}
+                            <h2 class="mb-0 text-info">{{ products.1 }}:</h2><br>
+                            <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-black*50 h-100">
+                                % toeslag TW</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.perc_salesallowance_2 }}</p>
+                            </div>
+                            <hr class="text-info">  
+                               </div><br>
+                        {% endif %}
+                    
+                         {% if 3 in product_categories %}
+                            <h2 class="mb-0 text-info">{{ products.2 }}:</h2><br>
+                            <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-black*50 h-100">
+                                % toeslag TW</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.perc_salesallowance_3 }}</p>
+                            </div>
+                            <hr class="text-info">  
+                              </div><br>
+                        {% endif %}
+                    
+                          {% if 4 in product_categories %}
+                            <h2 class="mb-0 text-info">{{ products.3 }}:</h2><br>
+                            <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-black*50 h-100">
+                                % toeslag TW</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.perc_salesallowance_4 }}</p>
+                            </div>
+                            <hr class="text-info"> 
+                               </div><br>
+                        {% endif %}
+                                             {% if 5 in product_categories %}
+                            <h2 class="mb-0 text-info">{{ products.4 }}:</h2><br>
+                            <div class="form-group row">
+                            <label class="col-lg-2 col-form-label text-black*50 h-100">
+                                % toeslag TW</label>
+                            <div class="col-lg-2">
+                                <p>{{ form.perc_salesallowance_5 }}</p>
+                            </div>
+                            <hr class="text-info"> 
+                          </div><br>
+                        {% endif %}
+            
+                       
+
+
+
+
+                        <!-- ===============================================-->
+                        <!--   Row asset submit buttons -->
+                        <!-- ===============================================-->
+
+                        <div class="row">
+                            <h4 class="mb-1 text-info">Tarief update versturen</h4>
+                            <div class="col-12 gy-3 ">
+                                <div class="row g-3 justify-content-start">
+                                    <div class="col-auto">
+                                        <button class="btn btn-info px-5 px-sm-5" type="submit">
+                                            {{ button_text }} </button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a type="button" href="{% url 'producer_sales_dashboard' user.producer_id %}"
+                                           class="btn btn-warning px-5 px-sm-5">Annuleren</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+    </body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

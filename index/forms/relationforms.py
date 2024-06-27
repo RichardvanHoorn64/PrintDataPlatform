@@ -17,13 +17,13 @@ class NewClientForm(forms.ModelForm):
     manager_e_mail = char_field_100_false
     # social media
     linkedin_url = url_field_false
-    facebook_url = url_field_false
+
 
     class Meta:
         model = Clients
         fields = ('client', 'tel_general', 'e_mail_general', 'street_number', 'postal_code', 'city',
                   'manager_first_name', 'manager_last_name', 'manager_jobtitle', 'manager_mobile_number',
-                  'manager_e_mail', 'linkedin_url', 'facebook_url',)
+                  'linkedin_url',)
 
 
 class NewClientContactForm(forms.ModelForm):
@@ -50,15 +50,14 @@ class NewProducerForm(forms.ModelForm):
     street_number = char_field_200_false
     postal_code = char_field_100_false
     city = char_field_200_false
-    manager_ = char_field_200_false
-
-    manager_mobile_number = char_field_100_false
-    manager_e_mail = char_field_100_false
+    country_code = char_field_100_false
+    manager = char_field_100_false
+    company_url = url_field_false
 
     class Meta:
         model = Producers
         fields = ('company', 'tel_general', 'e_mail_general', 'street_number', 'postal_code', 'city',
-                  'manager', 'manager_e_mail')
+                  'country_code', 'manager','company_url')
 
 
 class NewProducerContactForm(forms.ModelForm):

@@ -15,6 +15,13 @@ def creatememberplan_context(context, user):
     context['printdataplatform_url'] = 'https://www.printdataplatform.nl'
     context['site_name_exclusive'] = define_exclusive_site_name(user)
 
+    context['categories_all'] = categories_all
+    context['categories_plano'] = categories_plano
+    context['categories_folders'] = categories_folders
+    context['categories_selfcovers'] = categories_selfcovers
+    context['categories_brochures_all'] = categories_brochures_all
+    context['categories_brochures_cover'] = categories_brochures_cover
+
     if user.member_plan_id in producer_memberplans:
         context['producer'] = Producers.objects.get(producer_id=user.producer_id)
     return context
@@ -24,13 +31,6 @@ def createprintproject_context(context, user, printproject):
     context = creatememberplan_context(context, user)
     productcategory = ProductCategory.objects.get(productcategory_id=printproject.productcategory_id).productcategory
     printproject_title = printproject_description(printproject, productcategory)
-
-    context['categories_all'] = categories_all
-    context['categories_plano'] = categories_plano
-    context['categories_folders'] = categories_folders
-    context['categories_selfcovers'] = categories_selfcovers
-    context['categories_brochures_all'] = categories_brochures_all
-    context['categories_brochures_cover'] = categories_brochures_cover
 
     context['productcategory_id'] = printproject.productcategory_id
     context['printproject_title'] = printproject_title

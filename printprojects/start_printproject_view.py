@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
 from assets.models import Bindingmachines
+from index.create_context import creatememberplan_context
 from index.forms.form_invalids import form_invalid_message_quotes
 from index.translate_functions import *
 from index.exclusive_functions import define_exclusive_producer_id
@@ -23,7 +24,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
     template_name = 'printprojects/new_project.html'
     pk_url_kwarg = 'productcategory_id'
     context_object_name = 'productcategory_id'
-    show_papercolor = True
 
     def exclusive_producer(self):
         exclusive_producer_id = define_exclusive_producer_id(self.request.user)
@@ -47,14 +47,9 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         update_producersmatch(self.request)
         user = self.request.user
         exclusive_producer_id = self.exclusive_producer()
+        brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
 
-        show_papercolor = self.show_papercolor
-
-        if user.member_plan_id in exclusive_memberplans:
-            brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
-            show_papercolor = brandportal.brandportal_show_papercolor
-
-        if not show_papercolor:
+        if not brandportal.brandportal_show_papercolor:
             paperbrand = form.cleaned_data['paperbrand']
             paperweight = form.cleaned_data['paperweight']
             paperbrand_cover = form.cleaned_data['paperbrand_cover']
@@ -77,9 +72,10 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         # fill print rear
         printsided = form.cleaned_data['printsided']
         print_front = form.cleaned_data['print_front']
-        number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
         pressvarnish_front = form.cleaned_data['pressvarnish_front']
         pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
+        number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
+
 
         # enhance
         if productcategory_id in categories_brochures_all:
@@ -99,7 +95,16 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.number_pms_colors_rear = 0
             form.instance.pressvarnish_rear = 0
         else:
-            form.instance.pressvarnish_rear = pressvarnish_rear
+            form.instance.print_front = 0
+            form.instance.print_rear = 0
+            form.instance.number_pms_colors_front = 0
+            form.instance.number_pms_colors_rear = 0
+            form.instance.pressvarnish_front = 0
+            form.instance.pressvarnish_rear = 0
+            form.instance.printsided = 0
+
+        if not productcategory_id in categories_brochures_cover:
+            form.instance.paperweight_cover = 0
 
 
         # Fill PrintProject-status
@@ -142,23 +147,19 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id)
         context['update'] = False
         user = self.request.user
+        creatememberplan_context(context, user)
         exclusive_producer_id = self.exclusive_producer()
+        brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
 
         language_id = user.language_id
-        dropdowns = DropdownChoices.objects.filter(language_id=language_id)
+        dropdowns = DropdownChoices.objects.filter(language_id=user.language_id)
 
         member_plan_id = user.member_plan_id
         show_papercolor = True
 
         # categories
         context['productcategory'] = productcategory
-        context['productcategory_id'] = productcategory.productcategory_id
-        context['categories_all'] = categories_all
-        context['categories_plano'] = categories_plano
-        context['categories_folders'] = categories_folders
-        context['categories_selfcovers'] = categories_selfcovers
-        context['categories_brochures_all'] = categories_brochures_all
-        context['categories_brochures_cover'] = categories_brochures_cover
+        context['productcategory_id'] = productcategory_id
 
         # standardsizes
         standardsizes = StandardSize.objects.filter(productcategory_id=productcategory_id)
@@ -198,7 +199,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if productcategory_id in categories_plano:
             context['enhance_sided_choices'] = dropdowns.filter(dropdown='enhance_sided_choices').order_by(
                 'dropdown_id')
-        brandportal = []
 
         # Folders foldingmethods
         if productcategory_id in categories_folders:
@@ -212,7 +212,7 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         # exclusive producuder dropdowns
         if member_plan_id in exclusive_memberplans:
-            brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
+
             show_papercolor = brandportal.brandportal_show_papercolor
 
             if brandportal.brandportal_show_pms_input == False:

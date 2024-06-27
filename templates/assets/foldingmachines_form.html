@@ -28,7 +28,6 @@
             </nav>
             <hr class="text-info">
             <h2 class="mb-1 text-info">{{ asset_form_title }} {{ asset.asset_name }}</h2>
-            <h5 class="mb-3">Instellingen foldingtype_id {{ foldingtype_id }}</h5>
             <hr class="text-info">
         </div>
 
@@ -54,21 +53,12 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-label" id="asset_name" for="asset_name">Machinenaam:</label>
-                        <input class="form-control" type="text" id="asset_name" name="asset_name"
-                                {% if update %}
-                               value="{{ asset.asset_name }}" {% else %} required
-                                {% endif %}
-                               placeholder="machinenaam opgeven"/>
+                        <p>{{ form.asset_name }}</p>
                     </div>
 
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
-                        <input class="form-control" type="number" step="0.01" id="tariff_eur_hour"
-                               name="tariff_eur_hour"
-                                {% if update %}
-                               value="{{ asset.tariff_eur_hour |floatformat:2 }}"  {% else %} required
-                                {% endif %} />
-
+                        <p>{{ form.tariff_eur_hour }}</p>
                     </div>
                 </div>
                 <hr class="text-info">
@@ -81,71 +71,60 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 col-md-2">
-
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" id="vertical_offered" type="checkbox"
-                                    {% if update and asset.vertical_offered %}  checked="" {% endif %}/>
-                            <label class="form-check-label" for="vertical_offered">Pagina staand mogelijk:</label>
-                        </div>
-
-                    </div>
-                    <div class="col-sm-6 col-md-2">
-
-                        <div class="form-check">
-                            <input class="form-check-input" id="landscape_offered " type="checkbox"
-                                    {% if update and asset.landscape_offered %} checked="" {% endif %}/>
-                            <label class="form-check-label" for="landscape_offered ">Pagina  liggend mogelijk </label>
-                        </div>
-
-                    </div>
-                    <div class="col-sm-6 col-md-2">
-                        <div class="form-check">
-                            <input class="form-check-input" id="square_offered " type="checkbox"
-                                    {% if update and asset.square_offered %}  checked="" {% endif %}/>
-                            <label class="form-check-label" for="square_offered ">Pagina vierkant mogelijk</label>
+                            <label class="form-check-label" for="vertical_offered">Pagina staand mogelijk</label>
+                            <p>{{ form.vertical_offered }}</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-2">
+
+                    <div class="col-sm-6 col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" id="added_value " type="checkbox"
-                                    {% if update and asset.added_value %}  checked="" {% endif %}/>
-                            <label class="form-check-label" for="added_value ">Eigen machine voor toegevoegde
+                            <label class="form-check-label" for="landscape_offered">Pagina liggend mogelijk</label>
+                            <p>{{ form.landscape_offered }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <label class="form-check-label" for="square_offered">Pagina vierkant mogelijk</label>
+                            <p>{{ form.square_offered }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-check">
+                            <label class="form-check-label" for="added_value">Eigen machine voor toegevoegde
                                 waarde</label>
+                            <p>{{ form.added_value }}</p>
                         </div>
                     </div>
                 </div>
-                <hr class="text-info">
-                <br>
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-1 text-info">Vouwmachine max velformaat </h4>
-                    </div>
+            </div>
+            <hr class="text-info">
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <h4 class="mb-1 text-info">Vouwmachine max velformaat </h4>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="max_paperheight_mm">max papierhoogte mm: </label>
-                        <input class="form-control" type="number" id="max_paperheight_mm "
-                               name="max_paperheight_mm "
-                                {% if update %}
-                               value="{{ asset.max_paperheight_mm }}"
-                               {% else %}  required {% endif %}/>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="max_paperwidth_mm">max papierbreedte mm: </label>
-                        <input class="form-control" type="number" id="max_paperwidth_mm"
-                               name="max_paperwidth_mm"
-                                {% if update %}
-                               value="{{ asset.max_paperwidth_mm }}"
-                                {% else %}  required {% endif %}/>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label" for="max_paperheight_mm">max papierhoogte mm: </label>
+                    <p>{{ form.max_paperheight_mm }}</p>
                 </div>
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label" for="max_paperwidth_mm">max papierbreedte mm: </label>
+                    <p>{{ form.max_paperwidth_mm }}</p>
+                </div>
+            </div>
 
 
-                <hr class="text-info">
-                <br>
-                {%  if foldingtype_id == 1 %}
+            <hr class="text-info">
+            <br>
+            {% if foldingtype_id == 1 %}
                 <div class="row">
                     <div class="col-sm-6 col-md-12">
                         <h4 class="mb-1 text-info">Katernen: Vouwmachine instellen en productietijden *</h4>
@@ -154,19 +133,11 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="meter_per_hour">Snelheid: Meter papier per uur: </label>
-                        <input class="form-control" type="number" id="meter_per_hour" name="meter_per_hour"
-                                {% if update %}
-                               value="{{ asset.meter_per_hour }}"
-                                {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                                {% endif %}/>
+                        <p>{{ form.meter_per_hour }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="pages_per_katern">Aantal pagina's per katern : </label>
-                        <input class="form-control" type="number" id="pages_per_katern" name="pages_per_katern"
-                                {% if update %}
-                               value="{{ asset.pages_per_katern }}"
-                               {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                                {% endif %}/>
+                        <<p>{{ form.pages_per_katern }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" id="sheet_input" for="sheet_input">Drukvel
@@ -179,55 +150,33 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="setup_time_1e_katern_min">Insteltijd 1e katern (minuten): </label>
-                        <input class="form-control" type="number" id="setup_time_1e_katern_min" name="setup_time_1e_katern_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_1e_katern_min }}"
-                               {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                                {% endif %}/>
+                        <label class="form-label" for="setup_time_1e_katern_min">Insteltijd 1e katern
+                            (minuten): </label>
+                        <p>{{ form.setup_time_1e_katern_min }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_time_next_katern_min">Insteltijd elk volgend katern
                             (minuten): </label>
-                        <input class="form-control" type="number" id="setup_time_next_katern_min"
-                               name="setup_time_next_katern_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_next_katern_min }}"
-                               {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                                {% endif %}/>
+                        <p>{{ form.setup_time_next_katern_min }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="pages_per_katern ">Tussenwit ivm productiesnelheid(mm): </label>
-                        <input class="form-control" type="number" id="pages_per_katern "
-                               name="pages_per_katern "
-                                {% if update %}
-                               value="{{ asset.margin_katern_mm }}"
-                                    {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                                {% endif %}/>
+                        <label class="form-label" for="pages_per_katern">Tussenwit ivm productiesnelheid(mm): </label>
+                        <p>{{ form.pages_per_katern }}</p>
                     </div>
                 </div>
 
-            <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <label class="form-label" for="min_weight_paper_katern">Min papiergewicht g/m2: </label>
-                    <input class="form-control" type="number" id="min_weight_paper_katern" name="min_weight_paper_katern"
-                            {% if update %}
-                           value="{{ asset.min_weight_paper_katern }}"
-                           {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                            {% endif %}/>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="min_weight_paper_katern">Min papiergewicht g/m2: </label>
+                        <p>{{ form.min_weight_paper_katern }}</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_weight_paper_katern">Max papiergewicht g/m2: </label>
+                        <p>{{ form.max_weight_paper_katern }}</p>
+                    </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <label class="form-label" for="max_weight_paper_katern">Max papiergewicht g/m2: </label>
-                    <input class="form-control" type="number" id="max_weight_paper_katern"
-                           name="max_weight_paper_katern"
-                            {% if update %}
-                           value="{{ asset.max_weight_paper_katern }}"
-                           {% else %} {% if foldingtype_id == 1  %}  required  {% endif %}
-                            {% endif %}/>
-                </div>
-            </div>
             {% elif foldingtype_id == 2 %}
-            <div class="row">
+                <div class="row">
                     <div class="col-sm-6 col-md-12">
                         <h4 class="mb-1 text-info">Folders: Vouwmachine instellen en productietijden</h4>
                     </div>
@@ -235,82 +184,49 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="sheet_per_hour">Snelheid: Folders per uur: </label>
-                        <input class="form-control" type="number" id="sheet_per_hour" name="sheet_per_hour"
-                                {% if update %}
-                               value="{{ asset.sheet_per_hour }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <p>{{ form.sheet_per_hour }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="max_number_stations">Aantal stations (tassen) : </label>
-                        <input class="form-control" type="number" id="max_number_stations" name="max_number_stations"
-                                {% if update %}
-                               value="{{ asset.max_number_stations }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <<p>{{ form.max_number_stations }}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_time_min">Insteltijd per opdracht (minuten): </label>
-                        <input class="form-control" type="number" id="setup_time_min" name="setup_time_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_min }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <p>{{ form.setup_time_min }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="setup_time_per_station_min">Insteltijd per tas (minuten): </label>
-                        <input class="form-control" type="number" id="setup_time_per_station_min"
-                               name="setup_time_per_station_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_per_station_min }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <label class="form-label" for="setup_time_per_station_min">Insteltijd per tas
+                            (minuten): </label>
+                        <p>{{ form.setup_time_per_station_min }}</p>
                     </div>
                 </div>
-                     <div class="row">
+                <div class="row">
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="speedreduction_heavy_paper_perc">% Vertraging zwaar of gelamineerd papier: </label>
-                        <input class="form-control" type="number" id="speedreduction_heavy_paper_perc"
-                               name="speedreduction_heavy_paper_perc"
-                                {% if update %}
-                               value="{{ asset.speedreduction_heavy_paper_perc }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <label class="form-label" for="speedreduction_heavy_paper_perc">% Vertraging zwaar of
+                            gelamineerd papier: </label>
+                        <p>{{ form.speedreduction_heavy_paper_perc }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="weight_heavy_paper">Grensgewicht zwaar papier:  </label>
-                        <input class="form-control" type="number" id="weight_heavy_paper"
-                               name="weight_heavy_paper"
-                                {% if update %}
-                               value="{{ asset.weight_heavy_paper }}"
-                               {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                                {% endif %}/>
+                        <label class="form-label" for="weight_heavy_paper">Grensgewicht zwaar papier: </label>
+                        <p>{{ form.weight_heavy_paper }}</p>
                     </div>
                 </div>
 
-            <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <label class="form-label" for="speedreduction_light_paper_perc">% Vertraging licht papier:  </label>
-                    <input class="form-control" type="number" id="speedreduction_light_paper_perc" name="speedreduction_light_paper_perc"
-                            {% if update %}
-                           value="{{ asset.speedreduction_light_paper_perc }}"
-                           {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                            {% endif %}/>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="speedreduction_light_paper_perc">% Vertraging licht
+                            papier: </label>
+                        <p>{{ form.speedreduction_light_paper_perc }}</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="weight_light_paper">Grensgewicht licht papier: </label>
+                        <p>{{ form.weight_light_paper }}</p>
+                    </div>
                 </div>
-                <div class="col-sm-6 col-md-3">
-                    <label class="form-label" for="weight_light_paper">Grensgewicht licht papier:  </label>
-                    <input class="form-control" type="number" id="weight_light_paper"
-                           name="weight_light_paper"
-                            {% if update %}
-                           value="{{ asset.weight_light_paper }}"
-                           {% else %} {% if foldingtype_id == 2  %}  required  {% endif %}
-                            {% endif %}/>
-                </div>
-            </div>
 
-            {# end folder part#}
+                {# end folder part#}
             {% endif %}
 
 
@@ -324,19 +240,11 @@
             <div class="row">
                 <div class="col-sm-6 col-md-3">
                     <label class="form-label" for="paperwaste_start">inschiet opstarten: </label>
-                    <input class="form-control" type="number" id="paperwaste_start"
-                           name="paperwaste_start"
-                            {% if update %}
-                           value="{{ asset.paperwaste_start }}" {% else %} required
-                            {% endif %}/>
+                    <p>{{ form.paperwaste_start }}</p>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <label class="form-label" for="paperwaste_1000sheet_perc">% Inschiet tijdens productie: </label>
-                    <input class="form-control" type="number" id="paperwaste_1000sheet_perc"
-                           name="paperwaste_1000sheet_perc"
-                            {% if update %}
-                           value="{{ asset.paperwaste_1000sheet_perc }}" {% else %} required
-                            {% endif %}/>
+                    <p>{{ form.paperwaste_1000sheet_perc }}</p>
                 </div>
             </div>
             <hr class="text-info">
@@ -349,9 +257,10 @@
             {% include 'buttons/create_update_asset.html' %}
 
 
-                <hr class="text-info"></div>
-        </form>
-        {% include 'messages/form_valid_errormelding.html' %}
+            <hr class="text-info">
+    </div>
+    </form>
+    {% include 'messages/form_valid_errormelding.html' %}
     </div>
     <!-- ===============================================-->
     <!--    End of Main Content-->

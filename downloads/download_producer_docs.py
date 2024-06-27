@@ -8,7 +8,7 @@ from django.views import View
 from io import BytesIO
 from mailmerge import MailMerge
 from datetime import date
-from downloads.models import *
+from index.models import BrandPortalData
 from index.display_functions import *
 from printprojects.models import *
 import requests
@@ -26,8 +26,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         productcategory_id = printproject.productcategory_id
         productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
 
-        doc_template = TemplateCategory.objects.get(doc_id=doc_id,
-                                                    productcategory_id=productcategory_id)
+        doc_template = BrandPortalData.objects.get(producer_id=user.producer_id).doc_loc_offer_1
         templatecategory = doc_template.templatecategory
         blob_folder = doc_template.folder
         loc = 'https://printdataplatform.blob.core.windows.net/docs/'

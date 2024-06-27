@@ -118,21 +118,6 @@ class PrintProjects(models.Model):
         verbose_name_plural = 'printproject'
 
 
-class MemberProducerSalesAllowance(models.Model):
-    salesallowance_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
-    producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
-    productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
-    perc_salesallowance = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.member
-
-    class Meta:
-        verbose_name = 'salesallowance'
-        verbose_name_plural = 'salesallowance'
-
-
 class MemberProducerStatus(models.Model):
     memberproducerstatus_id = models.AutoField(primary_key=True, default=None, editable=False)
     status_id = models.PositiveIntegerField(default=0)
@@ -155,11 +140,24 @@ class MemberProducerMatch(models.Model):
     api = models.BooleanField(default=True)
     api_username = models.CharField(max_length=100, blank=True)
     api_password = models.CharField(max_length=15, blank=True)
-    producerclient_id = models.CharField(max_length=15, blank=True)
     ranking = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     producer_accept = models.BooleanField(default=True)
+    member_accept = models.BooleanField(default=True)
+
+    # Member salesallowance per productcategy
+    perc_salesallowance_1 = models.DecimalField(default=0, decimal_places=2, max_digits=5)
+    perc_salesallowance_2 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_3 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_4 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_5 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_6 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_7 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_8 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_9 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+    perc_salesallowance_10 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
+
     active = models.BooleanField(default=True)
 
     def __str__(self):

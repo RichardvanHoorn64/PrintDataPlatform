@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
+
+from index.create_context import creatememberplan_context
 from index.models import Conditions, Faqs
 from profileuseraccount.models import MemberPlans
 
@@ -73,6 +75,8 @@ class ConditionView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ConditionView, self).get_context_data(**kwargs)
+        user = self.request.user
+        context = creatememberplan_context(context, user)
         language_id = self.request.user.language_id
         context['conditions'] = Conditions.objects.filter(language_id=language_id).order_by('sequence')
         if language_id == 1:
@@ -90,7 +94,9 @@ class FaqView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(FaqView, self).get_context_data(**kwargs)
+        user = self.request.user
         language_id = self.request.user.language_id
+        context = creatememberplan_context(context, user)
         if language_id == 1:
             context['title'] = "Vragen en antwoorden"
             context['subtitle'] = "We helpen graag"

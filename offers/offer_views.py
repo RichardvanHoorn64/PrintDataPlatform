@@ -22,12 +22,16 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
+        offer_id = self.kwargs['pk']
         if not user.is_authenticated:
             return redirect('/home/')
         elif not user.member.active:
             return redirect('/wait_for_approval/')
-        else:
+        try:
+            Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
             return super().dispatch(request, *args, **kwargs)
+        except Offers.DoesNotExist:
+            return redirect('/no_access/')
 
     def get_context_data(self, **kwargs):
         user = self.request.user
@@ -262,3 +266,25 @@ class HandleOfferView(LoginRequiredMixin, View):
             offer.save()
         finally:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+class ThanksSubmitOffer(TemplateView):
+    template_name = 'thanks_submit_offer.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+
+        if not self.request.user.member.active:
+            return redirect('/wait_for_approval/')
+
+        if user.is_authenticated and not user.member.active:
+            return redirect('/wait_for_approval/')
+
+        if user.is_authenticated and user.member.active and user.member.producerplan:
+            return redirect('/producer_sales_dashboard/0')
+
+        if user.is_authenticated and user.member.active and not user.member.producerplan:
+            return redirect('/printdataplatform_dashboard/')
+
+        if user.is_authenticated and user.member.active and not user.member.producerplan:
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
+

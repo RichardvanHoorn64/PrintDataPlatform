@@ -41,7 +41,7 @@
             </div>
 
             <div id="producerTable"
-                 data-list='{"valueNames":["producer","city","status"],"page":20,"pagination":true}'>
+                 data-list='{"valueNames":["producer","city","country_code", "status"],"page":20,"pagination":true}'>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
@@ -80,6 +80,9 @@
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
                                             style="width:10%; min-width: 100px;">Plaats
                                         </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="country_code"
+                                            style="width:10%; min-width: 100px;">Land
+                                        </th>
                                         <th class="align-middle text-start pe-3" scope="col"
                                             style="width:10%; min-width: 100px;">Tel
                                         </th>
@@ -99,9 +102,14 @@
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                             <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
                                             <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
+                                        <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.country_code }}</td>
                                             <td class="align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
-                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start"><a
-                                                    href="https://{{ producer.producer.url }}/">{{ producer.producer.url }}</a>
+                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start">
+                                                {% if producer.producer.company_url %}
+                                                <a
+                                                    href="{{ producer.producer.company_url }}/">{{ producer.producer.company_url }}</a>
+                                                {% endif %}
+                                                
                                             </td>
                                             <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a
                                                     href="{% url 'producer_details' producer.producer_id %}"

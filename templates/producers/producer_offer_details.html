@@ -48,6 +48,18 @@
                 <!-- ===============================================-->
                 <!--    End Printproject Detail table -->
                 <!-- ===============================================-->
+               
+               <br>
+                {% if offer.offerstatus_id == 2 %}
+                {% include 'buttons/download_clientoffer_large.html' %} 
+                    <p>Aanbieding in ms-word download</p>
+                {% else %}
+                    
+                    <a href="{% url 'offer_producers_update' offer.offer_id %}"
+                   class="btn btn-success btn-lg" role="button"
+                   aria-pressed="true"><i class="fa-solid fa-calculator fs--1 me-2"></i>Offerte uitbrengen</a>
+                
+                {% endif %}
             </div>
         </section>
         <!-- ============================================-->

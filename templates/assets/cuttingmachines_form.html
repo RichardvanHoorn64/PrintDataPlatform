@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New Order</title>
+    <title>New Cuttingmachine</title>
 </head>
 
 
@@ -28,7 +28,6 @@
             </nav>
             <hr class="text-info">
             <h2 class="mb-1 text-info">{{ asset_form_title }} {{ asset.asset_name }}</h2>
-            <h5 class="mb-3">Instellingen,  * verplichte velden</h5>
             <hr class="text-info">
         </div>
 
@@ -45,7 +44,7 @@
                 <!-- ===============================================-->
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-3 text-info">Algemeen *</h4>
+                        <h4 class="mb-3 text-info">Algemeen</h4>
                     </div>
                 </div>
                 <!-- ===============================================-->
@@ -54,20 +53,12 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-label" for="asset_name">Machinenaam:</label>
-                        <input class="form-control" type="text" id="asset_name" name="asset_name"
-                                {% if update %}
-                               value="{{ asset.asset_name }}" {% else %} required
-                                {% endif %}
-                               placeholder="machinenaam opgeven"/>
+                        <p>{{ form.asset_name }}</p>
                     </div>
 
                     <div class="col-sm-6 col-md-3">
                     <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
-                        <input class="form-control" type="number" step="0.01" id="tariff_eur_hour"
-                               name="tariff_eur_hour"
-                                {% if update %}
-                               value="{{ asset.tariff_eur_hour |floatformat:2 }}"  {% else %} required
-                                {% endif %} />
+                            <p>{{ form.tariff_eur_hour }}</p>
 
                     </div>
                 </div>
@@ -75,30 +66,21 @@
                 <br>
             <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-1 text-info">Snijmachine velformaten  *</h4>
+                        <h4 class="mb-1 text-info">Snijmachine velformaten</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="max_width_mm">max snijbreedte mm: </label>
-                        <input class="form-control" type="number" id="max_width_mm" name="max_width_mm"
-                                {% if update %}
-                               value="{{ asset.max_width_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.max_width_mm }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="max_depth_mm">max snijdiepte mm: </label>
-                        <input class="form-control" type="number" id="max_depth_mm" name="max_depth_mm"
-                                {% if update %}
-                               value="{{ asset.max_depth_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.max_depth_mm }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="sheetsize_height_min">Max stapelformaat hoogte :</label>
-                        <input class="form-control" type="number" id="max_stackheight_mm" name="max_stackheight_mm"
-                                {% if update %}
-                               value="{{ asset.max_stackheight_mm }}" {% else %} required
-                                {% endif %}/>
+                        <label class="form-label" for="max_stackheight_mm">Max stapelformaat hoogte :</label>
+                        <p>{{ form.max_stackheight_mm }}</p>
                     </div>
                 </div>
 
@@ -106,30 +88,21 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-1 text-info">Snijmachine insteltijden en productie * </h4>
+                        <h4 class="mb-1 text-info">Snijmachine insteltijden en productie</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_order_min">Insteltijd per oprdacht (minuten): </label>
-                        <input class="form-control" type="number" id="setup_order_min" name="setup_order_min"
-                                {% if update %}
-                               value="{{ asset.setup_order_min }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.setup_order_min }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="time_cutting_sec">Schoonsnijden per stapel (seconden): </label>
-                        <input class="form-control" type="number" id="time_cutting_sec" name="time_cutting_sec"
-                                {% if update %}
-                               value="{{ asset.time_cutting_sec }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.time_cutting_sec }}</p>
                     </div>
                  <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="time_per_extra_sec">Snijden per snede, per stapel (seconden): </label>
-                        <input class="form-control" type="number" id="time_per_extra_sec" name="time_per_extra_sec"
-                                {% if update %}
-                               value="{{ asset.time_per_extra_sec }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.time_per_extra_sec }}</p>
                     </div>
                 </div>
                 <hr class="text-info">
@@ -144,6 +117,7 @@
 
 
                     <hr class="text-info">
+            </div>
         </form>
         {% include 'messages/form_valid_errormelding.html' %}
     </div>

@@ -4,8 +4,8 @@ from decimal import Decimal
 from calculations.models import Calculations
 
 
-def save_calculation(rfq, best_offer, error):
-    calculation = Calculations.objects.get(printproject_id=rfq.printproject_id)
+def save_calculation(producer_id, rfq, best_offer, error):
+    calculation = Calculations.objects.get(printproject_id=rfq.printproject_id, producer_id=producer_id)
 
     if not error:
         try:

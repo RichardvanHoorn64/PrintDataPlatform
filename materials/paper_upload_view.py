@@ -1,13 +1,17 @@
 import pandas as pd
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.utils import timezone
+
+from index.categories_groups import site_name
+from index.create_context import creatememberplan_context
 from materials.models import PaperBrandReference, PaperCatalog
 from materials.papercatalog_uploadform import UploadProducerPaperCatalogCSVForm
+from profileuseraccount.models import Producers
 
 
-class UploadProducerPaperCatalog(LoginRequiredMixin, View):
+class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
     template = "materials/paper_producer_catalog_upload.html"
     form_class = UploadProducerPaperCatalogCSVForm
     success_url = '/paper_catalog/'
@@ -26,11 +30,24 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
             count_paper_catalog = 0
             latest_upload = 'Nu papercatalog loaded'
 
+        producer = Producers.objects.get(producer_id=user.producer_id)
+
         return render(request, self.template, {'form': form,
                                                'instruction': self.instruction,
                                                'count_paper_catalog': count_paper_catalog,
                                                'latest_upload': latest_upload,
+                                               'member_plan_id': user.member_plan_id,
+                                               'free_memberplans': [1, 3],
+                                                'pro_memberplans': [2],
+                                                'non_exclusive_memberplans': [1, 2],
+                                                'exclusive_memberplans': [3],
+                                                'open_memberplans': [1, 2, 3],
+                                                'producer_memberplans': [4],
+                                                'producer': producer,
+                                                'site_name': site_name
                                                })
+
+
 
     def post(self, request, *args, **kwargs):
         form = self.form_class
@@ -211,119 +228,11 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, View):
                                                    'error': error,
                                                    })
 
-        # papercategory dropdown
-        # try:
-        #     old_papercategories = PaperCategories.objects.filter(producer_id=producer_id)
-        #     for old_papercategory in old_papercategories:
-        #         old_papercategory.delete()
-        #
-        #     new_papercategorylist = pd.DataFrame(
-        #         new_catalog[['producer_id', 'papercategory']].drop_duplicates())
-        #
-        #     for index, row in new_papercategorylist.iterrows():
-        #         if len(PaperCategories.objects.filter(papercategory=row['papercategory'],producer_id=producer_id)) == 0:
-        #             new_papercategory = PaperCategories(
-        #                 papercategory=row['papercategory'],
-        #                 producer_id=row['producer_id'],
-        #             )
-        #             new_papercategory.save()
-        #
-        #     for index, row in new_papercategorylist.iterrows():
-        #         if len(PaperCategories.objects.filter(papercategory=row['papercategory'],producer_id=None)) == 0:
-        #             new_general_papercategory = PaperCategories(
-        #                 papercategory=row['papercategory'],
-        #             )
-        #             new_general_papercategory.save()
-        #
-        # except Exception as e:
-        #     error = 'Papercategories not loaded:' + str(e)
-        #     print(error)
-        #     return render(request, self.template, {'form': form,
-        #                                            'instruction': 'Correct file, please refresh page and try again',
-        #                                            'count_paper_catalog': count_paper_catalog,
-        #                                            'latest_upload': latest_upload,
-        #                                            'error': error,
-        #                                           })
-
-        # paperbrand dropdown
-        # try:
-        #     old_paperbands = PaperBrands.objects.filter(producer_id=producer_id)
-        #     for old_paperband in old_paperbands:
-        #         old_paperband.delete()
-        #
-        #     new_paperbandlist = pd.DataFrame(
-        #         new_catalog[['producer_id', 'papercategory', 'paperbrand']].drop_duplicates())
-        #
-        #     for index, row in new_paperbandlist.iterrows():
-        #         new_paperbands = PaperBrands(
-        #             producer_id=row['producer_id'],
-        #             upload_date=upload_date,
-        #             papercategory=row['papercategory'],
-        #             paperbrand=row['paperbrand'],
-        #         )
-        #         new_paperbands.save()
-        #
-        #     for index, row in new_paperbandlist.iterrows():
-        #         if len(PaperBrands.objects.filter(papercategory=row['papercategory'],paperbrand=row['paperbrand'], producer_id=None)) == 0:
-        #             new_general_paperbrand = PaperBrands(
-        #                 upload_date=upload_date,
-        #                 papercategory=row['papercategory'],
-        #                 paperbrand=row['paperbrand'],
-        #             )
-        #             new_general_paperbrand.save()
-
-        # except Exception as e:
-        #     error = 'Paperbrands not loaded:' + str(e)
-        #     print(error)
-        #     return render(request, self.template, {'form': form,
-        #                                            'instruction': 'Correct file, please refresh page and try again',
-        #                                            'count_paper_catalog': count_paper_catalog,
-        #                                            'latest_upload': latest_upload,
-        #                                            'error': error,
-        #                                            })
-
-        # paperweights dropdown
-        # try:
-        #     old_paperweights = PaperWeights.objects.filter(producer_id=producer_id)
-        #     for old_paperweight in old_paperweights:
-        #         old_paperweight.delete()
-        #
-        #     new_paperweightslist = pd.DataFrame(
-        #         new_catalog[['producer_id', 'papercategory', 'paperbrand', 'paperweight_m2']].drop_duplicates())
-        #
-        #     for index, row in new_paperweightslist.iterrows():
-        #         new_paperweights = PaperWeights(
-        #             producer_id=row['producer_id'],
-        #             upload_date=upload_date,
-        #             papercategory=row['papercategory'],
-        #             paperbrand=row['paperbrand'],
-        #             paperweight_m2=row['paperweight_m2'],
-        #         )
-        #         new_paperweights.save()
-        #
-        #     for index, row in new_paperweightslist.iterrows():
-        #         if len(PaperWeights.objects.filter(papercategory=row['papercategory'],paperbrand=row['paperbrand'], paperweight_m2=row['paperweight_m2'], producer_id=None)) == 0:
-        #             new_general_paperweight = PaperWeights(
-        #                 upload_date=upload_date,
-        #                 papercategory=row['papercategory'],
-        #                 paperbrand=row['paperbrand'],
-        #                 paperweight_m2=row['paperweight_m2'],
-        #             )
-        #             new_general_paperweight.save()
-        #
-        # except Exception as e:
-        #     error = 'New_paperweights not loaded:' + str(e)
-        #     print('error new_paperweights not loaded:', e)
-        #     return render(request, self.template, {'form': form,
-        #                                            'instruction': 'Contact site administrator for help',
-        #                                            'count_paper_catalog': count_paper_catalog,
-        #                                            'latest_upload': latest_upload,
-        #                                            'error': error,
-        #                                            })
-
-        # end procedure
         return redirect('/paper_catalog/',
                         {'form': form,
                          'last_upload': upload_date,
                          'success_message': 'File succesfull stored',
                          })
+
+
+UploadProducerPaperCatalog

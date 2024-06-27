@@ -57,7 +57,7 @@ class ProducerOfferDetails(UpdateView, LoginRequiredMixin):
 
 
 class ProducerErrorDetails(TemplateView, LoginRequiredMixin):
-    template_name = 'producers/producer_offer_details.html'
+    template_name = 'producers/producer_error_details.html'
     pk_url_kwarg = 'offer_id'
     model = Calculations
     form_class = PrintProjectPriceUpdateForm
@@ -76,6 +76,7 @@ class ProducerErrorDetails(TemplateView, LoginRequiredMixin):
         calculation = Calculations.objects.get(calculation_id=calculation_id)
         printproject = PrintProjects.objects.get(printproject_id=calculation.printproject_id)
         context['printproject'] = printproject
+        context['calculation'] = calculation
         context = createprintproject_context(context, user, printproject)
         return context
 
@@ -87,19 +88,28 @@ class ProducerCalculationDetails(LoginRequiredMixin, TemplateView):
     model = PrintProjects
     form_class = PrintProjectPriceUpdateForm
 
+    def dispatch(self, request, *args, **kwargs):
+        calculation_id = self.kwargs['calculation_id']
+        user = self.request.user
+        try:
+            Calculations.objects.get(calculation_id=calculation_id, producer_id=user.producer_id)
+            return super().dispatch(request, *args, **kwargs)
+        except Calculations.DoesNotExist:
+            return redirect('/no_access/')
+
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super().get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         calculation_id = self.kwargs['calculation_id']
-        calculation = Calculations.objects.get(calculation_id=calculation_id)
+        calculation = Calculations.objects.get(calculation_id=calculation_id, producer_id=user.producer_id)
         printproject = PrintProjects.objects.get(printproject_id=calculation.printproject_id)
         context = createprintproject_context(context, user, printproject)
         context['calculation'] = calculation
         context['assortiment_item'] = calculation.assortiment_item
         context['printproject'] = printproject
 
-        if calculation.productcategory_id in categories_selfcovers:
+        if calculation.productcategory_id in categories_brochures_all:
             try:
                 paper_booklet = PaperCatalog.objects.get(paperspec_id=calculation.paperspec_id_booklet)
                 context['paper_booklet'] = paper_booklet
@@ -118,7 +128,7 @@ class ProducerCalculationDetails(LoginRequiredMixin, TemplateView):
 
 
 class ProducerMemberDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_open_members.html"
+    template_name = "producers/tables/producer_exclusive_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
@@ -142,7 +152,7 @@ class ProducerMemberDashboard(LoginRequiredMixin, TemplateView):
 
 
 class ProducerMemberDetails(LoginRequiredMixin, DetailView):
-    template_name = "producers/member_datails.html"
+    template_name = "producers/member_details_contacts.html"
     model = Members
     profile = Members
 
@@ -307,19 +317,6 @@ class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
         return super(ProducerDetails, self).form_valid(form)
 
 
-class DeleteProducerContact(TemplateView, LoginRequiredMixin):
-    pk_url_kwarg = 'producercontact_id'
-
-    def dispatch(self, request, *args, **kwargs):
-        producercontact_id = kwargs.get('producercontact_id')
-        producercontact = ProducerContacts.objects.get(producercontact_id=producercontact_id)
-        producercontact_deactive = producercontact
-        producercontact_deactive.active = False
-        producercontact_deactive.save()
-
-        return redirect('/producer_details/' + str(producercontact.producer_id))
-
-
 class ChangeMemberProducerStatus(View, LoginRequiredMixin):
     pk_url_kwarg = 'memberproducerstatus_id'
     context_object_name = 'memberproducerstatus_id'
@@ -334,86 +331,6 @@ class ChangeMemberProducerStatus(View, LoginRequiredMixin):
         return HttpResponseRedirect(referer)
 
 
-class CreateNewProducerContact(CreateView, LoginRequiredMixin):
-    model = ProducerContacts
-    profile = ProducerContacts
-    form_class = NewProducerContactForm
-    template_name = 'producers/new_producercontact.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        producer_id = self.kwargs['producer_id']
-        return '/producer_details/' + str(producer_id)
-
-    def form_valid(self, form):
-        producercontact = form.cleaned_data['first_name'] + " " + form.cleaned_data['last_name']
-        form.instance.member_id = self.request.user.member_id
-        form.instance.producer_id = self.kwargs['producer_id']
-        form.instance.producercontact = producercontact
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        form_invalid_message(form, response)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateNewProducerContact, self).get_context_data(**kwargs)
-        producer_id = self.kwargs['producer_id']
-        producer_company = Producers.objects.get(producer_id=producer_id).company
-        context['title'] = "Nieuw contact: bij " + producer_company
-        context['button_text'] = "Contact toevoegen"
-        return context
-
-
-class UpdateProducerContact(UpdateView, LoginRequiredMixin):
-    pk_url_kwarg = 'producercontact_id'
-    model = ProducerContacts
-    profile = ProducerContacts
-    form_class = NewProducerContactForm
-    template_name = 'producers/new_producercontact.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        producercontact_id = self.kwargs['producercontact_id']
-        producer_id = ProducerContacts.objects.get(producercontact_id=producercontact_id).producer_id
-        return '/producer_details/' + str(producer_id)
-
-    def form_valid(self, form):
-        if form.cleaned_data['first_name'] or form.cleaned_data['last_name']:
-            producercontact = form.cleaned_data['first_name'] + " " + form.cleaned_data['last_name']
-            form.instance.producercontact = producercontact
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        form_invalid_message(form, response)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, **kwargs):
-        context = super(UpdateProducerContact, self).get_context_data(**kwargs)
-        producercontact_id = self.kwargs['producercontact_id']
-        producer_id = ProducerContacts.objects.get(producercontact_id=producercontact_id).producer_id
-        producer_company = Producers.objects.get(producer_id=producer_id).company
-        context['title'] = "Update contact: bij " + producer_company
-        context['button_text'] = "Contact bijwerken"
-        return context
 
 
 class ProducerCloseOrderView(LoginRequiredMixin, View):

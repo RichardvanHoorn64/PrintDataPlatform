@@ -77,7 +77,8 @@ class CreateUpdatePrinterForm(forms.ModelForm):
             'extra_strip_option', 'ink_1000_prints_zw', 'ink_1000_prints_fc', 'ink_1000_prints_varnish',
             'ink_1000_prints_pms', 'ink_start_costs_pms', 'start_time_sheet_frontside', 'start_time_sheet_backside',
             'start_time_pms_color', 'start_time_varnish', 'perc_speedreduction_heavy_paper', 'weight_heavy_paper',
-            'perc_speedreduction_light_paper', 'weight_light_paper', 'perc_speedreduction_perfecting', 'changetime_perfector',
+            'perc_speedreduction_light_paper', 'weight_light_paper', 'perc_speedreduction_perfecting',
+            'changetime_perfector',
             'paperwaste_per_order', 'paperwaste_per_side_black', 'paperwaste_per_side_fc', 'paperwaste_per_side_pms',
             'paperwaste_per_side_varnish', 'perc_paperwaste_printing_1000_sheets', 'perc_extra_paperwaste_printing_pms',
             'perc_paperwaste_printing_1000_sheet_perfector')

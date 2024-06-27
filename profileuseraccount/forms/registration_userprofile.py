@@ -15,24 +15,24 @@ class UserProfileCreationForm(UserCreationForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Kies een wachtwoord'}))
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Herhaal je wachtwoord'}))
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Herhaal wachtwoord'}))
 
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw voornaam'}),
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Voornaam'}),
                                  max_length=100, )
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw achternaam'}),
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Achternaam'}),
                                 max_length=100)
-    jobtitle = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw functie'}),
+    jobtitle = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Functie'}),
                                max_length=100, required=False)
     mobile_number = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mobiel telefoonnummer'}), max_length=12)
     company = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw bedrijfsnaam'}), max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Bedrijfsnaam'}), max_length=150,
         required=True)
     street_number = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw straat en huisnummer'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Straat en huisnummer'}),
         max_length=254)
     tel_general = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Uw algemeen telefoonnummer'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Algemeen telefoonnummer'}),
         max_length=30)
 
     e_mail_general = forms.CharField(
@@ -46,12 +46,13 @@ class UserProfileCreationForm(UserCreationForm):
 
     linkedin_url = url_field_false
 
+    country_code = char_field_100_false
 
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name',
                   'producer', 'member', 'jobtitle', 'company', 'tel_general', 'mobile_number', 'e_mail_general',
-                  'street_number', 'postal_code', 'city', 'linkedin_url'
+                  'street_number', 'postal_code', 'city', 'country_code', 'linkedin_url'
                   )
 
 
@@ -71,11 +72,9 @@ class UserProfileUpdateForm(UserCreationForm):
 
     linkedin_url = url_field_false
 
-
     class Meta:
         model = UserProfile
-        fields = ('email', 'first_name', 'last_name', 'jobtitle', 'mobile_number','linkedin_url' )
-
+        fields = ('email', 'first_name', 'last_name', 'jobtitle', 'mobile_number', 'linkedin_url')
 
 
 class CoWorkerUserProfileCreateForm(UserCreationForm):

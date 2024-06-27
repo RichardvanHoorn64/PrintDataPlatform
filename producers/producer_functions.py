@@ -1,5 +1,5 @@
 from orders.models import *
-
+from producers.models import *
 
 
 def get_offercontext(producer_id, context, offerstatus_id):
@@ -51,17 +51,6 @@ def get_ordercontext(producer_id, context, orderstatus_id):
 
 
 def get_producercategories(producer_id):
-    categories = Producers.objects.get(producer_id=producer_id).productcategories
-
-    product_categories = ""
-    for categorie in categories:
-        if categorie not in ["[", "]"]:
-            if categorie == ",":
-                product_categories = product_categories + " , "
-            else:
-                try:
-                    product_categories = product_categories + ProductCategory.objects.get(
-                        productcategory_id=categorie).productcategory
-                finally:
-                    pass
+    product_categories = ProducerProductOfferings.objects.filter(producer_id=producer_id, availeble=True).values_list(
+        'productcategory_id', flat=True)
     return product_categories

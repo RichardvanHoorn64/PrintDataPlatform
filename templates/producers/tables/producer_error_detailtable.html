@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Printproject Error Detail table</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- ===============================================-->
+<!--    Printproject Detail table -->
+<!-- ===============================================-->
+<div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    <div class="row g-4">
+                        <div class="px-0">
+                            <div class="table-responsive scrollbar">
+                                <table class="table table-sm text-900 mb-0">
+                                    <thead class="bg-200">
+                                    <tr>
+                                        <th scope="col" style="width: 24px;"></th>
+                                        <th scope="col" style="width: 200px;">Calculatieinfo</th>
+                                        <th scope="col" style="min-width: 500px;">Calculatie ID: {{ calculation.calculation_id }}</th>
+                                        <th scope="col" style="width: 24px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Producent</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ calculation.producer.company }}
+                                                {% if calculation.offer_date %}
+                                               , calculatie op {{ calculation.offer_date |date:'d-m-Y ' }}{% endif %}
+                                            </p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ calculation.status }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Omschrijving</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ calculation.printproject.volume }} ex. {{ calculation.printproject.project_title }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                     <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Error</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                                {{ calculation.error }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <hr class="text-info">
+                        </div>
+                    </div>
+                </div>
+<!-- ===============================================-->
+<!--    End Printproject Detail table -->
+<!-- ===============================================-->

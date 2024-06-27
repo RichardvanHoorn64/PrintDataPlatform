@@ -60,7 +60,7 @@
                 {% if producer.calculation_module == True %}
                 Aan {% else %}Uit{% endif %} </a>
         </div>
-        {# calculation module#}
+        {# Exclusive module#}
         <div class="col-6 col-sm-12">
         
             <div class="d-flex align-items-start mb-1"><span class="me-2"  
@@ -71,6 +71,20 @@
         
             <a class="fs-9 ms-4">
                 {% if producer.exclusive_module == True %}
+                Aan {% else %}Uit{% endif %} </a>
+        </div>
+    
+     {# BI module#}
+        <div class="col-6 col-sm-12">
+        
+            <div class="d-flex align-items-start mb-1"><span class="me-2"  
+                                                             style="stroke-width:2.5;"></span>
+                <p class="icon fas fa-table"> 
+                <h5 class="mb-0">&nbsp; Business Intelligence mmodule:</h5>
+            </div>
+        
+            <a class="fs-9 ms-4">
+                {% if producer.powerplatform_module == True %}
                 Aan {% else %}Uit{% endif %} </a>
         </div>
         

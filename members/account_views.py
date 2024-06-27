@@ -90,9 +90,8 @@ class SignupLandingView(TemplateView):
                 street_number=user.street_number,
                 postal_code=user.postal_code,
                 city=user.city,
-                member_plan_id=memberplan.member_plan_id,
-                language_id=memberplan.language_id,
-                producerplan=producerplan,
+                member_plan_id=user.member_plan_id,
+                language_id=user.language_id,
             )
 
             try:
@@ -176,7 +175,6 @@ class MyAccountUpdateView(UpdateView, LoginRequiredMixin):
             city=user.city,
             country_code=user.country_code,
             company_url=user.company_url,
-            demo=user.demo,
             language_id=user.language_id,
         )
 
@@ -191,7 +189,6 @@ class MyAccountUpdateView(UpdateView, LoginRequiredMixin):
             city=user.city,
             country_code=user.country_code,
             company_url=user.company_url,
-            demo=user.demo,
             language_id=user.language_id,
         )
 
@@ -207,7 +204,6 @@ class MyAccountUpdateView(UpdateView, LoginRequiredMixin):
                 city=user.city,
                 country_code=user.country_code,
                 company_url=user.company_url,
-                demo=user.demo,
                 language_id=user.language_id,
             )
         return reverse('my_account_update', kwargs={'pk': self.object.id})

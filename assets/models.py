@@ -110,10 +110,6 @@ class Cuttingmachines(models.Model):
     def __str__(self):
         return self.asset_name
 
-    def save(self, *args, **kwargs):
-        self.speed = self.time_cutting_sec * 3600
-        super(Cuttingmachines, self).save(*args, **kwargs)
-
     class Meta:
         verbose_name = 'Cuttingmachines'
         verbose_name_plural = 'Cuttingmachine'

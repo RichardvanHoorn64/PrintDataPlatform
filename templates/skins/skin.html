@@ -134,7 +134,7 @@
 
                    <!-- producer clients-->
                   {% if  producer.exclusive_module %}     
-                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_exlusive_clients' %}" role="button" data-bs-toggle="" aria-expanded="false">
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_exlusive_members' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">{{ producer.company }}</span></span>
                       </div>
                     </a>
@@ -340,7 +340,7 @@
                    {% if user.member.member_plan_id in non_exclusive_memberplans  %}
 
                   <!-- parent pages-->
-                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_dashboard' 0%}" role="button" data-bs-toggle="" aria-expanded="false">
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_dashboard' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="far fa-newspaper fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn producenten</span></span>
                       </div>
                     </a>
@@ -390,8 +390,8 @@
                   </p>
                   <hr class="navbar-vertical-line" />
                   <!-- parent pages-->
-                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'contact' %}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-mobile-alt fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Contact</span></span>
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="https://www.printdataplatform.nl/" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-info fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Info</span></span>
                       </div>
                     </a>
                   </div>

@@ -28,7 +28,6 @@
             </nav>
             <hr class="text-info">
             <h2 class="mb-1 text-info">{{ asset_form_title }} {{ asset.asset_name }}</h2>
-            <h5 class="mb-3">Instellingen,  * verplichte velden</h5>
             <hr class="text-info">
         </div>
 
@@ -45,7 +44,7 @@
                 <!-- ===============================================-->
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-3 text-info">Algemeen *</h4>
+                        <h4 class="mb-3 text-info">Algemeen</h4>
                     </div>
                 </div>
                 <!-- ===============================================-->
@@ -54,25 +53,21 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-label" id="asset_name" for="asset_name">Machinenaam:</label>
-                        <input class="form-control" type="text" id="asset_name" name="asset_name"
-                                {% if update %}
-                               value="{{ asset.asset_name }}" {% else %} required
-                                {% endif %}
-                               placeholder="machinenaam opgeven"/>
+                        <p>{{ form.asset_name }}</p>
                     </div>
-                 <div class="col-sm-3 col-md-3">
+                    <div class="col-sm-3 col-md-3">
                         <label class="form-label" id="finishingmethod_id" for="finishingmethod_id">Nabewerkingsmethode:
-                         {% if update %}
-                            {{ asset.finishingmethod }}
-                        {% endif %}
+                            {% if update %}
+                                {{ asset.finishingmethod }}
+                            {% endif %}
                         </label>
                         <select class="form-select" id="finishingmethod_id" name="finishingmethod_id">
-                         {% if update %}
-                         <option value="{{ asset.finishingmethod_id }}">{{ asset.finishingmethod }}</option>
-                         {% endif %}
-                        {% for i in brochure_finishingmethods  %}
-                    <option value="{{ i.finishingmethod_id }}">{{ i.finishingmethod }}</option>
-                {% endfor %}
+                            {% if update %}
+                                <option value="{{ asset.finishingmethod_id }}">{{ asset.finishingmethod }}</option>
+                            {% endif %}
+                            {% for i in brochure_finishingmethods %}
+                                <option value="{{ i.finishingmethod_id }}">{{ i.finishingmethod }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -80,109 +75,80 @@
                 <div class="row">
                     <div class="col-sm-3 col-md-3">
                         <label class="form-label" for="max_speed_hour">Snelheid: Brochures per uur: </label>
-                        <input class="form-control" type="number" id="max_speed_hour" name="max_speed_hour"
-                                {% if update %}
-                               value="{{ asset.max_speed_hour }}"
-                                {% endif %} />
+                        <p>{{ form.max_speed_hour }}</p>
                     </div>
                     <div class="col-sm-3 col-md-3">
-                    <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
-                        <input class="form-control" type="number" step="0.01" id="tariff_eur_hour"
-                               name="tariff_eur_hour"
-                                {% if update %}
-                               value="{{ asset.tariff_eur_hour |floatformat:2 }}"  {% else %} required
-                                {% endif %} />
-
+                        <label class="form-label" for="tariff_eur_hour">Machine uurtarief Eur:</label>
+                        <p>{{ form.tariff_eur_hour }}</p>
                     </div>
                 </div>
-                 <div class="row">
-                <div class="col-sm-3 col-md-3">
+                <div class="row">
+                    <div class="col-sm-3 col-md-3">
                         <label class="form-label" for="max_number_stations_max">Maximaal aantal oplegstations:</label>
-                        <input class="form-control" type="number" id="max_number_stations_max"
-                               name="max_number_stations_max"
-                                {% if update %}
-                               value="{{ asset.max_number_stations_max }}"  {% else %} required
-                                {% endif %} />
+                        <p>{{ form.max_number_stations_max }}</p>
                     </div>
-                     <div class="col-sm-3 col-md-3">
-                        <label class="form-label" for="max_number_stations_default">Default aantal oplegstations:</label>
-                        <input class="form-control" type="number" id="max_number_stations_default"
-                               name="max_number_stations_default"
-                                {% if update %}
-                               value="{{ asset.max_number_stations_default }}"  {% else %} required
-                                {% endif %} />
+                    <div class="col-sm-3 col-md-3">
+                        <label class="form-label" for="max_number_stations_default">Default aantal
+                            oplegstations:</label>
+                        <p>{{ form.max_number_stations_default }}</p>
                     </div>
-                 <div class="col-sm-3 col-md-3">
-                        <label class="form-label" for="speedreduction_extra_station">% Vertraging per extra station:</label>
-                        <input class="form-control" type="number" id="speedreduction_extra_station"
-                               name="speedreduction_extra_station"
-                                {% if update %}
-                               value="{{ asset.speedreduction_extra_station }}"  {% else %} required
-                                {% endif %} />
+                    <div class="col-sm-3 col-md-3">
+                        <label class="form-label" for="speedreduction_extra_station">% Vertraging per extra
+                            station:</label>
+                        <p>{{ form.speedreduction_extra_station }}</p>
                     </div>
                 </div>
 
-                            <hr class="text-info">
+                <hr class="text-info">
                 <br>
                 <div class="row">
                     <div class="col-sm-6 col-md-9">
-                        <h4 class="mb-1 text-info">Brocheermachine opties </h4>
+                        <h4 class="mb-1 text-info">Brocheermachine opties</h4>
                     </div>
                 </div>
-                <div class="row">
 
+                <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" id="cover_feeder" name="cover_feeder" type="checkbox"
-                                    {% if update and asset.cover_feeder %}  checked="" {% endif %}/>
                             <label class="form-check-label" for="cover_feeder">Omslag feeder beschikbaar</label>
+                            <p>{{ form.cover_feeder }}</p>
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" id="added_value" name="added_value" type="checkbox"
-                                    {% if update and asset.added_value %}  checked="" {% endif %}/>
-                            <label class="form-check-label" for="added_value">Eigen machine voor toegevoegde waarde</label>
+                            <label class="form-check-label" for="added_value">Eigen machine voor toegevoegde
+                                waarde</label>
+                            <p>{{ form.added_value }}</p>
                         </div>
                     </div>
                 </div>
-            <hr class="text-info">
+
+
+                <hr class="text-info">
                 <br>
-            <div class="row">
+                <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <h4 class="mb-1 text-info">Brocheermachine formaten *</h4>
+                        <h4 class="mb-1 text-info">Brocheermachine formaten</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="max_width_untrimmed_mm">max breedte untrimmed mm: </label>
-                        <input class="form-control" type="number" id="max_width_untrimmed_mm" name="max_width_untrimmed_mm"
-                                {% if update %}
-                               value="{{ asset.max_width_untrimmed_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.max_width_untrimmed_mm }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="max_height_untrimmed_mm">max hoogte untrimmed mm:</label>
-                        <input class="form-control" type="number" id="max_height_untrimmed_mm" name="max_height_untrimmed_mm"
-                                {% if update %}
-                               value="{{ asset.max_height_untrimmed_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.max_height_untrimmed_mm }}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="min_width_untrimmed_mm">min breedte untrimmed mm:</label>
-                        <input class="form-control" type="number" id="min_width_untrimmed_mm" name="min_width_untrimmed_mm"
-                                {% if update %}
-                               value="{{ asset.min_width_untrimmed_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.min_width_untrimmed_mm }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="min_height_untrimmed_mm">min hoogte untrimmed mm:</label>
-                        <input class="form-control" type="number" id="min_height_untrimmed_mm" name="min_height_untrimmed_mm"
-                                {% if update %}
-                               value="{{ asset.min_height_untrimmed_mm }}" {% else %} required
-                                {% endif %}/>
+                        <p>{{ form.min_height_untrimmed_mm }}</p>
                     </div>
                 </div>
                 <br>
@@ -193,68 +159,41 @@
                         <h4 class="mb-1 text-info">Brocheermachine instellen en productietijden </h4>
                     </div>
                 </div>
-             <div class="row">
-                                <div class="col-sm-6 col-md-3">
-                                               <label class="form-label" for="setup_order_min">Insteltijd per opdacht (minuten):</label>
-                        <input class="form-control" type="number" id="setup_order_min" name="setup_order_min"
-                                {% if update %}
-                               value="{{ asset.setup_order_min }}"
-                                {% endif %} />
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="setup_order_min">Insteltijd per opdacht (minuten):</label>
+                        <p>{{ form.setup_order_min }}</p>
                     </div>
-             </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_time_station_min">Insteltijd per station (minuten):</label>
-                        <input class="form-control" type="number" id="setup_time_station_min"
-                               name="setup_time_station_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_station_min }}"
-                                {% endif %}/>
+                        <p>{{ form.setup_time_station_min }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_time_cover_min">Insteltijd omslag (minuten):</label>
-                        <input class="form-control" type="number" id="setup_time_cover_min"
-                               name="setup_time_cover_min"
-                                {% if update %}
-                               value="{{ asset.setup_time_cover_min }}"
-                                {% endif %}/>
+                        <p>{{ form.setup_time_cover_min }}</p>
                     </div>
                 </div>
-              <div class="row">
+                <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_landscape">Instellen liggend (minuten): </label>
-                        <input class="form-control" type="number" id="setup_landscape"
-                               name="setup_landscape"
-                                {% if update %}
-                               value="{{ asset.setup_landscape }}"
-                                {% endif %}/>
+                        <p>{{ form.setup_landscape }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="setup_square">Instellen vierkant (minuten):</label>
-                        <input class="form-control" type="number" id="setup_square"
-                               name="setup_square"
-                                {% if update %}
-                               value="{{ asset.setup_square }}"
-                                {% endif %}/>
+                        <p>{{ form.setup_square }}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="speedreduction_landscape">% Vertraging liggend formaat: </label>
-                        <input class="form-control" type="number" id="speedreduction_landscape"
-                               name="speedreduction_landscape"
-                                {% if update %}
-                               value="{{ asset.speedreduction_landscape }}"
-                                {% endif %}/>
+                        <p>{{ form.speedreduction_landscape }}</p>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="speedreduction_square">% Vertraging vierkant formaat:</label>
-                        <input class="form-control" type="number" id="speedreduction_square"
-                               name="speedreduction_square"
-                                {% if update %}
-                               value="{{ asset.speedreduction_square }}"
-                                {% endif %}/>
+                        <p>{{ form.speedreduction_square }}</p>
                     </div>
                 </div>
 
@@ -268,12 +207,8 @@
 
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="paperwaste_perc">% Inschiet tijdens productie:  </label>
-                        <input class="form-control" type="number" id="paperwaste_perc"
-                               name="paperwaste_perc"
-                                {% if update %}
-                               value="{{ asset.paperwaste_perc |floatformat:2 }}"
-                                {% endif %}/>
+                        <label class="form-label" for="paperwaste_perc">% Inschiet tijdens productie: </label>
+                        <p>{{ form.paperwaste_perc }}</p>
                     </div>
 
 
@@ -281,13 +216,13 @@
                 <br>
                 <hr class="text-info">
 
-                    <!-- ===============================================-->
-                    <!--   Row asset submit buttons -->
-                    <!-- ===============================================-->
-                    {% include 'buttons/create_update_asset.html' %}
+                <!-- ===============================================-->
+                <!--   Row asset submit buttons -->
+                <!-- ===============================================-->
+                {% include 'buttons/create_update_asset.html' %}
 
 
-                    <hr class="text-info">
+                <hr class="text-info">
             </div>
         </form>
         {% include 'messages/form_valid_errormelding.html' %}

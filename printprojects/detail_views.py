@@ -33,9 +33,9 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
         printproject_id = self.kwargs['printproject_id']
-        user = self.request.user
         printproject = PrintProjects.objects.get(member_id=user.member_id, printproject_id=printproject_id)
         context = createprintproject_context(context, user, printproject)
         member_plan_id = user.member.member_plan_id
@@ -54,7 +54,6 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
             context['offer'] = Offers.objects.get(printproject_id=printproject_id)
 
         context['printproject_subtitle'] = printproject_subtitle
-
         context['member_plan_id'] = member_plan_id
 
         # for select suppliers
@@ -83,7 +82,7 @@ class PrintProjectCloneView(LoginRequiredMixin, RedirectView):
         clone_printproject.project_title = "Kopie: " + clone_printproject.project_title
         clone_printproject.save()
         new_printproject_id = clone_printproject.printproject_id
-        return '/printproject_clone_update/' + str(new_printproject_id)
+        return '/printproject_update/' + str(new_printproject_id)
 
 
 # Updating a (clone) printproject

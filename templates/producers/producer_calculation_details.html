@@ -67,9 +67,9 @@
                     <!-- ===============================================-->
                     <!--    Calculation Detail table -->
                     <!-- ===============================================-->
-{#                {% if offer.calculation_id %}#}
-{#                    {% include 'producers/tables/producer_calculation_detailtable.html' %}#}
-{#                {% endif %}#}
+                {% if calculation %}
+                    {% include 'producers/tables/producer_calculation_detailtable.html' %}
+                {% endif %}
                     <!-- ===============================================-->
                     <!--    Offer Detail table -->
                     <!-- ===============================================-->

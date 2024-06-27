@@ -909,4 +909,4 @@ def brochure_calculation(producer_id, rfq):
             print('error log: ' + error + ' ' + str(e))
 
     # save calculation
-    save_calculation(rfq, best_offer, error)
+    save_calculation(producer_id, rfq, best_offer, error)

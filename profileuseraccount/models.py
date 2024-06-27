@@ -42,7 +42,7 @@ class Producers(models.Model):
     street_number = models.CharField(max_length=30, blank=True, null=True)
     postal_code = models.CharField(max_length=7, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
-    country_code = models.CharField(max_length=100, default=1)
+    country_code = models.CharField(max_length=100, default="NL")
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
     company_url = models.URLField(null=True, blank=True, max_length=200)
@@ -81,7 +81,6 @@ class Members(models.Model):
     member_id = models.AutoField(primary_key=True)
     member_plan = models.ForeignKey(MemberPlans, null=True, on_delete=models.SET_NULL)
     producerplan = models.BooleanField(default=False)
-    exclusive = models.BooleanField(default=False)
     # This member is exclusive for  producer or is producer
     exclusive_producer = models.ForeignKey(Producers, null=True,
                                            on_delete=models.SET_NULL)
@@ -93,10 +92,9 @@ class Members(models.Model):
     street_number = models.CharField(max_length=30, blank=True)
     postal_code = models.CharField(max_length=7, blank=True)
     city = models.CharField(max_length=100, blank=True, null=True)
-    country_code = models.CharField(max_length=100, default=1)
+    country_code = models.CharField(max_length=100, default="NL")
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
-
 
     # social media
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
@@ -106,7 +104,7 @@ class Members(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
-    demo = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.company
@@ -129,10 +127,9 @@ class UserProfile(AbstractUser):
     street_number = models.CharField(max_length=30, blank=True)
     postal_code = models.CharField(max_length=7, blank=True)
     city = models.CharField(max_length=100, blank=True)
-    country_code = models.CharField(max_length=100, default=1)
+    country_code = models.CharField(max_length=100, default="NL")
     first_user = models.BooleanField(default=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
-
 
     # social media
     linkedin_url = models.URLField(null=True, blank=True, max_length=200)
@@ -141,7 +138,7 @@ class UserProfile(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
-    demo = models.BooleanField(default=False)
+
 
     class Meta:
         verbose_name = 'Profile'

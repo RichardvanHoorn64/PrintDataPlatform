@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Producer details</title>
+    <title>Producer member details</title>
 </head>
 
 <!-- ===============================================-->
@@ -21,13 +21,13 @@
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
-                <li class="breadcrumb-item active">Opdrachtgever</li>
+                <li class="breadcrumb-item active">Klant details en medewerkers</li>
             </ol>
         </nav>
         <div class="mb-9">
             <div class="row align-items-center justify-content-between g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info">Opdrachtgever</h2>
+                    <h2 class="mb-0 text-info">Klant details en medewerkers</h2>
                 </div>
                 <div class="col-auto">
                     <div class="row g-3">
@@ -63,40 +63,30 @@
                                             </p>
                                             <div>
                                                 {% if  member.linkedin_url %}
-                                                    <a class="me-2" href="https://{{ member.linkedin_url }}"><span
+                                                    linkedIn: 
+                                                    <a class="me-2" href="{{ member.linkedin_url }}"><span
                                                             class="fab fa-linkedin text-400 hover-primary"></span></a>
                                                 {% endif %}
-                                                {% if  member.facebook_url %}
-                                                    <a class="me-2" href="https://{{ member.facebook_url }}"><span
-                                                            class="fab fa-facebook text-400 hover-primary"></span></a>
-                                                {% endif %}
-                                                {% if  member.twitter_url %}
-                                                    <a class="me-2" href="https://{{ member.twitter_url }}"><span
-                                                            class="fab fa-twitter text-400 hover-primary"></span></a>
-                                                {% endif %}
-                                                {% if  member.instagram_url %}
-                                                    <a class="me-2" href="https://{{ member.instagram_url }}"><span
-                                                            class="fab fa-instagram text-400 hover-primary"></span></a>
-                                                {% endif %}
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-between-center border-top border-dashed border-300 pt-4">
                                         <div>
-                                            <h6>Aanvragen</h6>
-                                            <p class="fs-1 text-800 mb-0">{{ nr_offers }}</p>
+                                            <h6>Aanvragen gedaan</h6>
+                                            <p class="fs-1 text-800 mb-0">{{ nr_rfq }}</p>
                                         </div>
                                         <div>
-                                            <h6>Orders</h6>
+                                            <h6>Offertes</h6>
+                                            <p class="fs-1 text-800 mb-0">
+                                                {% if nr_offers %}
+                                                {{ nr_offers }}{% else %}0{% endif %}</p>
+                                        </div>
+                                         <div>
+                                            <h6>Orders geplaatst</h6>
                                             <p class="fs-1 text-800 mb-0">
                                                 {% if nr_orders %}
                                                 { nr_orders }}{% else %}0{% endif %}</p>
-                                        </div>
-                                        <div>
-                                            <h6>Omzet</h6>
-                                            <p class="fs-1 text-800 mb-0">
-                                                  {% if turnover %}
-                                                € {{ turnover }},-{% else %}0{% endif %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +118,7 @@
         <!-- ===============================================-->
         <!--    Membercontact Table-->
         <!-- ===============================================-->
-        {% include 'producers/producer_membercontact_table.html' %}
+        {% include 'producers/tables/producer_membercontact_table.html' %}
         <!-- ===============================================-->
         <!--    End Membercontact Table-->
         <!-- ===============================================-->
