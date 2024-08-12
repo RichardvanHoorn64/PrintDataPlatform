@@ -12,6 +12,11 @@ from printprojects.models import *
 from index.categories_groups import *
 
 
+
+
+# https://stackoverflow.com/questions/2605384/how-to-explicitly-set-django-language-in-django-session
+
+
 class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
     template_name = "homepage/member_dashboard.html"
     pk_url_kwarg = 'printprojectstatus_id'
@@ -28,7 +33,6 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        exclusive_producer_id = define_exclusive_producer_id(user)
         context = super(PrintDataPlatformDashboard, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         member_id = user.member_id

@@ -17,6 +17,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import sys
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -107,9 +108,11 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
+    # language settings
+    'django.middleware.locale.LocaleMiddleware',
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
-
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -168,11 +171,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
-LANGUAGE_CODE = 'nl'
+
+LANGUAGE_CODE = 'nl' #default language
+
+LANGUAGES = (
+  ('nl', _('Dutch')),
+  ('en', _('English')),
+('de', _('German')),
+)
+
 TIME_ZONE = 'Europe/Amsterdam'
 USE_TZ = False
 
-exUSE_I18N = True
+USE_I18N = True
 USE_L10N = False
 
 USE_THOUSAND_SEPARATOR = True

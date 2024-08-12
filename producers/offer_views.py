@@ -128,7 +128,7 @@ class ProducerCalculationDetails(LoginRequiredMixin, TemplateView):
 
 
 class ProducerMemberDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/tables/producer_exclusive_members.html"
+    template_name = "producers/tables/producer_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)

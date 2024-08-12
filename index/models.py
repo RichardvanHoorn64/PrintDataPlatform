@@ -2,6 +2,20 @@ from django.db import models
 from profileuseraccount.models import Languages, Producers
 
 
+class CheckDomains(models.Model):
+    domain_id = models.AutoField(primary_key=True)
+    domain = models.CharField(max_length=200, null=True, blank=True)
+    excluded = models.BooleanField(default=False)
+    update_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.domain
+
+    class Meta:
+        verbose_name = 'domains'
+        verbose_name_plural = 'domain'
+
+
 class DropdownCountries(models.Model):
     country_id = models.AutoField(primary_key=True)
     country = models.CharField(max_length=200, null=True, blank=True)
@@ -14,7 +28,6 @@ class DropdownCountries(models.Model):
     class Meta:
         verbose_name = 'countries'
         verbose_name_plural = 'country'
-
 
 
 class DropdownChoices(models.Model):
@@ -88,6 +101,21 @@ class Conditions(models.Model):
     class Meta:
         verbose_name = 'conditions'
         verbose_name_plural = 'condition'
+
+
+class Texts(models.Model):
+    text_id = models.AutoField(primary_key=True)
+    text = models.CharField(max_length=1000, null=True, blank=True)
+    identifier = models.CharField(max_length=100, null=True, blank=True)
+    subject = models.CharField(max_length=1000, null=True, blank=True)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'texts'
+        verbose_name_plural = 'text'
 
 
 class BrandPortalData(models.Model):

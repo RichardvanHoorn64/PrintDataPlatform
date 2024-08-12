@@ -52,11 +52,7 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.printingcost_booklet1000extra = Decimal(
                 best_offer['printingcost_booklet1000extra'].values[0])
             calculation.printingcost_cover1000extra = Decimal(best_offer['printingcost_cover1000extra'].values[0])
-            calculation.printingcost_cover = Decimal(best_offer['printingcost_cover'].values[0])
-            calculation.printingcost1000extra = Decimal(best_offer['printingcost1000extra'].values[0])
-            calculation.printingcost_booklet1000extra = Decimal(
-                best_offer['printingcost_booklet1000extra'].values[0])
-            calculation.printingcost_cover1000extra = Decimal(best_offer['printingcost_cover1000extra'].values[0])
+
 
             calculation.inkcost = Decimal(best_offer['inkcost'].values[0])
             calculation.inkcost1000extra = Decimal(best_offer['inkcost1000extra'].values[0])
@@ -105,14 +101,6 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.net_paper_quantity_cover1000extra = pd.to_numeric(
                 best_offer['net_paper_quantity_cover1000extra'].values[0])
 
-            calculation.paper_quantity = pd.to_numeric(best_offer['paper_quantity'].values[0])
-            calculation.paper_quantity1000extra = pd.to_numeric(best_offer['paper_quantity1000extra'].values[0])
-            calculation.paper_quantity_booklet = pd.to_numeric(best_offer['paper_quantity_booklet'].values[0])
-            calculation.paper_quantity_booklet1000extra = pd.to_numeric(
-                best_offer['paper_quantity_booklet1000extra'].values[0])
-            calculation.paper_quantity_cover = pd.to_numeric(best_offer['paper_quantity_cover'].values[0])
-            calculation.paper_quantity_cover1000extra = pd.to_numeric(
-                best_offer['paper_quantity_cover1000extra'].values[0])
 
             calculation.number_of_printruns_cover = pd.to_numeric(best_offer['number_of_printruns_cover'].values[0])
 
@@ -123,18 +111,6 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.orderweight_kg1000extra = Decimal(best_offer['orderweight_kg1000extra'].values[0])
             calculation.transportcost = Decimal(best_offer['transportcost'].values[0])
             calculation.transportcost1000extra = Decimal(best_offer['transportcost1000extra'].values[0])
-
-            calculation.total_cost = Decimal(best_offer['total_cost'].values[0])
-            calculation.total_cost1000extra = Decimal(best_offer['total_cost1000extra'].values[0])
-            calculation.added_value = Decimal(best_offer['added_value'].values[0])
-            calculation.perc_added_value = Decimal(best_offer['perc_added_value'].values[0])
-            calculation.added_value1000extra = Decimal(best_offer['added_value1000extra'].values[0])
-            calculation.perc_added_value1000extra = Decimal(best_offer['perc_added_value1000extra'].values[0])
-            calculation.memberdiscount = Decimal(best_offer['memberdiscount'].values[0])
-            calculation.memberdiscount1000extra = Decimal(best_offer['memberdiscount1000extra'].values[0])
-            calculation.offer_date = timezone.now().today().date()
-            calculation.offer_value = Decimal(best_offer['offer_value'].values[0])
-            calculation.offer_value1000extra = Decimal(best_offer['offer_value1000extra'].values[0])
 
             calculation.cuttingcost = Decimal(best_offer['cuttingcost'].values[0])
             calculation.cuttingcost1000extra = Decimal(best_offer['cuttingcost1000extra'].values[0])

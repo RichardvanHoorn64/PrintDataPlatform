@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
+from index.categories_groups import *
 
 from index.create_context import creatememberplan_context
 from index.models import Conditions, Faqs
@@ -25,10 +26,13 @@ class WelcomeView(TemplateView):
         elif user.is_authenticated and not user.member.active:
             return redirect('/wait_for_approval/')
 
-        elif user.is_authenticated and user.member.active and user.member.producerplan:
+        elif user.is_authenticated and user.member.active and not user.member_plan_id in producer_memberplans:
+            return redirect('/printdataplatform_dashboard/')
+
+        elif user.is_authenticated and user.member.active and user.member_plan_id in producer_memberplans:
             return redirect('/producer_sales_dashboard/0')
 
-        elif user.is_authenticated and user.member.active and not user.member.producerplan:
+        elif user.is_authenticated and user.member.active and not user.member_pla_id in producer_memberplans:
             return redirect('/printdataplatform_dashboard/')
 
         else:

@@ -44,7 +44,7 @@ class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
 
 
 class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
-    template_name = "producers/tables/producer_exclusive_members.html"
+    template_name = "producers/tables/producer_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
@@ -61,9 +61,10 @@ class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
 
         context = creatememberplan_context(context, user)
         context['members'] = members
+        context['title'] =  'Klanten via ' + site_name
         context['calculation_module'] = producer.calculation_module
+        context['exclusive_module'] = producer.exclusive_module
         return context
-
 
 
 class ProducerMemberDetails(LoginRequiredMixin, DetailView):
@@ -78,12 +79,13 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         producer_id = user.producer_id
         member_id = self.kwargs['pk']
 
+
         context['nr_rfq'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id).count()
         context['nr_offers'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id,
                                                      offerstatus_id__in=[2, 3, 4]).count()
         context['nr_orders'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
         context['member'] = Members.objects.get(member_id=member_id)
-        context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id, active=True)
+        context['memberaccount_list'] = UserProfile.objects.filter(member_id=member_id, active=True)
         return context
 
 
@@ -173,7 +175,7 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
 
 
 class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
-    template_name = "producers/tables/producer_exclusive_members.html"
+    template_name = "producers/tables/producer_members.html"
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
@@ -191,9 +193,10 @@ class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
                                                      member__member_plan__id__in=exclusive_memberplans).order_by(
             'member__company')
         context['members'] = members
-
+        context['title'] = str(user.producer.company) + ' exclusieve klanten'
         context['exclusive_module'] = producer.exclusive_module
         context['calculation_module'] = producer.calculation_module
+
 
         return context
 

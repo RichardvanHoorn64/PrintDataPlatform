@@ -1,7 +1,7 @@
 {% load l10n %}
 <!DOCTYPE html>
 <html lang="nl">
-<head><title>order email</title></head>
+<head><title>rfq email</title></head>
 
 <style>
     table {
@@ -19,30 +19,26 @@
 </style>
 </html>
 <body>
-
-
 <h4>
     Hallo,<br><br>
-    Op het PrintDataPlatform heeft {{ offer.requester }} heeft namens {{ member_company }}
+    Op het PrintDataPlatform heeft {{ offer.requester }} namens {{ member_company }}
     op {{ offer.created |date:'d-m-Y ' }} voor {{ producer.company }} een offerteaanvraag voor {{ printproject.volume }}
-    ex. {{ printproject.project_title }} geplaatst.<br><br>
+    ex. {{ printproject.project_title }} gedaan.<br><br>
 
 
     Bekijk en beantwoord de offerteaanvraag op: <a
-        href="https://printdataplatform.com/{% url 'offer_producers_form' offer.offer_id %}">https://printdatahub.nl/offer_producers_form/{{ offer.offer_id }}</a>,
+        href="https://printdataplatform.com/{% url 'offer_producers_form' offer.offer_id %}">https://printdatahub.com/offer_producers_form/{{ offer.offer_id }}</a>,
     <br>
     Hier kunt u ook uw offertedocument uploaden.
     <br>
     Open de aanvraag met deze unieke toegangscode: {{ offer.offer_key }}
-
     <br><br>
-    Grafische groet,<br>
+    Hartelijke groet,<br>
     Richard van Hoorn
     <br>
-    <a href="https://printdataplatform.com/">Het PrintDataPlatform</a>
+    <a href="https://printdataplatform.com/">PrintDataPlatform BV</a>
     <br>
-
-    mail: printdataplatform@richardvanhoorn.nl
+    mail: contact@printdataplatform.nl
     <br>
     tel: 06-55962062
 </h4>

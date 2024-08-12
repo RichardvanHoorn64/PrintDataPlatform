@@ -10,6 +10,7 @@ from downloads.member_downloads import *
 from downloads.producer_downloads import *
 # from downloads.download_client_docs import *
 from index.dashboard_views import *
+from index.drukwerkmaatwerk_etl import LoadVeldhuisDataView
 from index.index_views import *
 from index.note_views import *
 from index.json_views import *
@@ -37,11 +38,15 @@ from profileuseraccount.accountviews.RegistratieViews import *
 
 # printdata URL Configuration
 urlpatterns = [
+    # (r'^i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     # open homepages, no inlog required
     path('', WelcomeView.as_view(), name=''),  # redirect page
     path('welcome/', WelcomeView.as_view(), name='welcome'),  # redirect page
+
+    path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
+
     path('home/', HomeView.as_view(), name='home'),
     path('signup/<int:member_plan_id>/',   UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
@@ -63,11 +68,12 @@ urlpatterns = [
     # printprojects
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
     path('start_printproject_workflow/<int:printproject_id>', PrintProjectStartWorkflowView.as_view(),
-         name='start_printproject_workflow'),   # update pricing
+         name='start_printproject_workflow'),
 
+    # update pricing
     path('printproject_details/<int:printproject_id>', PrintProjectDetailsView.as_view(),
-         name='printproject_details'),   # update pricing
-
+         name='printproject_details'),
+    # update pricing
     path('printproject_clone/<int:printproject_id>', PrintProjectCloneView.as_view(),
          name='printproject_clone'),
     path('printproject_update/<int:printproject_id>', PrintProjectCloneUpdateView.as_view(),
