@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ</title>
+  </head>
+    {% block main_content %}
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+    <div class="container" id="new_project_header" style="background-color:whitesmoke;">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info" href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                <li class="breadcrumb-item active">{{ title }}</li>
+            </ol>
+        </nav>
+        <hr class="text-info">
+        <h2  class="mb-4 text-info">{{ title }}</h2>
+        <h5 class="mb-3">
+           {{ subtitle }}
+        </h5>
+        <hr class="text-info">
+
+    <!-- ===============================================-->
+    <!--    Events-->
+    <!-- ===============================================-->
+
+          <h2 class="mb-5">{{ title }}</h2>
+          <h5 class="mb-3">{{ subtitle }}</h5>
+          </div>
+    
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">{{ faq.question }}</button>
+              </h2>
+              <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body pt-0">{{ faq.answer }}</div>
+              </div>
+            </div>
+
+
+          <div class="row gx-xl-8 gx-xxl-11">
+            <div class="col-xl-5 p-xxl-7">
+              <div class="ms-xxl-3 d-none d-xl-block position-sticky" style="top: 30%"><img class="d-dark-none img-fluid" src="{% static "assets/img/spot-illustrations/timeline.png" %}" alt="" /></div>
+            
+            </div>
+            <div class="col-xl-7 scrollbar">
+                            {% for event in events %}
+              <div>
+                <h3 class="py-3 border-y border-300 mb-5 ms-8">1-11-2024 Demo bijeenkomst</h3>
+                <div class="timeline-basic mb-7">
+                  <div class="timeline-item">
+                    <div class="row g-3">
+                      <div class="col-auto">
+                        <div class="timeline-item-bar position-relative">
+                          <div class="icon-item icon-item-md rounded-7 border"><span class="fa-solid fa-clipboard text-success fs--1"></span></div><span class="timeline-bar border-end border-dashed border-300"></span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="d-flex justify-content-between">
+                          <div class="d-flex mb-2">
+                            <h4 class="lh-sm mb-0 me-2 text-800 timeline-item-title">Demo bijeenkomst</h4>
+                          </div>
+                          <p class="text-500 fs--1 mb-0 text-nowrap timeline-time"><span class="fa-regular fa-clock me-1"></span>4:33pm</p>
+                        </div>
+                        <h3 class="fs--2 fw-normal mb-3">Amersfoort</h3>
+                        <p class="fs--1 text-800 w-sm-60 mb-5">Utilizing best practices to better leverage our assets, we must engage in black sky leadership thinking, not the usual band-aid solution.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="row g-3">
+                      <div class="col-auto">
+                        <div class="timeline-item-bar position-relative">
+                          <div class="icon-item icon-item-md rounded-7 border"><span class="fa-solid fa-envelope text-danger fs--1"></span></div><span class="timeline-bar border-end border-dashed border-300"></span>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="d-flex justify-content-between">
+                          <div class="d-flex mb-2">
+                            <h6 class="lh-sm mb-0 me-2 text-800 timeline-item-title">Quary about purchased soccer socks</h6>
+                          </div>
+                          <p class="text-500 fs--1 mb-0 text-nowrap timeline-time"><span class="fa-regular fa-clock me-1"></span>6:30pm</p>
+                        </div>
+                        <h6 class="fs--2 fw-normal mb-3">by <a class="fw-semi-bold" href="#!">Edward Hopper</a></h6>
+                        <p class="fs--1 text-800 w-sm-60 mb-5">I’ve come across your posts and found some favorable deals on your page. I’ve added a load of products to the cart and I don’t know the payment options you avail. Also, can you enlighten me about any discount.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="row g-3">
+                      <div class="col-auto">
+                        <div class="timeline-item-bar position-relative">
+                          <div class="icon-item icon-item-md rounded-7 border"><span class="fa-solid fa-video text-info fs--1"></span></div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="d-flex justify-content-between">
+                          <div class="d-flex mb-2">
+                            <h6 class="lh-sm mb-0 me-2 text-800 timeline-item-title">Spreker</h6>
+                          </div>
+                          <p class="text-500 fs--1 mb-0 text-nowrap timeline-time"><span class="fa-regular fa-clock me-1"></span>9:33pm</p>
+                        </div>
+                        <h6 class="fs--2 fw-normal false">Hier <a class="fw-semi-bold" href="#!">Aanmelden</a></h6>
+                        <p class="fs--1 text-800 w-sm-60 mb-0"></p>
+                          
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                {% endfor %}
+            </div>
+          </div>
+
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+  </body>
+
+</html>
+{% endblock %}

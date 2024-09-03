@@ -24,10 +24,6 @@ class ClientDashboard(LoginRequiredMixin, TemplateView):
         else:
             return super().dispatch(request, *args, **kwargs)
 
-    def dispatch(self, request, *args, **kwargs):
-        update_clientdashboard(self.request.user.member_id)
-        return super().dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super(ClientDashboard, self).get_context_data(**kwargs)
         user = self.request.user

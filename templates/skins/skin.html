@@ -18,7 +18,7 @@
                 <li class="nav-item">
 
                                        <!-- member dashboard-->
-                     <p class="navbar-vertical-label fs-8">{{ site_name }}
+                     <p class="navbar-vertical-label fs-8">PrintDataPlatform
                   </p>
                   <div class="nav-item-wrapper"><a class="nav-link label-1"
                        {% if user.member.member_plan_id in producer_memberplans  %}
@@ -141,7 +141,7 @@
                   </div>
                                {% endif %}
                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'producer_open_members' %}" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">{{ site_name }}</span></span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">PrintDataPlatform</span></span>
                       </div>
                     </a>
                   </div>
@@ -383,31 +383,31 @@
                   </div>
                      {% endif %}
 
-                   {% if user.member.member_plan_id in non_exclusive_memberplans %}
+                   {% if not user.member.member_plan_id in exclusive_memberplans %}
                 <li class="nav-item">
                   <!-- label-->
-                  <p class="navbar-vertical-label fs-8">{{ site_name }}
+                  <p class="navbar-vertical-label fs-8">PrintDataPlatform
                   </p>
                   <hr class="navbar-vertical-line" />
-                  <!-- parent pages-->
+                  <!-- Info-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="https://www.printdataplatform.nl/" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-info fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Info</span></span>
                       </div>
                     </a>
                   </div>
-                  <!-- parent pages-->
+                  <!-- FAQ-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'faq' %}"  role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-question-circle fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">FAQ</span></span>
                       </div>
                     </a>
                   </div>
-                 {% comment %} <!-- parent pages-->
+                  <!-- events-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'events' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-users fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Bijeenkomsten</span></span>
                       </div>
                     </a>
-                  </div>{% endcomment %}
-                   <!-- parent pages-->
+                  </div>
+                   <!-- conditions -->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="{% url 'conditions' %}" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-exclamation-triangle fs-3"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Spelregels</span></span>
                       </div>
@@ -435,7 +435,7 @@
                       {% endif %}>
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-center"><img src="{% static "assets/img/icons/logo.jpg" %}" alt="logo" width="60" />
-                    <p class="logo-text ms-2 d-none d-sm-block">{{ site_name_exclusive }}
+                    <p class="logo-text ms-2 d-none d-sm-block">{{ site_name }}
                         <small>&nbsp;&nbsp;
                         {% now "H" as current_time %}
                             {% if current_time|add:"0" < 12 %}
@@ -469,7 +469,7 @@
                 <div class="col-12 col-sm-auto text-center"></div>
               <div class="col-12 col-sm-auto text-center">
                 <p class="mb-0 mt-2 mt-sm-0 text-900"><br class="d-sm-none"/>&copy; 2024<br class="d-sm-none"/>
-                   <span class="d-none d-sm-inline-block mx-1">|</span> <a class="mx-1 text-info" href="https://www.printdataplatform.nl/" target=”_blank” >{{ site_name }}</a></p>
+                   <span class="d-none d-sm-inline-block mx-1">|</span> <a class="mx-1 text-info" href="https://www.printdataplatform.nl/" target=”_blank” >PrintDataPlatform</a></p>
               </div>
               <div class="col-12 col-sm-auto text-center">
                 <p class="mb-0 text-600">{{ site_name }}</p>

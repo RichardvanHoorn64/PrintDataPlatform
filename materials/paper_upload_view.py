@@ -4,8 +4,8 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from index.categories_groups import site_name
 from index.create_context import creatememberplan_context
+from index.exclusive_functions import define_site_name
 from materials.models import PaperBrandReference, PaperCatalog
 from materials.papercatalog_uploadform import UploadProducerPaperCatalogCSVForm
 from profileuseraccount.models import Producers
@@ -22,6 +22,7 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
         user = self.request.user
         producer_id = user.producer_id
         paper_catalog = PaperCatalog.objects.filter(producer_id=producer_id)
+        site_name = define_site_name(user)
 
         if paper_catalog:
             count_paper_catalog = paper_catalog.count()

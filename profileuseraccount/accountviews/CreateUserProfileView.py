@@ -5,8 +5,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from index.exclusive_functions import define_site_name
 from index.models import *
-from index.categories_groups import site_name
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registration_userprofile import UserProfileCreationForm
 from profileuseraccount.models import UserProfile, Producers, Members
@@ -42,7 +43,7 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
         # of SignupView to access the newly created User instance
         new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
         form.instance.id = new_id
-        form.instance.member_plan_id = self.kwargs['member_plan_id']
+        form.instance.member_plan_id = 1
 
         self.user = form.save(self.request)
         try:
@@ -60,6 +61,8 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
 
     def get_context_data(self, **kwargs):
         ret = super(UserProfileCreateView, self).get_context_data(**kwargs)
+        site_name = define_site_name(self.request.user)
+
         form = ret['form']
         email = self.request.session.get('account_verified_email')
         if email:

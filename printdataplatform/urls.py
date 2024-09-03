@@ -48,7 +48,7 @@ urlpatterns = [
     path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
 
     path('home/', HomeView.as_view(), name='home'),
-    path('signup/<int:member_plan_id>/',   UserProfileCreateView.as_view(), name='signup'),
+    path('signup/',   UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
     path('no_access/', NoAccessView.as_view(), name='no_access'),
     path('wait_for_approval/', WaitForApproval.as_view(), name='wait_for_approval'),
@@ -64,6 +64,9 @@ urlpatterns = [
     # printdataplatform
     path('conditions/', ConditionView.as_view(), name='conditions'),
     path('faq/', FaqView.as_view(), name='faq'),
+    path('conditions/', ConditionView.as_view(), name='conditions'),
+    path('events/', EventsView.as_view(), name='events'),
+
 
     # printprojects
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),

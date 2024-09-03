@@ -1,10 +1,10 @@
 from index.display_functions import *
-from index.exclusive_functions import define_exclusive_site_name
+from index.exclusive_functions import define_site_name
 from printprojects.models import ProductCategory
 
 
 def creatememberplan_context(context, user):
-    context['site_name'] = site_name
+    context['site_name'] = define_site_name(user)
     context['free_memberplans'] = free_memberplans
     context['open_memberplans'] = open_memberplans
     context['pro_memberplans'] = pro_memberplans
@@ -13,8 +13,6 @@ def creatememberplan_context(context, user):
     context['producer_memberplans'] = producer_memberplans
     context['offer_availeble'] = offer_availeble
     context['printdataplatform_url'] = 'https://www.printdataplatform.nl'
-    context['site_name_exclusive'] = define_exclusive_site_name(user)
-
     context['categories_all'] = categories_all
     context['categories_plano'] = categories_plano
     context['categories_folders'] = categories_folders

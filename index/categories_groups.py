@@ -8,7 +8,7 @@ categories_brochures_all = [3, 4, 5]
 categories_brochures_cover = [4, 5]
 
 # memberplan_categories
-free_memberplans = [1,3]
+free_memberplans = [1, 3]
 pro_memberplans = [2]
 non_exclusive_memberplans = [1, 2]
 exclusive_memberplans = [3]
@@ -18,4 +18,3 @@ producer_memberplans = [4]
 # offers
 offer_availeble = [2, 3]
 
-site_name = 'PrintDataPlatform'

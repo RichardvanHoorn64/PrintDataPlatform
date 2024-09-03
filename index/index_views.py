@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from index.categories_groups import *
 
 from index.create_context import creatememberplan_context
-from index.models import Conditions, Faqs
+from index.models import *
 from profileuseraccount.models import MemberPlans
 
 
@@ -15,9 +15,10 @@ class WelcomeView(TemplateView):
         if not user.is_authenticated:
             if host in ['127.0.0.1:8000', 'www.printdatahub.com', 'printdatahub-dev.azurewebsites.net',
                         'localhost:8000']:
-                return redirect('/home/')
-            else:
                 return redirect('/accounts/login/')
+
+        if not user.active:
+            return redirect('/no_access/')
 
         # authenticated user landing
         if user.is_authenticated and not user.member_id:
@@ -26,13 +27,13 @@ class WelcomeView(TemplateView):
         elif user.is_authenticated and not user.member.active:
             return redirect('/wait_for_approval/')
 
-        elif user.is_authenticated and user.member.active and not user.member_plan_id in producer_memberplans:
+        elif user.is_authenticated and user.member.active and user.member_plan_id not in producer_memberplans:
             return redirect('/printdataplatform_dashboard/')
 
         elif user.is_authenticated and user.member.active and user.member_plan_id in producer_memberplans:
             return redirect('/producer_sales_dashboard/0')
 
-        elif user.is_authenticated and user.member.active and not user.member_pla_id in producer_memberplans:
+        elif user.is_authenticated and user.member.active and user.member_pla_id not in producer_memberplans:
             return redirect('/printdataplatform_dashboard/')
 
         else:
@@ -82,14 +83,17 @@ class ConditionView(TemplateView):
         user = self.request.user
         context = creatememberplan_context(context, user)
         language_id = self.request.user.language_id
-        context['conditions'] = Conditions.objects.filter(language_id=language_id).order_by('sequence')
+
         if language_id == 1:
             context['title'] = "Spelregels"
             context[
-                'subtitle'] = "Door gebruik te maken van het PrintDataPlatform geeft u aan akkoord te zijn met onze spelregels"
+                'subtitle'] = ("Door gebruik te maken van het PrintDataPlatform geeft u aan akkoord te zijn met onze "
+                               "spelregels")
         if language_id == 2:
-            context['title'] = "Questions and answers"
-            context['subtitle'] = "We love to help"
+            context['title'] = "Conditions"
+            context['subtitle'] = "By using the PrintDataPlatform you agree to our conditions"
+
+        context['conditions'] = Conditions.objects.filter(language_id=language_id).order_by('sequence')
         return context
 
 
@@ -109,4 +113,31 @@ class FaqView(TemplateView):
             context['subtitle'] = "We love to help"
 
         context['faqs'] = Faqs.objects.filter(language_id=language_id).order_by('sequence')
+        return context
+
+
+class EventsView(TemplateView):
+    template_name = 'homepage/events.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(EventsView, self).get_context_data(**kwargs)
+        user = self.request.user
+        language_id = self.request.user.language_id
+        events = Events.objects.filter(language_id=language_id).order_by('sequence')
+
+        context = creatememberplan_context(context, user)
+        context['title'] = "Events"
+
+        if language_id == 1:
+            if events:
+                context['subtitle'] = "Meld je aan voor een van onze bijeenkomsten"
+            else:
+                context['subtitle'] = "Nog geen  bijeenkomsten gepland"
+        if language_id == 2:
+            if events:
+                context['subtitle'] = "Register for one of our meetings"
+            else:
+                context['subtitle'] = "No meetings planned yet"
+
+        context['events'] = Events.objects.filter(language_id=language_id).order_by('sequence')
         return context

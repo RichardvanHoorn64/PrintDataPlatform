@@ -17,9 +17,21 @@ def define_exclusive_producer_id(user):
     return exclusive_producer_id
 
 
+def define_site_name(user):
+    if user.is_anonymous:
+        site_name = 'PrintDataPlatform'
+    elif user.member_plan_id in exclusive_memberplans:
+        site_name = BrandPortalData.objects.get(producer_id=define_exclusive_producer_id(user)).brandportal
+    elif user.member_plan_id in producer_memberplans:
+        site_name = 'PrintDataPlatform ' + str(user.producer.company)
+    else:
+        site_name = 'PrintDataPlatform'
+    return site_name
+
+
 def define_exclusive_site_name(user):
     member_plan_id = user.member_plan_id
-    exclusive_site_name = site_name
+    exclusive_site_name = define_site_name(user)
 
     if member_plan_id in exclusive_memberplans:
         exclusive_site_name = BrandPortalData.objects.get(producer_id=define_exclusive_producer_id(user)).brandportal

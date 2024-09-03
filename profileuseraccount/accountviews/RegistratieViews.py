@@ -71,6 +71,7 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
 
     def get_context_data(self, *args, **kwargs):
         context = super(CoWorkerUserProfileCreateView, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, self.request.user)
         return context
 
 

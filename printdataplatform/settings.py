@@ -127,7 +127,7 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'printdataplatform',
+            'NAME': 'printdataplatform_dev',
             'USER': 'postgres',
             'PASSWORD': 'PrintdataClub2025',
             'HOST': '127.0.0.1',
@@ -177,7 +177,7 @@ LANGUAGE_CODE = 'nl' #default language
 LANGUAGES = (
   ('nl', _('Dutch')),
   ('en', _('English')),
-('de', _('German')),
+    ('de', _('German')),
 )
 
 TIME_ZONE = 'Europe/Amsterdam'
