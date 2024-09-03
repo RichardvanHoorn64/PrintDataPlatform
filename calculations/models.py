@@ -2,11 +2,11 @@ from printprojects.models import PrintProjects
 from assets.models import *
 from methods.models import ProductCategory
 
-
+2
 class Calculations(models.Model):
     calculation_id = models.AutoField(primary_key=True)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
-    producer = models.ForeignKey(Producers, on_delete=models.CASCADE)
+    producer = models.ForeignKey(Producers, null=True, blank=True, on_delete=models.CASCADE)
     member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
     printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.CharField(max_length=5000, blank=True, null=True)

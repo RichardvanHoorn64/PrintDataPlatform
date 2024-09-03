@@ -28,7 +28,13 @@
                                         </div>
                                         <!--/.bg-holder-->
                                         <div class="position-relative px-4 px-lg-7 pt-7 pb-7 pb-sm-5 text-center text-md-start pb-lg-7 pb-md-7">
-                                            <h3 class="mb-3 text-black">Inloggen op het PrintDataplatform</h3>
+
+
+                                            <h3 class="mb-3 text-black">PrintDataplatform</h3>
+                                            <a href="https://www.printdataplatform.nl/" target="_blank"
+                                               class="btn btn-info btn-sm me-1 mb-1" role="button"
+                                               aria-pressed="true"><i class="fa-info">Meer informatie</i></a>
+
                                         </div>
                                         <div class="position-relative z-index--1 mb-6 d-none d-md-block text-center mt-md-15">
                                             <img class="auth-title-box-img d-dark-none"
@@ -73,23 +79,52 @@
                                                 </div>
                                             </div>
 
-                                            <button type="submit" class="btn btn-info w-50 mb-3 "><span class="me-3"
-                                                                 data-feather="log-in"> </span>Inloggen</button>
+                                            <button type="submit" class="btn btn-info w-60 mb-3"><span class="me-3"
+                                                                                                       data-feather="log-in"> </span>Inloggen
+                                            </button>
+                                            <div class="position-relative">
+                                                <hr class="bg-200 mt-5 mb-4"/>
+                                                <div class="divider-content-center bg-white">Wachtwoord
+                                                    vergeten?
+                                                </div>
+                                            </div>
 
                                             <div class="row flex-between-center mb-2">
-                                                <div class="col-auto"><a class="fs--1 fw-semi-bold text-info"
-                                                                         href="{% url 'account_reset_password' %}">Wachtwoord
-                                                    vergeten?</a></div>
-                                            </div>
-                                                                                    <div class="row flex-between-center mb-7">
-                                                <div class="col-auto"><a class="fs--1 fw-semi-bold text-info"
-                                                                         href="https://www.printdataplatform.nl/">Terug
-                                                    </a></div>
+                                                <div class="col-auto">
+                                                    <a class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                                       href="{% url 'account_reset_password' %}">Nieuw wachtwoord
+                                                        instellen </a>
+                                                </div>
                                             </div>
 
+                                            <div class="position-relative">
+                                                <hr class="bg-200 mt-5 mb-4"/>
+                                                <div class="divider-content-center bg-white">Aanmelden</div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <a class="btn btn-outline-info btn-sm me-1 mb-1"
+                                                       href="{% url 'signup' %}" role="button">
+                                                        <span class="me-3" data-feather="user-check"></span>Gratis
+                                                        proefaccount</a>
+                                                    <br> <br>
+                                                    
+                                                    <div class="alert alert-outline-warning" role="alert">
+                                                        <h6 class="text-warning">
+                                                        Nieuwe aanvragen worden beoordeeld</h6>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                            </div>
                                             <div class="m3-text-warning">
                                                 {% if form.non_field_errors %}
-                                                    {{ form.non_field_errors }}
+                                                    <div class="position-relative">
+                                                        <hr class="bg-200 mt-5 mb-4"/>
+                                                        <div class="divider-content-center bg-white">Error</div>
+                                                    </div>
+                                                    <h5 class="mb-3 text-danger">{{ form.non_field_errors }}</h5>
+
                                                 {% endif %}
                                             </div>
                                         </form>
@@ -106,6 +141,6 @@
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
-    
+
 {% endblock %}
 </html>
