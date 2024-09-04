@@ -188,30 +188,32 @@ class BrandPortalData(models.Model):
         verbose_name = 'Brandportal'
         verbose_name_plural = 'Brandportals'
 
-    class Blacklist(models.Model):
-        blacklist_id = models.AutoField(primary_key=True)
-        blacklist_text = models.CharField(max_length=1000, null=True, blank=True)
-        type = models.CharField(max_length=100, null=True, blank=True)
-        subject = models.CharField(max_length=1000, null=True, blank=True)
-        language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
-        def __str__(self):
-            return self.blacklist_text
+class Blacklist(models.Model):
+    blacklist_id = models.AutoField(primary_key=True)
+    blacklist_text = models.CharField(max_length=1000, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    subject = models.CharField(max_length=1000, null=True, blank=True)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
-        class Meta:
-            verbose_name = 'blacklist_texts'
-            verbose_name_plural = 'blacklist_text'
+    def __str__(self):
+        return self.blacklist_text
 
-    class Whitelist(models.Model):
-        whitelist_id = models.AutoField(primary_key=True)
-        whitelist_text = models.CharField(max_length=1000, null=True, blank=True)
-        type = models.CharField(max_length=100, null=True, blank=True)
-        subject = models.CharField(max_length=1000, null=True, blank=True)
-        language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+    class Meta:
+        verbose_name = 'blacklist_texts'
+        verbose_name_plural = 'blacklist_text'
 
-        def __str__(self):
-            return self.whitelist_text
 
-        class Meta:
-            verbose_name = 'whitelist_texts'
-            verbose_name_plural = 'whitelist_text'
+class Whitelist(models.Model):
+    whitelist_id = models.AutoField(primary_key=True)
+    whitelist_text = models.CharField(max_length=1000, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    subject = models.CharField(max_length=1000, null=True, blank=True)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.whitelist_text
+
+    class Meta:
+        verbose_name = 'whitelist_texts'
+        verbose_name_plural = 'whitelist_text'

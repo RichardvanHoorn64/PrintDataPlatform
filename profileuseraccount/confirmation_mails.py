@@ -11,7 +11,7 @@ def new_member_confirmationmail(user):
             + str(user.first_name) + ' ' + str(user.last_name)
             + ' namens: ' + str(user.company) + ' uit ' + str(user.city) + ' email: ' + str(user.e_mail_general)
             + ' telefoonnummer: ' + str(user.tel_general)
-            + ' Producentaanmelding: ' + user.producerplan
+            # + ' Producentaanmelding: ' + user.producerplan
 
             ,
             EMAIL_HOST_USER,

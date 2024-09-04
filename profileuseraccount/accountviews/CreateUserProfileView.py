@@ -10,12 +10,11 @@ from index.exclusive_functions import define_site_name
 from index.models import *
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registration_userprofile import UserProfileCreationForm
-from profileuseraccount.models import UserProfile, Producers, Members
+from profileuseraccount.models import UserProfile, Members
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.utils import get_request_param
 from allauth.account.utils import (
     complete_signup,
-    get_next_redirect_url,
     passthrough_next_redirect_url,
 )
 from printdataplatform.settings import ACCOUNT_EMAIL_VERIFICATION

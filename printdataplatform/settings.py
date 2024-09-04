@@ -19,9 +19,6 @@ import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
-
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -172,11 +169,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'nl' #default language
+# default language
+LANGUAGE_CODE = 'nl'
 
 LANGUAGES = (
-  ('nl', _('Dutch')),
-  ('en', _('English')),
+    ('nl', _('Dutch')),
+    ('en', _('English')),
     ('de', _('German')),
 )
 
@@ -223,7 +221,7 @@ AUTH_USER_MODEL = 'profileuseraccount.UserProfile'  # new
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':   [BASE_DIR, 'templates/'],
+        'DIRS': [BASE_DIR, 'templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -238,7 +236,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
@@ -282,7 +279,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-
 if not DEBUG:
     DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
     STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
@@ -290,12 +286,10 @@ if not DEBUG:
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
 
-    AZURE_ACCOUNT_NAME = "printdataplatform"
+    AZURE_ACCOUNT_NAME = "printdataplatformstorage"
     AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
     STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

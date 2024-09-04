@@ -29,7 +29,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         doc_template = BrandPortalData.objects.get(producer_id=user.producer_id).doc_loc_offer_1
         templatecategory = doc_template.templatecategory
         blob_folder = doc_template.folder
-        loc = 'https://printdataplatform.blob.core.windows.net/docs/'
+        loc = 'https://printdataplatformstorage.blob.core.windows.net/docs/'
 
         if member.doc_templates:
             docgroup_id = str(member_id)

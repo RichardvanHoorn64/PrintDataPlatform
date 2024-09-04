@@ -4,7 +4,7 @@ from index.categories_groups import *
 
 from index.create_context import creatememberplan_context
 from index.models import *
-from profileuseraccount.models import MemberPlans
+from profileuseraccount.models import MemberPlans, UserProfile, Members
 
 
 class WelcomeView(TemplateView):
@@ -25,7 +25,78 @@ class WelcomeView(TemplateView):
             return redirect('/signup_landing/')
 
         elif user.is_authenticated and not user.member.active:
-            return redirect('/wait_for_approval/')
+            in_whitelist = Whitelist.objects.filter(type='email',
+                                                    whitelist_text='demodrukker@printdataplatform.nl').exists()
+
+            if in_whitelist:
+                try:
+                    user = UserProfile.objects.get(pk=user.id)
+                    user.active = True
+                    user.save()
+                except UserProfile.DoesNotExist:
+                    pass
+
+                try:
+                    member = Members.objects.get(member_id=user.member_id)
+                    member.active = True
+                    member.save()
+                except Members.DoesNotExist:
+                    pass
+
+            if not in_whitelist:
+                return redirect('/wait_for_approval/')
+
+        # set as producer
+        is_producer = Whitelist.objects.filter(type='producer', whitelist_text=str(user.member_id)).exists()
+        if is_producer and user.member_plan_id == 1:
+            try:
+                user = UserProfile.objects.get(pk=user.id)
+                user.member_plan_id = 4
+                user.save()
+            except UserProfile.DoesNotExist:
+                pass
+
+            try:
+                member = Members.objects.get(member_id=user.member_id)
+                member.producerplan = True
+                member.member_plan_id = 4
+                member.save()
+            except Members.DoesNotExist:
+                pass
+
+            if not user.producer_id:
+                new_producer = Producers(
+                    active=True,
+                    user_admin=user.id,
+                    company=user.company,
+                    manager=user.first_name + " " + user.last_name,
+                    tel_general=user.tel_general,
+                    mobile_number=user.mobile_number,
+                    e_mail_general=user.e_mail_general,
+                    street_number=user.street_number,
+                    postal_code=user.postal_code,
+                    city=user.city,
+                    member_plan_id=user.member_plan_id,
+                    language_id=user.language_id,
+                )
+
+                try:
+                    new_producer.save()
+                    my_profile = UserProfile.objects.get(id=user.id)
+                    my_profile.producer_id = new_producer.producer_id
+                    my_profile.save()
+                except UserProfile.DoesNotExist:
+                    pass
+
+            else:
+                pass
+
+            if user.member_plan_id == 1:
+                return redirect('/printdataplatform_dashboard/')
+            elif user.member_plan_id == 4:
+                return redirect('/producer_sales_dashboard/0')
+            else:
+                return redirect('/wait_for_approval/')
 
         elif user.is_authenticated and user.member.active and user.member_plan_id not in producer_memberplans:
             return redirect('/printdataplatform_dashboard/')
@@ -63,11 +134,6 @@ class HomeView(TemplateView):
         language_id = 1
 
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['plan1'] = MemberPlans.objects.filter(member_plan_id=1, language_id=language_id).first()
-        context['plan2'] = MemberPlans.objects.filter(member_plan_id=2, language_id=language_id).first()
-        context['plan3'] = MemberPlans.objects.filter(member_plan_id=3, language_id=language_id).first()
-        context['plan4'] = MemberPlans.objects.filter(member_plan_id=4, language_id=language_id).first()
-
         return context
 
 

@@ -69,12 +69,6 @@ class SignupLandingView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        memberplan = MemberPlans.objects.get(member_plan_id=user.member_plan_id)
-
-        if memberplan.producer:
-            producerplan = True
-        else:
-            producerplan = False
 
         if not user.is_authenticated:
             return redirect('/welcome/')
@@ -100,35 +94,6 @@ class SignupLandingView(TemplateView):
                 my_profile.member_id = new_member.member_id
                 my_profile.member_plan_id = new_member.member_plan_id
                 my_profile.language_id = 1
-                my_profile.save()
-            except Exception as e:
-                print('SignupLandingView error: ', e)
-                pass
-
-        else:
-            pass
-
-        if producerplan and not user.producer_id:
-            new_producer = Producers(
-                active=False,
-                user_admin=user.id,
-                company=user.company,
-                manager=user.first_name + " " + user.last_name,
-                tel_general=user.tel_general,
-                e_mail_general=user.e_mail_general,
-                street_number=user.street_number,
-                postal_code=user.postal_code,
-                city=user.city,
-                member_plan_id=memberplan.member_plan_id,
-                language_id=memberplan.language_id,
-            )
-
-            try:
-                new_producer.save()
-                my_profile = UserProfile.objects.get(id=user.id)
-                my_profile.producer_id = new_producer.producer_id
-                my_profile.member_plan_id = new_producer.member_plan_id
-                my_profile.language_id = memberplan.language_id
                 my_profile.save()
             except Exception as e:
                 print('SignupLandingView error: ', e)
