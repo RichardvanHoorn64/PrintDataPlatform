@@ -257,15 +257,15 @@ else:
     EMAIL_HOST = 'mail.antagonist.nl'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'info@drukwerkmaatwerk.nl'  # os.environ['EMAIL_HOST_USER']
-    EMAIL_AANMELDEN = 'aanmelden@drukwerkmaatwerk.nl'  # os.environ['EMAIL_AANMELDEN']
-    EMAIL_ORDERS = 'orders@drukwerkmaatwerk.nl'  # os.environ['EMAIL_ORDERS']
-    DEFAULT_FROM_EMAIL = 'info@drukwerkmaatwerk.nl'  # os.environ['EMAIL_HOST_USER']
-    EMAIL_HOST_PASSWORD = 'DW#2021RvH'  # os.environ['EMAIL_HOST_PASSWORD']
+    EMAIL_HOST_USER = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
+    EMAIL_AANMELDEN = 'info@printdataplatform.nl'  # os.environ['EMAIL_AANMELDEN']
+    EMAIL_ORDERS = 'info@printdataplatform.nl'  # os.environ['EMAIL_ORDERS']
+    DEFAULT_FROM_EMAIL = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
+    EMAIL_HOST_PASSWORD = '2025#$269396bv'  # os.environ['EMAIL_HOST_PASSWORD']
     SERVER_EMAIL = 'mail.antagonist.nl'  # os.environ['EMAIL_HOST']
 
 # Admin Error handling
-ADMINS = [('Errors', 'errors@drukwerkmaatwerk.nl'), ('Richard', 'info@richardvanhoorn.nl')]
+ADMINS = [('Errors', 'info@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
 
 # Site id
 SITE_ID = 1
