@@ -80,7 +80,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['categories_available'] = categories_available
 
         # store image location on Azure
-        src_loc = 'printdataplatformstorage.blob.core.windows.net/media'
+        src_loc = 'printdatastorage.blob.core.windows.net/media/store'
         media_loc = str(define_exclusive_producer_id(user))
 
         context['src_loc'] = src_loc
