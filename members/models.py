@@ -65,13 +65,13 @@ class ClientContacts(models.Model):
         verbose_name = 'clientcontacts'
         verbose_name_plural = 'clientcontact'
 
-    class MemberProducerStatus(models.Model):
-        memberproducerstatus_id = models.AutoField(primary_key=True)
-        memberproducerstatus = models.CharField(max_length=100, unique=True)
+class MemberProducerStatus(models.Model):
+    memberproducerstatus_id = models.AutoField(primary_key=True)
+    memberproducerstatus = models.CharField(max_length=100, unique=True)
 
-        def __str__(self):
-            return self.memberproducerstatus
+    def __str__(self):
+        return self.memberproducerstatus
 
-        class Meta:
-            verbose_name = 'memberproducerstatus'
-            verbose_name_plural = 'memberproducerstatus'
+    class Meta:
+        verbose_name = 'memberproducerstatus'
+        verbose_name_plural = 'memberproducerstatus'
