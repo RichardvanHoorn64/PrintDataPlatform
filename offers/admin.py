@@ -1,3 +1,5 @@
 from django.contrib import admin
+from offers.models import Offers, Offerstatus
 
-# Register your models here.
+admin.site.register(Offerstatus)
+admin.site.register(Offers)

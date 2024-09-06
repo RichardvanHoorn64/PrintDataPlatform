@@ -9,11 +9,12 @@ trigger:
 variables:
   # Azure debug setting for  more verbose logging
   system.debug: true
+
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: '4d6d5e5c-aad8-4fa6-9f5e-d40df0cd00ff'
+  azureServiceConnectionId: '1030fff2-e9b7-4f2c-96c1-f1bc17e07ae4'
 
   # Web app name
-  webAppName: 'printdataplatform'
+  webAppName: 'PrintDataPlatform'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -88,6 +89,6 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              slotName: test
+              slotName: dev
 
 
