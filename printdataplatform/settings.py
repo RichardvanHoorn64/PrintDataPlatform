@@ -42,20 +42,20 @@ ALLOWED_HOSTS = ["localhost",
                  'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
                  'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
                  'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
-                 'drukwerkmaatwerk.azurewebsites.net',
-                 'drukwerkmaatwerk-dev.azurewebsites.net', ]
+                 'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                 'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net', ]
 
 CSRF_TRUSTED_ORIGINS = ['https://drukwerkmaatwerk.com', 'https://127.0.0.1',
                         'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
-                        'https://drukwerkmaatwerk.azurewebsites.net',
-                        'https://drukwerkmaatwerk-dev.azurewebsites.net',
+                        'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                        'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
                         'https://*.nl', 'https://*.com'
                         ]
 
 CORS_ALLOWED_ORIGINS = ['https://drukwerkmaatwerk.com', 'https://127.0.0.1', 'https://52.233.175.59',
                         'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
-                        'https://drukwerkmaatwerk.azurewebsites.net',
-                        'https://drukwerkmaatwerk-dev.azurewebsites.net',
+                        'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                        'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',,
                         'https://*.nl', 'https://*.com'
                         ]
 # Models autofield without specifying a primary key
