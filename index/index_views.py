@@ -13,9 +13,7 @@ class WelcomeView(TemplateView):
         user = self.request.user
 
         if not user.is_authenticated:
-            if host in ['127.0.0.1:8000', 'www.printdatahub.com', 'printdatahub-dev.azurewebsites.net',
-                        'localhost:8000']:
-                return redirect('/accounts/login/')
+            return redirect('/accounts/login/')
 
         if not user.active:
             return redirect('/no_access/')
@@ -117,7 +115,7 @@ class WaitForApproval(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
-            return redirect('/home/')
+            return redirect('/wait_for_approval/')
         elif user.is_authenticated and user.member.active and user.member.producerplan:
             return redirect('/producer_sales_dashboard/0')
 
@@ -127,14 +125,14 @@ class WaitForApproval(TemplateView):
             return super().dispatch(request, *args, **kwargs)
 
 
-class HomeView(TemplateView):
-    template_name = 'homepage/startpage.html'
-
-    def get_context_data(self, *args, **kwargs):
-        language_id = 1
-
-        context = super(HomeView, self).get_context_data(**kwargs)
-        return context
+# class HomeView(TemplateView):
+#     template_name = 'homepage/startpage.html'
+#
+#     def get_context_data(self, *args, **kwargs):
+#         language_id = 1
+#
+#         context = super(HomeView, self).get_context_data(**kwargs)
+#         return context
 
 
 class PricingView(TemplateView):

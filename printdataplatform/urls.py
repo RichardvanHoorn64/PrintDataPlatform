@@ -47,7 +47,7 @@ urlpatterns = [
 
     path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
 
-    path('home/', HomeView.as_view(), name='home'),
+    # path('home/', HomeView.as_view(), name='home'),
     path('signup/',   UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
     path('no_access/', NoAccessView.as_view(), name='no_access'),
