@@ -30,7 +30,8 @@ if HOSTNAME == 'DesktopRichard':
     DEBUG = True
     PRODUCTION = False
 else:
-    DEBUG = SECRET_KEY = os.environ['DEBUG']
+    DEBUG = True
+    SECRET_KEY = os.environ['DEBUG']
     PRODUCTION = True
 
 if PRODUCTION:
