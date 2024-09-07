@@ -19,25 +19,21 @@ import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-import socket
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-HOSTNAME = socket.gethostname()
-print('Hostname: ', HOSTNAME)
-
-if HOSTNAME == 'DesktopRichard':
-    print('Host: ', HOSTNAME)
-    DEBUG = True
-    PRODUCTION = False
-    SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
-else:
-    print('Production host: ', HOSTNAME)
-    PRODUCTION = True
-    SECRET_KEY = os.environ['SECRET_KEY']
+try:
     DEBUG = os.environ['DEBUG']
+    SECRET_KEY = os.environ['SECRET_KEY']
+    PRODUCTION = True
+    print('Host in production')
+except KeyError:
+    print('Host in development mode')
+    DEBUG = True
+    SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
+    PRODUCTION = False
 
 
 # Quick-start development settings - unsuitable for production
