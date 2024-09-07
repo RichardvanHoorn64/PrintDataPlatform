@@ -29,15 +29,12 @@ HOSTNAME = socket.gethostname()
 if HOSTNAME == 'DesktopRichard':
     DEBUG = True
     PRODUCTION = False
-else:
-    DEBUG = True
-    SECRET_KEY = os.environ['DEBUG']
-    PRODUCTION = True
-
-if PRODUCTION:
-    SECRET_KEY = os.environ['SECRET_KEY']
-else:
     SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
+else:
+    DEBUG = os.environ['DEBUG']
+    PRODUCTION = True
+    SECRET_KEY = os.environ['SECRET_KEY']
+
 
 
 # Quick-start development settings - unsuitable for production
