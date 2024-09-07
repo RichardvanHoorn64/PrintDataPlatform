@@ -131,11 +131,11 @@ if PRODUCTION:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ['DJANGO_DATABASE_NAME'],
-            'USER': os.environ['DJANGO_DATABASE_USER'],
-            'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
-            'HOST': os.environ['DJANGO_DATABASE_HOST'],
-            'PORT': os.environ['DJANGO_DATABASE_PORT'],
+            'NAME': 'printdataplatform',
+            'USER': 'richardvanhoorn',
+            'PASSWORD': 'ybRF5$0z2iYYTzPC',
+            'HOST': 'printdataplatform-server.postgres.database.azure.com',
+            'PORT': '5432',
             'OPTIONS': {
                 'sslmode': 'require',
             }
@@ -246,7 +246,7 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
-
+'''
 # Email settings
 if PRODUCTION:
     EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -269,6 +269,7 @@ else:
     DEFAULT_FROM_EMAIL = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
     EMAIL_HOST_PASSWORD = '2025#$269396bv'  # os.environ['EMAIL_HOST_PASSWORD']
     SERVER_EMAIL = 'mail.antagonist.nl'  # os.environ['EMAIL_HOST']
+'''
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
