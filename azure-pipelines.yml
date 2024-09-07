@@ -11,7 +11,7 @@ variables:
   system.debug: true
 
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: '1030fff2-e9b7-4f2c-96c1-f1bc17e07ae4'
+  azureServiceConnectionId: '4d6d5e5c-aad8-4fa6-9f5e-d40df0cd00ff'
 
   # Web app name
   webAppName: 'PrintDataPlatform'
