@@ -14,12 +14,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-
 import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +32,6 @@ except KeyError:
     DEBUG = True
     SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
     PRODUCTION = False
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -105,7 +102,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-     "whitenoise.middleware.WhiteNoiseMiddleware",  # new
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # new
     # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -152,7 +149,6 @@ else:
             'PORT': '5432',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -246,30 +242,27 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
-'''
-# Email settings
-if PRODUCTION:
-    EMAIL_HOST = os.environ['EMAIL_HOST']
-    EMAIL_PORT = os.environ['EMAIL_PORT']
-    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-    EMAIL_AANMELDEN = os.environ['EMAIL_AANMELDEN']
-    EMAIL_ORDERS = os.environ['EMAIL_ORDERS']
-    DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
-    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-    EMAIL_USE_TLS = True
-    SERVER_EMAIL = os.environ['EMAIL_HOST']
 
-else:
-    EMAIL_HOST = 'mail.antagonist.nl'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
-    EMAIL_AANMELDEN = 'info@printdataplatform.nl'  # os.environ['EMAIL_AANMELDEN']
-    EMAIL_ORDERS = 'info@printdataplatform.nl'  # os.environ['EMAIL_ORDERS']
-    DEFAULT_FROM_EMAIL = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
-    EMAIL_HOST_PASSWORD = '2025#$269396bv'  # os.environ['EMAIL_HOST_PASSWORD']
-    SERVER_EMAIL = 'mail.antagonist.nl'  # os.environ['EMAIL_HOST']
-'''
+# Email settings
+# EMAIL_HOST = os.environ['EMAIL_HOST']
+# EMAIL_PORT = os.environ['EMAIL_PORT']
+# EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+# EMAIL_AANMELDEN = os.environ['EMAIL_AANMELDEN']
+# EMAIL_ORDERS = os.environ['EMAIL_ORDERS']
+# DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+# EMAIL_USE_TLS = True
+# SERVER_EMAIL = os.environ['EMAIL_HOST']
+
+EMAIL_HOST = 'mail.antagonist.nl'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
+EMAIL_AANMELDEN = 'info@printdataplatform.nl'  # os.environ['EMAIL_AANMELDEN']
+EMAIL_ORDERS = 'info@printdataplatform.nl'  # os.environ['EMAIL_ORDERS']
+DEFAULT_FROM_EMAIL = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = '2025#$269396bv'  # os.environ['EMAIL_HOST_PASSWORD']
+SERVER_EMAIL = 'mail.antagonist.nl'  # os.environ['EMAIL_HOST']
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
@@ -291,7 +284,6 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
-
 
 if PRODUCTION:
     STATICFILES_DIRS = [
