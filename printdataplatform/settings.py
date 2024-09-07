@@ -100,6 +100,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -281,9 +282,12 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+
+
 if not DEBUG:
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
-    STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
 
     STATIC_LOCATION = "static"
     MEDIA_LOCATION = "media"
