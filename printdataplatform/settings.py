@@ -26,15 +26,18 @@ import socket
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 HOSTNAME = socket.gethostname()
+print('Hostname: ', HOSTNAME)
+
 if HOSTNAME == 'DesktopRichard':
+    print('Host: ', HOSTNAME)
     DEBUG = True
     PRODUCTION = False
     SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
 else:
-    DEBUG = os.environ['DEBUG']
+    print('Production host: ', HOSTNAME)
     PRODUCTION = True
     SECRET_KEY = os.environ['SECRET_KEY']
-
+    DEBUG = os.environ['DEBUG']
 
 
 # Quick-start development settings - unsuitable for production
