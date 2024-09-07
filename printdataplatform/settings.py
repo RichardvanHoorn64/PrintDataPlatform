@@ -19,27 +19,30 @@ import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import socket
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# try:
-#     PRODUCTION = os.environ['DEBUG']
-#     DEBUG = False
-# except KeyError:
-#     DEBUG = True
+HOSTNAME = socket.gethostname()
+if HOSTNAME == 'DesktopRichard':
+    DEBUG = True
+    PRODUCTION = False
+else:
+    DEBUG = SECRET_KEY = os.environ['DEBUG']
+    PRODUCTION = True
 
-DEBUG = True
+if PRODUCTION:
+    SECRET_KEY = os.environ['SECRET_KEY']
+else:
+    SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
-else:
-    SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
 
 ALLOWED_HOSTS = ["localhost",
                  '127.0.0.1', '52.233.175.59', 'localhost',
@@ -126,22 +129,8 @@ WSGI_APPLICATION = 'printdataplatform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
-
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'printdataplatform_dev',
-            'USER': 'postgres',
-            'PASSWORD': 'PrintdataClub2025',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
-
 # Azure DB for production
-else:
+if PRODUCTION:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -153,6 +142,17 @@ else:
             'OPTIONS': {
                 'sslmode': 'require',
             }
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'printdataplatform_dev',
+            'USER': 'postgres',
+            'PASSWORD': 'PrintdataClub2025',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
         }
     }
 
@@ -251,7 +251,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",)
 
 # Email settings
-if not DEBUG:
+if PRODUCTION:
     EMAIL_HOST = os.environ['EMAIL_HOST']
     EMAIL_PORT = os.environ['EMAIL_PORT']
     EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
@@ -295,7 +295,7 @@ STORAGES = {
 }
 
 
-if not DEBUG:
+if PRODUCTION:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
     ]
