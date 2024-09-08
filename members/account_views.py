@@ -1,9 +1,7 @@
-import logging
 from datetime import timedelta
 from index.create_context import *
 from members.forms.accountforms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.signals import got_request_exception
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView, DetailView, View
@@ -50,10 +48,6 @@ class MyAccountView(DetailView, LoginRequiredMixin):
         return context
 
 
-def log(*args, **kwargs):
-    logging.exception('error', args, kwargs)
-
-
 class NoAccessView(TemplateView):
     template_name = 'no_access.html'
 
@@ -63,7 +57,6 @@ class ThanksSubmitView(TemplateView):
 
 
 class SignupLandingView(TemplateView):
-    got_request_exception.connect(log)
 
     # template_name = 'account/signup_landing.html'
 
@@ -129,7 +122,7 @@ class MyAccountUpdateView(UpdateView, LoginRequiredMixin):
         # maken dat user account voor bedrijfsnaam bijgewerkt wordt
         user = UserProfile.objects.get(id=self.object.id)
 
-        # co worker update
+        # co-worker update
         UserProfile.objects.filter(member_id=user.member_id).update(
             member_plan_id=user.member_plan_id,
             company=user.company,
@@ -199,7 +192,7 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
         member_id = self.kwargs['pk']
         member = Members.objects.get(member_id=member_id)
 
-        # co worker update
+        # co-worker update
         UserProfile.objects.filter(member_id=user.member_id).update(
             member_plan_id=member.member_plan_id,
             company=member.company,
@@ -237,7 +230,7 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
         return context
 
 
-def get_context_data(self, *args, **kwargs):
+def get_context_data(self, **kwargs):
     user = self.request.user
     context = super(BusinessAccountUpdateView, self).get_context_data(**kwargs)
     context = creatememberplan_context(context, user)

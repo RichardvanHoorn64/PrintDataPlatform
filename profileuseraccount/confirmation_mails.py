@@ -1,5 +1,5 @@
 from django.core.mail import send_mail
-from printdataplatform.settings import EMAIL_HOST_USER, EMAIL_AANMELDEN
+from printdataplatform.settings import *
 
 
 # admin mail for new members
@@ -11,11 +11,9 @@ def new_member_confirmationmail(user):
             + str(user.first_name) + ' ' + str(user.last_name)
             + ' namens: ' + str(user.company) + ' uit ' + str(user.city) + ' email: ' + str(user.e_mail_general)
             + ' telefoonnummer: ' + str(user.tel_general)
-            # + ' Producentaanmelding: ' + user.producerplan
-
             ,
-            EMAIL_HOST_USER,
-            [EMAIL_HOST_USER, EMAIL_AANMELDEN],
+            EMAIL_TO_USERS,
+            [EMAIL_TO_USERS, EMAIL_TO_ADMIN],
             fail_silently=False,
 
         )

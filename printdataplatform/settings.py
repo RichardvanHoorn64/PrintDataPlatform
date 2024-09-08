@@ -38,8 +38,8 @@ except KeyError:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-ALLOWED_HOSTS = ["localhost",
-                 '127.0.0.1', '52.233.175.59', 'localhost',
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 '169.254.129.4'
                  'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
                  'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
                  'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
@@ -244,25 +244,26 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",)
 
 # Email settings
-# EMAIL_HOST = os.environ['EMAIL_HOST']
-# EMAIL_PORT = os.environ['EMAIL_PORT']
-# EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-# EMAIL_AANMELDEN = os.environ['EMAIL_AANMELDEN']
-# EMAIL_ORDERS = os.environ['EMAIL_ORDERS']
-# DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
-# EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-# EMAIL_USE_TLS = True
-# SERVER_EMAIL = os.environ['EMAIL_HOST']
-
-EMAIL_HOST = 'mail.antagonist.nl'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
-EMAIL_AANMELDEN = 'info@printdataplatform.nl'  # os.environ['EMAIL_AANMELDEN']
-EMAIL_ORDERS = 'info@printdataplatform.nl'  # os.environ['EMAIL_ORDERS']
-DEFAULT_FROM_EMAIL = 'info@printdataplatform.nl'  # os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = '2025#$269396bv'  # os.environ['EMAIL_HOST_PASSWORD']
-SERVER_EMAIL = 'mail.antagonist.nl'  # os.environ['EMAIL_HOST']
+if DEBUG:
+    EMAIL_HOST = 'mail.antagonist.nl'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_TO_USERS = 'no-reply@printdataplatform.nl'
+    EMAIL_USERS_PASSWORD = 'pdp-rfq#2025up'
+    EMAIL_TO_ADMIN = 'no-reply@printdataplatform.nl'
+    EMAIL_ADMIN_PASSWORD = 'printmsg#2025$rh'
+    SERVER_EMAIL = 'mail.antagonist.nl'
+    EMAIL_PASSWORD = EMAIL_TO_USERS
+else:
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
+    MAIL_USE_TLS = True
+    EMAIL_TO_USERS = os.environ['EMAIL_TO_USERS']
+    EMAIL_USERS_PASSWORD = os.environ['EMAIL_USERS_PASSWORD']
+    EMAIL_TO_ADMIN = os.environ[' EMAIL_TO_ADMIN']
+    EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
+    DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
+    EMAIL_PASSWORD = EMAIL_TO_USERS
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
