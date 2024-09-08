@@ -14,10 +14,8 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.printer = best_offer['printer'].values[0]
             calculation.printer_booklet = best_offer['printer_booklet'].values[0]
             calculation.printer_cover = best_offer['printer_cover'].values[0]
-
             calculation.cuttingmachine = best_offer['cuttingmachine']
             calculation.cuttingmachine_booklet = best_offer['cuttingmachine_booklet']
-
             calculation.foldingmachine = best_offer['foldingmachine'].values[0]
             calculation.foldingmachines_booklet = best_offer['foldingmachines_booklet'].values[0]
             calculation.bindingmachine = best_offer['bindingmachine'].values[0]
@@ -25,12 +23,10 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.paperspec_id_booklet = pd.to_numeric(best_offer['paperspec_id_booklet'].values[0])
             calculation.paperspec_id_cover = pd.to_numeric(best_offer['paperspec_id_cover'].values[0])
             calculation.purchase_paper_perc_added = pd.to_numeric(best_offer['purchase_paper_perc_added'].values[0])
-
             calculation.pages_per_sheet_booklet = pd.to_numeric(best_offer['pages_per_sheet_booklet'].values[0])
             calculation.pages_per_katern_booklet = pd.to_numeric(best_offer['pages_per_katern_booklet'].values[0])
             calculation.number_of_printruns_booklet = pd.to_numeric(best_offer['number_of_printruns_booklet'].values[0])
             calculation.book_thickness = best_offer['book_thickness'].values[0]
-
             calculation.waste_printing = pd.to_numeric(best_offer['waste_printing'].values[0])
             calculation.waste_printing1000extra = pd.to_numeric(best_offer['waste_printing1000extra'].values[0])
             calculation.waste_folding = pd.to_numeric(best_offer['waste_folding'].values[0])
@@ -52,8 +48,6 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.printingcost_booklet1000extra = Decimal(
                 best_offer['printingcost_booklet1000extra'].values[0])
             calculation.printingcost_cover1000extra = Decimal(best_offer['printingcost_cover1000extra'].values[0])
-
-
             calculation.inkcost = Decimal(best_offer['inkcost'].values[0])
             calculation.inkcost1000extra = Decimal(best_offer['inkcost1000extra'].values[0])
             calculation.inkcost_cover = Decimal(best_offer['inkcost_cover'].values[0])
@@ -100,7 +94,6 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.net_paper_quantity_cover = pd.to_numeric(best_offer['net_paper_quantity_cover'].values[0])
             calculation.net_paper_quantity_cover1000extra = pd.to_numeric(
                 best_offer['net_paper_quantity_cover1000extra'].values[0])
-
 
             calculation.number_of_printruns_cover = pd.to_numeric(best_offer['number_of_printruns_cover'].values[0])
 
