@@ -250,9 +250,9 @@ if DEBUG:
     EMAIL_USE_TLS = True
     EMAIL_TO_USERS = 'no-reply@printdataplatform.nl'
     EMAIL_USERS_PASSWORD = 'pdp-rfq#2025up'
-    EMAIL_TO_ADMIN = 'no-reply@printdataplatform.nl'
+    EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
     EMAIL_ADMIN_PASSWORD = 'printmsg#2025$rh'
-    SERVER_EMAIL = 'mail.antagonist.nl'
+    SERVER_EMAIL = EMAIL_HOST
     EMAIL_PASSWORD = EMAIL_TO_USERS
 else:
     EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -263,6 +263,7 @@ else:
     EMAIL_TO_ADMIN = os.environ[' EMAIL_TO_ADMIN']
     EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
     DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
+    SERVER_EMAIL = EMAIL_HOST
     EMAIL_PASSWORD = EMAIL_TO_USERS
 
 # Admin Error handling
