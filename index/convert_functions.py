@@ -1,6 +1,11 @@
 from methods.models import *
 
 
+def find_host(self):
+    host = self.request.META["HTTP_HOST"]
+    return host
+
+
 def write_print_text(print_input):
     print_text = 'print text onbekend'
     if print_input == 1:

@@ -4,12 +4,11 @@ from index.categories_groups import *
 
 from index.create_context import creatememberplan_context
 from index.models import *
-from profileuseraccount.models import MemberPlans, UserProfile, Members
+from profileuseraccount.models import UserProfile, Members
 
 
 class WelcomeView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
-        host = self.request.META["HTTP_HOST"]
         user = self.request.user
 
         if not user.is_authenticated:
