@@ -1,10 +1,11 @@
 from index.display_functions import *
-from index.exclusive_functions import define_site_name
+from index.exclusive_functions import define_site_name, img_loc_logo
 from printprojects.models import ProductCategory
 
 
 def creatememberplan_context(context, user):
     context['site_name'] = define_site_name(user)
+    context['img_loc_logo'] = img_loc_logo(user)
     context['free_memberplans'] = free_memberplans
     context['open_memberplans'] = open_memberplans
     context['pro_memberplans'] = pro_memberplans

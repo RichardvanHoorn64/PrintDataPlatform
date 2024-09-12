@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Order</title>
+</head>
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="printer_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item active">{{ form_title }}</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">{{ form_title }}</h2>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form name="update_general_tariff_form" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Subheader -->
+                <!-- ===============================================-->
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Algemeen</h4>
+                    </div>
+                </div>
+                <!-- ===============================================-->
+                <!--   Input Rows -->
+                <!-- ===============================================-->
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="e_mail_rfq">Email offerteaanvraag ontvangen</label>
+                    <div class="col-sm-3">
+                        <p>{{ form.e_mail_rfq }}</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="e_mail_offers">Email offertes uitgebracht</label>
+                    <div class="col-sm-3">
+                        <p>{{ form.e_mail_offers }}</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="e_mail_orders">Email orders ontvangen</label>
+                    <div class="col-sm-3">
+                        <p>{{ form.e_mail_orders }}</p>
+                    </div>
+                </div>
+                <hr class="text-info">
+                <br>
+                
+                <!-- ===============================================-->
+                <!--   Row asset submit buttons -->
+                <!-- ===============================================-->
+                {% include 'buttons/tariff_update.html' %}
+
+                <hr class="text-info">
+            </div>
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

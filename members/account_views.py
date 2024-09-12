@@ -203,7 +203,6 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
             city=member.city,
             country_code=member.country_code,
             company_url=member.company_url,
-            demo=member.demo,
             language_id=member.language_id,
         )
 
@@ -219,7 +218,6 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
                 city=member.city,
                 country_code=member.country_code,
                 company_url=member.company_url,
-                demo=member.demo,
                 language_id=member.language_id,
             )
         return reverse('business_account_update', kwargs={'pk': self.object.member_id})

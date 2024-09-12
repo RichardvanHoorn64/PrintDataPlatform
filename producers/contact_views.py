@@ -1,3 +1,4 @@
+from index.forms.accountforms import ProducerCommunicationForm
 from profileuseraccount.form_invalids import form_invalid_message
 from index.forms.note_form import *
 from index.forms.relationforms import *
@@ -7,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
+from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from django.views.generic.edit import FormMixin
 
 
@@ -168,3 +169,41 @@ class DeleteProducerContact(TemplateView, LoginRequiredMixin):
         producercontact_deactive.save()
 
         return redirect('/producer_details/' + str(producercontact.producer_id))
+
+
+class UpdateProducerCommunication(UpdateView, LoginRequiredMixin):
+    pk_url_kwarg = 'producer_id'
+    model = Producers
+    profile = Producers
+    form_class = ProducerCommunicationForm
+    template_name = 'producers/producer_communications_update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        producer_id = self.request.user.producer_id
+        return '/my_account/' + str(producer_id)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message(form, response)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateProducerCommunication, self).get_context_data(**kwargs)
+        producer_id = self.request.user.producer_id
+        producer_company = Producers.objects.get(producer_id=producer_id).company
+        context['form_title'] = "Update email communicatie: bij " + producer_company
+        context['title'] = "Update contact: bij " + producer_company
+        context['button_text'] = "Communicatie bijwerken"
+        return context

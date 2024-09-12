@@ -1,22 +1,20 @@
-from django.http import HttpResponseRedirect
+from django.contrib import messages
 from index.categories_groups import *
 from index.exclusive_functions import update_exclusive_members
 from index.models import DropdownCountries
 from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
-from index.forms.note_form import *
 from index.forms.relationforms import *
 from index.create_context import creatememberplan_context
+from members.forms.accountforms import CreateProducerExclusiveMemberForm, CreateNewExclusiveMemberContactForm
 from printprojects.forms.PrintprojectSalesPice import *
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
-from django.shortcuts import redirect
-from django.urls import reverse
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
-from django.views.generic.edit import FormMixin
 from profileuseraccount.form_invalids import form_invalid_message
 from index.dq_functions import producer_dq_functions
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
@@ -61,9 +59,10 @@ class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
 
         context = creatememberplan_context(context, user)
         context['members'] = members
-        context['title'] =  'Klanten via ' + site_name
+        context['title'] = 'Klanten via PrintDataPlatform'
         context['calculation_module'] = producer.calculation_module
         context['exclusive_module'] = producer.exclusive_module
+        context['add_members'] = False
         return context
 
 
@@ -79,13 +78,70 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         producer_id = user.producer_id
         member_id = self.kwargs['pk']
 
-
         context['nr_rfq'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id).count()
         context['nr_offers'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id,
                                                      offerstatus_id__in=[2, 3, 4]).count()
         context['nr_orders'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
         context['member'] = Members.objects.get(member_id=member_id)
         context['memberaccount_list'] = UserProfile.objects.filter(member_id=member_id, active=True)
+        return context
+
+
+class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = "producers/create_exclusive_userprofile.html"
+    pk_url_kwarg = 'member_id'
+    model = UserProfile
+    form_class = CreateNewExclusiveMemberContactForm
+
+    def get_success_url(self):
+        member_id = self.kwargs['member_id']
+        success_url = '/member_details/' + str(member_id)
+        return success_url
+
+    def form_valid(self, form):
+        UserProfile = form.save(commit=False)
+        password = form.cleaned_data['password1']
+        repeat_password = form.cleaned_data['password2']
+        user = self.request.user
+
+        if password != repeat_password:
+            messages.error(self.request, "De ingevoerde wachtwoorden zijn niet hetzelfde",
+                           extra_tags='alert alert-danger')
+            return render(self.request, self.template_name, form)
+
+        member_id = self.kwargs['member_id']
+        member = Members.objects.get(member_id=member_id)
+
+        UserProfile.username = form.cleaned_data['username']
+        UserProfile.email = form.cleaned_data['email']
+        UserProfile.first_name = form.cleaned_data['first_name']
+        UserProfile.last_name = form.cleaned_data['last_name']
+        UserProfile.mobile_number = form.cleaned_data['mobile_number']
+        UserProfile.jobtitle = form.cleaned_data['jobtitle']
+        UserProfile.member_id = member.member_id
+        UserProfile.member_plan_id = member.member_plan_id
+        UserProfile.producer_id = member.exclusive_producer_id
+        UserProfile.company = member.company
+        UserProfile.street_number = member.street_number
+        UserProfile.population = member.postal_code
+        UserProfile.city = member.city
+        UserProfile.is_active = True
+        UserProfile.set_password(password)
+        UserProfile.save()
+        return super(CreateNewExclusiveMemberContact, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message(form, response)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user
+        member_id = self.kwargs['member_id']
+        member = Members.objects.get(member_id=member_id)
+        context = super(CreateNewExclusiveMemberContact, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        context['member'] = member
         return context
 
 
@@ -128,12 +184,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     profile = Producers
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
-    success_url = '/producer_dashboard/0'
-
-    def form_valid(self, form):
-        user = self.request.user
-        form.instance.language_id = user.language_id
-        return super().form_valid(form)
+    success_url = 'home'
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -196,10 +247,37 @@ class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
         context['title'] = str(user.producer.company) + ' exclusieve klanten'
         context['exclusive_module'] = producer.exclusive_module
         context['calculation_module'] = producer.calculation_module
-
+        context['add_members'] = True
 
         return context
 
+
+class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
+    template_name = "producers/create_exclusive_member.html"
+    model = Members
+    form_class = CreateProducerExclusiveMemberForm
+    redirect_field_name = "next"
+    success_url = '/producer_exlusive_members/'
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.exclusive_producer_id = user.producer_id
+        form.instance.member_plan_id = 3
+        form.instance.active = True
+        return super(CreateProducerExclusiveMember, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message(form, response)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        countries = DropdownCountries.objects.filter(language_id=1).order_by('country_id')
+        context = super(CreateProducerExclusiveMember, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        context['countries'] = countries
+        return context
 
 
 class ProducerPricingUpdateView(UpdateView, LoginRequiredMixin):

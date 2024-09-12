@@ -18,6 +18,7 @@ import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,11 +27,9 @@ try:
     DEBUG = os.environ['DEBUG']
     SECRET_KEY = os.environ['SECRET_KEY']
     PRODUCTION = True
-    print('Host in production')
 except KeyError:
-    print('Host in development mode')
     DEBUG = True
-    SECRET_KEY = 'django-insecure-4s5x+pigol*w)@pps!2@sdh6&vu7qwq%!g#(4=z&qv=3gts-@f'
+    SECRET_KEY=get_random_secret_key()
     PRODUCTION = False
 
 # Quick-start development settings - unsuitable for production

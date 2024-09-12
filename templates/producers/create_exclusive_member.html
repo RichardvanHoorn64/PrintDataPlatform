@@ -21,12 +21,11 @@
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
                                                    href="{% url 'home' %}">Welkom{{ user.company }}</a></li>
-                    <li class="breadcrumb-item active">Exclusief klantaccount maken</li>
+                    <li class="breadcrumb-item active">Exclusief klantaccount maken voor {{ user.company }}</li>
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Exclusief klantaccount maken</h2>
-            <h5 class="mb-3">Voor {{ user.company }}</h5>
+            <h2 class="mb-4 text-info">Exclusief klantaccount maken voor {{ user.company }}</h2>
 
             <!-- ===============================================-->
             <!--    End Header-->
@@ -36,60 +35,6 @@
             <!-- ===============================================-->
 
             <form method="post">  {% csrf_token %}
-
-                <!-- ===============================================-->
-                <!--   Row username / email -->
-                <!-- ===============================================-->
-                <hr class="text-info">
-                <div class="row">
-                    <h4 class="mb-3 text-info">Nieuw account</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label" for="username">Gebruikersnaam:</label>
-                        <p>{{ form.username }}</p>
-                        <span class="form-text text-muted">{{ form.username.help_text }}</span>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label" for="email">Email:</label>
-                        <p>{{ form.email }}</p>
-                        <span class="form-text text-muted">{{ form.email.help_text }}</span>
-                    </div>
-                </div>
-                <!-- ===============================================-->
-                <!--  Password  / password2 -->
-                <!-- ===============================================-->
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label" for="password1">Kies je wachtwoord:</label>
-                        <p>{{ form.password1 }} {{ form.password1.errors }}</p>
-                        <span class="form-text text-muted">{{ form.password1.help_text }}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label" for="password2">Herhaal je wachtwoord:</label>
-                        <p>{{ form.password2 }} {{ form.password2.errors }}</p>
-                        <span class="form-text text-muted">{{ form.password2.help_text }}</span>
-                    </div>
-                    <!-- ===============================================-->
-                    <!--  First and lastname -->
-                    <!-- ===============================================-->
-                    <hr class="text-info">
-                    <div class="row">
-                        <h4 class="mb-3 text-info">Contactpersoon, contactgegevens en functie</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="first_name">Voornaam:</label>
-                            <p>{{ form.first_name }}</p>
-                            <span class="form-text text-muted">{{ form.first_name.help_text }}</span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="last_name">Achternaam:</label>
-                            <p>{{ form.last_name }}</p>
-                            <span class="form-text text-muted">{{ form.last_name.help_text }}</span>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-md-8">
                             <label class="form-label" for="jobtitle">Functie:</label>
@@ -105,15 +50,10 @@
                         <h4 class="mb-3 text-info">Klant</h4>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <label class="form-label" for="company">Bedrijfsnaam:</label>
                             <p>{{ form.company }}</p>
                             <span class="form-text text-muted">{{ form.company.help_text }}</span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="e_mail_general">Email algemeen:</label>
-                            <p>{{ form.e_mail_general }}</p>
-                            <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
                         </div>
                     </div>
                     <!-- ===============================================-->
@@ -121,18 +61,16 @@
                     <!-- ===============================================-->
                     <hr class="text-info">
                     <div class="row">
-                        <h4 class="mb-3 text-info">Telefoonnummers</h4>
-                    </div>
-                    <div class="row">
+                        <h4 class="mb-3 text-info">Algemene contactgegevens</h4>
                         <div class="col-md-4">
                             <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
                             <p>{{ form.tel_general }}</p>
                             <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label" for="mobile_number">Persoonlijk mobiel nummer:</label>
-                            <p>{{ form.mobile_number }}</p>
-                            <span class="form-text text-muted">{{ form.mobile_number.help_text }}</span>
+                            <label class="form-label" for="e_mail_general">Email algemeen:</label>
+                            <p>{{ form.e_mail_general }}</p>
+                            <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
                         </div>
                     </div>
 
@@ -151,24 +89,37 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label class="form-label" for="postal_code">Postcode</label>
                             <p>{{ form.postal_code }}</p>
                             <span class="form-text text-muted">{{ form.postal_code.help_text }}</span>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="form-label" for="city">Plaats</label>
                             <p>{{ form.city }}</p>
                             <span class="form-text text-muted">{{ form.city.help_text }}</span>
                         </div>
                     </div>
-                    <hr class="text-info">
+                    <hr class="text-info">             
+                
+                                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            <label class="form-label" for="country_code">Land </label>
+                            <select class="form-select" id="country_code" name="country_code">
+                                {% for i in countries %}
+                                    <option value="{{ i.country_code }}">{{ i.country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="text-info">   
                     <div class="row">
                         <h4 class="mb-1 text-info">Exclusieve aansluiting voor {{ user.company }}</h4>
-                           <h5 class="mb-1 text-black-50">Verstrek zelf de inloggeven aan de klant, deze kan daarna het wachtwoord veranderen</h5>
+                        <h5 class="mb-1 text-black-50">Maak hier een nieuwe klant aan daarna voeg je contactpersonen toe.</h5>
                     </div>
-                        <div class="col-md-12">
-                        <button class="btn btn-success" type="submit">Aanmaken</button>
+                    <div class="row">
+                        <div class="col-md-12"><br>
+                        <button class="btn btn-info" type="submit">Klant aanmaken</button>
                     </div>
                     <br>
 

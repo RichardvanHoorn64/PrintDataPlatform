@@ -18,8 +18,7 @@
 
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src='https://{{ src_loc }}{{ media_loc }}/plano.png'
-                     alt="Image Plano">
+                     src="{{ img_1 }}" alt="plano">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Plano producten</h5>
@@ -36,8 +35,7 @@
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src='https://{{ src_loc }}{{ media_loc }}/folders.png'
-                     alt="Image Folders">
+                     src="{{ img_3 }}" alt="folders">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Folders</h5>
@@ -53,8 +51,7 @@
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src='https://{{ src_loc }}{{ media_loc }}/selfcovers.png'
-                     alt="Image Folders">
+                     src="{{ img_3 }}" alt="selfcovers">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Selfcovers</h5>
@@ -68,13 +65,12 @@
     {% if 4 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
-                <img class="card-img-top"
-                     src='https://{{ src_loc }}{{ media_loc }}/geniet_met_omslag.png'
-                     alt="Image Folders">
+                     <img class="card-img-top"
+                     src="{{ img_4 }}" alt="geniet in omslag">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Brochures</h5>
-                <p class="card-text">Geniet in een omslag.</p>
+                <p class="card-text">Brochures geniet in een omslag.</p>
                 <a class="btn btn-info px-5 px-sm-5" href="{% url 'new_printproject' 4 %}"><span
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
@@ -84,9 +80,8 @@
     {% if 5 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
-                <img class="card-img-top"
-                     src='https://{{ src_loc }}{{ media_loc }}/brochures.png'
-                     alt="Image Folders">
+               <img class="card-img-top"
+                     src="{{ img_5 }}" alt="Brochures met omslag">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Brochures</h5>

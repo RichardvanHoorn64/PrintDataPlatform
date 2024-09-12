@@ -357,7 +357,14 @@ class ProducerMemberAccept(LoginRequiredMixin, View):
         else:
             memberproducermatch.producer_accept = True
         memberproducermatch.save()
-        return redirect('/producer_open_members/')
+
+        member_id = memberproducermatch.member_id
+        member_plan_id = Members.objects.get(member_id=member_id).member_plan_id
+
+        if member_plan_id == str(3):
+            return redirect('/producer_exlusive_members/')
+        else:
+            return redirect('/producer_open_members/')
 
 
 class ProducerProductofferingSwitch(LoginRequiredMixin, View):

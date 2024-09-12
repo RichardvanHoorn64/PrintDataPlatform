@@ -40,6 +40,9 @@ class Producers(models.Model):
     tel_general = models.CharField(max_length=15, blank=True)
     mobile_number = models.CharField(max_length=15, blank=True)
     e_mail_general = models.EmailField(blank=True)
+    e_mail_rfq = models.EmailField(blank=True)
+    e_mail_offers = models.EmailField(blank=True)
+    e_mail_orders= models.EmailField(blank=True)
     street_number = models.CharField(max_length=300, blank=True)
     postal_code = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=250, blank=True)
@@ -47,7 +50,6 @@ class Producers(models.Model):
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
     company_url = models.URLField(null=True, blank=True, max_length=200)
-
 
     # modules
     exclusive_module = models.BooleanField(default=False)

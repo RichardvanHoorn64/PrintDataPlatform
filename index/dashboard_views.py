@@ -12,8 +12,6 @@ from printprojects.models import *
 from index.categories_groups import *
 
 
-
-
 # https://stackoverflow.com/questions/2605384/how-to-explicitly-set-django-language-in-django-session
 
 
@@ -54,6 +52,12 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
+        img_1 = "https://printdatastorage.blob.core.windows.net/media/1/store/plano.png"
+        img_2 = "https://printdatastorage.blob.core.windows.net/media/1/store/folders.png"
+        img_3 = "https://printdatastorage.blob.core.windows.net/media/1/store/selfcovers.png"
+        img_4 = "https://printdatastorage.blob.core.windows.net/media/1/store/geniet_met_omslag.png"
+        img_5 = "https://printdatastorage.blob.core.windows.net/media/1/store/brochures.png"
+
         # store
         categories_available = ProducerProductOfferings.objects.all().values_list('productcategory_id', flat=True)
 
@@ -77,15 +81,28 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             start_printproject = 'Start nieuwe aanvraag'
             start_project_buttontext = 'Start aanvraag'
 
-        context['categories_available'] = categories_available
+            context['categories_available'] = categories_available
 
-        # store image location on Azure
-        src_loc = 'printdatastorage.blob.core.windows.net/media/store'
-        media_loc = str(define_exclusive_producer_id(user))
+            # store image location on Azure
+            store = "/store/"
+            img_1 = 'https://printdatastorage.blob.core.windows.net/media/'+str(exclusive_producer_id)+store+'plano.png'
+            img_2 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
+                exclusive_producer_id) + store + 'folders.png'
 
-        context['src_loc'] = src_loc
-        context['media_loc'] = media_loc
+            img_3 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
+                exclusive_producer_id) + store + 'selfcovers.png'
 
+            img_4 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
+            exclusive_producer_id) + store + 'geniet_met_omslag.png'
+
+            img_5 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
+                exclusive_producer_id) + store + 'brochures.png'
+
+        context['img_1'] = img_1
+        context['img_2'] = img_2
+        context['img_3'] = img_3
+        context['img_4'] = img_4
+        context['img_5'] = img_5
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title
         context['start_printproject'] = start_printproject

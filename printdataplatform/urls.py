@@ -34,7 +34,7 @@ from producers.offer_views import *
 from producers.producer_views import *
 from producers.tariff_views import *
 from profileuseraccount.accountviews.CreateUserProfileView import *
-from profileuseraccount.accountviews.RegistratieViews import *
+from profileuseraccount.accountviews.RegistrationViews import *
 
 # printdata URL Configuration
 urlpatterns = [
@@ -47,7 +47,7 @@ urlpatterns = [
 
     path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
 
-    # path('home/', HomeView.as_view(), name='home'),
+    path('home/', WelcomeView.as_view(), name='home'),
     path('signup/',   UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
     path('no_access/', NoAccessView.as_view(), name='no_access'),
@@ -149,8 +149,13 @@ urlpatterns = [
     path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
+
+    # producer exclusive members
     path('create_producer_exclusive_member/<int:producer_id>', CreateProducerExclusiveMember.as_view(),
          name='create_producer_exclusive_member'),
+    path('create_new_producer_membercontact/<int:member_id>', CreateNewExclusiveMemberContact.as_view(),
+         name='create_new_producer_membercontact'),
+
 
     # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
@@ -160,6 +165,9 @@ urlpatterns = [
          name='update_producercontact'),
     path('delete_producercontact/<int:producercontact_id>', DeleteProducerContact.as_view(),
          name='delete_producercontact'),
+
+    path('update_producercommunication/<int:producer_id>', UpdateProducerCommunication.as_view(),
+         name='update_producercommunication'),
 
     path('producer_close_order//<int:pk>', ProducerCloseOrderView.as_view(), name='producer_close_order'),
     path('producer_accept_order//<int:pk>', ProducerAcceptOrderView.as_view(), name='producer_accept_order'),
@@ -179,8 +187,6 @@ urlpatterns = [
 
     # producers member dashboard
     path('producer_exlusive_members/', ProducerExclusiveMembers.as_view(), name='producer_exlusive_members'),
-
-
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
 
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),

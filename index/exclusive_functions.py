@@ -21,13 +21,23 @@ def define_site_name(user):
     if user.is_anonymous:
         site_name = 'PrintDataPlatform'
     elif user.member_plan_id in exclusive_memberplans:
-        site_name = BrandPortalData.objects.get(producer_id=define_exclusive_producer_id(user)).brandportal
+        site_name = str(user.producer.company)
     elif user.member_plan_id in producer_memberplans:
         site_name = 'PrintDataPlatform ' + str(user.producer.company)
     else:
         site_name = 'PrintDataPlatform'
     return site_name
 
+
+def img_loc_logo(user):
+    if user.is_anonymous:
+        img_loc_logo_static = "assets/img/logos/header_1.jpg"
+    elif user.member_plan_id in exclusive_memberplans:
+        producer_id = user.producer.producer_id
+        img_loc_logo_static = "assets/img/logos/header_" + str(producer_id) + ".jpg"
+    else:
+        img_loc_logo_static = "assets/img/logos/header_1.jpg"
+    return img_loc_logo_static
 
 def define_exclusive_site_name(user):
     member_plan_id = user.member_plan_id

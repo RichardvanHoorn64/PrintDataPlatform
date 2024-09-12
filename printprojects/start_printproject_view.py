@@ -106,7 +106,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
 
-
         # Fill PrintProject-status
         form.instance.printprojectstatus_id = 1
 
@@ -257,5 +256,4 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = show_papercolor
-
         return context

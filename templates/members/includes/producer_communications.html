@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Producer communication</title>
+</head>
+<body>
+<br>
+<div class="col-12 col-sm-auto">
+    <h3 class="mb-5"></h3><br>
+
+
+    <div class="row g-4 flex-sm-column">
+        <div class="col-6 col-sm-12">
+            <div class="d-flex align-items-baseline mb-1"><span class="me-2" data-feather="info"
+                                                                style="stroke-width:2.5;"></span>
+                <h5 class="mb-0">Communicatie:</h5>
+            </div>
+        </div>
+
+
+        {# communication settings #}
+        <div class="col-6 col-sm-12">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="mail"
+                                                                 style="stroke-width:2.5;"></span>
+                    <h5 class="mb-0">Email offerteaanvragen</h5>
+                </div>
+                {% if user.producer.e_mail_rfq %}
+                    <div class="ms-4">{{ user.producer.e_mail_rfq }} </div>
+                {% else %}
+                    <div class="ms-4 text-warning">Nog opgeven</div>{% endif %}
+            </div>
+        </div>
+        <div class="col-6 col-sm-12">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="mail"
+                                                                 style="stroke-width:2.5;"></span>
+                    <h5 class="mb-0">Email uitgebrachte offertes</h5>
+                </div>
+                {% if user.producer.e_mail_offers %}
+                    <div class="ms-4">{{ user.producer.e_mail_offers }}</div>
+                {% else %}
+                                       <div class="ms-4 text-warning">Nog opgeven</div>{% endif %}
+            </div>
+        </div>
+            <div class="col-6 col-sm-12">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex align-items-start mb-1"><span class="me-2" data-feather="mail"
+                                                                 style="stroke-width:2.5;"></span>
+                    <h5 class="mb-0">Email ontvangen orders</h5>
+                </div>
+                {% if user.producer.e_mail_orders %}
+                    <div class="ms-4">{{ user.producer.e_mail_orders }}</div>
+                {% else %}
+                                        <div class="ms-4 text-warning">Nog opgeven</div>{% endif %}
+            </div>
+        </div>
+        <a type="button" href="{% url 'update_producercommunication' user.producer_id %}"
+                   class="btn btn-outline-info me-1 mb-1">Update emailadressen</a>
+
+
+    </div>
+</div>
+</body>
+</html>
