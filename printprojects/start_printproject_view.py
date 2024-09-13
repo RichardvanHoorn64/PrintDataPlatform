@@ -161,7 +161,7 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['productcategory_id'] = productcategory_id
 
         # standardsizes
-        standardsizes = StandardSize.objects.filter(productcategory_id=productcategory_id)
+        standardsizes = StandardSize.objects.filter(productcategory_id=productcategory_id).order_by('standardsize_id')
         context['standardsizes'] = standardsizes
 
         # papercatalog producer

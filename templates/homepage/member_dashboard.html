@@ -39,20 +39,20 @@
                 </div>
             </div>
             <hr class="text-info">
-        
+
             <!-- ===============================================-->
             <!--  END  Header-->
             <!-- ===============================================-->
             <!-- ===============================================-->
             <!--    Printproject table-->
             <!-- ===============================================-->
-           
+
             <div class="mb-4">
 
                 <!-- ===============================================-->
                 <!--    Printproject store -->
                 <!-- ===============================================-->
-                    {% include 'printprojects/start_printproject.html' %}
+                {% include 'printprojects/start_printproject.html' %}
                 <!-- ===============================================-->
                 <!--    End Printproject store -->
                 <!-- ===============================================-->
@@ -60,18 +60,18 @@
                 <!-- ===============================================-->
                 <!--    Printproject Table-->
                 <!-- ===============================================-->
-                    {% if member_plan_id in open_memberplans %}
-                   {% include 'printprojects/printproject_table.html' %}
-                        <br>
-                   {% endif %}
+                {% if member_plan_id in non_exclusive_memberplans %}
+                    {% include 'printprojects/printproject_table.html' %}
+                    <br>
+                {% endif %}
                 <!-- ===============================================-->
                 <!--    End Printproject Table-->
                 <!-- ===============================================-->
-            
+
                 <!-- ===============================================-->
                 <!--    Offers Table-->
                 <!-- ===============================================-->
-               {% include 'offers/offers_table.html' %}
+                {% include 'offers/offers_table.html' %}
                 <!-- ===============================================-->
                 <!--    End PrintOffers Table-->
                 <!-- ===============================================-->

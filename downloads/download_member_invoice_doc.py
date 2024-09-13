@@ -14,45 +14,48 @@ from printprojects.models import *
 import requests
 
 
-class DownloadProducerOffer(LoginRequiredMixin, View):
+class DownloadMemberInvoice(LoginRequiredMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        member_id = user.member_id
-        member = Members.objects.get(member_id=member_id)
         printproject_id = self.kwargs['printproject_id']
         doc_id = self.kwargs['doc_id']
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
+        member_id = printproject.member_id
+        member = Members.objects.get(member_id=member_id)
+        producer_id = printproject.producer_id
         productcategory_id = printproject.productcategory_id
         productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
 
-        doc_template = BrandPortalData.objects.get(producer_id=user.producer_id).doc_loc_offer_1
-        templatecategory = doc_template.templatecategory
-        blob_folder = doc_template.folder
-        loc = 'https://printdataplatformstorage.blob.core.windows.net/docs/'
+        # brandportaldata = BrandPortalData.objects.get(producer_id=producer_id).d
 
-        if member.doc_templates:
-            docgroup_id = str(member_id)
-        else:
-            docgroup_id = str(1)
+        # doc_template = []
+        # if productcategory_id == 1:
+        #     doc_template = brandportaldata.doc_loc_offer_1
+        # if productcategory_id == 2:
+        #     doc_template = brandportaldata.doc_loc_offer_2
+        # if productcategory_id == 3:
+        #     doc_template = brandportaldata.doc_loc_offer_3
+        # if productcategory_id == 4:
+        #     doc_template = brandportaldata.doc_loc_offer_4
+        # if productcategory_id == 5:
+        #     doc_template = brandportaldata.doc_loc_offer_5
 
-        doc_url = loc + blob_folder + "/" + docgroup_id + "_" + templatecategory + '.docx'
+        doc_url= 'https://printdatastorage.blob.core.windows.net/media/'+str(producer_id)+'/offers/ '+doc_template
+
+        # doc_url = loc + blob_folder + "/" + docgroup_id + "_" + templatecategory + '.docx'
 
         try:
             template = BytesIO(requests.get(doc_url).content)
+            docx = MailMerge(template)
         except Exception as e:
-            doc_url = loc + blob_folder + "/" + str(1) + "_" + templatecategory + '.docx'
-            template = BytesIO(requests.get(doc_url).content)
-            print("No template availeble: member_id/template: ", member_id, templatecategory, e)
+            template = []
+            print("No offer template availeble: producer_id/productcategory_id: ", producer_id, productcategory_id, e)
 
         docx = MailMerge(template)
 
-        if printproject.client_id:
-            client = Clients.objects.get(client_id=printproject.client_id)
-            company = client.client
-        else:
-            client = member
-            company = member.company
+        client = member
+        company = member.company
 
         printproject_quotenumber = printproject_own_quotenumber(printproject)
         printproject_size_description = printproject_size(printproject)

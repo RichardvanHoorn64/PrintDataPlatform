@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from index.categories_groups import *
-
 from index.create_context import creatememberplan_context
 from index.models import *
 from profileuseraccount.models import UserProfile, Members

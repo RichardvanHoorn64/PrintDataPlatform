@@ -60,9 +60,10 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
         # store
         categories_available = ProducerProductOfferings.objects.all().values_list('productcategory_id', flat=True)
+        exclusive_producer_id = define_exclusive_producer_id(user)
 
         if user.member_plan_id in exclusive_memberplans:
-            exclusive_producer_id = define_exclusive_producer_id(user)
+
             exclusive_producer = Producers.objects.get(producer_id=exclusive_producer_id)
 
             offers = offers.filter(producer_id=exclusive_producer_id)
@@ -83,26 +84,15 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
             context['categories_available'] = categories_available
 
-            # store image location on Azure
-            store = "/store/"
-            img_1 = 'https://printdatastorage.blob.core.windows.net/media/'+str(exclusive_producer_id)+store+'plano.png'
-            img_2 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
-                exclusive_producer_id) + store + 'folders.png'
+        # store image location on Azure
+        blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
+        store = "/store/"
+        context['img_1'] = blob_loc+str(exclusive_producer_id)+store+'plano.png'
+        context['img_2'] = blob_loc + str(exclusive_producer_id) + store + 'folders.png'
+        context['img_3'] = blob_loc + str(exclusive_producer_id) + store + 'selfcovers.png'
+        context['img_4'] = blob_loc + str(exclusive_producer_id) + store + 'geniet_met_omslag.png'
+        context['img_5'] = blob_loc + str(exclusive_producer_id) + store + 'brochures.png'
 
-            img_3 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
-                exclusive_producer_id) + store + 'selfcovers.png'
-
-            img_4 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
-            exclusive_producer_id) + store + 'geniet_met_omslag.png'
-
-            img_5 = 'https://printdatastorage.blob.core.windows.net/media/' + str(
-                exclusive_producer_id) + store + 'brochures.png'
-
-        context['img_1'] = img_1
-        context['img_2'] = img_2
-        context['img_3'] = img_3
-        context['img_4'] = img_4
-        context['img_5'] = img_5
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title
         context['start_printproject'] = start_printproject

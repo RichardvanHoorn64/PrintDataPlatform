@@ -5,7 +5,7 @@ from assets.asset_views import *
 from assets.asset_deleteviews import *
 from calculations.assortiment_views import *
 from downloads.download_paperspecs import *
-from downloads.download_producer_docs import *
+from downloads.download_producer_offer_doc import *
 from downloads.member_downloads import *
 from downloads.producer_downloads import *
 # from downloads.download_client_docs import *
@@ -244,7 +244,7 @@ urlpatterns = [
          name='member_download_clients'),
 
 
-    path('producer_download_offer/<int:offer_id>/<int:doc_id>', DownloadProducerOffer.as_view(),
+    path('producer_download_offer/<int:offer_id>', DownloadProducerOffer.as_view(),
          name='producer_download_offer'),  # doc_id 1= offer, 2 =invoice
 
     path('producer_download_offers/', ProducerDownloadOffers.as_view(),

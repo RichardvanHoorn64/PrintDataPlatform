@@ -25,7 +25,7 @@
                             
 
                             
-                             {% if member_plan_id in open_memberplans %}
+                             {% if member_plan_id in non_exclusive_memberplans %}
                             <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
                                 style="width:15%;">Producent
                             </th>  {% endif %}
@@ -57,7 +57,7 @@
                                 <td class="project_title align-middle fw-semi-bold text-1000">
                                 {{ offer.printproject.volume }} ex. {{ offer.printproject.project_title }}</td>
                                  
-                                {% if member_plan_id in open_memberplans %}
+                                 {% if member_plan_id in non_exclusive_memberplans %}
                                 <td class="align-middle white-space-nowrap py-0">{{ offer.producer.company }}</td>
                                 {% endif %}
                             
@@ -82,7 +82,7 @@
                                 
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% if offer.offer_date %}
-                                        <a href="{% url 'offer_details' offer.offer_id %}"
+                                        <a href="{% url 'producer_download_offer' offer.offer_id %}"
                                            class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
                                            aria-pressed="true"><i class="far fa-file-word text-info fs-1"></i></a>
                                     {% else %} --- {% endif %}
