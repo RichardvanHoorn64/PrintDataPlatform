@@ -11,16 +11,22 @@
 <div class="container" id="brochures_finishing">
     <div class="row">
         <h4 class="mb-3 text-info">Brochures omvang en afwerking</h4>
-    {% if update %}
-        <h6 class="mb-3">{{ printproject_finishing }}</h6>
+        {% if update %}
+            <h6 class="mb-3">{{ printproject_number_of_pages }} {{ printproject_finishing }} gebrocheerd</h6>
         {% endif %}
         <!-- ===============================================-->
         <!--   number of pages -->
         <!-- ===============================================-->
 
         <div class="col-sm-6 col-md-2" id="number_of_pages">
-            <label class="form-label" id="number_of_pages" for="number_of_pages">Omvang</label>
-            <input type="text" class="form-control" name="number_of_pages" placeholder="Aantal pagina's">
+            <label class="form-label" id="number_of_pages_label" for="number_of_pages">Omvang</label>
+            <input class="form-control" type="text" id="number_of_pages" name="number_of_pages"
+                    {% if update %}
+                   value="{{ printproject.number_of_pages }}"
+                    {% else %}
+                   placeholder="Aantal pagina's"
+                    {% endif %}required/>
+
         </div>
 
         <!-- ===============================================-->
@@ -29,16 +35,16 @@
         <div class="col-sm-6 col-md-4">
             <label class="form-label" for="finishing_brochures">Nabewerking</label>
             <select class="form-select" id="finishing_brochures" name="finishing_brochures">
-            {% if brochure_finishingmethods.count > 1  %} 
-            <option value="0">Kies nabewerking</option>
-            {% endif %}
-                {% for i in brochure_finishingmethods  %}
+                {% if brochure_finishingmethods.count > 1 %}
+                    <option value="0">Kies nabewerking</option>
+                {% endif %}
+                {% for i in brochure_finishingmethods %}
                     <option value="{{ i.finishingmethod_id }}">{{ i.finishingmethod }}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
-<hr class="text-info">
+    <hr class="text-info">
 </div>
 <br>
 </body>

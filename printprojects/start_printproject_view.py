@@ -54,11 +54,15 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             paperweight = form.cleaned_data['paperweight']
             paperbrand_cover = form.cleaned_data['paperbrand_cover']
             paperweight_cover = form.cleaned_data['paperweight_cover']
-            form.instance.papercolor = PaperCatalog.objects.filter(producer_id=exclusive_producer_id, paperbrand=paperbrand, paperweight_m2=paperweight).values_list('papercolor', flat=True).first()
+            form.instance.papercolor = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
+                                                                   paperbrand=paperbrand,
+                                                                   paperweight_m2=paperweight).values_list('papercolor',
+                                                                                                           flat=True).first()
 
             form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
-                                                                   paperbrand=paperbrand_cover,
-                                                                   paperweight_m2=paperweight_cover).values_list('papercolor', flat=True).first()
+                                                                         paperbrand=paperbrand_cover,
+                                                                         paperweight_m2=paperweight_cover).values_list(
+                'papercolor', flat=True).first()
 
         # fill general data
         form.instance.productcategory_id = productcategory_id
@@ -75,7 +79,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         pressvarnish_front = form.cleaned_data['pressvarnish_front']
         pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
         number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
-
 
         # enhance
         if productcategory_id in categories_brochures_all:
@@ -122,6 +125,10 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.width_mm_product = form.cleaned_data['width_mm_product']
             form.instance.standard_size = 0
 
+        # portrait_landscape
+        if form.cleaned_data['portrait_landscape'] == 0:
+            form.instance.portrait_landscape = 1 # staand
+
         if productcategory_id in categories_folders:
             folding = find_foldingspecs(form.cleaned_data['folding'])
             form.instance.folding = folding[0]
@@ -142,10 +149,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
         productcategory_id = self.kwargs['productcategory_id']
         productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id)
         context['update'] = False
-        user = self.request.user
+
         creatememberplan_context(context, user)
         exclusive_producer_id = self.exclusive_producer()
         brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
@@ -209,32 +217,36 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if productcategory_id in categories_brochures_cover:
             context['type_booklet'] = ' binnenwerk'
 
-        # exclusive producuder dropdowns
+        # exclusive producer dropdowns
         if member_plan_id in exclusive_memberplans:
-
             show_papercolor = brandportal.brandportal_show_papercolor
 
-            if brandportal.brandportal_show_pms_input == False:
-                context['print_choices'] = dropdowns.filter(dropdown='print_choices').order_by('-value').exclude(value=0)
+            if not brandportal.brandportal_show_pms_input:
+                context['print_choices'] = dropdowns.filter(dropdown='print_choices').order_by('-value').exclude(
+                    value=0)
 
             enhance_options_producer = EnhancementTariffs.objects.filter(producer_id=exclusive_producer_id).values_list(
                 'enhancement_id', flat=True)
-            enhance_choices = EnhancementOptions.objects.filter(language_id=language_id, enhancement_id__in=enhance_options_producer)
-
+            enhance_choices = EnhancementOptions.objects.filter(language_id=language_id,
+                                                                enhancement_id__in=enhance_options_producer)
 
             packagingoptions_producer = PackagingTariffs.objects.filter(producer_id=exclusive_producer_id).values_list(
                 'packagingoption_id', flat=True)
-            packaging_choices = PackagingOptions.objects.filter(language_id=language_id, packagingoption_id__in=packagingoptions_producer).order_by('packagingoption_id')
+            packaging_choices = PackagingOptions.objects.filter(language_id=language_id,
+                                                                packagingoption_id__in=packagingoptions_producer).order_by(
+                'packagingoption_id')
 
             # Brochures finishingmethods exclusive producer
-            bindingoptions_producer = Bindingmachines.objects.filter(producer_id=exclusive_producer_id).values_list('finishingmethod_id', flat=True)
+            bindingoptions_producer = Bindingmachines.objects.filter(producer_id=exclusive_producer_id).values_list(
+                'finishingmethod_id', flat=True)
             brochure_finishingmethods = []
             if productcategory_id in categories_brochures_all:
                 if productcategory_id in categories_stapled:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(finishingmethod_id__in=bindingoptions_producer, productcategory_id=3)
+                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(
+                        finishingmethod_id__in=bindingoptions_producer, productcategory_id=3)
                 else:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(finishingmethod_id__in=bindingoptions_producer, productcategory_id=5)
-
+                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(
+                        finishingmethod_id__in=bindingoptions_producer, productcategory_id=5)
 
         else:
             enhance_choices = EnhancementOptions.objects.filter(language_id=language_id)

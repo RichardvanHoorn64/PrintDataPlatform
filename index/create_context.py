@@ -50,9 +50,9 @@ def createprintproject_context(context, user, printproject):
         printproject.pressvarnish_booklet)
 
     context['printproject_printing_cover'] = printproject_printing(printproject.printsided, printproject.print_front,
-                                                             printproject.print_rear,
-                                                             printproject.number_pms_colors_front,
-                                                             printproject.number_pms_colors_rear)
+                                                                   printproject.print_rear,
+                                                                   printproject.number_pms_colors_front,
+                                                                   printproject.number_pms_colors_rear)
 
     context['printproject_paper_cover'] = printproject_paper(printproject.papercategory_cover,
                                                              printproject.paperbrand_cover,

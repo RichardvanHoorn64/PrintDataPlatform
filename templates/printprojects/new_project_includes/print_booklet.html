@@ -5,7 +5,7 @@
     <title>Print general</title>
 </head>
 <body>
-<div class="container" id="print_general" name="print_general">
+<div class="container" id="print_general">
     <!-- ===============================================-->
     <!--   Row title -->
     <!-- ===============================================-->
@@ -13,7 +13,7 @@
         <div class="col-sm-6 col-md-6">
             <h4 id="print_general_header" class="mb-3 text-info">Bedrukking {{ type_booklet }}</h4>
             {% if update %}
-        <h6 class="mb-3">{{ printproject_printing }}</h6>
+        <h6 class="mb-3">{{ printproject_printing_booklet }}, {{ printproject_varnish }}</h6>
         {% endif %}
         </div>
     </div>
@@ -29,6 +29,9 @@
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="print_booklet_label" for="print_booklet">Bedrukking</label>
             <select class="form-select" id="print_booklet" name="print_booklet">
+                 {% if update %}
+                 <option value={{  printproject.print_booklet }}>Wijzig bedrukking</option>
+                {% endif %}
                 {% for i in print_choices %}
                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
@@ -47,6 +50,9 @@
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="pressvarnish_booklet_label" for="pressvarnish_booklet">Vernis</label>
             <select class="form-select" id="pressvarnish_booklet" name="pressvarnish_booklet">
+                     {% if update %}
+                    <option value={{ printproject.pressvarnish_booklet }}>Wijzig persvernis</option>
+                {% endif %}
                 {% for i in pressvarnish_choices %}
                       <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}

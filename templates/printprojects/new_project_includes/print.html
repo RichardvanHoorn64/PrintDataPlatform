@@ -62,7 +62,10 @@
 
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="pressvarnish_cover_label" for="pressvarnish_front">Vernis omslag</label>
-            <select class="form-select" id="pressvarnish_front" name="pressvarnish_front">
+            <select class="form-select" id="pressvarnish_front" name="pressvarnish_front" data-value=0>
+                                 {% if update %}
+                    <option value={{  printproject.pressvarnish_front }}>Wijzig persvernis voorzijde</option>
+                {% endif %}
                 {% for i in pressvarnish_choices %}
                       <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
@@ -87,15 +90,20 @@
                     {% endfor %}
                 </select>
             </div>
+         {% if brandportal.brandportal_show_pms_input %}
             <div class="col-sm-6 col-md-3">
                 <label class="form-label" id="number_pms_colors_rear_cover" for="number_pms_colors_rear">Aantal PMS kleuren
                     binnenzijde omslag</label>
                 <input type="text" class="form-control" id="number_pms_colors_rear" name="number_pms_colors_rear"
                        placeholder=0 value=0>
             </div>
+        {% endif %}
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="pressvarnish_rear_cover" for="pressvarnish_rear">Persvernis binnnezijde omslag</label>
             <select class="form-select" id="pressvarnish_rear" name="pressvarnish_rear">
+                                 {% if update %}
+                    <option value={{  printproject.pressvarnish_rear }}>Wijzig persvernis binnenzijde</option>
+                {% endif %}
                 {% for i in pressvarnish_choices %}
                       <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}

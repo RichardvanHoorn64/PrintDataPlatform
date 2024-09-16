@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>New Printproject</title>
+    <title>New / updatePrintproject</title>
 </head>
 
 
@@ -20,16 +20,16 @@
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a class="text-info" href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
-                <li class="breadcrumb-item active">Start nieuw printproject</li>
+                <li class="breadcrumb-item active">{{ form_title }}</li>
             </ol>
         </nav>
         <hr class="text-info">
         <h2  class="mb-4 text-info">{{ form_title }}</h2>
         <h5 class="mb-3">
             {% if update %}
-            Pas op als de aanvraag of opdracht al naar leveranciers is verzonden. Updaters worden niet verstuurd!
+            Pas offerteaanvraag aan en verstuur opnieuw.
             {% else %}
-            Maak een printproject aan, kies je leveranciers, verzend je aanvraag, beoordeel offertes.
+            Vertuur een nieuwe offerteaanvraag.
             {% endif %}
         </h5>
         <hr class="text-info"></div>
@@ -75,8 +75,8 @@
                     {% if productcategory_id in categories_brochures_all %}
                     {% include 'printprojects/new_project_includes/print_booklet.html' %}
                       {% endif %}
-                      {% if productcategory_id in categories_plano %}
-                   {% include 'printprojects/new_project_includes/print_general.html' %}
+                    {% if productcategory_id in categories_plano %}
+                   {% include 'printprojects/new_project_includes/print.html' %}
                     {% endif %}
                     <!-- ===============================================-->
 
@@ -90,7 +90,7 @@
                     <!-- ===============================================-->
                     <!--   include print general -->
                     {% if productcategory_id in categories_brochures_cover %}
-                    {% include 'printprojects/new_project_includes/print_cover.html' %}
+                    {% include 'printprojects/new_project_includes/print.html' %}
                     {% endif %}
                     <!-- ===============================================-->
 
@@ -116,7 +116,7 @@
                     <!-- ===============================================-->
                     <div class="container" id="submit_general">
                         <div class="row">
-                            <h4 class="mb-1 text-info">Project starten</h4>
+                            <h4 class="mb-1 text-info">{{ form_title }}</h4>
                             <div class="col-12 gy-3 ">
                                 <div class="row g-3 justify-content-start">
                                     <div class="col-auto">
