@@ -23,41 +23,16 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-try:
-    DEBUG = os.environ['DEBUG']
-    SECRET_KEY = os.environ['SECRET_KEY']
-    PRODUCTION = True
-except KeyError:
-    DEBUG = True
-    SECRET_KEY=get_random_secret_key()
-    PRODUCTION = False
+DEBUG = True
+SECRET_KEY = get_random_secret_key()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 '169.254.129.4'
-                 'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
-                 'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
-                 'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
-                 'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
-                 'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net', ]
+ALLOWED_HOSTS = ['localhost']
 
-CSRF_TRUSTED_ORIGINS = ['https://drukwerkmaatwerk.com', 'https://127.0.0.1',
-                        'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
-                        'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
-                        'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
-                        'https://*.nl', 'https://*.com'
-                        ]
-
-CORS_ALLOWED_ORIGINS = ['https://drukwerkmaatwerk.com', 'https://127.0.0.1', 'https://52.233.175.59',
-                        'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
-                        'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
-                        'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
-                        'https://*.nl', 'https://*.com'
-                        ]
 # Models autofield without specifying a primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
@@ -123,31 +98,16 @@ WSGI_APPLICATION = 'printdataplatform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # Azure DB for production
-if PRODUCTION:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ['DJANGO_DATABASE_NAME'],
-            'USER': os.environ['DJANGO_DATABASE_USER'],
-            'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
-            'HOST': os.environ['DJANGO_DATABASE_HOST'],
-            'PORT': os.environ['DJANGO_DATABASE_PORT'],
-            'OPTIONS': {
-                'sslmode': 'require',
-            }
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'printdataplatform_dev',
+        'USER': 'postgres',
+        'PASSWORD': 'PrintdataClub2025',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'printdataplatform_dev',
-            'USER': 'postgres',
-            'PASSWORD': 'PrintdataClub2025',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -243,27 +203,16 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",)
 
 # Email settings
-if DEBUG:
-    EMAIL_HOST = 'mail.antagonist.nl'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_TO_USERS = 'no-reply@printdataplatform.nl'
-    EMAIL_USERS_PASSWORD = 'pdp-rfq#2025up'
-    EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
-    EMAIL_ADMIN_PASSWORD = 'printmsg#2025$rh'
-    SERVER_EMAIL = EMAIL_HOST
-    EMAIL_PASSWORD = EMAIL_TO_USERS
-else:
-    EMAIL_HOST = os.environ['EMAIL_HOST']
-    EMAIL_PORT = os.environ['EMAIL_PORT']
-    MAIL_USE_TLS = True
-    EMAIL_TO_USERS = os.environ['EMAIL_TO_USERS']
-    EMAIL_USERS_PASSWORD = os.environ['EMAIL_USERS_PASSWORD']
-    EMAIL_TO_ADMIN = os.environ[' EMAIL_TO_ADMIN']
-    EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
-    DEFAULT_FROM_EMAIL = os.environ['EMAIL_HOST_USER']
-    SERVER_EMAIL = EMAIL_HOST
-    EMAIL_PASSWORD = EMAIL_TO_USERS
+EMAIL_HOST = 'mail.antagonist.nl'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_TO_USERS = 'no-reply@printdataplatform.nl'
+EMAIL_USERS_PASSWORD = 'pdp-rfq#2025up'
+EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
+EMAIL_ADMIN_PASSWORD = 'printmsg#2025$rh'
+SERVER_EMAIL = EMAIL_HOST
+EMAIL_PASSWORD = EMAIL_TO_USERS
+
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
@@ -276,6 +225,7 @@ SITE_ID = 1
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
 STATIC_ROOT = BASE_DIR / "staticfiles"  # new
 STORAGES = {
     "default": {
@@ -286,18 +236,6 @@ STORAGES = {
     },
 }
 
-if PRODUCTION:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
-    ]
-
-    STATIC_LOCATION = "static"
-    MEDIA_LOCATION = "media"
-
-    AZURE_ACCOUNT_NAME = "printdataplatformstorage"
-    AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-    STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -11,6 +11,11 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'printdataplatform.settings')
+if 'WEBSITE_HOSTNAME' in os.environ:
+    settings_module = 'azure_project_deployment'
+else:
+    settings_module ='azure_project_settings'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
