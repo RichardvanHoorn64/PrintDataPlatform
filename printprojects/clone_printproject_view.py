@@ -64,7 +64,6 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.paperweight = item.paperweight
             form.instance.papercolor = item.papercolor
 
-
         if productcategory_id in categories_selfcovers:
             form.instance.printsided = item.printsided
             form.instance.print_front = item.print_front
@@ -226,5 +225,7 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = True
-
+        context['print_type'] = ''
+        if productcategory_id in categories_brochures_cover:
+            context['print_type'] = 'omslag'
         return context

@@ -7,16 +7,16 @@ def find_host(self):
 
 
 def write_print_text(print_input):
-    print_text = 'print text onbekend'
+    print_text = ''
     if print_input == 1:
-        print_text = "Zwart"
+        print_text = "zwart"
     if print_input == 4:
-        print_text = "Full colour"
+        print_text = "full colour"
     return print_text
 
 
 def write_sided_text(sided_input):
-    printsided_text = ""
+    printsided_text = ''
     if sided_input == 1:
         printsided_text = "Eenzijdig"
     if sided_input == 2:

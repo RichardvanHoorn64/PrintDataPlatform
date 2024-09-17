@@ -49,6 +49,8 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         exclusive_producer_id = self.exclusive_producer()
         brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
 
+        print('form: ', form.cleaned_data)
+
         if not brandportal.brandportal_show_papercolor:
             paperbrand = form.cleaned_data['paperbrand']
             paperweight = form.cleaned_data['paperweight']
@@ -64,6 +66,7 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                                                                          paperweight_m2=paperweight_cover).values_list(
                 'papercolor', flat=True).first()
 
+
         # fill general data
         form.instance.productcategory_id = productcategory_id
         form.instance.user_id = user.id
@@ -76,35 +79,40 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         # fill print rear
         printsided = form.cleaned_data['printsided']
         print_front = form.cleaned_data['print_front']
+        print_rear = form.cleaned_data['print_rear']
         pressvarnish_front = form.cleaned_data['pressvarnish_front']
         pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
-        number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
-
-        # enhance
-        if productcategory_id in categories_brochures_all:
-            form.instance.enhance_sided = 1
-            form.instance.enhance_rear = 0
-        else:
-            form.instance.enhance_sided = form.cleaned_data['enhance_sided']
-        form.instance.enhance_front = find_enhancement_id(form.cleaned_data['enhance_front'])
-        form.instance.enhance_rear = find_enhancement_id(form.cleaned_data['enhance_rear'])
+        form.instance.printsided = printsided
 
         if printsided == 2:
             form.instance.print_rear = print_front
-            form.instance.number_pms_colors_rear = number_pms_colors_front
             form.instance.pressvarnish_rear = pressvarnish_front
         elif printsided == 1:
             form.instance.print_rear = 0
             form.instance.number_pms_colors_rear = 0
             form.instance.pressvarnish_rear = 0
         else:
-            form.instance.print_front = 0
-            form.instance.print_rear = 0
+            form.instance.print_front = print_front
+            form.instance.print_rear = print_rear
+            form.instance.pressvarnish_front = pressvarnish_front
+            form.instance.pressvarnish_rear = pressvarnish_rear
+
+        # handling pms data
+        if not brandportal.brandportal_show_pms_input:
             form.instance.number_pms_colors_front = 0
             form.instance.number_pms_colors_rear = 0
-            form.instance.pressvarnish_front = 0
-            form.instance.pressvarnish_rear = 0
-            form.instance.printsided = 0
+        else:
+            number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
+            number_pms_colors_rear = form.cleaned_data['number_pms_colors_rear']
+
+            if number_pms_colors_front is None:
+                number_pms_colors_front = 0
+            if number_pms_colors_rear is None:
+                number_pms_colors_rear = 0
+            if printsided == 2:
+                number_pms_colors_rear = number_pms_colors_front
+            form.instance.number_pms_colors_front = number_pms_colors_front
+            form.instance.number_pms_colors_rear = number_pms_colors_rear
 
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
@@ -137,6 +145,12 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.folding = 0
             form.instance.number_of_pages = form.cleaned_data['number_of_pages']
 
+        # enhance
+        if productcategory_id in categories_brochures_all:
+            form.instance.enhance_sided = 1
+            form.instance.enhance_rear = 0
+        else:
+            form.instance.enhance_sided = form.cleaned_data['enhance_sided']
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -268,4 +282,9 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = show_papercolor
+
+        context['print_type'] = ''
+        if productcategory_id in categories_brochures_cover:
+            context['print_type'] = 'Omslag'
+
         return context

@@ -92,29 +92,26 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
     return printprojectprinting
 
 
-def printproject_varnish(printsided, pressvarnish, pressvarnish_rear, ):
-    pressvarnish = "Geen persvernis"
-    pressvarnish_rear = "Geen persvernis"
+def printproject_varnish(printsided, pressvarnish_front, pressvarnish_rear, ):
+    pressvarnish_front_description = "geen persvernis"
+    pressvarnish_rear_description = "geen persvernis"
 
-    printproject_varnish_description = pressvarnish
+    pressvarnish_description = pressvarnish_front_description
 
-    if pressvarnish == 1:
-        pressvarnish = "Persvernis"
+    if pressvarnish_front == 1:
+        pressvarnish_front_description = "persvernis"
 
     if pressvarnish_rear == 1:
-        pressvarnish_rear = "Persvernis"
+        pressvarnish_rear_description = "persvernis"
 
-    if pressvarnish == pressvarnish_rear and pressvarnish == 1:
-        if printsided == 1:
-            printproject_varnish_description = "Eenzijdig " +pressvarnish
-        if printsided == 2 and pressvarnish == 1:
-            printproject_varnish_description = "Tweeijdig " + pressvarnish
+    if pressvarnish_front == pressvarnish_rear and printsided == 1:
+        pressvarnish_description = "Eenzijdig " +pressvarnish_front_description
+        if printsided == 2 and pressvarnish_front == 1:
+            pressvarnish_description = "Tweeijdig " + pressvarnish_front_description
 
     if printsided == 3:
-        printproject_varnish_description = "Voorzijde " + pressvarnish + " en achterzijde " + pressvarnish_rear
-    else:
-        printproject_varnish_description = pressvarnish
-    return str(printproject_varnish_description)
+        pressvarnish_description = "Voorzijde " + pressvarnish_front_description + " en achterzijde " + pressvarnish_rear_description
+    return str(pressvarnish_description)
 
 
 def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_rear):

@@ -152,7 +152,7 @@
                                         <td class="align-middle">
                                             <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis 
                                             {% if printproject.productcategory_id in productcategory_cover %}
-                                                binnenwerk {% endif %}
+                                                omslag{% endif %}
                                             </p>
                                         </td>
                                         <td class="align-middle">
@@ -162,19 +162,6 @@
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
-                                     {% if printproject.productcategory_id in productcategory_cover %}
-                                                                        <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis omslag</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish_cover }}
-                                            </p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% endif %}
                                     {% if printproject.productcategory_id in productcategory_cover %}
                                     <tr>
                                         <td class="border-0"></td>

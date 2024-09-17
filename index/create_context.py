@@ -64,9 +64,6 @@ def createprintproject_context(context, user, printproject):
                                                              printproject.number_pms_colors_rear)
     context['printproject_varnish'] = printproject_varnish(printproject.printsided, printproject.pressvarnish_front,
                                                            printproject.pressvarnish_rear)
-    context['printproject_varnish_cover'] = printproject_varnish(printproject.printsided,
-                                                                 printproject.pressvarnish_front,
-                                                                 printproject.pressvarnish_rear)
     context['printproject_enhance'] = printproject_enhance(printproject.productcategory_id,
                                                            printproject.enhance_sided, printproject.enhance_front,
                                                            printproject.enhance_rear, )
