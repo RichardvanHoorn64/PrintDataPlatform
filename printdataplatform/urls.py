@@ -304,4 +304,5 @@ urlpatterns = [
     path('producer_assortiment_calculate/', CalculateAssortiment.as_view(), name='producer_assortiment_calculate'),
     path('producer_assortiment_download/', DownloadAssortiment.as_view(), name='producer_assortiment_download'),
     path('producer_calculationdetails/<int:calculation_id>', ProducerCalculationDetails.as_view(), name='producer_calculationdetails'),
+
 ]
