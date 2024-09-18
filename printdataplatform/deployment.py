@@ -2,8 +2,7 @@ import os
 from .settings import *
 from .settings import BASE_DIR
 
-DEBUG = os.environ['DEBUG']
-
+DEBUG = False
 
 WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 

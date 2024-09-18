@@ -24,6 +24,22 @@ def printproject_description(printproject, productcategory):
     return text
 
 
+def offer_salesprice(offer):
+    if offer.offer:
+        offerprice = '€ ' + str(offer.offer)
+    else:
+        offerprice = "Nog geen offerte uitgebracht"
+    return offerprice
+
+
+def offer_salesprice1000extra(offer):
+    if offer.offer1000extra:
+        offerprice1000extra = "€ " + str(offer.offer1000extra)
+    else:
+        offerprice1000extra = ''
+    return offerprice1000extra
+
+
 def printproject_salesprice(printproject):
     if printproject.salesprice:
         salesprice = "€ " + str(printproject.salesprice)
@@ -83,7 +99,7 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
     pms_colors_rear = write_print_text(number_pms_colors_rear)
 
     printprojectprinting = []
-    if printsided in [1,2]:  # "Eenzijdig" or "Tweezijdig gelijk"
+    if printsided in [1, 2]:  # "Eenzijdig" or "Tweezijdig gelijk"
         printprojectprinting = printsided_text + " in " + print_front_text
 
     if printsided == 3:  # "Tweezijdig verschillend"
@@ -105,7 +121,7 @@ def printproject_varnish(printsided, pressvarnish_front, pressvarnish_rear, ):
         pressvarnish_rear_description = "persvernis"
 
     if pressvarnish_front == pressvarnish_rear and printsided == 1:
-        pressvarnish_description = "Eenzijdig " +pressvarnish_front_description
+        pressvarnish_description = "Eenzijdig " + pressvarnish_front_description
         if printsided == 2 and pressvarnish_front == 1:
             pressvarnish_description = "Tweeijdig " + pressvarnish_front_description
 
@@ -138,6 +154,7 @@ def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_
             enhance_description = "Achterzijde " + enhance_rear_text + ", voorzijde geen veredeling "
 
     return enhance_description
+
 
 def printproject_packaging(packaging):
     packaging_description = "Packaging_description error: "
@@ -174,7 +191,7 @@ def printproject_number_of_pages(printproject):
 
 def printproject_finishing(printproject):
     productcategory_id = printproject.productcategory_id
-    finishing_text  = ""
+    finishing_text = ""
     if productcategory_id == categories_plano:
         finishing_text = 'Gesneden tot afgewerkt formaat'
     elif productcategory_id == categories_folders:
