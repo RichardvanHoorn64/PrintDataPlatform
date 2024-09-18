@@ -14,7 +14,6 @@ from printprojects.models import *
 from django.shortcuts import redirect
 import requests
 from mailmerge import MailMerge
-from downloads.models import *
 
 
 class DownloadProducerOffer(LoginRequiredMixin, View):
@@ -151,4 +150,3 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         document.write(response)
 
         return response
-

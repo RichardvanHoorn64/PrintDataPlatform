@@ -7,6 +7,7 @@ DEBUG = False
 WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 
 ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
+                 'printdataplatform.com', 'www.printdataplatform.com',
                  'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
                  'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
                  'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
@@ -14,13 +15,17 @@ ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
                  'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
                  '169.254.130.3']
 
-CSRF_TRUSTED_ORIGINS = ['https://printdataplatform.com', 'https://drukwerkmaatwerk.com', 'https://127.0.0.1',
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1',
+                        'https://printdataplatform.com', 'https://drukwerkmaatwerk.com',
+                        'https://printdata-platform.com', 'https://printdata-platform.org',
                         'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
                         'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
                         'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
                         ]
 
-CORS_ALLOWED_ORIGINS = ['https://printdataplatform.com', 'https://127.0.0.1', 'https://52.233.175.59',
+CORS_ALLOWED_ORIGINS = ['https://drukwerkmaatwerk.com',
+                        'https://printdataplatform.com', 'https://127.0.0.1', 'https://52.233.175.59',
+                        'https://printdata-platform.com', 'https://printdata-platform.org',
                         'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
                         'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
                         'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
