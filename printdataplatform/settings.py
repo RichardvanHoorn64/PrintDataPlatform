@@ -221,7 +221,8 @@ ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvan
 SITE_ID = 1
 
 # staticfiles handling
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
