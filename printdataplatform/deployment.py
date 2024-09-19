@@ -51,7 +51,9 @@ EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 # staticfiles deployment
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
