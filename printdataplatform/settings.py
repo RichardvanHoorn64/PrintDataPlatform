@@ -220,13 +220,11 @@ ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvan
 # Site id
 SITE_ID = 1
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
+# staticfiles handling
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"  # new
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
