@@ -2,7 +2,8 @@ import os
 from .settings import *
 from .settings import BASE_DIR
 
-DEBUG = False
+DEBUG = os.environ['DEBUG']
+
 
 WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 
@@ -50,21 +51,21 @@ EMAIL_TO_ADMIN = os.environ['EMAIL_TO_ADMIN']
 EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
-# staticfiles deployment
-STATIC_ROOT = [
-    os.path.join(BASE_DIR, "static"),
-]
-
+# DEPLOY STATICFILES TO PRODUCTION
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
 
 STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "static": {
+    "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_LOCATION = "media"
+AZURE_ACCOUNT_NAME = "printdataplatformstorage"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
