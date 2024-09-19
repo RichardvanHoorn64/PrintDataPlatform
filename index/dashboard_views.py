@@ -52,14 +52,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
-        img_1 = "https://printdatastorage.blob.core.windows.net/media/1/store/plano.png"
-        img_2 = "https://printdatastorage.blob.core.windows.net/media/1/store/folders.png"
-        img_3 = "https://printdatastorage.blob.core.windows.net/media/1/store/selfcovers.png"
-        img_4 = "https://printdatastorage.blob.core.windows.net/media/1/store/geniet_met_omslag.png"
-        img_5 = "https://printdatastorage.blob.core.windows.net/media/1/store/brochures.png"
-
         # store
-        categories_available = ProducerProductOfferings.objects.all().values_list('productcategory_id', flat=True)
         exclusive_producer_id = define_exclusive_producer_id(user)
 
         if user.member_plan_id in exclusive_memberplans:
