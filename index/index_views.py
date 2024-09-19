@@ -203,3 +203,7 @@ class EventsView(TemplateView):
 
         context['events'] = Events.objects.filter(language_id=language_id).order_by('sequence')
         return context
+
+
+class TestErrorView(TemplateView):
+    template_name = '500.html'

@@ -28,24 +28,33 @@
     <script src="{% static "assets/js/phoenix.js" %}"></script>
     <!--end::Global Theme Styles -->
 
-    <link href="{% static "assets/img/icons/logo.jpg" %}"/>
+    <link href="{% static "assets/img/logos/logo.png" %}"/>
 
 </head>
 {% block main_content %}
     <body>
-
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <div class="content">
-        <div class="container" id="new_project_header" style="background-color:whitesmoke;">
-            <hr class="text-info">
-            <h2 class="mb-4 text-info">404!</h2>
-            <div class="kt-error404-v2__desc"><strong>OOPS!</strong> Er is iets mis gegaan, pagina niet gevonden.</div>
+    <main class="main" id="top">
+      <div class="container-fluid px-0">
+        <div class="px-3">
+          <div class="row min-vh-100 flex-center p-5">
+            <div class="col-12 col-xl-10 col-xxl-8">
+              <div class="row justify-content-center g-5">
+                <div class="col-12 col-lg-6 text-center order-lg-1"><img class="img-fluid w-lg-100 d-dark-none" src="{% static "assets/img/spot-illustrations/404-illustration.png" %}" alt="" width="400" /><img class="img-fluid w-md-50 w-lg-100 d-light-none" src="../../assets/img/spot-illustrations/dark_404-illustration.png" alt="" width="540" /></div>
+                <div class="col-12 col-lg-6 text-center text-lg-start"><img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="{% static "assets/img/spot-illustrations/404.png" %}" alt="" /><img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="../../assets/img/spot-illustrations/dark_404.png" alt="" />
+                  <h2 class="text-800 fw-bolder mb-3">Oeps!</h2>
+                  <p class="text-900 mb-5">Er is iets mis gegaan, pagina niet gevonden. <br class="d-none d-sm-block" />We gaan ernaar kijken</p>
+                    <a class="btn btn-lg btn-primary" href="{% url 'home' %}">Home</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-
-    <!-- ===============================================-->
+      </div>
+    </main>
+        <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
     </body>

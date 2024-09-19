@@ -305,4 +305,6 @@ urlpatterns = [
     path('producer_assortiment_download/', DownloadAssortiment.as_view(), name='producer_assortiment_download'),
     path('producer_calculationdetails/<int:calculation_id>', ProducerCalculationDetails.as_view(), name='producer_calculationdetails'),
 
+    path('error_test/', TestErrorView.as_view(), name='error_test'),
+
 ]

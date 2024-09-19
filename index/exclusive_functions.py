@@ -39,6 +39,7 @@ def img_loc_logo(user):
         img_loc_logo_static = "assets/img/logos/header_1.jpg"
     return img_loc_logo_static
 
+
 def define_exclusive_site_name(user):
     member_plan_id = user.member_plan_id
     exclusive_site_name = define_site_name(user)
