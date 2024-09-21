@@ -1,6 +1,6 @@
 import os
 from .settings import *
-from .settings import BASE_DIR
+
 
 DEBUG = True
 
@@ -51,32 +51,4 @@ EMAIL_USERS_PASSWORD = os.environ['EMAIL_USERS_PASSWORD']
 EMAIL_TO_ADMIN = os.environ['EMAIL_TO_ADMIN']
 EMAIL_ADMIN_PASSWORD = os.environ['EMAIL_ADMIN_PASSWORD']
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
-
-# DEPLOY STATICFILES TO PRODUCTION
-# Set the backend to use django-storages
-# STATICFILES_STORAGE = 'storages.backends.azure_storage.AzureStorage'
-
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": 'storages.backends.azure_storage.AzureStorage',
-    },
-}
-
-# Azure Storage settings
-AZURE_ACCOUNT_NAME = 'printdatastorage'  # Replace with your Azure Storage Account Name
-AZURE_CONTAINER = 'static'      # Replace with your actual container name
-AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-
-# Define STATIC_URL to point to the Azure Blob Storage container
-STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'
-
-# Ensure your collected static files are saved to the storage container
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Optional: Define the directory where your static files are stored locally
-
-
-MEDIA_LOCATION = "media"
-MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 

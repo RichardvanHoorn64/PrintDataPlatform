@@ -80,7 +80,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     # language settings
     'django.middleware.locale.LocaleMiddleware',
     # Add the account middleware:
@@ -221,11 +221,15 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+# Use WhiteNoise for serving static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+STATIC_ROOT = BASE_DIR / "productionfiles"  # new
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"  # new
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
