@@ -54,7 +54,7 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 # DEPLOY STATICFILES TO PRODUCTION
 # Set the backend to use django-storages
-STATICFILES_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+# STATICFILES_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 
 STORAGES = {
     "default": {
