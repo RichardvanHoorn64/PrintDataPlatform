@@ -52,6 +52,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
+        categories_available = categories_all
         # store
         exclusive_producer_id = define_exclusive_producer_id(user)
 
@@ -75,7 +76,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             start_printproject = 'Start nieuwe aanvraag'
             start_project_buttontext = 'Start aanvraag'
 
-            context['categories_available'] = categories_available
+
 
         # store image location on Azure
         blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
@@ -88,6 +89,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title
+        context['categories_available'] = categories_available
         context['start_printproject'] = start_printproject
         context['start_project_buttontext'] = start_project_buttontext
         context['printproject_list'] = printprojects.order_by('-rfq_date')[:10][::-1]

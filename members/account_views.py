@@ -57,7 +57,6 @@ class ThanksSubmitView(TemplateView):
 
 
 class SignupLandingView(TemplateView):
-
     # template_name = 'account/signup_landing.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -101,7 +100,7 @@ class SignupLandingView(TemplateView):
             print('SignupLandingView error: ', e)
             pass
 
-        return redirect('/printproject_dashboard/0')
+        return redirect('/printproject_dashboard/1')
 
 
 class MyAccountUpdateView(UpdateView, LoginRequiredMixin):

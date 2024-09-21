@@ -37,7 +37,7 @@ class ProducerTariffs(LoginRequiredMixin, TemplateView):
         transport_tariffs = TransportTariffs.objects.filter(producer_id=user.producer_id)
 
         if not enhancement_tariffs:
-            update_enhencement_offerings(user.producer_id)
+            update_enhancement_offerings(user.producer_id)
             enhancement_tariffs = EnhancementTariffs.objects.filter(producer_id=user.producer_id)
         enhancement_tariffs = enhancement_tariffs
 

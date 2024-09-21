@@ -45,6 +45,7 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
         new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
         form.instance.id = new_id
         form.instance.member_plan_id = 1
+        form.instance.producer_id = 1
 
         self.user = form.save(self.request)
         try:
