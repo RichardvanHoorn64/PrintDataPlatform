@@ -1,8 +1,7 @@
 import os
 from .settings import *
 
-
-DEBUG = True
+DEBUG = False
 
 WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 
