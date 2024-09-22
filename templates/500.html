@@ -39,41 +39,37 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-      <div class="container-fluid px-0">
-        <div class="px-3">
-          <div class="row min-vh-100 flex-center p-5">
-            <div class="col-12 col-xl-10 col-xxl-8">
-              <div class="row justify-content-center g-5">
-                <div class="col-12 col-lg-6 text-center order-lg-1"><img class="img-fluid w-lg-100 d-dark-none" src="{% static "assets/img/spot-illustrations/500-illustration.png" %}" alt="" width="400" /><img class="img-fluid w-md-50 w-lg-100 d-light-none" src="assets/img/spot-illustrations/500" alt="" width="540" /></div>
-                <div class="col-12 col-lg-6 text-center text-lg-start"><img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="{% static "assets/img/spot-illustrations/500.png" %}" alt="" /><img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="../../assets/img/spot-illustrations/dark_404.png" alt="" />
-                  <h2 class="text-800 fw-bolder mb-3">Oeps!</h2>
-                  <p class="text-900 mb-5">Er is iets mis gegaan, server error.<br class="d-none d-sm-block" />We lossen het op</p>
-                    <a class="btn btn-lg btn-primary" href="{% url 'home' %}">Home</a>
+        <div class="container-fluid px-0 bg-info-100">
+            {#        <div class="px-3">#}
+            <div class="row min-vh-100 flex-center p-5">
+                {#            <div class="col-12 col-xl-10 col-xxl-8">#}
+                <div class="row justify-content-center g-5">
+                    <div class="col-8 col-lg-8 text-center text-lg-start"><img
+                            class="img-fluid mb-6 w-100 w-lg-150 d-dark-none border border-info rounded"
+                            src="{% static "assets/img/spot-illustrations/error_fix.jpg" %}" alt="" width="400"/>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="card border border-info">
+                            <div class="card-body">
+                                <h4 class="card-title text-warning">Oeps!</h4>
+                                <p class="card-text">500 server error<br>We gaan ernaar kijken<br><br>
+                                    Neem gerust contact met ons op als er vragen zijn</p>
+                                <div class="row"></div>
+                                <a href="https://www.printdataplatform.nl/" target="_blank"
+                                   class="btn btn-info btn-sm me-1 mb-1" role="button"
+                                   aria-pressed="true">Meer info</a>
+                                <a class="btn btn-info btn-sm me-1 mb-1" href="{% url 'home' %}">Home</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
-    <div class="content">
-        <div class="container" id="new_project_header" style="background-color:whitesmoke;">
-            <hr class="text-info">
-            <h2 class="mb-4 text-info">404!</h2>
-            <div class="kt-error404-v2__desc"><strong>OOPS!</strong> Er is iets mis gegaan, server error.</div>
-        </div>
-    </div>
-
-    <!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
     </body>
     <!-- end:: Page -->
 

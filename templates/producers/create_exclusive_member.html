@@ -35,19 +35,12 @@
             <!-- ===============================================-->
 
             <form method="post">  {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-8">
-                            <label class="form-label" for="jobtitle">Functie:</label>
-                            <p>{{ form.jobtitle }}</p>
-                            <span class="form-text text-muted">{{ form.jobtitle.help_text }}</span>
-                        </div>
-                    </div>
                     <!-- ===============================================-->
                     <!--  Company  / e_mail_general -->
                     <!-- ===============================================-->
                     <hr class="text-info">
                     <div class="row">
-                        <h4 class="mb-3 text-info">Klant</h4>
+                        <h4 class="mb-3 text-info">{{ user.company }} klant</h4>
                     </div>
                     <div class="row">
                         <div class="col-md-8">

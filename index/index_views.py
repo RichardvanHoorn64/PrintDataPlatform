@@ -13,7 +13,7 @@ class WelcomeView(TemplateView):
         if not user.is_authenticated:
             return redirect('/accounts/login/')
 
-        if not user.active:
+        if not user.member.active:
             return redirect('/no_access/')
 
         # authenticated user landing
@@ -110,17 +110,6 @@ class WelcomeView(TemplateView):
 class WaitForApproval(TemplateView):
     template_name = 'wait_for_approval.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/wait_for_approval/')
-        elif user.is_authenticated and user.member.active and user.member.producerplan:
-            return redirect('/producer_sales_dashboard/0')
-
-        elif user.is_authenticated and user.member.active and not user.member.producerplan:
-            return redirect('/printdataplatform_dashboard/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
 
 
 # class HomeView(TemplateView):
@@ -206,4 +195,4 @@ class EventsView(TemplateView):
 
 
 class TestErrorView(TemplateView):
-    template_name = '500.html'
+    template_name = '404.html'

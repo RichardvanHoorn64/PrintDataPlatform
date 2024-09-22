@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Max
 from index.categories_groups import *
 from index.exclusive_functions import update_exclusive_members
 from index.models import DropdownCountries
@@ -14,13 +16,23 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
 from profileuseraccount.form_invalids import form_invalid_message
 from index.dq_functions import producer_dq_functions
-from django.contrib.messages.views import SuccessMessageMixin
 
 
 class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_sales_dashboard.html"
     pk_url_kwarg = 'offerstatus_id'
     context_object_name = 'offerstatus_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         offerstatus_id = kwargs['offerstatus_id']
@@ -43,10 +55,18 @@ class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
 
 class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
     template_name = "producers/tables/producer_members.html"
-
+    
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
-        return super().dispatch(request, *args, **kwargs)
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProducerOpenMembers, self).get_context_data(**kwargs)
@@ -70,6 +90,17 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
     template_name = "producers/member_details_contacts.html"
     model = Members
     profile = Members
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         user = self.request.user
@@ -99,10 +130,9 @@ class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, C
         return success_url
 
     def form_valid(self, form):
-        UserProfile = form.save(commit=False)
+        newuuserprofile = form.save(commit=False)
         password = form.cleaned_data['password1']
         repeat_password = form.cleaned_data['password2']
-        user = self.request.user
 
         if password != repeat_password:
             messages.error(self.request, "De ingevoerde wachtwoorden zijn niet hetzelfde",
@@ -112,22 +142,25 @@ class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, C
         member_id = self.kwargs['member_id']
         member = Members.objects.get(member_id=member_id)
 
-        UserProfile.username = form.cleaned_data['username']
-        UserProfile.email = form.cleaned_data['email']
-        UserProfile.first_name = form.cleaned_data['first_name']
-        UserProfile.last_name = form.cleaned_data['last_name']
-        UserProfile.mobile_number = form.cleaned_data['mobile_number']
-        UserProfile.jobtitle = form.cleaned_data['jobtitle']
-        UserProfile.member_id = member.member_id
-        UserProfile.member_plan_id = member.member_plan_id
-        UserProfile.producer_id = member.exclusive_producer_id
-        UserProfile.company = member.company
-        UserProfile.street_number = member.street_number
-        UserProfile.population = member.postal_code
-        UserProfile.city = member.city
-        UserProfile.is_active = True
-        UserProfile.set_password(password)
-        UserProfile.save()
+        # new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
+        # newuuserprofile.id = new_id
+
+        newuuserprofile.username = form.cleaned_data['username']
+        newuuserprofile.email = form.cleaned_data['email']
+        newuuserprofile.first_name = form.cleaned_data['first_name']
+        newuuserprofile.last_name = form.cleaned_data['last_name']
+        newuuserprofile.mobile_number = form.cleaned_data['mobile_number']
+        newuuserprofile.jobtitle = form.cleaned_data['jobtitle']
+        newuuserprofile.member_id = member.member_id
+        newuuserprofile.member_plan_id = member.member_plan_id
+        newuuserprofile.producer_id = member.exclusive_producer_id
+        newuuserprofile.company = member.company
+        newuuserprofile.street_number = member.street_number
+        newuuserprofile.population = member.postal_code
+        newuuserprofile.city = member.city
+        newuuserprofile.is_active = True
+        newuuserprofile.set_password(password)
+        newuuserprofile.save()
         return super(CreateNewExclusiveMemberContact, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -149,6 +182,17 @@ class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_error_dashboard.html"
     pk_url_kwarg = 'offerstatus_id'
     context_object_name = 'offerstatus_id'
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         user = self.request.user
@@ -167,6 +211,17 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_order_dashboard.html"
     pk_url_kwarg = 'order_status_id'
     context_object_name = 'order_status_id'
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         user = self.request.user
@@ -185,6 +240,15 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
     success_url = 'home'
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -207,7 +271,15 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
-        return super().dispatch(request, *args, **kwargs)
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         user = self.request.user
@@ -230,7 +302,15 @@ class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
-        return super().dispatch(request, *args, **kwargs)
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProducerExclusiveMembers, self).get_context_data(**kwargs)
@@ -258,6 +338,17 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
     form_class = CreateProducerExclusiveMemberForm
     redirect_field_name = "next"
     success_url = '/producer_exlusive_members/'
+    
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = self.request.user
@@ -292,6 +383,8 @@ class ProducerPricingUpdateView(UpdateView, LoginRequiredMixin):
         if not user.is_authenticated:
             return redirect('/home/')
         elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
             return redirect('/wait_for_approval/')
         else:
             return super().dispatch(request, *args, **kwargs)
@@ -330,6 +423,13 @@ class ProducerCloseOrderView(LoginRequiredMixin, View):
     profile = Orders
 
     def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
         order_id = self.kwargs['pk']
         order = Orders.objects.get(order_id=order_id)
 
@@ -346,6 +446,13 @@ class ProducerAcceptOrderView(LoginRequiredMixin, View):
     profile = Orders
 
     def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
         order_id = self.kwargs['pk']
         order = Orders.objects.get(order_id=order_id)
         order.order_status_id = 2

@@ -3,16 +3,12 @@ from django.db.models import Max
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
-from django.views.generic.edit import FormView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from index.create_context import creatememberplan_context
+from django.views.generic.edit import FormView
 from index.exclusive_functions import define_site_name
-from index.forms.accountforms import MemberUpdateForm
 from index.models import *
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registration_userprofile import UserProfileCreationForm
-from profileuseraccount.models import UserProfile, Members
+from profileuseraccount.models import UserProfile
 from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.utils import get_request_param
 from allauth.account.utils import (

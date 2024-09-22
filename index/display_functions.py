@@ -1,6 +1,7 @@
 from index.categories_groups import *
 from index.convert_functions import *
 from printprojects.models import ClientContacts
+from django.shortcuts import redirect
 
 
 def printproject_client_quotenumber(client_quotenumber):
