@@ -7,6 +7,7 @@ WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 
 ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
                  'printdata-platform.com', 'www.printdata-platform.com',
+                 'printdata-platform.org',
                  'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
                  'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
                  'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
@@ -15,7 +16,7 @@ ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
                  '169.254.130.3']
 
 CSRF_TRUSTED_ORIGINS = ['https://printdataplatform.com', 'https://drukwerkmaatwerk.com',
-                        'https://printdata-platform.com',
+                        'https://printdata-platform.com', 'https://printdata-platform.org'
                         'https://veldhuismedia-online.nl', 'https://drukkerijvanhoorn.nl',
                         'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
                         'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',

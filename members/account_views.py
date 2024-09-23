@@ -76,7 +76,7 @@ class SignupLandingView(TemplateView):
                 street_number=user.street_number,
                 postal_code=user.postal_code,
                 city=user.city,
-                member_plan_id=user.member_plan_id,
+                member_plan_id=1,
                 language_id=user.language_id,
             )
 
@@ -84,7 +84,7 @@ class SignupLandingView(TemplateView):
                 new_member.save()
                 my_profile = UserProfile.objects.get(id=user.id)
                 my_profile.member_id = new_member.member_id
-                my_profile.member_plan_id = new_member.member_plan_id
+                my_profile.member_plan_id = 1
                 my_profile.language_id = 1
                 my_profile.save()
             except Exception as e:

@@ -63,8 +63,6 @@ class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
             return redirect('/home/')
         elif not user.member.active:
             return redirect('/wait_for_approval/')
-        elif not user.member.member_plan_id == 4:
-            return redirect('/wait_for_approval/')
         else:
             return super().dispatch(request, *args, **kwargs)
 
@@ -275,8 +273,6 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
         if not user.is_authenticated:
             return redirect('/home/')
         elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        elif not user.member.member_plan_id == 4:
             return redirect('/wait_for_approval/')
         else:
             return super().dispatch(request, *args, **kwargs)
