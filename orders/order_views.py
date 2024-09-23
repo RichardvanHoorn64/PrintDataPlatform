@@ -1,8 +1,6 @@
 from datetime import datetime
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-
 from orders.forms.forms import OrdersForm
 from orders.models import Orders
 from django.views.generic import *
@@ -10,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from index.forms.form_invalids import form_invalid_message_quotes
 from offers.models import *
 from index.create_context import createprintproject_context, creatememberplan_context
+from orders.ordermail_functions import send_ordermail_producer
+from profileuseraccount.form_invalids import error_mail_admin
 
 
 class OrderDashboard(LoginRequiredMixin, TemplateView):
@@ -88,6 +88,15 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         order_id = self.object.order_id
+
+        # mail orderdata to producer
+        try:
+            send_ordermail_producer(order_id, self.request.user)
+        except Exception as e:
+            try:
+                error_mail_admin('order id: ' + str(self.object.id) + 'doorverwijzing naar orderbevestiging: ,', e)
+            except:
+                pass
         return '/order_details/' + str(order_id)
 
     def form_valid(self, form):

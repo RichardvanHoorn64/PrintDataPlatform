@@ -203,14 +203,12 @@ AUTHENTICATION_BACKENDS = (
 # Email settings
 EMAIL_HOST = 'mail.antagonist.nl'
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@printdataplatform.nl'
+DEFAULT_FROM_EMAIL = 'no-reply@printdataplatform.nl'
+EMAIL_HOST_PASSWORD = 'pdp-rfq#2025up'
 EMAIL_USE_TLS = True
-EMAIL_TO_USERS = 'no-reply@printdataplatform.nl'
-EMAIL_USERS_PASSWORD = 'pdp-rfq#2025up'
+SERVER_EMAIL = 'no-reply@printdataplatform.nl'
 EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
-EMAIL_ADMIN_PASSWORD = 'printmsg#2025$rh'
-SERVER_EMAIL = EMAIL_HOST
-EMAIL_PASSWORD = EMAIL_TO_USERS
-
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
@@ -238,9 +236,3 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
-

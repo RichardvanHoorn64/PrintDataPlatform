@@ -12,10 +12,10 @@ def new_member_confirmationmail(user):
             + ' namens: ' + str(user.company) + ' uit ' + str(user.city) + ' email: ' + str(user.e_mail_general)
             + ' telefoonnummer: ' + str(user.tel_general)
             ,
-            EMAIL_TO_USERS,
-            [EMAIL_TO_USERS, EMAIL_TO_ADMIN],
+            EMAIL_HOST_USER,
+            [EMAIL_TO_ADMIN],
             fail_silently=False,
 
         )
     except Exception as e:
-        print("mail error: ", str(e))
+        print("new member confirmationmail error: ", str(e))

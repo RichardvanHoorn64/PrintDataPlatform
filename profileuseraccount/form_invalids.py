@@ -1,5 +1,5 @@
 from django.core.mail import send_mail
-from printdataplatform.settings import DEBUG
+from printdataplatform.settings import *
 
 
 def form_invalid_message(form, response):
@@ -16,9 +16,9 @@ def form_invalid_message(form, response):
                 form.errors) + "form cleaned_data :" + str(form.cleaned_data), str(e))
 
 
-def error_mail_admin(typeprobleem, error):
+def error_mail_admin(error_type, error):
     try:
-        send_mail('Error message:', "Error type:" + typeprobleem + "Error:" + str(error), 'info@richardvanhoorn.nl',
-                  ['info@richardvanhoorn.nl'], fail_silently=False, )
+        send_mail('Error message:', "Error type:" + error_type + "Error:" + str(error), EMAIL_HOST_USER,
+                  [EMAIL_TO_ADMIN], fail_silently=False, )
     except Exception as e:
         print('Error message:', "Error type:" + error.type + "Error:" + str(error), str(e))

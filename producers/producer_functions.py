@@ -1,7 +1,6 @@
 from orders.models import *
 from producers.models import *
 
-
 def get_offercontext(producer_id, context, offerstatus_id):
     offers = Offers.objects.filter(producer_id=producer_id, active=True).exclude(offerstatus_id=4)
     try:
