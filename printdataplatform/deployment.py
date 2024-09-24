@@ -13,7 +13,7 @@ ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
                  'veldhuismedia-online.nl', 'www.veldhuismedia-online.nl',
                  'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
                  'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
-                 '169.254.130.3']
+                 '169.254.130.3', '169.254.129.3']
 
 CSRF_TRUSTED_ORIGINS = ['https://printdataplatform.com', 'https://drukwerkmaatwerk.com',
                         'https://printdata-platform.com', 'https://printdata-platform.org'
