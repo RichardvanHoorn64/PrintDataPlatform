@@ -57,7 +57,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         #     if not form.cleaned_data[field]:
         #         form.cleaned_data[field] = 0
 
-
         if not brandportal.brandportal_show_papercolor:
             paperbrand = form.cleaned_data['paperbrand']
             paperweight = form.cleaned_data['paperweight']
@@ -73,7 +72,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                                                                              paperbrand=paperbrand_cover,
                                                                              paperweight_m2=paperweight_cover).values_list(
                     'papercolor', flat=True).first()
-
 
         # fill general data
         form.instance.productcategory_id = productcategory_id
@@ -215,11 +213,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         # papercategories folders
         if productcategory_id in [categories_folders, categories_brochures_all]:
-            papercategories = papercatalog.filter(singe_sided=False, paperweight_m2__lte=300).values()
+            papercategories = papercatalog.filter(paperweight_m2__lte=300).values()
 
         # papercategories booklet
         if productcategory_id in categories_brochures_all:
-            papercategories = papercatalog.filter(singe_sided=True, paperweight_m2__lte=170).values()
+            papercategories = papercatalog.filter(singe_sided=False, paperweight_m2__lte=170).values()
 
         # papercategories cover
         papercategories_cover = papercatalog.values()
