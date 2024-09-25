@@ -51,6 +51,13 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         print('form: ', form.cleaned_data)
 
+        # for field in ['pressvarnish_front', 'pressvarnish_rear', 'pressvarnish_booklet',
+        #               'number_of_pages', 'printsided'
+        #               ]:
+        #     if not form.cleaned_data[field]:
+        #         form.cleaned_data[field] = 0
+
+
         if not brandportal.brandportal_show_papercolor:
             paperbrand = form.cleaned_data['paperbrand']
             paperweight = form.cleaned_data['paperweight']
@@ -61,10 +68,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                                                                    paperweight_m2=paperweight).values_list('papercolor',
                                                                                                            flat=True).first()
 
-            form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
-                                                                         paperbrand=paperbrand_cover,
-                                                                         paperweight_m2=paperweight_cover).values_list(
-                'papercolor', flat=True).first()
+            if productcategory_id in categories_brochures_cover:
+                form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
+                                                                             paperbrand=paperbrand_cover,
+                                                                             paperweight_m2=paperweight_cover).values_list(
+                    'papercolor', flat=True).first()
 
 
         # fill general data
@@ -77,12 +85,20 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         form.instance.packaging = find_packaging_id(form.cleaned_data['packaging'])
 
         # fill print rear
-        printsided = form.cleaned_data['printsided']
-        print_front = form.cleaned_data['print_front']
-        print_rear = form.cleaned_data['print_rear']
-        pressvarnish_front = form.cleaned_data['pressvarnish_front']
-        pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
-        form.instance.printsided = printsided
+        if productcategory_id in categories_selfcovers:
+            print_front = 0
+            print_rear = 0
+            printsided = 0
+            pressvarnish_front = 0
+            pressvarnish_rear = 0
+
+        else:
+            printsided = form.cleaned_data['printsided']
+            print_front = form.cleaned_data['print_front']
+            print_rear = form.cleaned_data['print_rear']
+            pressvarnish_front = form.cleaned_data['pressvarnish_front']
+            pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
+            form.instance.printsided = printsided
 
         if printsided == 2:
             form.instance.print_rear = print_front
@@ -96,6 +112,7 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.print_rear = print_rear
             form.instance.pressvarnish_front = pressvarnish_front
             form.instance.pressvarnish_rear = pressvarnish_rear
+            form.instance.printsided = printsided
 
         # handling pms data
         if not brandportal.brandportal_show_pms_input:
@@ -146,6 +163,10 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.number_of_pages = form.cleaned_data['number_of_pages']
 
         # enhance
+        if productcategory_id in categories_selfcovers:
+            form.instance.enhance_front = 0
+            form.instance.enhance_rear = 0
+
         if productcategory_id in categories_brochures_all:
             form.instance.enhance_sided = 1
             form.instance.enhance_rear = 0

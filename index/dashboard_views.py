@@ -76,12 +76,10 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             start_printproject = 'Start nieuwe aanvraag'
             start_project_buttontext = 'Start aanvraag'
 
-
-
         # store image location on Azure
         blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
         store = "/store/"
-        context['img_1'] = blob_loc+str(exclusive_producer_id)+store+'plano.png'
+        context['img_1'] = blob_loc + str(exclusive_producer_id) + store + 'plano.png'
         context['img_2'] = blob_loc + str(exclusive_producer_id) + store + 'folders.png'
         context['img_3'] = blob_loc + str(exclusive_producer_id) + store + 'selfcovers.png'
         context['img_4'] = blob_loc + str(exclusive_producer_id) + store + 'geniet_met_omslag.png'

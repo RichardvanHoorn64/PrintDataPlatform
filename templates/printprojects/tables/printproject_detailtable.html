@@ -306,14 +306,18 @@
                                     
                                     </tbody>
                                 </table>
-
                             </div>
-
                         </div>
                     </div>
 <hr class="text-info">
   {% if offer.offerstatus_id in offer_availeble %}
-{% include 'buttons/download_clientoffer_large.html' %} Aanbieding in ms-word download
+      <a href="{% url 'producer_download_offer'  offer.offer_id  %}"
+   class="btn btn-outline-secondary btn-sm me-1 mb-1" role="button"
+   aria-pressed="true"><i class="far fa-file-word text-secondary fs-2"></i></a>
+      Download aanbieding
+      
+      
+      
 {% else %}      
   <div class="align-left">
    <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>

@@ -1,0 +1,128 @@
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>order email</title></head>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+</html>
+<body>
+
+{% include 'orders/emails_ordermelding/start_email_order_notice.html' %}
+
+<h3>Algemeen:</h3>
+<rows>
+    <table>
+        <tr>
+            <th style="width: 15%">Order</th>
+            <th style="width: 30%">details</th>
+        </tr>
+        <tr>
+            <td>Opdrachtgever / ordernummer:</td>
+            <td>{{ besteller }} van {{ klant.bedrijfsnaam }}</td>
+        <tr>
+            {% if klant_ordernummer %}
+                <tr>
+                    <td>Bestelreferentie klant :</td>
+                    <td>{{ klant_ordernummer }} </td>
+                <tr>
+            {% endif %}
+        <tr>
+            <td>Orderdatum:</td>
+            <td>{{ opdracht.orderdatum | localize }} </td>
+        <tr>
+            <td>Orderwaarde:</td>
+            <td> € {{ opdracht.orderwaarde | floatformat:2 }}</td>
+            {% if opdracht.meerkosten_extra %}
+                <tr>
+                    <td>Meerkostenopgave:</td>
+                    <td> € {{ opdracht.meerkosten_extra | floatformat:2 }}</td>
+                <tr>
+            {% endif %}
+        <tr>
+            <td>Oplage:</td>
+            <td>{{ opdracht.order_oplage }} ex.</td>
+        </tr>
+        <tr>
+            <td>Orderomschrijving :</td>
+            <td>{{ opdracht.klant_orderbeschrijving }}</td>
+        </tr>
+        <tr>
+            <td>Offertenummer:</td>
+            <td>{{ aanvraag.offertenummer }}</td>
+        </tr>
+        <tr>
+            <td>Ordernummer:</td>
+            <td>{{ opdracht.ordernummer }}</td>
+        </tr>
+        <tr>
+            <td>Offerte datum :</td>
+            <td>{{ aanvraag.aanvraag_datum }}</td>
+        </tr>
+        <tr>
+            <td>Gevraagde leverdatum:</td>
+            <td>{% if opdracht.leverdatum_gevraagd %}
+
+                {{ opdracht.leverdatum_gevraagd }}
+            {% else %}
+                Geen opgave
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Aanlevering materiaal:</td>
+            <td>{% if opdracht.gepland_aanlevering %}
+                {{ opdracht.gepland_aanlevering }}
+            {% else %}
+                Geen opgave
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Afleveradres:</td>
+            <td>{{ afleveradres }}</td>
+        </tr>
+        <tr>
+            <td> Extra wensen:</td>
+            <td> {% if opdracht.bijzonderheden_meerkosten %}
+                {{ opdracht.bijzonderheden_meerkosten }}
+            {% else %}
+                Geen opgave
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <hr>
+            </td>
+            <td>
+                <hr>
+            </td>
+        </tr>
+    </table>
+    {% if productgroep == 'Brochures' %}
+        {% include 'orders/emails_ordermelding/email_details_brochures.html' %}
+    {% elif productgroep == 'Drukvellen' %}
+        {% include 'orders/emails_ordermelding/email_details_plano.html' %}
+    {% elif productgroep == 'Plano' %}
+        {% include 'orders/emails_ordermelding/email_details_plano.html' %}
+    {% elif productgroep == 'Folders' %}
+        {% include 'orders/emails_ordermelding/email_details_folders.html' %}
+    {% elif productgroep == 'Selfcovers' %}
+        {% include 'orders/emails_ordermelding/email_details_selfcovers.html' %}
+    {% endif %}
+</rows>
+<br><br>
+</body>

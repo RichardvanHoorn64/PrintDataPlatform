@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>Brochure order email</title></head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+</html>
+<body>
+<table>
+    <tr>
+        <th style="width: 15%"></th>
+        <th style="width: 30%"></th>
+    </tr>
+
+    <tr>
+        <td><strong>Productgoep:</strong></td>
+        <td><strong>Selfcovers</strong></td>
+    </tr>
+
+    <tr>
+        <td> Uitvoering :</td>
+        <td>
+            <div class="kt-align-left"> {{ offerte.aantal_paginas }}</div>
+        </td>
+    </tr>
+    <tr>
+        <td>Papier binnenwerk :</td>
+        <td>{{ offerte.papiergewicht_m2_bw }} g/m2, {{ offerte.papiersoort_bw }}, {{ offerte.papierkleur_bw }}</td>
+    </tr>
+
+    <tr>
+        <td>Afgewerkt formaat:</td>
+        <td>{{ paginaformaatbrochures }}</td>
+    </tr>
+
+    <tr>
+        <td>Bedrukking :</td>
+        <td>{{ bedrukking_bw }}</td>
+    </tr>
+    <tr>
+        <td>PMS kleuren (extra) :
+        </td>
+        <td>{{ pms_bw }}</td>
+    </tr>
+    <tr>
+        <td>Persvernis :</td>
+        <td>{{ persvernis_bw }}</td>
+    </tr>
+    <tr>
+        <td>Nabewerking :</td>
+        <td>{{ nabewerking_brochures }}</td>
+    </tr>
+    <tr>
+        <td>Verpakking:</td>
+        <td>{{ verpakking }}</td>
+    </tr>
+</table>
+</body>

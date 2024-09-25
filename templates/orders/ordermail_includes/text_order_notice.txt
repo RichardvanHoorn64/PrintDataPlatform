@@ -1,0 +1,26 @@
+Hallo,
+Er is een order geplaatst door {{ besteller }}
+
+{% autoescape off %}
+<br>aanbieding_id: {{aanbieding_id}}
+<br>omschrijving: {{omschrijving}}
+<br>productgroep: {{productgroep}}
+<br>offerte_datum: {{offerte_datum}}
+<br>offertenummer: {{offertenummer}}
+<br>aanbieding_datum: {{aanbieding_datum}}
+<br>offerte_totaal_bruto: {{offerte_totaal_bruto}}
+<br>offerte_totaal_netto: {{offerte_totaal_netto}}
+<br>offerte_1000_meer_bruto: {{offerte_1000_meer_bruto}}
+<br>offerte_1000_meer_netto: {{offerte_1000_meer_netto}}
+<br>meerkosten: {{meerkosten}}
+<br>max_prijsverschil: {{max_prijsverschil}}
+<br>status: {{status}}
+<br>actief: {{actief}}
+<br>deelnemer_id: {{deelnemer_id}}
+<br>offsetaanvraag_id: {{offsetaanvraag_id}}
+<br>offsetcalculatie_id: {{offsetcalculatie_id}}
+<br>producent_id: {{producent_id}}
+
+
+
+{% endautoescape %}

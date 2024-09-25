@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>Folder orderdetails email</title></head>
+
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+</html>
+<body>
+<table>
+    <tr>
+        <th style="width: 15%"></th>
+        <th style="width: 30%"></th>
+    </tr>
+    <tr>
+        <td><strong>Productgoep:</strong></td>
+        <td><strong>Folders</strong></td>
+    </tr>
+    <tr>
+        <td>Papiersoort :</td>
+        <td>{{ offerte.papiergewicht }} g/m2, {{ offerte.papiersoort }}, {{ offerte.papierkleur }}</td>
+    </tr>
+    <tr>
+        <td>Uitvoering :</td>
+        <td>{{ aantal_paginas_folders }} pagina's, {{ gevouwen }} tot paginaformaat</td>
+    </tr>
+    <tr>
+        <td>Afgewerkt formaat :</td>
+        <td>{{ offerte.breedte_mm_product }} x {{ offerte.hoogte_mm_product }} mm</td>
+    </tr>
+    <tr>
+        <td>Bedrukking :</td>
+        <td>{{ bedrukking_basis }}, {{ aflopend }}</td>
+    </tr>
+    <tr>
+        <td>PMS kleuren (extra) :</td>
+        <td>{{ pms_basis }}</td>
+    </tr>
+    <tr>
+        <td>Persvernis :</td>
+        <td>{{ persvernis_basis }}</td>
+    </tr>
+    <tr>
+        <td>Veredeling :</td>
+        <td>{{ veredeling }}</td>
+    </tr>
+    <tr>
+        <td>Verpakking :</td>
+        <td>{{ verpakking }}</td>
+    </tr>
+</table>
+<br>
+</body>
