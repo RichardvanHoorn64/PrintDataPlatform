@@ -30,61 +30,49 @@
     <tr>
         <td> Uitvoering :</td>
         <td>
-            <div class="kt-align-left"> {{ offerte.aantal_paginas }} pagina's in 4 pagina's omslag</div>
+            <div class="kt-align-left"> {{ description }}</div>
         </td>
     </tr>
     <tr>
         <td>Papier binnenwerk :</td>
-        <td>{{ offerte.papiergewicht_m2_bw }} g/m2, {{ offerte.papiersoort_bw }}, {{ offerte.papierkleur_bw }}</td>
+        <td>{{ paper_booklet }}</td>
     </tr>
 
     <tr>
         <td>Papiersoort omslag:</td>
-        <td>{{ offerte.papiergewicht_m2_omslag }}
-            g/m2, {{ offerte.papiersoort_omslag }} {{ offerte.papierkleur_omslag }}</td>
+        <td>{{ paper_cover }}</td>
     </tr>
     <tr>
         <td>Afgewerkt formaat:</td>
-        <td>{{ paginaformaatbrochures }}</td>
+        <td>{{ sizes }}</td>
     </tr>
 
     <tr>
         <td>Bedrukking binnenwerk:</td>
-        <td>{{ bedrukking_bw }}</td>
+        <td>{{ printing_booklet }}</td>
     </tr>
-    <tr>
-        <td>PMS kleuren (extra) binnenwerk:
-        </td>
-        <td>{{ pms_bw }}</td>
-    </tr>
-    <tr>
-        <td>Persvernis binnenwerk :</td>
-        <td>{{ persvernis_bw }}</td>
-    </tr>
+   
+
 
     <tr>
         <td>Bedrukking omslag:</td>
-        <td>{{ bedrukking_omslag }}</td>
+        <td>{{ printing_cover }}</td>
     </tr>
     <tr>
-        <td>PMS kleuren (extra) omslag:</td>
-        <td>{{ pms_omslag }}</td>
-    </tr>
-    <tr>
-        <td>Persvernis omslag:</td>
-        <td>{{ persvernis_omslag }}</td>
+        <td>Persvernis omslag :</td>
+        <td>{{ varnish }}</td>
     </tr>
     <tr>
         <td>Veredeling omslag:</td>
-        <td>{{ veredeling_omslag }}</td>
+        <td>{{ enhance }}</td>
     </tr>
     <tr>
         <td>Nabewerking :</td>
-        <td>{{ nabewerking_brochures }}</td>
+        <td>{{ finishing }}</td>
     </tr>
     <tr>
         <td>Verpakking:</td>
-        <td>{{ verpakking }}</td>
+        <td>{{ packaging }}</td>
     </tr>
 </table>
 </body>

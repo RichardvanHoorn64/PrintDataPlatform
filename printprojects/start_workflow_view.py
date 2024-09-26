@@ -19,17 +19,21 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        rfq_name = str(user.first_name) + " " + str(user.last_name)
-        member_plan_id = user.member_plan_id
+
         printproject_id = self.kwargs['printproject_id']
 
+        if not user.is_authenticated:
+            return redirect('/home/')
+
+        if not user.member.active:
+            return redirect('/wait_for_approval/')
+
         try:
+            rfq_name = str(user.first_name) + " " + str(user.last_name)
+            member_plan_id = user.member_plan_id
             rfq = PrintProjects.objects.get(printproject_id=printproject_id, member_id=user.member_id)
         except PrintProjects.DoesNotExist:
-            return redirect('no_access')
-
-        if not self.request.user.member.active:
-            return redirect('/wait_for_approval/')
+            return redirect('home')
 
         # start exclusive member workflow
         if member_plan_id in exclusive_memberplans:

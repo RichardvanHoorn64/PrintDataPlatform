@@ -51,12 +51,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         print('form: ', form.cleaned_data)
 
-        # for field in ['pressvarnish_front', 'pressvarnish_rear', 'pressvarnish_booklet',
-        #               'number_of_pages', 'printsided'
-        #               ]:
-        #     if not form.cleaned_data[field]:
-        #         form.cleaned_data[field] = 0
-
         if not brandportal.brandportal_show_papercolor:
             paperbrand = form.cleaned_data['paperbrand']
             paperweight = form.cleaned_data['paperweight']

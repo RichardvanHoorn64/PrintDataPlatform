@@ -2,7 +2,6 @@
 <html lang="nl">
 <head><title>Plano orderdetails email</title></head>
 
-
 <style>
     table {
         font-family: arial, sans-serif;
@@ -26,36 +25,33 @@
     </tr>
     <tr>
         <td><strong>Productgoep:</strong></td>
-        <td><strong>Plano drukvellen</strong></td>
-    </tr>
+        <td><strong>Plano</strong></td>
     <tr>
         <td>Papiersoort :</td>
-        <td>{{ offerte.papiergewicht }} g/m2, {{ offerte.papiersoort }}, {{ offerte.papierkleur }}</td>
+        <td>{{ paper }}</td>
     </tr>
     <tr>
-        <td>Drukvel,looprichting :</td>
-        <td>{{ offerte.drukvelformaat }}, {{ offerte.looprichting }}</td>
+        <td>Uitvoering :</td>
+        <td>{{ description }}</td>
+    </tr>
+    <tr>
+        <td>Afgewerkt formaat :</td>
+        <td>{{ size }} mm</td>
     </tr>
     <tr>
         <td>Bedrukking :</td>
-        <td>{{ bedrukking_basis }}</td>
+        <td>{{ printing }}</td>
+    </tr>
+    
+     <tr>
+        <td>Veredeling:</td>
+        <td>{{ enhance }}</td>
     </tr>
     <tr>
-        <td>PMS kleuren (extra) :</td>
-        <td>{{ pms_basis }}</td>
+        <td>Verpakking:</td>
+        <td>{{ packaging }}</td>
     </tr>
-    <tr>
-        <td>Persvernis :</td>
-        <td>{{ persvernis_basis }}</td>
-    </tr>
-    <tr>
-        <td>Veredeling :</td>
-        <td>{{ veredeling }}</td>
-    </tr>
-    <tr>
-        <td>Verpakking :</td>
-        <td>{{ verpakking }}</td>
-    </tr>
+   
 </table>
 <br>
 </body>

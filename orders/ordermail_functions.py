@@ -1,138 +1,122 @@
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-
+from index.display_functions import *
+from index.models import ProductCategory
 from offers.models import Offers
+from printprojects.models import PrintProjects
 from profileuseraccount.form_invalids import error_mail_admin
-
-try:
-    from printdataplatform.settings import EMAIL_HOST_USER
-except:
-    pass
-
+from printdataplatform.settings import EMAIL_HOST_USER
 from orders.models import Orders
 from profileuseraccount.models import *
 
 
-# email zenden
-def send_ordermail_producer(order_id, user):  # door producent naar klant
+# send orderdetails to producer
+def send_ordermail_producer(order_id):
     order = Orders.objects.get(order_id=order_id)
-    order_id = order.order_id
-    offer_id = Orders.objects.get(order_id=order_id)
+
+    # offer
+    offer_id = order.offer_id
     offer = Offers.objects.get(offer_id=offer_id)
-    printproject_id = offer.printproject_id
-    member = Members.objects.get(member_id=order.member_id)
+
+    # printproject
+    printproject_id = order.printproject_id
+    printproject = PrintProjects.objects.get(printproject_id=printproject_id)
+    productcategory_id = printproject.productcategory_id
+
+    # producer
     producer = Producers.objects.get(producer_id=order.producer_id)
-    orderer = UserProfile(id=order.orderer)
-    productgroep = order.productgroep
-    calculatie_id = order.calculatie_id
 
-    offernummer = offer.offernummer
-    # aanvraag = Aanvragen.objects.get(offernummer=offernummer)
+    # buyer
+    user = UserProfile(id=order.orderer_id)
+    orderer = str(user.first_name) + "" + str(user.last_name)
+    member = Members.objects.get(member_id=user.member_id)
 
-    aflopend = []
-    bedrukking_basis = []
-    persvernis_basis = []
-    veredeling_basis = []
-    nabewerking_brochures = []
-    pms_basis = []
-    bedrukking_bw = []
-    pms_bw = []
-    persvernis_bw = []
-    vouwen = []
-    folderomvang = []
-    paginaformaatbrochures = []
-    bedrukking_omslag = []
-    pms_omslag = []
-    persvernis_omslag = []
-    veredeling_omslag = []
+    # order details
+    productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
+    description = printproject_description(printproject, productcategory)
+    own_quotenumber = printproject_own_quotenumber(printproject)
 
-    # if not order.klant_ordernummer or order.klant_ordernummer == 'Geen opgave':
-    #     klant_ordernummer = order.ordernummer
-    # else:
-    #     klant_ordernummer = order.klant_ordernummer
-    #
-    # try:
-    #     bedrukking_basis = bedrukking_beschrijving_basis(offer.uitvoering, offer.bedrukking,
-    #                                                      offer.bedrukking_achterzijde)
-    #     pms_basis = pms_beschrijving_basis(offer.uitvoering, offer.aantal_pms_kleuren,
-    #                                        offer.aantal_pms_kleuren_achterzijde)
-    #     persvernis_basis = persvernis_beschrijving_basis(offer.persvernis,
-    #                                                      offer.persvernis_achterzijde),
-    #
-    #     veredeling_basis = veredeling_beschrijving_plano(offer.veredeling,
-    #                                                      offer.veredeling_achterzijde)
-    # except:
-    #     pass
-    #
-    # try:
-    #     vouwen = vouwen_beschrijving(offer.nabewerking_folders)
-    #     folderomvang = aantal_paginas_folders(offer.nabewerking_folders)
-    # except:
-    #     pass
-    #
-    # try:
-    #     pms_basis = pms_beschrijving_basis(offer.uitvoering, offer.aantal_pms_kleuren,
-    #                                        offer.aantal_pms_kleuren_achterzijde)
-    # except:
-    #     pass
-    #
-    # try:
-    #     paginaformaatbrochures = paginaformaat(offer.breedte_mm_product, offer.hoogte_mm_product,
-    #                                            offer.staand_liggend)
-    # except:
-    #     pass
-    #
-    #     # Context voor brochures / selfcovers
-    # try:
-    #     nabewerking_brochures = nabewerking_brochures_beschrijving(offer.nabewerking_brochures)
-    #     bedrukking_bw = bedrukking_beschrijving_bw(offer.bedrukking_bw)
-    #     pms_bw = pms_beschrijving_bw(offer.aantal_pms_kleuren_bw)
-    #     persvernis_bw = persvernis_beschrijving_bw(offer.persvernis_bw)
-    # except:
-    #     pass
-    #     # Context voor brochures omslagen
-    # try:
-    #     bedrukking_omslag = bedrukking_beschrijving_basis(offer.bedrukking_omslag, offer.bedrukking_omslag,
-    #                                                       offer.bedrukking_binnenzijde_omslag)
-    #     pms_omslag = pms_beschrijving_basis(offer.uitvoering_omslag, offer.aantal_pms_kleuren_omslag,
-    #                                         offer.aantal_pms_kleuren_omslag_binnenzijde)
-    #     persvernis_omslag = persvernis_beschrijving_basis(offer.persvernis_omslag,
-    #                                                       offer.persvernis_omslag_binnenzijde)
-    #     veredeling_omslag = veredeling_beschrijving_omslag(offer.veredeling_omslag)
-    # except:
-    #     pass
-    #
-    # merge_data = {
-    #     'klant_ordernummer': klant_ordernummer,
-    #     'productgroep': productgroep,
-    #     'opdracht': opdracht,
-    #     'aanvraag': aanvraag,
-    #     'offer': offer,
-    #     'besteller': besteller.first_name + " " + besteller.last_name,
-    #     'besteller_email': besteller.email,
-    #     'klant': klant,
-    #     'status': 'Aangevraagd',
-    #     'gevouwen': vouwen,
-    #     'aantal_paginas_folders': folderomvang,
-    #     'nabewerking_brochures': nabewerking_brochures,
-    #     'aflopend': aflopend,
-    #     'bedrukking_bw': bedrukking_bw,
-    #     'pms_bw': pms_bw,
-    #     'persvernis_bw': persvernis_bw,
-    #     'verpakking': offer.verpakking,
-    #     'bedrukking_basis': bedrukking_basis,
-    #     'pms_basis': pms_basis,
-    #     'persvernis_basis': persvernis_basis,
-    #     'veredeling': veredeling_basis,
-    #     'bedrukking_omslag': bedrukking_omslag,
-    #     'veredeling_omslag': veredeling_omslag,
-    #     'pms_omslag': pms_omslag,
-    #     'persvernis_omslag': persvernis_omslag,
-    #     'paginaformaatbrochures': paginaformaatbrochures,
-    #     'afleveradres': bepaal_afleveradres(opdracht, user),
-    # }
+    printproject = printproject
+    printproject_requester = user.first_name + " " + user.last_name + ", " + user.company
+    order_size = printproject_size(printproject)
 
-    merge_data = {}
+    # order descriptions
+    paper = printproject_paper(printproject.papercategory, printproject.paperbrand,
+                               printproject.paperweight, printproject.papercolor)
+    printing_booklet = printproject_printing_booklet(
+        printproject.print_booklet,
+        printproject.number_pms_colors_booklet,
+        printproject.pressvarnish_booklet)
+
+    printing_cover = printproject_printing(printproject.printsided, printproject.print_front,
+                                           printproject.print_rear,
+                                           printproject.number_pms_colors_front,
+                                           printproject.number_pms_colors_rear)
+
+    paper_cover = printproject_paper(printproject.papercategory_cover,
+                                     printproject.paperbrand_cover,
+                                     printproject.paperweight_cover,
+                                     printproject.papercolor_cover)
+    printing = printproject_printing(printproject.printsided, printproject.print_front,
+                                     printproject.print_rear,
+                                     printproject.number_pms_colors_front,
+                                     printproject.number_pms_colors_rear)
+    varnish = printproject_varnish(printproject.printsided, printproject.pressvarnish_front,
+                                   printproject.pressvarnish_rear)
+    enhance = printproject_enhance(printproject.productcategory_id,
+                                   printproject.enhance_sided, printproject.enhance_front,
+                                   printproject.enhance_rear, )
+    finishing = printproject_finishing(printproject)
+
+    packaging = printproject_packaging(printproject.packaging)
+
+    message_extra_work = printproject_message_extra_work(printproject.message_extra_work)
+
+    salesprice = printproject_salesprice(printproject)
+    salesprice1000extra = printproject_salesprice1000extra(printproject)
+    offer_table_title = "Aanbiedingen voor: " + description
+
+    nmber_of_pages = printproject_number_of_pages(printproject)
+
+    delivery_adress = str(order.delivery_company) + ', ' + str(order.delivery_contactperson) + ', ' + str(order.delivery_adress) + ', ' + str(order.delivery_postcode) + ' ' + str(
+        order.delivery_city) + ', ' + str(order.delivery_country) + ', ' + str(order.delivery_country)
+
+    merge_data = {
+        'orderer': orderer,
+        'offer': offer,
+        'order': order,
+        'own_quotenumber': own_quotenumber,
+        'productcategory_id' : productcategory_id,
+        'printproject': printproject,
+        'member': member,
+        'order_size': order_size,
+
+        'requester': printproject_requester,
+        'description': description,
+        'size': printproject_size,
+
+        'paper': paper,
+        'paper_cover': paper_cover,
+
+        'printing': printing,
+        'printing_booklet': printing_booklet,
+        'printing_cover': printing_cover,
+
+        'status': str(order.order_status),
+
+        'varnish': varnish,
+        'enhance': enhance,
+        'finishing': finishing,
+        'packaging': packaging,
+        'message_extra_work': message_extra_work,
+        'salesprice': salesprice,
+        'salesprice1000extra': salesprice1000extra,
+
+        'offer_table_title': offer_table_title,
+        'nmber_of_pages': nmber_of_pages,
+        'delivery_adress': delivery_adress,
+    }
+
     # select email template
     email_template = 'orders/ordermail_includes/email_order_notice.html'
     subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)

@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from index.categories_groups import *
+from index.display_functions import printproject_description
 from orders.forms.forms import OrdersForm
 from orders.models import Orders
 from django.views.generic import *
@@ -91,10 +93,11 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
 
         # mail orderdata to producer
         try:
-            send_ordermail_producer(order_id, self.request.user)
+            send_ordermail_producer(order_id)
         except Exception as e:
             try:
                 error_mail_admin('order id: ' + str(self.object.id) + 'doorverwijzing naar orderbevestiging: ,', e)
+                print(' send_ordermail_producer error: ', e)
             except:
                 pass
         return '/order_details/' + str(order_id)
@@ -206,24 +209,34 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
 
         context['offer'] = offer
         context = createprintproject_context(context, user, printproject)
-
         return context
 
 
-# Create your views here.
 class OrderDetailsView(LoginRequiredMixin, TemplateView):
     template_name = 'orders/order_details.html'
     pk_url_kwarg = 'order_id'
     context_object_name = 'order_id'
 
+    def retrieve_order(self):
+        order_id = self.kwargs['order_id']
+        order = Orders.objects.get(order_id=order_id)
+        return order
+
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
+        order = self.retrieve_order()
+
         if not user.is_authenticated:
             return redirect('/home/')
-        elif not user.member.active:
+        if not user.member.active:
             return redirect('/wait_for_approval/')
+        if user.member.member_plan_id in producer_memberplans:
+            if not user.producer_id == order.printproject_id:
+                return redirect('/no_access/')
         else:
-            return super().dispatch(request, *args, **kwargs)
+            if not user.member_id == order.member_id:
+                return redirect('/no_access/')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         user = self.request.user
@@ -231,10 +244,15 @@ class OrderDetailsView(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
         order_id = kwargs['order_id']
         order = Orders.objects.get(member_id=user.member_id, order_id=order_id)
+        offer = Offers.objects.get(offer_id=order.offer_id)
         printproject_id = order.printproject_id
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
         context = createprintproject_context(context, user, printproject)
+        productcategory = ProductCategory.objects.get(
+            productcategory_id=printproject.productcategory_id).productcategory
         context['order'] = order
+        context['offer'] = offer
+        context['description'] = printproject_description(printproject, productcategory)
         return context
 
 

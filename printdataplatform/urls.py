@@ -71,6 +71,7 @@ urlpatterns = [
 
     # printprojects
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
+
     path('start_printproject_workflow/<int:printproject_id>', PrintProjectStartWorkflowView.as_view(),
          name='start_printproject_workflow'),
 

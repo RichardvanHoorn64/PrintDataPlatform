@@ -20,7 +20,7 @@
 </html>
 <body>
 
-{% include 'orders/emails_ordermelding/start_email_order_notice.html' %}
+{% include 'orders/ordermail_includes/start_email_order_notice.html' %}
 
 <h3>Algemeen:</h3>
 <rows>
@@ -30,70 +30,78 @@
             <th style="width: 30%">details</th>
         </tr>
         <tr>
-            <td>Opdrachtgever / ordernummer:</td>
-            <td>{{ besteller }} van {{ klant.bedrijfsnaam }}</td>
+            <td>Opdrachtgever:</td>
+            <td>{{ orderer }} van {{ member.company }} uit {{ member.city }}</td>
         <tr>
-            {% if klant_ordernummer %}
+            {% if own_quotenumber %}
                 <tr>
                     <td>Bestelreferentie klant :</td>
-                    <td>{{ klant_ordernummer }} </td>
+                    <td>{{ own_quotenumber }} </td>
                 <tr>
             {% endif %}
         <tr>
             <td>Orderdatum:</td>
-            <td>{{ opdracht.orderdatum | localize }} </td>
+            <td>{{ order.orderdate | localize }} </td>
         <tr>
             <td>Orderwaarde:</td>
-            <td> € {{ opdracht.orderwaarde | floatformat:2 }}</td>
-            {% if opdracht.meerkosten_extra %}
+            <td> € {{ order.order_value | floatformat:2 }}</td>
+            {% if order.order_morecost %}
                 <tr>
                     <td>Meerkostenopgave:</td>
-                    <td> € {{ opdracht.meerkosten_extra | floatformat:2 }}</td>
+                    <td> € {{ order.order_morecost | floatformat:2 }}</td>
                 <tr>
             {% endif %}
         <tr>
             <td>Oplage:</td>
-            <td>{{ opdracht.order_oplage }} ex.</td>
+            <td>{{ order.order_volume }} ex.</td>
         </tr>
         <tr>
             <td>Orderomschrijving :</td>
-            <td>{{ opdracht.klant_orderbeschrijving }}</td>
+            <td>{{ order.order_description }}</td>
         </tr>
         <tr>
             <td>Offertenummer:</td>
-            <td>{{ aanvraag.offertenummer }}</td>
+            <td>{{ offer.offer_id }}</td>
         </tr>
         <tr>
             <td>Ordernummer:</td>
-            <td>{{ opdracht.ordernummer }}</td>
+            <td>{{ order.order_id }}</td>
         </tr>
         <tr>
             <td>Offerte datum :</td>
-            <td>{{ aanvraag.aanvraag_datum }}</td>
+            <td>{{ offer.offer_date }}</td>
+        </tr>
+    <tr>
+            <td>Verwachte aanleverdatum:</td>
+            <td>{% if order.printfiles_availeble %}
+                {{ order.printfiles_availeble }}
+            {% else %}
+                Geen opgave
+            {% endif %}
+            </td>
         </tr>
         <tr>
-            <td>Gevraagde leverdatum:</td>
-            <td>{% if opdracht.leverdatum_gevraagd %}
+            <td>Gewenste leverdatum:</td>
+            <td>{% if order.delivery_date_request %}
 
-                {{ opdracht.leverdatum_gevraagd }}
+                {{ order.delivery_date_request }}
             {% else %}
                 Geen opgave
             {% endif %}
             </td>
         </tr>
-        <tr>
-            <td>Aanlevering materiaal:</td>
-            <td>{% if opdracht.gepland_aanlevering %}
-                {{ opdracht.gepland_aanlevering }}
-            {% else %}
-                Geen opgave
-            {% endif %}
-            </td>
-        </tr>
+        
         <tr>
             <td>Afleveradres:</td>
-            <td>{{ afleveradres }}</td>
+            <td>{{ delivery_adress }}</td>
         </tr>
+    
+            <tr>
+            <td>Toelichting:</td>
+            <td>{{ order.order_remarks }}</td>
+        </tr>
+    
+    
         <tr>
             <td> Extra wensen:</td>
             <td> {% if opdracht.bijzonderheden_meerkosten %}
@@ -112,16 +120,16 @@
             </td>
         </tr>
     </table>
-    {% if productgroep == 'Brochures' %}
-        {% include 'orders/emails_ordermelding/email_details_brochures.html' %}
-    {% elif productgroep == 'Drukvellen' %}
-        {% include 'orders/emails_ordermelding/email_details_plano.html' %}
-    {% elif productgroep == 'Plano' %}
-        {% include 'orders/emails_ordermelding/email_details_plano.html' %}
-    {% elif productgroep == 'Folders' %}
-        {% include 'orders/emails_ordermelding/email_details_folders.html' %}
-    {% elif productgroep == 'Selfcovers' %}
-        {% include 'orders/emails_ordermelding/email_details_selfcovers.html' %}
+    {% if productcategory_id == 1 %}
+        {% include 'orders/ordermail_includes/email_details_plano.html' %}    
+    {% elif productcategory_id == 2 %}
+        {% include 'orders/ordermail_includes/email_details_folders.html' %}
+    {% elif productcategory_id == 3 %}
+        {% include 'orders/ordermail_includes/email_details_selfcovers.html' %}
+    {% elif productcategory_id == 4 %}
+        {% include 'orders/ordermail_includes/email_details_brochures.html' %}
+    {% elif productcategory_id == 5 %}
+        {% include 'orders/ordermail_includes/email_details_brochures.html' %}
     {% endif %}
 </rows>
 <br><br>

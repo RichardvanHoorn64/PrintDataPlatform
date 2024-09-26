@@ -1,1 +1,1 @@
-{% autoescape off %} Orderdata {{ opdracht.klant_orderbeschrijving}} {{ opdracht.klant.bedrijfsnaam }} {% endautoescape %}
+{% autoescape off %} Orderdata {{ description }} {{member.company }} {% endautoescape %}

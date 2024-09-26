@@ -30,35 +30,32 @@
     </tr>
     <tr>
         <td>Papiersoort :</td>
-        <td>{{ offerte.papiergewicht }} g/m2, {{ offerte.papiersoort }}, {{ offerte.papierkleur }}</td>
+        <td>{{ paper }}</td>
     </tr>
     <tr>
         <td>Uitvoering :</td>
-        <td>{{ aantal_paginas_folders }} pagina's, {{ gevouwen }} tot paginaformaat</td>
+        <td>{{ description }}</td>
     </tr>
     <tr>
         <td>Afgewerkt formaat :</td>
-        <td>{{ offerte.breedte_mm_product }} x {{ offerte.hoogte_mm_product }} mm</td>
+        <td>{{ size }} mm</td>
     </tr>
     <tr>
         <td>Bedrukking :</td>
-        <td>{{ bedrukking_basis }}, {{ aflopend }}</td>
+        <td>{{ printing }}</td>
+    </tr>
+    
+    <tr>
+        <td>Gevouwen :</td>
+        <td>{{ finishing }}</td>
+    </tr>
+     <tr>
+        <td>Veredeling:</td>
+        <td>{{ enhance }}</td>
     </tr>
     <tr>
-        <td>PMS kleuren (extra) :</td>
-        <td>{{ pms_basis }}</td>
-    </tr>
-    <tr>
-        <td>Persvernis :</td>
-        <td>{{ persvernis_basis }}</td>
-    </tr>
-    <tr>
-        <td>Veredeling :</td>
-        <td>{{ veredeling }}</td>
-    </tr>
-    <tr>
-        <td>Verpakking :</td>
-        <td>{{ verpakking }}</td>
+        <td>Verpakking:</td>
+        <td>{{ packaging }}</td>
     </tr>
 </table>
 <br>

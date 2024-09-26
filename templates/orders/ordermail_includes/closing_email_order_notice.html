@@ -2,19 +2,15 @@
 <html lang="nl">
 <head><title>head email melding</title></head>
 
-
-<h2>Nieuwe opdracht {{ opdracht.klant_orderbeschrijving }} voor {{ opdracht.producent.producentnaam }}</h2>
+<h2>Nieuwe opdracht {{description }} voor {{ producer.company }}</h2>
 
 Hallo,<br><br>
 
-Opdracht geplaatst door {{ besteller }} van {{ klant.bedrijfsnaam }} op {{ opdracht.orderdatum }}. <br>
+Via het PrintDataPlatform is een nieuwe Opdracht geplaatst door {{ orderer }} van {{ member.company }} op {{ order.orderdate }}. <br>
 Bekijk de order op <a
-        href="https://drukwerkmaatwerk.nl{% url 'opdracht_details_producenten' opdracht.ordernummer %}">{{ opdracht.klant_orderomschrijving }}</a>
+        href=https://printdataplatform.com'{% url 'order_details' order.order_id %}">{{ description }}</a>
 <br>
 
 Hiervoor moet je ingelogd zijn.<br>
 
 <h3>Algemeen:</h3>
-
-
-
