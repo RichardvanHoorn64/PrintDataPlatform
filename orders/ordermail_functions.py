@@ -29,7 +29,7 @@ def send_ordermail_producer(order_id):
     # buyer
     user = UserProfile(id=order.orderer_id)
     orderer = str(user.first_name) + "" + str(user.last_name)
-    member = Members.objects.get(member_id=user.member_id)
+    # member = Members.objects.get(member_id=user.member_id)
 
     # order details
     productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
@@ -78,8 +78,8 @@ def send_ordermail_producer(order_id):
 
     nmber_of_pages = printproject_number_of_pages(printproject)
 
-    delivery_adress = str(order.delivery_company) + ', ' + str(order.delivery_contactperson) + ', ' + str(order.delivery_adress) + ', ' + str(order.delivery_postcode) + ' ' + str(
-        order.delivery_city) + ', ' + str(order.delivery_country) + ', ' + str(order.delivery_country)
+    delivery_adress = str(order.deliver_company) + ', ' + str(order.deliver_contactperson) + ', ' + str(order.deliver_tel) + ', ' + str(order.deliver_postcode) + ' ' + str(
+        order.deliver_city)
 
     merge_data = {
         'orderer': orderer,
@@ -88,7 +88,7 @@ def send_ordermail_producer(order_id):
         'own_quotenumber': own_quotenumber,
         'productcategory_id' : productcategory_id,
         'printproject': printproject,
-        'member': member,
+        # 'member': member,
         'order_size': order_size,
 
         'requester': printproject_requester,
