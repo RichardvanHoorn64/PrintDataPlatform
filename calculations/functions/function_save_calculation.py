@@ -145,8 +145,6 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.error = error,
             calculation.total_cost = 0
             calculation.total_cost1000extra = 0
-
-            print(error)
             calculation.save()
 
     else:
