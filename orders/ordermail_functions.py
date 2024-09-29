@@ -8,6 +8,7 @@ from profileuseraccount.form_invalids import error_mail_admin
 from printdataplatform.settings import EMAIL_HOST_USER
 from orders.models import Orders
 from profileuseraccount.models import *
+from index.categories_groups import *
 
 
 # send orderdetails to producer
@@ -27,9 +28,8 @@ def send_ordermail_producer(order_id):
     producer = Producers.objects.get(producer_id=order.producer_id)
 
     # buyer
-    user = UserProfile(id=order.orderer_id)
-    orderer = str(user.first_name) + "" + str(user.last_name)
-    # member = Members.objects.get(member_id=user.member_id)
+    printorder_requester = order_requester(order)
+    member = Members.objects.get(member_id=order.member_id)
 
     # order details
     productcategory = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
@@ -37,7 +37,6 @@ def send_ordermail_producer(order_id):
     own_quotenumber = printproject_own_quotenumber(printproject)
 
     printproject = printproject
-    printproject_requester = user.first_name + " " + user.last_name + ", " + user.company
     order_size = printproject_size(printproject)
 
     # order descriptions
@@ -78,20 +77,19 @@ def send_ordermail_producer(order_id):
 
     nmber_of_pages = printproject_number_of_pages(printproject)
 
-    delivery_adress = str(order.deliver_company) + ', ' + str(order.deliver_contactperson) + ', ' + str(order.deliver_tel) + ', ' + str(order.deliver_postcode) + ' ' + str(
-        order.deliver_city)
 
     merge_data = {
-        'orderer': orderer,
+        'producer' : producer,
         'offer': offer,
+        'offer_date' : offer.offer_date.date(),
         'order': order,
         'own_quotenumber': own_quotenumber,
         'productcategory_id' : productcategory_id,
         'printproject': printproject,
-        # 'member': member,
+        'member': member,
         'order_size': order_size,
 
-        'requester': printproject_requester,
+        'requester': printorder_requester,
         'description': description,
         'size': printproject_size,
 
@@ -114,9 +112,16 @@ def send_ordermail_producer(order_id):
 
         'offer_table_title': offer_table_title,
         'nmber_of_pages': nmber_of_pages,
-        'delivery_adress': delivery_adress,
-    }
+        'delivery_adress': order_delivery_adress(order),
+        'delivery_contact' : order_delivery_contact(order),
 
+        'categories_plano' : categories_plano,
+        'categories_folders' : categories_folders,
+        'categories_selfcovers' : categories_selfcovers,
+        'categories_brochures_all' : categories_brochures_all,
+        'categories_brochures_cover' : categories_brochures_cover,
+    }
+    print('merge_data: ', merge_data)
     # select email template
     email_template = 'orders/ordermail_includes/email_order_notice.html'
     subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)

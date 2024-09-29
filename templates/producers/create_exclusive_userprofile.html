@@ -21,11 +21,11 @@
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
                                                    href="{% url 'home' %}">Welkom{{ user.company }}</a></li>
-                    <li class="breadcrumb-item active">Contactpersoon maken voor {{ member.company }}</li>
+                    <li class="breadcrumb-item active">Nieuwe klant maken voor {{ user.company }}</li>
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Contactpersoon maken voor {{ member.company }}</h2>
+            <h2 class="mb-4 text-info">Nieuwe klant maken voor {{ user.company }}</h2>
 
             <!-- ===============================================-->
             <!--    End Header-->
@@ -103,9 +103,80 @@
                     </div>
                    
                     <hr class="text-info">
+                    
+                    <!-- ===============================================-->
+                    <!--  Exclusive Company  / general -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
                     <div class="row">
-                        <h4 class="mb-1 text-info">Nieuw contactpersoon voor {{ member.company }}</h4>
-                           <h5 class="mb-1 text-black-50">Laat de nieuwe medewerker bij na het inloggen het wachtwoord wijzigen en gegevens aanvullen.</h5>
+                        <h4 class="mb-3 text-info">Nieuwe klant</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="form-label" for="company">Bedrijfsnaam:</label>
+                            <p>{{ form.company }}</p>
+                            <span class="form-text text-muted">{{ form.company.help_text }}</span>
+                        </div>
+                    </div>
+                    <!-- ===============================================-->
+                    <!--  General and mobile number -->
+                    <!-- ===============================================-->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="e_mail_general">Email algemeen:</label>
+                            <p>{{ form.e_mail_general }}</p>
+                            <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
+                            <p>{{ form.tel_general }}</p>
+                            <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
+                        </div>
+                    </div>
+
+                    <!-- ===============================================-->
+                    <!--  Adress -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="row">
+                        <h4 class="mb-3 text-info">Adres</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <label class="form-label" for="street_number">Straat en huisnummer</label>
+                            <p>{{ form.street_number }}</p>
+                            <span class="form-text text-muted">{{ form.street_number.help_text }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="postal_code">Postcode</label>
+                            <p>{{ form.postal_code }}</p>
+                            <span class="form-text text-muted">{{ form.postal_code.help_text }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="city">Plaats</label>
+                            <p>{{ form.city }}</p>
+                            <span class="form-text text-muted">{{ form.city.help_text }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            <label class="form-label" for="country_code">Land </label>
+                            <select class="form-select" id="country_code" name="country_code">
+                                {% for i in countries %}
+                                    <option value="{{ i.country_code }}">{{ i.country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="text-info">
+                
+                    <div class="row">
+                        <h4 class="mb-1 text-info">Exclusive klant voor {{ user.company }}</h4>
+                           <h5 class="mb-1 text-black-50">Laat de nieuwe klant bij na het inloggen het wachtwoord wijzigen en gegevens aanvullen.</h5>
                     </div>
                         <div class="col-md-12">
                         <button class="btn btn-success" type="submit">Klant aanmaken</button>
@@ -113,7 +184,6 @@
                     <br>
 
                 </div>
-                 <hr class="text-info">
             </form>
             <br>
             {% include 'messages/form_valid_errormelding.html' %}

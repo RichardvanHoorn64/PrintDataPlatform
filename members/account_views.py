@@ -56,7 +56,7 @@ class ThanksSubmitView(TemplateView):
     template_name = 'thanks_submit_offer.html'
 
 
-class SignupLandingView(TemplateView):
+class SignupLandingView(View):
     # template_name = 'account/signup_landing.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -78,6 +78,7 @@ class SignupLandingView(TemplateView):
                 city=user.city,
                 member_plan_id=1,
                 language_id=user.language_id,
+                exclusive_producer_id=1
             )
 
             try:

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Detail table</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<!-- ===============================================-->
+<!--    Printproject Detail table -->
+<!-- ===============================================-->
+<div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    <div class="row g-4">
+                        <div class="px-0">
+                            <div class="table-responsive scrollbar">
+                                <table class="table table-sm text-900 mb-0">
+                                    <thead class="bg-200">
+                                    <tr>
+                                        <th scope="col" style="width: 24px;"></th>
+                                        <th scope="col" style="width: 200px;">Order info</th>
+                                        <th scope="col" style="min-width: 500px;">
+                                            Offertenummer: {{ printproject_own_quotenumber }} </th>
+                                        <th scope="col" style="width: 24px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                         <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Order</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.order_volume }} ex {{ order.order_description }} </p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Geplaatst door</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.member.company }} op {{ order.orderdate |date:'d-m-Y ' }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.order_status.orderstatus }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Afleveradres</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ delivery_adress }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ delivery_contact }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                  
+
+                                    {% if order.delivery_date_request %}
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Gewenste leverdatum</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.delivery_date_request }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                    {% endif %}
+                                   
+                                   
+                                   
+                                    
+                                    {% if order.delivery_date %}
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Gewenste leverdatum</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.delivery_date |date:'d-m-Y ' }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                        {% endif %}
+
+                                    {% if order.printfiles_available %}
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verwachte aanlevering</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.printfiles_available |date:'d-m-Y ' }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                        {% endif %}
+
+                                    {% if order.order_remarks %}
+                                        <tr>
+                                            <td class="border-0"></td>
+                                            <td class="align-middle">
+                                                <p class="line-clamp-1 mb-0 fw-semi-bold">Aanvraag extra werk</p>
+                                            </td>
+                                            <td class="align-middle">
+                                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ order.order_remarks }}</p>
+                                            </td>
+                                            <td class="border-0"></td>
+                                        </tr>
+                                    {% endif %}
+                                         
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Orderwaarde </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >€ {{ order.order_value }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                         
+                                    
+                                   
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+</div>
+<!-- ===============================================-->
+<!--    End Printproject Detail table -->
+<!-- ===============================================-->

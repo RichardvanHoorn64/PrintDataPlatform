@@ -61,7 +61,7 @@ class CreateProducerExclusiveMemberForm(forms.ModelForm):
                   'street_number', 'postal_code', 'city', 'country_code')
 
 
-class CreateNewExclusiveMemberContactForm(forms.ModelForm):
+class CreateNewExclusiveMemberForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Kies een gebruikersnaam', 'label': 'Gebruikersnaam'}),
         max_length=16,
@@ -83,6 +83,16 @@ class CreateNewExclusiveMemberContactForm(forms.ModelForm):
     mobile_number = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mobiel telefoonnummer'}), max_length=12)
 
+    company = char_field_200_false
+    tel_general = char_field_100_false
+    e_mail_general = char_field_100_false
+    street_number = char_field_200_false
+    postal_code = char_field_100_false
+    city = char_field_200_false
+    country_code = char_field_100_false
+
     class Meta:
         model = UserProfile
-        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name','jobtitle', 'mobile_number')
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name',
+                  'jobtitle', 'mobile_number', 'company', 'tel_general', 'e_mail_general',
+                  'street_number', 'postal_code', 'city', 'country_code')

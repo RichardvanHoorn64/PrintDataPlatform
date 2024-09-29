@@ -32,6 +32,7 @@ from printprojects.start_printproject_view import *
 from printprojects.start_workflow_view import PrintProjectStartWorkflowView
 from producers.contact_views import *
 from producers.offer_views import *
+from producers.producer_exclusive_views import *
 from producers.producer_views import *
 from producers.tariff_views import *
 from profileuseraccount.accountviews.CreateUserProfileView import *
@@ -153,10 +154,10 @@ urlpatterns = [
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
 
     # producer exclusive members
-    path('create_producer_exclusive_member/<int:producer_id>', CreateProducerExclusiveMember.as_view(),
+    path('create_producer_exclusive_member', CreateProducerExclusiveMember.as_view(),
          name='create_producer_exclusive_member'),
-    path('create_new_producer_membercontact/<int:member_id>', CreateNewExclusiveMemberContact.as_view(),
-         name='create_new_producer_membercontact'),
+    # path('create_producer_exclusive_member_landing/<int:user_id>', CreateNewExclusiveMemberLanding.as_view(),
+    #      name='create_producer_exclusive_member_landing'),
 
 
     # producer contacts

@@ -2,7 +2,7 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from index.categories_groups import *
-from index.display_functions import printproject_description
+from index.display_functions import printproject_description, order_delivery_contact, order_delivery_adress
 from orders.forms.forms import OrdersForm
 from orders.models import Orders
 from django.views.generic import *
@@ -231,7 +231,7 @@ class OrderDetailsView(LoginRequiredMixin, TemplateView):
         if not user.member.active:
             return redirect('/wait_for_approval/')
         if user.member.member_plan_id in producer_memberplans:
-            if not user.producer_id == order.printproject_id:
+            if not user.producer_id == order.producer_id:
                 return redirect('/no_access/')
         else:
             if not user.member_id == order.member_id:
@@ -243,15 +243,20 @@ class OrderDetailsView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         order_id = kwargs['order_id']
-        order = Orders.objects.get(member_id=user.member_id, order_id=order_id)
+        order = Orders.objects.get(order_id=order_id)
         offer = Offers.objects.get(offer_id=order.offer_id)
         printproject_id = order.printproject_id
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
         context = createprintproject_context(context, user, printproject)
         productcategory = ProductCategory.objects.get(
             productcategory_id=printproject.productcategory_id).productcategory
+        delivery_adress = order_delivery_adress(order)
+        delivery_contact = order_delivery_contact(order)
+
         context['order'] = order
         context['offer'] = offer
+        context['delivery_adress'] = delivery_adress
+        context['delivery_contact'] = delivery_contact
         context['description'] = printproject_description(printproject, productcategory)
         return context
 

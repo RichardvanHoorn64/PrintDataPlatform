@@ -210,3 +210,25 @@ def printproject_clientcontact(clientcontact_id):
         clientcontactname = ClientContacts.objects.get(clientcontact_id=clientcontact_id).clientcontact
 
     return clientcontactname
+
+
+def order_delivery_adress(order):
+    delivery_adress = str(order.deliver_company) + ' ' + str(order.deliver_street_number) + ', ' + str(
+        order.deliver_postcode) + ' ' + str(order.deliver_city)
+    return delivery_adress
+
+
+def order_delivery_contact(order):
+    delivery_contact = str(order.deliver_company) + ', ' + str(order.deliver_contactperson) + ', tel: ' + str(
+        order.deliver_tel)
+    return delivery_contact
+
+
+def order_requester(order):
+    try:
+        user = UserProfile.objects.get(id=order.orderer_id)
+        requester = str(user.first_name) + "" + str(user.last_name)
+    except Exception as e:
+        requester = 'onbekend'
+
+    return requester

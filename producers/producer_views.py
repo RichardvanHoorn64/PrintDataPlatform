@@ -8,7 +8,7 @@ from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
 from index.forms.relationforms import *
 from index.create_context import creatememberplan_context
-from members.forms.accountforms import CreateProducerExclusiveMemberForm, CreateNewExclusiveMemberContactForm
+from members.forms.accountforms import CreateProducerExclusiveMemberForm, CreateNewExclusiveMemberForm
 from printprojects.forms.PrintprojectSalesPice import *
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -116,6 +116,7 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         return context
 
 
+'''
 class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "producers/create_exclusive_userprofile.html"
     pk_url_kwarg = 'member_id'
@@ -174,6 +175,7 @@ class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, C
         context = creatememberplan_context(context, user)
         context['member'] = member
         return context
+'''
 
 
 class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
@@ -293,41 +295,7 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
         return context
 
 
-class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
-    template_name = "producers/tables/producer_members.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        update_producersmatch(self.request)
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        elif not user.member.member_plan_id == 4:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ProducerExclusiveMembers, self).get_context_data(**kwargs)
-        user = self.request.user
-        producer_id = user.producer_id
-        update_exclusive_members(user)
-        producer = Producers.objects.get(producer_id=user.producer_id)
-        context = creatememberplan_context(context, user)
-        context['user'] = user
-        members = MemberProducerMatch.objects.filter(producer_id=producer_id, member_accept=True,
-                                                     member__member_plan__id__in=exclusive_memberplans).order_by(
-            'member__company')
-        context['members'] = members
-        context['title'] = str(user.producer.company) + ' exclusieve klanten'
-        context['exclusive_module'] = producer.exclusive_module
-        context['calculation_module'] = producer.calculation_module
-        context['add_members'] = True
-
-        return context
-
-
+'''
 class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
     template_name = "producers/create_exclusive_member.html"
     model = Members
@@ -365,7 +333,7 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
         context = creatememberplan_context(context, user)
         context['countries'] = countries
         return context
-
+'''
 
 class ProducerPricingUpdateView(UpdateView, LoginRequiredMixin):
     pk_url_kwarg = 'memberproducermatch_id'

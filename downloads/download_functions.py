@@ -22,6 +22,16 @@ def retrieve_client(client_id, member_id):
     return clientname
 
 
+def retrieve_company(member_id):
+    if member_id:
+        try:
+            company = Members.objects.get(member_id=member_id).company
+        except ValueError:
+            company = ""
+    else:
+        company = ""
+    return company
+
 def retrieve_projectmanager(user_id):
     try:
         user = UserProfile.objects.get(id=user_id)

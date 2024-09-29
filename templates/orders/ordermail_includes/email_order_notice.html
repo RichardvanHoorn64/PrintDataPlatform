@@ -27,21 +27,27 @@
     <table>
         <tr>
             <th style="width: 15%">Order</th>
-            <th style="width: 30%">details</th>
+            <th style="width: 30%">{{ order.order_description }}</th>
         </tr>
         <tr>
             <td>Opdrachtgever:</td>
-            <td>{{ orderer }} van {{ member.company }} uit {{ member.city }}</td>
-        <tr>
+            <td>{{ requester }} van {{ member.company }} uit {{ order.city }}</td>
             {% if own_quotenumber %}
+                <tr>
                 <tr>
                     <td>Bestelreferentie klant :</td>
                     <td>{{ own_quotenumber }} </td>
                 <tr>
+                <tr>
             {% endif %}
-        <tr>
             <td>Orderdatum:</td>
             <td>{{ order.orderdate | localize }} </td>
+            </tr>
+        <tr>
+            <td>Offertedatum:</td>
+            <td>{{ offer_date | localize }} </td>
+        </tr>
+
         <tr>
             <td>Orderwaarde:</td>
             <td> € {{ order.order_value | floatformat:2 }}</td>
@@ -55,10 +61,7 @@
             <td>Oplage:</td>
             <td>{{ order.order_volume }} ex.</td>
         </tr>
-        <tr>
-            <td>Orderomschrijving :</td>
-            <td>{{ order.order_description }}</td>
-        </tr>
+
         <tr>
             <td>Offertenummer:</td>
             <td>{{ offer.offer_id }}</td>
@@ -67,11 +70,8 @@
             <td>Ordernummer:</td>
             <td>{{ order.order_id }}</td>
         </tr>
+
         <tr>
-            <td>Offerte datum :</td>
-            <td>{{ offer.offer_date }}</td>
-        </tr>
-    <tr>
             <td>Verwachte aanleverdatum:</td>
             <td>{% if order.printfiles_availeble %}
                 {{ order.printfiles_availeble }}
@@ -84,53 +84,105 @@
             <td>Gewenste leverdatum:</td>
             <td>{% if order.delivery_date_request %}
 
-                {{ order.delivery_date_request }}
+                {{ order.delivery_date_request | localize }}
             {% else %}
                 Geen opgave
             {% endif %}
             </td>
         </tr>
-        
+
         <tr>
-            <td>Afleveradres:</td>
+            <td>Aflever adres:</td>
             <td>{{ delivery_adress }}</td>
         </tr>
-    
-            <tr>
-            <td>Toelichting:</td>
+
+        <tr>
+            <td>Aflever contactpersoon:</td>
+            <td>{{ delivery_contact }}</td>
+        </tr>
+
+        <tr>
+            <td>Aanvullende info:</td>
             <td>{{ order.order_remarks }}</td>
         </tr>
-    
-    
+
         <tr>
-            <td> Extra wensen:</td>
-            <td> {% if opdracht.bijzonderheden_meerkosten %}
-                {{ opdracht.bijzonderheden_meerkosten }}
+            <td>
+                <hr>
+            </td>
+            <td>
+                <hr>
+            </td>
+        </tr>
+
+        {% if productcategory_id in categories_brochures_all %}
+            <tr>
+                <td> Uitvoering :</td>
+                <td>
+                    <div class="kt-align-left"> {{ nmber_of_pages }}</div>
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            {% if productcategory_id in categories_brochures_cover %}
+                <td>Papier binnenwerk :</td>
             {% else %}
-                Geen opgave
+                <td>Papier :</td>
             {% endif %}
-            </td>
+            <td>{{ paper }}</td>
         </tr>
+
+        {% if productcategory_id in categories_brochures_cover %}
+            <tr>
+                <td>Papier omslag
+                <td>{{ paper_cover }}</td>
+            </tr>
+        {% endif %}
+
+
         <tr>
-            <td>
-                <hr>
-            </td>
-            <td>
-                <hr>
-            </td>
+            <td>Afgewerkt formaat:</td>
+            <td>{{ order_size }}</td>
         </tr>
+
+        <tr>
+            {% if productcategory_id in categories_brochures_cover %}
+                <td>Bedrukking binnenwerk :</td>
+            {% else %}
+                <td>Bedrukking :</td>
+            {% endif %}
+            <td>{{ printing_booklet }}</td>
+        </tr>
+
+
+        {% if productcategory_id in categories_brochures_cover %}
+            <tr>
+                <td>Bedrukking omslag:</td>
+                <td>{{ printing_cover }}</td>
+            </tr>
+        {% endif %}
+
+        {% if productcategory_id in categories_plano %}
+            <tr>
+                <td>Bedrukking :</td>
+                <td>{{ printing }}</td>
+            </tr>
+        {% endif %}
+
+        {% if productcategory_id in categories_brochures_all %}
+            <tr>
+                <td>Nabewerking :</td>
+                <td>{{ finishing }}</td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td>Verpakking:</td>
+            <td>{{ packaging }}</td>
+        </tr>
+
     </table>
-    {% if productcategory_id == 1 %}
-        {% include 'orders/ordermail_includes/email_details_plano.html' %}    
-    {% elif productcategory_id == 2 %}
-        {% include 'orders/ordermail_includes/email_details_folders.html' %}
-    {% elif productcategory_id == 3 %}
-        {% include 'orders/ordermail_includes/email_details_selfcovers.html' %}
-    {% elif productcategory_id == 4 %}
-        {% include 'orders/ordermail_includes/email_details_brochures.html' %}
-    {% elif productcategory_id == 5 %}
-        {% include 'orders/ordermail_includes/email_details_brochures.html' %}
-    {% endif %}
 </rows>
 <br><br>
 </body>
