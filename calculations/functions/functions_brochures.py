@@ -205,19 +205,30 @@ def katern_height_calc(rfq, katernmargin, headmargin):
 
 
 def filter_foldingmachines_fit_rfq(producer_id, rfq):
-    fit_foldingmachines_rfq = pd.DataFrame(Foldingmachines.objects.filter(
-        producer_id=producer_id,
-        foldingtype_id=1,
-        min_weight_paper_katern__lte=rfq.paperweight,
-        max_weight_paper_katern__gte=rfq.paperweight,
-    ).values())
-
-    if rfq.portrait_landscape == 1:  # 'staand':
-        fit_foldingmachines_rfq = fit_foldingmachines_rfq[fit_foldingmachines_rfq.vertical_offered == True]
-    if rfq.portrait_landscape == 2:  # 'liggend':
-        fit_foldingmachines_rfq = fit_foldingmachines_rfq[fit_foldingmachines_rfq.landscape_offered == True]
-    if rfq.portrait_landscape == 3:  # 'vierkant':
-        fit_foldingmachines_rfq = fit_foldingmachines_rfq[fit_foldingmachines_rfq.square_offered == True]
+    if rfq.portrait_landscape == 1:
+        fit_foldingmachines_rfq = pd.DataFrame(Foldingmachines.objects.filter(
+            producer_id=producer_id,
+            foldingtype_id=1,
+            min_weight_paper_katern__lte=rfq.paperweight,
+            max_weight_paper_katern__gte=rfq.paperweight,
+            vertical_offered=True
+        ).values())
+    elif rfq.portrait_landscape == 2:
+        fit_foldingmachines_rfq = pd.DataFrame(Foldingmachines.objects.filter(
+            producer_id=producer_id,
+            foldingtype_id=1,
+            min_weight_paper_katern__lte=rfq.paperweight,
+            max_weight_paper_katern__gte=rfq.paperweight,
+            landscape_offered=True
+        ).values())
+    else:
+        fit_foldingmachines_rfq = pd.DataFrame(Foldingmachines.objects.filter(
+            producer_id=producer_id,
+            foldingtype_id=1,
+            min_weight_paper_katern__lte=rfq.paperweight,
+            max_weight_paper_katern__gte=rfq.paperweight,
+            square_offered=True
+        ).values())
 
     return fit_foldingmachines_rfq
 
@@ -235,9 +246,9 @@ def filter_foldingmachines_booklet(fit_foldingmachines_rfq, katern_width_mm, kat
         fit_foldingmachines_booklet.pages_per_katern >= pages_per_sheet_booklet]
 
     # select foldingmachine best price
-    fit_foldingmachines_booklet['price_per_ex'] = fit_foldingmachines_booklet['tariff_eur_hour'] / \
-                                                  fit_foldingmachines_booklet[
-                                                      'meter_per_hour']
+    fit_foldingmachines_booklet['price_per_ex'] = (
+            fit_foldingmachines_booklet['tariff_eur_hour'] / fit_foldingmachines_booklet[
+                                                      'meter_per_hour'])
     foldingmachine_id = fit_foldingmachines_booklet[
         fit_foldingmachines_booklet.price_per_ex == min(fit_foldingmachines_booklet.price_per_ex)][
         'foldingmachine_id'].iloc[0]
@@ -333,7 +344,8 @@ def define_foldingmachine_names_booklet(booklet_foldingfactor, foldingmachine_id
     if booklet_foldingfactor > 2:
         foldingmachine_quarter_katern = Foldingmachines.objects.get(
             foldingmachine_id=foldingmachine_id_quarter).asset_name
-        foldingmachine_names_booklet = foldingmachine_names_booklet + " quarter katern: " + foldingmachine_quarter_katern
+        foldingmachine_names_booklet = (foldingmachine_names_booklet + " quarter katern: "
+                                        + foldingmachine_quarter_katern)
     return foldingmachine_names_booklet
 
 
@@ -411,7 +423,8 @@ def foldingsheetsize_per_foldingfactor(foldingfactor, paper_width_booklet, paper
         paper_height_half = 0
         paper_width_quarter = 0
         paper_height_quarter = 0
-    return paper_width_full, paper_height_full, paper_width_half, paper_height_half, paper_width_quarter, paper_height_quarter
+    return (paper_width_full, paper_height_full, paper_width_half, paper_height_half,
+            paper_width_quarter, paper_height_quarter)
 
 
 # folding calculation
@@ -424,7 +437,8 @@ def foldingcost_booklet_calculation(set_up, rfq, foldingfactor, paper_width_book
     foldingcost_half = 0
     foldingcost_quarter = 0
 
-    paper_width_full, paper_height_full, paper_width_half, paper_height_half, paper_width_quarter, paper_height_quarter = foldingsheetsize_per_foldingfactor(
+    (paper_width_full, paper_height_full, paper_width_half, paper_height_half, paper_width_quarter,
+     paper_height_quarter) = foldingsheetsize_per_foldingfactor(
         foldingfactor, paper_width_booklet, paper_height_booklet)
 
     if foldingfactor > 0:
@@ -455,9 +469,6 @@ def foldingwaste_booklet_calculation(set_up, volume, foldingfactor, paper_width_
     foldingwaste_full = 0.0
     foldingwaste_half = 0.0
     foldingwaste_quarter = 0.0
-
-    paper_width_full, paper_height_full, paper_width_half, paper_height_half, paper_width_quarter, paper_height_quarter = foldingsheetsize_per_foldingfactor(
-        foldingfactor, paper_width_booklet, paper_height_booklet)
 
     if foldingfactor > 0:
         foldingmachine = Foldingmachines.objects.get(foldingmachine_id=foldingmachine_id_full)
@@ -674,7 +685,8 @@ def cutting_runtime_booklet(booklet_foldingfactor, cuttingmachine_id, paperspec_
     if number_of_sheets_incomplete_booklet > 1:
         number_of_cuts_half = aantal_foldingsheet_half * booklet_foldingfactor
         number_of_cuts_quarter = aantal_foldingsheet_quarter * booklet_foldingfactor * 2
-        max_stackheight_mm_mm_restsheet = number_of_sheets_incomplete_booklet * paperweight_m2 * paper_thickening * 0.001
+        max_stackheight_mm_mm_restsheet = (number_of_sheets_incomplete_booklet
+                                           * paperweight_m2 * paper_thickening * 0.001)
         number_of_stacks_rest = math.ceil(max_stackheight_mm_mm_restsheet / max_stackheight_mm)
         number_of_cuts_rest = max(number_of_cuts_half, number_of_cuts_quarter)
         runtime_booklet_rest = (number_of_cuts_rest * cuttingmachine.time_per_extra_sec * number_of_stacks_rest)
@@ -717,8 +729,8 @@ def define_bindingmachine_id(selfcover, producer_id, rfq, finishingmethod_id, nu
         bindingmachines_producer.max_number_stations_max >= number_of_stations]
     bindingmachines_producer = bindingmachines_producer[(bindingmachines_producer.max_width_untrimmed_mm >= width) & (
             bindingmachines_producer.min_width_untrimmed_mm <= width) & (
-                                                                bindingmachines_producer.max_height_untrimmed_mm >= height) & (
-                                                                bindingmachines_producer.min_height_untrimmed_mm <= height)]
+                                                    bindingmachines_producer.max_height_untrimmed_mm >= height) & (
+                                                    bindingmachines_producer.min_height_untrimmed_mm <= height)]
 
     if not selfcover:
         bindingmachines_producer = bindingmachines_producer[bindingmachines_producer.cover_feeder == True]

@@ -4,7 +4,7 @@
 <html lang="nl" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>offer_producucer_details</title>
+    <title>offer producers details</title>
 </head>
 <!-- ===============================================-->
 <!--    Main Content-->
@@ -52,7 +52,7 @@
             <!--   END RFQ Header -->
             <!-- ===============================================-->
             <!-- ===============================================-->
-            <!--   RFQ Acces -->
+            <!--   RFQ Access -->
             <!-- ===============================================-->
 
             <form method="post">
@@ -61,7 +61,7 @@
                      style="display: none;"
                 {% endif %}>
                     <div id="rfq_acces_test" class="card h-100">
-                        <div class="card-body" id="intro_general" name="intro_general">
+                        <div class="card-body" id="intro_general">
                             <!-- ===============================================-->
                             <!--   Row access control producer -->
                             <!-- ===============================================-->
@@ -111,7 +111,6 @@
                     <!-- ===============================================-->
                     <!--    End Printproject Detail table -->
                     <!-- ===============================================-->
-
                 </div>
                 <br>
                 <div id="offer_producer_submit_offer" class="col-12 rounded-2 border border-info"
@@ -119,7 +118,7 @@
                      style="display: none;"
                         {% endif %}>
                     <div id="rfq_form" class="card h-100">
-                        <div class="card-body" id="intro_general" name="intro_general">
+                        <div class="card-body" id="intro_general">
                             <!-- ===============================================-->
                             <!--   General intro title -->
                             <!-- ===============================================-->
@@ -136,9 +135,9 @@
                                            placeholder="€"/>
                                 </div>
                                 <div class="col-sm-6 col-md-3">
-                                    <label class="form-label" for="offer_1000extra">Prijs 1000ex meer</label>
-                                    <input class="form-control" type="text" id="offer_1000extra"
-                                           name="offer_1000extra"
+                                    <label class="form-label" for="offer1000extra">Prijs 1000ex meer</label>
+                                    <input class="form-control" type="text" id="offer1000extra"
+                                           name="offer1000extra"
                                            placeholder="€"/>
                                 </div>
                             </div>
@@ -172,8 +171,8 @@
                                 <div class="col-9 gy-2">
                                     <label class="form-label" for="producer_notes">toelichting</label>
                                     <textarea class="form-control" id="producer_notes" name="producer_notes"
-                                              placeholder="Eeen toelichting is niet verplicht."
-                                              style="height: 100px" value="Geen toelichting"></textarea>
+                                              placeholder="Een toelichting is niet verplicht."
+                                              style="height: 100px"></textarea>
                                 </div>
                             </div>
                             <hr class="text-info">
@@ -185,15 +184,15 @@
                             <!-- ===============================================-->
                             <!--   Row submit buttons -->
                             <!-- ===============================================-->
-                            <div class="container" id="submit_general" name="submit_general">
+                            <div class="container" id="submit_general">
                                 <div class="row">
                                     <h4 class="mb-1 text-info">Offerte versturen</h4>
                                     <div class="col-12 gy-3 ">
                                         <div class="row g-3 justify-content-start">
-                                            <div id="testveld" class="col-auto">
-                                                <a type="button" href="{% url 'home' %}"
-                                                   class="btn btn-info px-5 px-sm-5">Upload offerte (pdf)</a>
-                                            </div>
+{#                                            <div id="testveld" class="col-auto">#}
+{#                                                <a type="button" href="{% url 'home' %}"#}
+{#                                                   class="btn btn-info px-5 px-sm-5">Upload offerte (pdf)</a>#}
+{#                                            </div>#}
                                             <div class="col-auto">
                                                 <button class="btn btn-success px-5 px-sm-5" type="submit">
                                                     Offerte indienen
@@ -201,7 +200,7 @@
                                             </div>
 
                                             <div id="testveld" class="col-auto">
-                                                <a type="button" href="{% url 'deny_offer'  offer.offer_id %}"
+                                                <a type="button" href="{% url 'deny_offer' offer.offer_id %}"
                                                    class="btn btn-danger px-5 px-sm-5">Weigeren</a>
                                             </div>
                                         </div>

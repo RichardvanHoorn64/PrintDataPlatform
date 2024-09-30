@@ -50,11 +50,10 @@ urlpatterns = [
     path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
 
     path('home/', WelcomeView.as_view(), name='home'),
-    path('signup/',   UserProfileCreateView.as_view(), name='signup'),
+    path('signup/', UserProfileCreateView.as_view(), name='signup'),
     path('signup_landing/', SignupLandingView.as_view(), name='signup_landing'),
     path('no_access/', NoAccessView.as_view(), name='no_access'),
     path('wait_for_approval/', WaitForApproval.as_view(), name='wait_for_approval'),
-
 
     # dashboards after member accept and inlog
     path('printdataplatform_dashboard/', PrintDataPlatformDashboard.as_view(),
@@ -68,7 +67,6 @@ urlpatterns = [
     path('faq/', FaqView.as_view(), name='faq'),
     path('conditions/', ConditionView.as_view(), name='conditions'),
     path('events/', EventsView.as_view(), name='events'),
-
 
     # printprojects
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
@@ -84,7 +82,6 @@ urlpatterns = [
          name='printproject_clone'),
     path('printproject_update/<int:printproject_id>', PrintProjectCloneUpdateView.as_view(),
          name='printproject_update'),
-
 
     path('printproject_delete/<int:printproject_id>', PrintProjectDeleteView.as_view(),
          name='printproject_delete'),
@@ -106,11 +103,12 @@ urlpatterns = [
 
     path('close_calculation_error/<int:pk>/', CloseErrorCalculationView.as_view(), name='close_calculation_error'),
     path('handle_offer/<int:offer_id>/<int:offerstatus_id>', HandleOfferView.as_view(),
-     name='handle_offer'),
+         name='handle_offer'),
 
     path('thanks_submit_offer/', ThanksSubmitOffer.as_view(), name='thanks_submit_offer'),
 
-    path('pricing_dashboard/<int:memberproducermatch_id>/', ProducerPricingUpdateView.as_view(), name='pricing_dashboard'),
+    path('pricing_dashboard/<int:memberproducermatch_id>/', ProducerPricingUpdateView.as_view(),
+         name='pricing_dashboard'),
 
     # orders
     path('order_dashboard/<int:order_status_id>', OrderDashboard.as_view(), name='order_dashboard'),
@@ -120,7 +118,6 @@ urlpatterns = [
     path('change_orderstatus/<int:order_id>/<int:order_status_id>',
          ChangeOrderStatus.as_view(), name='change_orderstatus'),
 
-
     # account
     path('my_account/<int:pk>', MyAccountView.as_view(), name='my_account'),
     path('my_account_update/<int:pk>', MyAccountUpdateView.as_view(), name='my_account_update'),
@@ -129,7 +126,7 @@ urlpatterns = [
     path('create_co_worker/<int:member_id>', CoWorkerUserProfileCreateView.as_view(),
          name='create_co_worker'),
     # path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
-         # name='update_co_worker'),
+    # name='update_co_worker'),
     path('activate_co_worker/<int:id>', ActivateCoWorker.as_view(), name='activate_co_worker'),
     path('memberplan_upgrade/<int:member_id>', MemberplanUpgradeView.as_view(), name='memberplan_upgrade'),
 
@@ -159,7 +156,6 @@ urlpatterns = [
     # path('create_producer_exclusive_member_landing/<int:user_id>', CreateNewExclusiveMemberLanding.as_view(),
     #      name='create_producer_exclusive_member_landing'),
 
-
     # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
          name='create_producercontact'),
@@ -187,7 +183,6 @@ urlpatterns = [
          name='select_supplier_productoffering_switch'),
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
 
-
     # producers member dashboard
     path('producer_exlusive_members/', ProducerExclusiveMembers.as_view(), name='producer_exlusive_members'),
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
@@ -208,7 +203,8 @@ urlpatterns = [
          name='offer_acceskey_submit'),
 
     path('paper_catalog/', ProducerPaperCatalog.as_view(), name='paper_catalog'),
-    path('producer_paper_catalog_download/', DownloadProducerPaperCatalog.as_view(), name='producer_paper_catalog_download'),
+    path('producer_paper_catalog_download/', DownloadProducerPaperCatalog.as_view(),
+         name='producer_paper_catalog_download'),
     path('producer_paper_catalog_upload/', UploadProducerPaperCatalog.as_view(), name='producer_paper_catalog_upload'),
 
     # paper
@@ -221,13 +217,13 @@ urlpatterns = [
          name='paperweight_json'),
     path('papercolor_json/<str:paperbrand>/<int:paperweight>', get_json_papercolor, name='papercolor_json'),
 
-
     # path('papercategory_cover_json', get_json_cover_papercategory, name='papercategory_cover_json'),
     path('paperbrand_cover_json/<str:papercategory>', get_json_cover_paperbrand,
          name='paperbrand_cover_json'),
     path('paperweight_cover_json/<str:paperbrand>', get_json_cover_paperweight,
          name='paperweight_cover_json'),
-    path('papercolor_cover_json/<str:paperbrand>/<int:paperweight>', get_json_cover_papercolor, name='papercolor_cover_json'),
+    path('papercolor_cover_json/<str:paperbrand>/<int:paperweight>', get_json_cover_papercolor,
+         name='papercolor_cover_json'),
 
     # java / ajax urls paperchoices for quotes calculate folder number of pages
     path('folder_number_of_pages_json/<str:foldingmethod_id>', get_json_folder_number_of_pages,
@@ -245,7 +241,6 @@ urlpatterns = [
          name='member_download_printprojects'),
     path('member_download_clients/', MemberDownloadClients.as_view(),
          name='member_download_clients'),
-
 
     path('producer_download_offer/<int:offer_id>', DownloadProducerOffer.as_view(),
          name='producer_download_offer'),  # doc_id 1= offer, 2 =invoice
@@ -287,7 +282,8 @@ urlpatterns = [
     path('change_pms_availability/<int:setting_id>', ChangePMSAvailability.as_view(), name='change_pms_availability'),
 
     # change tariff availability
-    path('change_enhancement_availability/<int:enhancementtariff_id>', ChangeEnhancementAvailability.as_view(), name='change_enhancement_availability'),
+    path('change_enhancement_availability/<int:enhancementtariff_id>', ChangeEnhancementAvailability.as_view(),
+         name='change_enhancement_availability'),
     path('change_packaging_availability/<int:packagingtariff_id>', ChangePackagingAvailability.as_view(),
          name='change_packaging_availability'),
     path('change_transport_availability/<int:transporttariff_id>', ChangeTransportAvailability.as_view(),
@@ -305,7 +301,8 @@ urlpatterns = [
     path('producer_assortiment_upload/<str:error>', UploadAssortimentCSV.as_view(), name='producer_assortiment_upload'),
     path('producer_assortiment_calculate/', CalculateAssortiment.as_view(), name='producer_assortiment_calculate'),
     path('producer_assortiment_download/', DownloadAssortiment.as_view(), name='producer_assortiment_download'),
-    path('producer_calculationdetails/<int:calculation_id>', ProducerCalculationDetails.as_view(), name='producer_calculationdetails'),
+    path('producer_calculationdetails/<int:calculation_id>', ProducerCalculationDetails.as_view(),
+         name='producer_calculationdetails'),
 
     path('error_test/', TestErrorView.as_view(), name='error_test'),
 

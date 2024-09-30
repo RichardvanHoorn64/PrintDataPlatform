@@ -9,8 +9,8 @@ def form_invalid_message(form, response):
     else:
         try:
             send_mail('Form invalid:', "form is invalid, response :" + str(response) + "form errors :" + str(
-                form.errors) + "form cleaned_data :" + str(form.cleaned_data), 'info@richardvanhoorn.nl',
-                      ['info@richardvanhoorn.nl'], fail_silently=False, )
+                form.errors) + "form cleaned_data :" + str(form.cleaned_data), EMAIL_HOST_USER,
+                      [EMAIL_TO_ADMIN], fail_silently=False, )
         except Exception as e:
             print('Form invalid:', "form is invalid error :" + str(response) + "form errors :" + str(
                 form.errors) + "form cleaned_data :" + str(form.cleaned_data), str(e))

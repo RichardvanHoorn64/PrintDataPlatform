@@ -9,42 +9,49 @@
     <title>No Access</title>
 </head>
 
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
-  <body>
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+<body>
 {% block main_content %}
     <main class="main" id="top">
-      <div class="container-fluid px-0">
-        <div class="px-3">
-          <div class="row min-vh-100 flex-center p-5">
-            <div class="col-12 col-xl-10 col-xxl-8">
-              <div class="row justify-content-center g-5">
-                  <div class="col-8 col-lg-4 text-center text-lg-start"><img class="img-fluid mb-6 w-100 w-lg-150 d-dark-none" src="{% static "assets/img/spot-illustrations/37.png" %}" alt="" width="400" />
-                  </div>
+        <div class="container-fluid px-0 bg-info-100">
+            <div class="row min-vh-100 flex-center p-5">
+                <div class="row justify-content-center g-5">
+                    <div class="col-8 col-lg-8 text-center text-lg-start"><img
+                            class="img-fluid mb-6 w-100 w-lg-150 d-dark-none border border-info rounded"
+                            src="{% static "assets/img/spot-illustrations/thanks_for_submit_offer.jpg" %}" alt=""
+                            width="400"/>
+                    </div>
 
-                  <div class="col-8 col-lg-4 text-center text-lg-start">
-                  <h2 class="text-800 fw-bolder mb-3">Bedankt!</h2>
-                  <p class="text-900 mb-3">Voor het indienen van uw offerte, <br class="d-none d-sm-block" /></p>
-                      <p class="text-900 mb-5"><br class="d-none d-sm-block" />Open een producentenaccount om overzichten in te zien en automatisch offertes te versturen.<br><br>
-                          Als producent kun je dan snel en gemakkelijk automatisch offertes
-                                uitbrengen.<br><br>
-                                Meer info: <a class="text-info" href="https://printdataplatform.nl/">PrintDataPlatform</a>.
-                            </p>
 
-                  <a class="btn btn-lg btn-info" href="{% url 'welcome' %}">Home</a>
+                    <div class="col-8 col-lg-4 text-center text-lg-start">
+                        <h2 class="text-800 fw-bolder mb-3">Bedankt!</h2>
+                        <p class="text-900 mb-3">Voor het indienen van uw offerte, <br class="d-none d-sm-block"/></p>
+                        <hr class="text-secondary">
+                        <p class="text-900 mb-5"><br class="d-none d-sm-block"/>Als producent kun je met een account
+                            snel en gemakkelijk overzichten inzien, automatisch offertes
+                            uitbrengen en beheren.<br><br>
+                            Meer info: <a class="text-warning"
+                                          href="https://printdataplatform.nl/">PrintDataPlatform</a></p>
+                        
+                        <hr class="text-secondary">
+                        <h5 class="text-800 fw-bolder mb-3">Producentaccount beschikbaar?</h5>
+                            <p class="text-900 mb-5"><br class="d-none d-sm-block"/>Log in om offertes en orders te beheren</p>
+                        
+                        <a class="btn btn-lg btn-soft-info" href="{% url 'welcome' %}">Inloggen</a>
+                         <hr class="text-secondary">
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+
 
     </main></body>
 {% endblock %}
-    <!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
+<!-- ===============================================-->
+<!--    End of Main Content-->
+<!-- ===============================================-->
 
 
 {% comment %}{% block main_content %}

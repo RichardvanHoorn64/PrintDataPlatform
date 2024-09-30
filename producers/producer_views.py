@@ -1,18 +1,13 @@
-from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Max
 from index.categories_groups import *
-from index.exclusive_functions import update_exclusive_members
 from index.models import DropdownCountries
 from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
 from index.forms.relationforms import *
 from index.create_context import creatememberplan_context
-from members.forms.accountforms import CreateProducerExclusiveMemberForm, CreateNewExclusiveMemberForm
 from printprojects.forms.PrintprojectSalesPice import *
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
 from profileuseraccount.form_invalids import form_invalid_message
 from index.dq_functions import producer_dq_functions
@@ -114,68 +109,6 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         context['member'] = Members.objects.get(member_id=member_id)
         context['memberaccount_list'] = UserProfile.objects.filter(member_id=member_id, active=True)
         return context
-
-
-'''
-class CreateNewExclusiveMemberContact(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    template_name = "producers/create_exclusive_userprofile.html"
-    pk_url_kwarg = 'member_id'
-    model = UserProfile
-    form_class = CreateNewExclusiveMemberContactForm
-
-    def get_success_url(self):
-        member_id = self.kwargs['member_id']
-        success_url = '/member_details/' + str(member_id)
-        return success_url
-
-    def form_valid(self, form):
-        newuuserprofile = form.save(commit=False)
-        password = form.cleaned_data['password1']
-        repeat_password = form.cleaned_data['password2']
-
-        if password != repeat_password:
-            messages.error(self.request, "De ingevoerde wachtwoorden zijn niet hetzelfde",
-                           extra_tags='alert alert-danger')
-            return render(self.request, self.template_name, form)
-
-        member_id = self.kwargs['member_id']
-        member = Members.objects.get(member_id=member_id)
-
-        # new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
-        # newuuserprofile.id = new_id
-
-        newuuserprofile.username = form.cleaned_data['username']
-        newuuserprofile.email = form.cleaned_data['email']
-        newuuserprofile.first_name = form.cleaned_data['first_name']
-        newuuserprofile.last_name = form.cleaned_data['last_name']
-        newuuserprofile.mobile_number = form.cleaned_data['mobile_number']
-        newuuserprofile.jobtitle = form.cleaned_data['jobtitle']
-        newuuserprofile.member_id = member.member_id
-        newuuserprofile.member_plan_id = member.member_plan_id
-        newuuserprofile.producer_id = member.exclusive_producer_id
-        newuuserprofile.company = member.company
-        newuuserprofile.street_number = member.street_number
-        newuuserprofile.population = member.postal_code
-        newuuserprofile.city = member.city
-        newuuserprofile.is_active = True
-        newuuserprofile.set_password(password)
-        newuuserprofile.save()
-        return super(CreateNewExclusiveMemberContact, self).form_valid(form)
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        form_invalid_message(form, response)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, *args, **kwargs):
-        user = self.request.user
-        member_id = self.kwargs['member_id']
-        member = Members.objects.get(member_id=member_id)
-        context = super(CreateNewExclusiveMemberContact, self).get_context_data(**kwargs)
-        context = creatememberplan_context(context, user)
-        context['member'] = member
-        return context
-'''
 
 
 class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
@@ -294,46 +227,6 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
 
         return context
 
-
-'''
-class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
-    template_name = "producers/create_exclusive_member.html"
-    model = Members
-    form_class = CreateProducerExclusiveMemberForm
-    redirect_field_name = "next"
-    success_url = '/producer_exlusive_members/'
-    
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        elif not user.member.member_plan_id == 4:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        user = self.request.user
-        form.instance.exclusive_producer_id = user.producer_id
-        form.instance.member_plan_id = 3
-        form.instance.active = True
-        return super(CreateProducerExclusiveMember, self).form_valid(form)
-
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        form_invalid_message(form, response)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        countries = DropdownCountries.objects.filter(language_id=1).order_by('country_id')
-        context = super(CreateProducerExclusiveMember, self).get_context_data(**kwargs)
-        context = creatememberplan_context(context, user)
-        context['countries'] = countries
-        return context
-'''
 
 class ProducerPricingUpdateView(UpdateView, LoginRequiredMixin):
     pk_url_kwarg = 'memberproducermatch_id'

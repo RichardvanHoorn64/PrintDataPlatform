@@ -95,11 +95,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         try:
             send_ordermail_producer(order_id)
         except Exception as e:
-            try:
-                error_mail_admin('order id: ' + str(self.object.id) + 'doorverwijzing naar orderbevestiging: ,', e)
-                print(' send_ordermail_producer error: ', e)
-            except:
-                pass
+            error_mail_admin('order id: ' + str(self.object.id) + 'doorverwijzing naar orderbevestiging: ,', e)
         return '/order_details/' + str(order_id)
 
     def form_valid(self, form):
@@ -108,7 +104,16 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
 
+        order_volume = form.cleaned_data['order_volume']
+
+        if order_volume == printproject.volume:
+            order_value = offer.offer
+        else:
+            volume_difference = float((order_volume - printproject.volume) * 0.001)
+            order_value = float(offer.offer) + float(volume_difference * offer.offer1000extra)
+
         # fill general data
+        form.instance.order_value = order_value
         form.instance.order_status_id = 1
         form.instance.orderdate = datetime.now()
         form.instance.orderer_id = user.id
@@ -118,6 +123,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         form.instance.client_id = printproject.client_id
         form.instance.member_id = user.member_id
         form.instance.productcategory_id = offer.productcategory_id
+        form.instance.client_id = printproject.client_id
 
         # general updates
         if not form.instance.order_volume:

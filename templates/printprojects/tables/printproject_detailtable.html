@@ -235,6 +235,25 @@
                                     {% endif %}
                                     
                                     {%  if offer %}
+                                      <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            ></p>
+                                        </td>
+                                        <td class="border-0">&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <th scope="col" style="width: 24px;"></th>
+                                        <th scope="col" style="width: 200px;">Aanbieding</th>
+                                        <th scope="col" style="min-width: 500px;">
+                                            {{ offer.producer.company }} </th>
+                                        <th scope="col" style="width: 24px;"></th>
+                                    </tr>
+                                        
                                     <tr>
                                         <td class="border-0"></td>
                                         <td class="align-middle">
@@ -257,6 +276,40 @@
                                         </td>
                                         <td class="border-0"></td>
                                     </tr>
+                                        
+                                    <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >{{ offer.producer_contact }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>
+                                        <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >{{ offer.producer_quote }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>    
+                                         <tr>
+                                        <td class="border-0"></td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offerte toelichting</p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                            >{{ offer.producer_notes }}</p>
+                                        </td>
+                                        <td class="border-0"></td>
+                                    </tr>    
                                     {%  endif %}
                                     
                                     {%  if member_plan_id in open_memberplans %}
@@ -315,9 +368,6 @@
    class="btn btn-outline-secondary btn-sm me-1 mb-1" role="button"
    aria-pressed="true"><i class="far fa-file-word text-secondary fs-2"></i></a>
       Download aanbieding
-      
-      
-      
 {% else %}      
   <div class="align-left">
    <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>

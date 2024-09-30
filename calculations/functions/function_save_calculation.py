@@ -139,12 +139,14 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.offer_value1000extra = Decimal(best_offer['offer_value1000extra'].values[0])
 
             calculation.save()
+
         except Exception as e:
             general_error = str(error)
-            error = 'General error: ' + general_error + 'Calculation save error'
+            error = 'General error: ' + general_error + 'Calculation save error' + str(e)
             calculation.error = error,
             calculation.total_cost = 0
             calculation.total_cost1000extra = 0
+            print(error)
             calculation.save()
 
     else:

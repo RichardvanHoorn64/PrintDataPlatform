@@ -46,18 +46,23 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
         member = Members.objects.get(member_id=member_id)
 
         new_user_profile.username = form.cleaned_data['username']
-        new_user_profile.e_mail_general = member.e_mail_general
         new_user_profile.first_name = form.cleaned_data['first_name']
         new_user_profile.last_name = form.cleaned_data['last_name']
-        new_user_profile.tel_general = member.tel_general
         new_user_profile.mobile_number = form.cleaned_data['mobile_number']
         new_user_profile.jobtitle = form.cleaned_data['jobtitle']
+        new_user_profile.linkedin_url = form.cleaned_data['linkedin_url']
         new_user_profile.member_id = member.member_id
         new_user_profile.producer_id = user.producer_id
         new_user_profile.company = member.company
         new_user_profile.street_number = member.street_number
         new_user_profile.postal_code = member.postal_code
         new_user_profile.city = member.city
+        new_user_profile.country_code = member.country_code
+        new_user_profile.member_plan_id = member.member_plan_id
+        new_user_profile.tel_general = member.tel_general
+        new_user_profile.e_mail_general = member.e_mail_general
+        new_user_profile.company_url = member.company_url
+        new_user_profile.active = True
         new_user_profile.is_active = True
         new_user_profile.first_user = False
         new_user_profile.set_password(password)

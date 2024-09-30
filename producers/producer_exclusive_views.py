@@ -97,7 +97,6 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
 
         return '/producer_exlusive_members/'
 
-
     def form_valid(self, form):
         userprofile = form.save(commit=False)
         password = form.cleaned_data['password1']

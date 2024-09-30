@@ -61,7 +61,7 @@ class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
     template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
-    form_class = OfferProducerFormAcces
+    form_class = OfferProducerFormAccess
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -113,7 +113,13 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
     model = Offers
     profile = Offers
     form_class = OfferProducerForm
-    success_url = reverse_lazy('thanks_submit_offer')
+
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return redirect('/producer_offers/0/')
+        else:
+            return reverse_lazy('thanks_submit_offer')
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -270,21 +276,21 @@ class HandleOfferView(LoginRequiredMixin, View):
 class ThanksSubmitOffer(TemplateView):
     template_name = 'thanks_submit_offer.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-
-        if not self.request.user.member.active:
-            return redirect('/wait_for_approval/')
-
-        if user.is_authenticated and not user.member.active:
-            return redirect('/wait_for_approval/')
-
-        if user.is_authenticated and user.member.active and user.member.producerplan:
-            return redirect('/producer_sales_dashboard/0')
-
-        if user.is_authenticated and user.member.active and not user.member.producerplan:
-            return redirect('/printdataplatform_dashboard/')
-
-        if user.is_authenticated and user.member.active and not user.member.producerplan:
-            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
+    # def dispatch(self, request, *args, **kwargs):
+    #     user = self.request.user
+    #
+    #     if not self.request.user.member.active:
+    #         return redirect('/wait_for_approval/')
+    #
+    #     if user.is_authenticated and not user.member.active:
+    #         return redirect('/wait_for_approval/')
+    #
+    #     if user.is_authenticated and user.member.active and user.member.producerplan:
+    #         return redirect('/producer_sales_dashboard/0')
+    #
+    #     if user.is_authenticated and user.member.active and not user.member.producerplan:
+    #         return redirect('/printdataplatform_dashboard/')
+    #
+    #     if user.is_authenticated and user.member.active and not user.member.producerplan:
+    #         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
 
