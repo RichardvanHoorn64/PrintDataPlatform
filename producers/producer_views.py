@@ -13,41 +13,6 @@ from profileuseraccount.form_invalids import form_invalid_message
 from index.dq_functions import producer_dq_functions
 
 
-class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_sales_dashboard.html"
-    pk_url_kwarg = 'offerstatus_id'
-    context_object_name = 'offerstatus_id'
-
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        elif not user.member.member_plan_id == 4:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        offerstatus_id = kwargs['offerstatus_id']
-        user = self.request.user
-
-        producer_id = user.producer_id
-        order_status_id = 0
-        update_producersmatch(self.request)
-        producer_dq_functions(self.request.user)
-        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
-
-        context = creatememberplan_context(context, user)
-        context = get_offercontext(producer_id, context, offerstatus_id)
-        context = get_ordercontext(producer_id, context, order_status_id)
-        context['offer_pagination'] = 10
-        context['order_pagination'] = 10
-
-        return context
-
-
 class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
     template_name = "producers/tables/producer_members.html"
     
@@ -161,8 +126,9 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
         order_status_id = kwargs['order_status_id']
         context = super(ProducerOrders, self).get_context_data(**kwargs)
         producer_id = user.producer_id
+        producer = Producers.objects.get(producer_id=producer_id)
         context = creatememberplan_context(context, user)
-        context = get_ordercontext(producer_id, context, order_status_id)
+        context = get_ordercontext(producer, context, order_status_id, dashboard=False)
         context['order_pagination'] = 25
         return context
 

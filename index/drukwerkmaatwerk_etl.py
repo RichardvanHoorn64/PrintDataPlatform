@@ -13,11 +13,24 @@ class LoadVeldhuisDataView(LoginRequiredMixin, View):
     inputfolder = 'C:/Users/richa/Documents/0 PrintDataPlatform/load_veldhuis_data/'
 
     def dispatch(self, request, *args, **kwargs):
-
         # load_klanten_veldhuis(self.inputfolder, 'drukwerkmaatwerk_klanten_veldhuis.csv', request)
         # load_users_veldhuis(self.inputfolder, 'drukwerkmaatwerk_users_veldhuis.csv')
-        # load_printprojects_veldhuis(self.inputfolder, 'printprojects_veldhuis.csv')
-        # load_offers_veldhuis(self.inputfolder, 'offers_veldhuis.csv')
+
+        # delete old printprojects
+        # printprojects_veldhuis_oud = PrintProjects.objects.filter(producer_id=2, productcategory_id__in=[3, 4, 5],
+        #                                                           assortiment_item=False)
+        # printprojects_veldhuis_oud.delete()
+        #
+        # offers_veldhuis_oud = Offers.objects.filter(producer_id=2, productcategory_id__in=[3, 4, 5])
+        # offers_veldhuis_oud.delete()
+        #
+        # # selfcovers
+        # load_printprojects_veldhuis(self.inputfolder, 'selfcovers_printprojects_veldhuis.csv')
+        # load_offers_veldhuis(self.inputfolder, 'selfcovers_printprojects_veldhuis.csv')
+        #
+        # # brochures
+        # load_printprojects_veldhuis(self.inputfolder, 'brochures_printprojects_veldhuis.csv')
+        # load_offers_veldhuis(self.inputfolder, 'brochures_printprojects_veldhuis.csv')
 
         return redirect('/home/')
 
@@ -49,7 +62,10 @@ def load_klanten_veldhuis(inputfolder, inputfile, request):
                     country_code='nl',
                     created=row['created'],
                 )
-                veldhuis_klant.save()
+                try:
+                    veldhuis_klant.save()
+                except Exception as e:
+                    print('error drukwerkmaatwerk klant load: ', str(e))
         print('drukwerkmaatwerk klanten veldhuis loaded')
     except Exception as e:
         print('error drukwerkmaatwerk_klanten_veldhuis load: ', str(e))
@@ -77,7 +93,10 @@ def load_klanten_veldhuis(inputfolder, inputfile, request):
                         perc_salesallowance_4=row['perc_korting_tw_brochures_gehecht'],
                         perc_salesallowance_5=row['perc_korting_tw_brochures_gebonden'],
                     )
-                    veldhuis_match.save()
+                    try:
+                        veldhuis_match.save()
+                    except Exception as e:
+                        print('error drukwerkmaatwerk match load: ', str(e))
 
         print('drukwerkmaatwerk tariffs veldhuis loaded')
     except Exception as e:
@@ -124,7 +143,10 @@ def load_users_veldhuis(inputfolder, inputfile):
                     created=row['created'],
                     modified=row['modified'],
                 )
-                veldhuis_user.save()
+                try:
+                    veldhuis_user.save()
+                except Exception as e:
+                    print('error drukwerkmaatwerk user load: ', str(e))
         print('drukwerkmaatwerk users veldhuis loaded')
     except Exception as e:
         print('error drukwerkmaatwerk users veldhuis load: ', str(e))
@@ -135,66 +157,69 @@ def load_printprojects_veldhuis(inputfolder, inputfile):
     try:
         with open(inputfolder + inputfile, 'r') as printprojects_veldhuis_csv_file:
             printprojects_veldhuis = pd.read_csv(printprojects_veldhuis_csv_file, delimiter=',', header=0,
-                                                           encoding="utf-8")
-            printprojects_veldhuis_oud = PrintProjects.objects.filter(producer_id=2, productcategory_id=3,
-                                                                                assortiment_item=False)
-            printprojects_veldhuis_oud.delete()
+                                                 encoding="utf-8")
 
-            # klant_id,producent_id,perc_korting_tw_brochures_gebonden,manager,user_admin,bedrijfsnaam,telefoonnummer_algemeen,e_mail_algemeen,straat_huisnummer,postcode,plaats,actief,is_welkom,perc_korting_tw_brochures_gehecht,perc_korting_tw_folders,perc_korting_tw_plano,perc_korting_tw_selfcovers,perc_korting_tw_sheets,created,
-            # perc_korting_tw_enveloppen,eigen_offertetemplate,locatie_offertetemplate,perc_korting_tw_brochures_garenloos
             for index, row in printprojects_veldhuis.iterrows():
 
                 aanvraag_status = 2
                 if row['aanvraag_status'] == 'Order':
                     aanvraag_status = 3
 
-                persvernis_bw = 0
-                if row['persvernis_bw'] == 'Ja':
-                    persvernis_bw = 1
-
                 new_printproject = PrintProjects(
-                    printproject_id=row['aanvragen_id'],
-                    offer_date=row['aanvraag_datum'],
-                    description=row['omschrijving'],
-                    requester=row['user_id'],
                     producer_id=2,
+                    printproject_id=row['aanvragen_id'],
+                    rfq_date=row['aanvraag_datum'],
+                    description=row['omschrijving'],
+
+                    own_quotenumber=row['eigen_ordernummer'],
                     member_id=row['klant_id'],
-                    productcategory_id=3,
-                    offer=row['offer_id'],
+                    productcategory_id=row['productcategory_id'],
+
                     project_title=row['omschrijving'],
                     volume=row['oplage'],
+
                     height_mm_product=row['hoogte_mm_product'],
                     width_mm_product=row['breedte_mm_product'],
+
                     paperbrand=row['papiersoort_bw'],
                     paperweight=row['papiergewicht_m2_bw'],
                     papercolor=row['papierkleur_bw'],
-                    printsided=modify_printsided(row['printsided']),
-                    pressvarnish_front=modify_boleaninput(row['pressvarnish_front']),
-                    pressvarnish_rear=modify_boleaninput(row['pressvarnish_rear']),
-                    pressvarnish_booklet=persvernis_bw,
-                    enhance_sided=modify_printsided(row['enhance_sided']),
-                    enhance_front=find_enhancement_id(row['enhance_front']),
-                    enhance_rear=find_enhancement_id(row['enhance_rear']),
+
+                    paperbrand_cover=row['papiersoort_omslag'],
+                    paperweight_cover=row['papiergewicht_m2_omslag'],
+                    papercolor_cover=['papierkleur_omslag'],
+
+                    printsided=modify_printsided(row['uitvoering_omslag']),
+                    pressvarnish_front=modify_boleaninput(row['persvernis_omslag']),
+                    pressvarnish_rear=modify_boleaninput(row['persvernis_omslag_binnenzijde']),
+                    pressvarnish_booklet=modify_boleaninput(row['persvernis_bw']),
+
+                    enhance_sided=1,
+                    enhance_front=find_enhancement_id(row['veredeling_omslag']),
+
                     packaging=find_packaging_id(row['verpakking']),
-                    # folding=find_foldingspecs(row['folding']),
+
                     number_of_pages=row['aantal_paginas'],
                     portrait_landscape=find_orientation(row['staand_liggend']),
                     finishing_brochures=find_brochure_finishingmethod_id(row['nabewerking_brochures']),
-                    # print_front=modify_printcolors(row['print_front']),
-                    # print_rear=modify_printcolors(row['print_rear']),
+
+                    print_front=modify_printcolors(row['bedrukking_omslag']),
+                    print_rear=modify_printcolors(row['bedrukking_binnenzijde_omslag']),
                     print_booklet=modify_printcolors(row['bedrukking_bw']),
                     number_pms_colors_front=0,
                     number_pms_colors_rear=0,
                     number_pms_colors_booklet=0,
-                    # paperbrand_cover=row['paperbrand_cover'],
-                    # paperweight_cover=row['paperweight_cover'],
-                    # papercolor_cover=row['papercolor_cover'],
+
                     upload_date=timezone.now().today().date(),
                     assortiment_item=False,
                     printprojectstatus_id=aanvraag_status,
                     created=row['aanvraag_datum'],
+
                 )
-                # new_printproject.save()
+                try:
+                    new_printproject.save()
+                except Exception as e:
+                    print('error drukwerkmaatwerk printprojects load: ', str(e))
 
         print('drukwerkmaatwerk printprojects veldhuis loaded')
     except Exception as e:
@@ -205,12 +230,8 @@ def load_offers_veldhuis(inputfolder, inputfile):
     try:
         with open(inputfolder + inputfile, 'r') as printprojects_veldhuis_csv_file:
             offers_veldhuis = pd.read_csv(printprojects_veldhuis_csv_file, delimiter=',', header=0,
-                                                    encoding="utf-8")
-            offers_veldhuis_oud = Offers.objects.filter(producer_id=2, productcategory_id=3)
-            offers_veldhuis_oud.delete()
+                                          encoding="utf-8")
 
-            # klant_id,producent_id,perc_korting_tw_brochures_gebonden,manager,user_admin,bedrijfsnaam,telefoonnummer_algemeen,e_mail_algemeen,straat_huisnummer,postcode,plaats,actief,is_welkom,perc_korting_tw_brochures_gehecht,perc_korting_tw_folders,perc_korting_tw_plano,perc_korting_tw_selfcovers,perc_korting_tw_sheets,created,
-            # perc_korting_tw_enveloppen,eigen_offertetemplate,locatie_offertetemplate,perc_korting_tw_brochures_garenloos
             for index, row in offers_veldhuis.iterrows():
 
                 offerstatus = 2
@@ -226,7 +247,7 @@ def load_offers_veldhuis(inputfolder, inputfile):
                     offer_date=row['aanvraag_datum'],
                     description=row['omschrijving'],
                     requester=row['user_id'],
-                    producer_id=row['producent_id'],
+                    producer_id=2,
                     member_id=row['klant_id'],
                     productcategory_id=3,
                     offer=row['netto_kostentotaal'],
@@ -236,10 +257,12 @@ def load_offers_veldhuis(inputfolder, inputfile):
                     created=row['aanvraag_datum'],
                     language_id=1
                 )
-                # new_offer.save()
+                try:
+                    new_offer.save()
+                except Exception as e:
+                    print('error drukwerkmaatwerk offers load: ', str(e))
+
 
         print('drukwerkmaatwerk selfcover offers veldhuis loaded')
     except Exception as e:
         print('error drukwerkmaatwerk selfcover offers veldhuis load: ', str(e))
-
-

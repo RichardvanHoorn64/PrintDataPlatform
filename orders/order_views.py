@@ -110,8 +110,8 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
             order_value = offer.offer
         else:
             volume_difference = float((order_volume - printproject.volume) * 0.001)
-            order_value = float(offer.offer) + float(volume_difference * offer.offer1000extra)
-
+            offer1000extra = float(offer.offer1000extra)
+            order_value = float(offer.offer) + (volume_difference * offer1000extra)
         # fill general data
         form.instance.order_value = order_value
         form.instance.order_status_id = 1
@@ -223,14 +223,10 @@ class OrderDetailsView(LoginRequiredMixin, TemplateView):
     pk_url_kwarg = 'order_id'
     context_object_name = 'order_id'
 
-    def retrieve_order(self):
-        order_id = self.kwargs['order_id']
-        order = Orders.objects.get(order_id=order_id)
-        return order
-
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        order = self.retrieve_order()
+        order_id = self.kwargs['order_id']
+        order = Orders.objects.get(order_id=order_id)
 
         if not user.is_authenticated:
             return redirect('/home/')

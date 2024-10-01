@@ -1,8 +1,9 @@
 from django.shortcuts import redirect
 
 from index.create_context import creatememberplan_context
+from index.dq_functions import producer_dq_functions
 from index.exclusive_functions import define_exclusive_producer_id
-from members.crm_functions import update_number_of_open_offers
+from members.crm_functions import update_number_of_open_offers, update_producersmatch
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from offers.models import Offers
@@ -10,6 +11,7 @@ from orders.models import Orders
 from producers.models import ProducerProductOfferings
 from printprojects.models import *
 from index.categories_groups import *
+from producers.producer_functions import get_offercontext, get_ordercontext
 
 
 # https://stackoverflow.com/questions/2605384/how-to-explicitly-set-django-language-in-django-session
@@ -87,6 +89,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
 
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title
+        context['offer_table_title'] = offer_table_title
         context['categories_available'] = categories_available
         context['start_printproject'] = start_printproject
         context['start_project_buttontext'] = start_project_buttontext
@@ -103,6 +106,41 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['empty_table_text'] = "Geen printprojecten"
         context['empty_table_text_offers'] = "Plaats je eerste offerteaanvraag"
         context['empty_table_text_orders'] = "Plaats je eerste opdracht"
+
+        return context
+
+
+class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
+    template_name = "producers/producer_sales_dashboard.html"
+    pk_url_kwarg = 'offerstatus_id'
+    context_object_name = 'offerstatus_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id == 4:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        offerstatus_id = kwargs['offerstatus_id']
+        user = self.request.user
+        producer = Producers.objects.get(producer_id=user.producer_id)
+
+        order_status_id = 0
+        update_producersmatch(self.request)
+        producer_dq_functions(self.request.user)
+        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
+
+        context = creatememberplan_context(context, user)
+        context = get_offercontext(producer, context, offerstatus_id, dashboard=True)
+        context = get_ordercontext(producer, context, order_status_id, dashboard=True)
+        context['offer_pagination'] = 10
+        context['order_pagination'] = 10
 
         return context
 
@@ -201,6 +239,7 @@ class OfferDashboard(LoginRequiredMixin, TemplateView):
 
         # dashboard lists
         context['offers_list'] = offers
+        context['offer_table_title'] = offer_table_title
         # counts
         context['all_offers'] = offers.count()
         context['open_offers'] = offers.filter(offerstatus=1).count()

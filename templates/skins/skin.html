@@ -51,12 +51,13 @@
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
                                                 <span class="nav-link-icon"><span class="far fa-handshake fs-3"></span></span><span
-                                                    class="nav-link-text fs-8">Uitgebrachte offertes</span>
+                                                    class="nav-link-text fs-8">Offertes</span>
                                             </div>
                                         </a>
                                             <div class="parent-wrapper label-1">
                                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
                                                     id="sales_dashboard">
+                                                     <!-- all offers-->
                                                     <li class="collapsed-nav-item-title d-none">Offertes</li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'producer_offers' 0 %}"
@@ -65,31 +66,49 @@
                                                                 class="nav-link-text fs-8">Alle aanbiedingen</span>
                                                         </div>
                                                     </a>
-                                                        <!-- open orders-->
                                                     </li>
+                                                    <!-- open offers-->
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'producer_offers' 1 %}"
                                                                             data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center"><span
-                                                                class="nav-link-text fs-8">In aanvraag</span>
+                                                                class="nav-link-text fs-8">Open</span>
                                                         </div>
                                                     </a>
-                                                        <!-- production orders-->
                                                     </li>
+                                                    <!-- open offers-->
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'producer_offers' 2 %}"
+                                                                            data-bs-toggle="" aria-expanded="false">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text fs-8">Aangeboden</span>
+                                                        </div>
+                                                    </a>
+                                                    </li>
+                                                    <!-- production offers-->
+                                                    <li class="nav-item"><a class="nav-link"
+                                                                            href="{% url 'producer_offers' 3 %}"
                                                                             data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center"><span
                                                                 class="nav-link-text fs-8">In productie</span>
                                                         </div>
                                                     </a>
-                                                        <!-- closed orders-->
                                                     </li>
+                                                    <!-- closed offers-->
                                                     <li class="nav-item"><a class="nav-link"
-                                                                            href="{% url 'producer_offers' 3 %}"
+                                                                            href="{% url 'producer_offers' 4 %}"
                                                                             data-bs-toggle="" aria-expanded="false">
                                                         <div class="d-flex align-items-center"><span
                                                                 class="nav-link-text fs-8">Gesloten</span>
+                                                        </div>
+                                                    </a>
+                                                    </li>
+                                                    <!-- denied offers-->
+                                                    <li class="nav-item"><a class="nav-link"
+                                                                            href="{% url 'producer_offers' 5 %}"
+                                                                            data-bs-toggle="" aria-expanded="false">
+                                                        <div class="d-flex align-items-center"><span
+                                                                class="nav-link-text fs-8">Geweigerd</span>
                                                         </div>
                                                     </a>
                                                     </li>

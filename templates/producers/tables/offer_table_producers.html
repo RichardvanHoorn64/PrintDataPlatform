@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <!-- ===============================================-->
 <!--    Table-->
@@ -40,7 +40,7 @@
     <div class="card h-100">
         <div class="card-body">
             <div class="table-responsive scrollbar mx-n1 px-1">
-                <h3 class="mb-0 text-info">Aanbiedingen van {{ user.member.company }}</h3>
+                <h3 class="mb-0 text-info">{{ offer_table_title }}</h3>
                 <table class="table table-sm fs--1 mb-0">
                     <thead>
                     <tr>
@@ -48,20 +48,21 @@
                             style="width:5%;">Details
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="offer_id"
-                            style="width:5%;">Id
+                            style="width:5%;">Offerte id
                         </th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="offer_id"
                             style="width:5%;">Aangevraagd
                         </th>
-                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                            data-sort="project_title"
-                            style="width:25%;">Omschrijving
-                        </th>
-                        <th class="sort align-middle text-start" scope="col" data-sort="printmanager"
+                         <th class="sort align-middle text-start" scope="col" data-sort="printmanager"
                             style="width:15%;">
                             Opdrachtgever
                         </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            data-sort="project_title"
+                            style="width:15%;">Omschrijving
+                        </th>
+                       
                         <th class="align-middle text-start pe-3" scope="col"
                             style="width:10%; min-width: 100px;">Aanbieding
                         </th>
@@ -92,9 +93,9 @@
                             <td class="offer_id align-middle white-space-nowrap py-0">{{ offer.offer_id }}</td>
                         
                             <td class="rfq_date align-middle fw-semi-bold text-1000">{{ offer.offer_date |date:'d-m-Y ' }}</td>
+                         <td class="printmanager align-middle white-space-nowrap py-0">{{ offer.member.company }}</td>
                             <td class="project_title align-middle white-space-nowrap py-0">{{ offer.printproject.volume }}
                                 ex. {{ offer.printproject.project_title }}</td>
-                            <td class="printmanager align-middle white-space-nowrap py-0">{{ offer.member.company }}</td>
 
                             <td class="align-middle white-space-nowrap py-0">
                                 {% if offer.offer %}€ {{ offer.offer }}{% else %}-{% endif %}</td>

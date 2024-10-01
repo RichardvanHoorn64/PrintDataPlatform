@@ -111,17 +111,6 @@ class WaitForApproval(TemplateView):
     template_name = 'wait_for_approval.html'
 
 
-
-# class HomeView(TemplateView):
-#     template_name = 'homepage/startpage.html'
-#
-#     def get_context_data(self, *args, **kwargs):
-#         language_id = 1
-#
-#         context = super(HomeView, self).get_context_data(**kwargs)
-#         return context
-
-
 class PricingView(TemplateView):
     template_name = 'homepage/components/pricing.html'
 

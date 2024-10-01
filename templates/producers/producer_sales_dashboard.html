@@ -44,19 +44,22 @@
             <ul class="nav nav-links g-3 mb-4">
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-warning"
                                         href="{% url 'producer_offers' 0 %}">Alles<span
-                        class="text-700 fw-semi-bold">({{ open_offers }})</span></a></li>
+                        class="text-700 fw-semi-bold">({{ all_offers }})</span></a></li>
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
                                         href="{% url 'producer_offers' 1 %}">Open<span
                         class="text-700 fw-semi-bold">({{ open_offers }})</span></a></li>
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'producer_offers' 2 %}">Aangevraagd<span
-                        class="text-700 fw-semi-bold">({{ rfq_offers }})</span></a></li>
+                                        href="{% url 'producer_offers' 2 %}">Aangeboden<span
+                        class="text-700 fw-semi-bold">({{ offered_offers }})</span></a></li>
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'producer_offers' 3 %}">In productie <span
+                                        href="{% url 'producer_offers' 3 %}">In productie<span
                         class="text-700 fw-semi-bold">({{ prod_offers }})</span></a></li>
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
-                                        href="{% url 'producer_offers' 4 %}">Gesloten <span
+                                        href="{% url 'producer_offers' 4 %}">Gesloten<span
                         class="text-700 fw-semi-bold">({{ closed_offers }})</span></a></li>
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info"
+                                        href="{% url 'producer_offers' 5 %}">Geweigerd<span
+                        class="text-700 fw-semi-bold">({{ denied_offers }})</span></a></li>
             </ul>
             <!-- ===============================================-->
             <!--  END  Header-->
@@ -64,8 +67,7 @@
             <!-- ===============================================-->
             <!--    Printproject table-->
             <!-- ===============================================-->
-
-
+            
                 <!-- ===============================================-->
                 <!--    Offer Table-->
                 <!-- ===============================================-->

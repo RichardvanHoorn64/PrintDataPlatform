@@ -55,7 +55,7 @@ def find_orientation(rfq_input):
 
 
 def modify_printsided(rfq_input):
-    printsided = 0
+    printsided = 2
     if rfq_input in [1, 'Eenzijdig', 'Alleen voorzijde', 'Alleen achterzijde']:
         printsided = 1
     if rfq_input in [2, 'Tweezijdig gelijk']:

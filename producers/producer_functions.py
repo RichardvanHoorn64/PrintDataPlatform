@@ -1,50 +1,66 @@
 from orders.models import *
 from producers.models import *
 
-def get_offercontext(producer_id, context, offerstatus_id):
-    offers = Offers.objects.filter(producer_id=producer_id, active=True).exclude(offerstatus_id=4)
+
+def get_offercontext(producer, context, offerstatus_id, dashboard):
+    all_offers = Offers.objects.filter(producer_id=producer.producer_id, active=True)
+    offer_table_title = "Aanbiedingen van " + str(producer.company)
     try:
         if offerstatus_id == 0:
-            context['offers'] = offers.order_by('-offer_date')
+            if dashboard:
+                offers = all_offers.order_by('-offer_date')[:100]
+                offer_table_title = "Laatste 100 aanbiedingen van " + str(producer.company)
+            else:
+                offers = all_offers.order_by('-offer_date')
+            context['offers'] = offers
 
         else:
-            context['offers'] = offers.filter(offerstatus=offerstatus_id).order_by('-offer_date')
+            context['offers'] = all_offers.filter(offerstatus=offerstatus_id).order_by('-offer_date')
     except Exception as e:
-        print(str(e))
-        context['offers'] = offers.order_by('-offer_date')
+        print('offer context error: ', str(e))
 
     # counts
-    context['all_offers'] = offers.count()
-    context['open_offers'] = offers.filter(offerstatus=1).count()
-    context['offered_offers'] = offers.filter(offerstatus=2).count()
-    context['prod_offers'] = offers.filter(offerstatus=3).count()
-    context['denied_offers'] = offers.filter(offerstatus=5).count()
+    context['all_offers'] = all_offers.count()
+    context['open_offers'] = all_offers.filter(offerstatus=1).count()
+    context['offered_offers'] = all_offers.filter(offerstatus=2).count()
+    context['prod_offers'] = all_offers.filter(offerstatus=3).count()
+    context['closed_offers'] = all_offers.filter(offerstatus=4).count()
+    context['denied_offers'] = all_offers.filter(offerstatus=5).count()
+    context['offer_table_title'] = offer_table_title
     return context
 
 
-def get_ordercontext(producer_id, context, orderstatus_id):
-    orders = Orders.objects.filter(producer_id=producer_id, active=True)
+def get_ordercontext(producer, context, order_status_id, dashboard):
+    all_orders = Orders.objects.filter(producer_id=producer.producer_id, active=True)
+    orders = all_orders.order_by('-orderdate')
+
+    order_table_title = "Orders voor " + str(producer.company)
 
     # dashboard lists
     try:
-        if orderstatus_id == 0:
-            context['orders'] = orders.order_by('-orderdate').exclude(order_status_id__gt=3)
-            context['orderstatus'] = 'Open'
+        if order_status_id == 0:
+            if dashboard:
+                orders = all_orders.order_by('-orderdate')[:100]
+                order_table_title = "Laatste 100 orders voorn " + str(producer.company)
+            else:
+                context['orderstatus'] = 'Open'
         else:
-            context['orders'] = orders.filter(order_status_id=orderstatus_id).order_by(
+            context['orders'] = all_orders.filter(order_status_id=order_status_id).order_by(
                 '-orderdate')
-            orderstatus = OrderStatus.objects.get(orderstatus_id=orderstatus_id).orderstatus
-            context['orderstatus'] = orderstatus
-    finally:
-        context['orders'] = orders.order_by('-orderdate').exclude(order_status_id__gt=3)
+            orderstatus = OrderStatus.objects.get(orderstatus_id=order_status_id).orderstatus
 
-    # counts
-    context['all_orders'] = orders.count()
-    context['req_orders'] = orders.filter(order_status_id=1).count()
-    context['prod_orders'] = orders.filter(order_status_id=2).count()
-    context['denied_orders'] = orders.filter(order_status_id=3).count()
-    context['inv_orders'] = orders.filter(order_status_id=4).count()
-    context['closed_orders'] = orders.filter(order_status_id=5).count()
+            context['orderstatus'] = orderstatus
+    except Exception as e:
+        print('order context error: ', str(e))
+
+    context['orders'] = orders
+    context['all_orders'] = all_orders.count()
+    context['req_orders'] = all_orders.filter(order_status_id=1).count()
+    context['prod_orders'] = all_orders.filter(order_status_id=2).count()
+    context['denied_orders'] = all_orders.filter(order_status_id=3).count()
+    context['inv_orders'] = all_orders.filter(order_status_id=4).count()
+    context['closed_orders'] = all_orders.filter(order_status_id=5).count()
+    context['order_table_title'] = order_table_title
 
     return context
 

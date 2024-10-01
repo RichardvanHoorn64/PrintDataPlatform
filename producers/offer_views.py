@@ -180,27 +180,6 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producer_sales_dashboard.html"
-    pk_url_kwarg = 'offerstatus_id'
-    context_object_name = 'offerstatus_id'
-
-    def get_context_data(self, **kwargs):
-        offerstatus_id = kwargs['offerstatus_id']
-        user = self.request.user
-        context = super(ProducerSalesDashboard, self).get_context_data(**kwargs)
-        context = creatememberplan_context(context, user)
-        producer_id = user.producer_id
-        order_status_id = 0
-
-        context = get_offercontext(producer_id, context, offerstatus_id)
-        context = get_ordercontext(producer_id, context, order_status_id)
-        context['offer_pagination'] = 10
-        context['order_pagination'] = 10
-
-        return context
-
-
 class ProducerOffers(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_offer_dashboard.html"
     pk_url_kwarg = 'offerstatus_id'
@@ -209,9 +188,10 @@ class ProducerOffers(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         offerstatus_id = kwargs['offerstatus_id']
         user = self.request.user
+        producer_id = user.producer_id
         context = super(ProducerOffers, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
-        context = get_offercontext(user.producer_id, context, offerstatus_id)
+        context = get_offercontext(producer_id, context, offerstatus_id, dashboard=False)
         context['offer_pagination'] = 25
         return context
 
@@ -228,7 +208,7 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
         user = self.request.user
         producer_id = user.producer_id
-
+        context = get_ordercontext(producer_id, context, order_status_id, dashboard=False)
         context = get_ordercontext(producer_id, context, order_status_id)
         context['order_pagination'] = 25
         return context
