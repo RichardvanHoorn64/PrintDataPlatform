@@ -189,9 +189,10 @@ class ProducerOffers(LoginRequiredMixin, TemplateView):
         offerstatus_id = kwargs['offerstatus_id']
         user = self.request.user
         producer_id = user.producer_id
+        producer = Producers.objects.get(producer_id=producer_id)
         context = super(ProducerOffers, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
-        context = get_offercontext(producer_id, context, offerstatus_id, dashboard=False)
+        context = get_offercontext(producer, context, offerstatus_id, dashboard=False)
         context['offer_pagination'] = 25
         return context
 

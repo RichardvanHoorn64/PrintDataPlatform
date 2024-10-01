@@ -256,6 +256,7 @@ class CloseErrorCalculationView(View):
             pass
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
 class HandleOfferView(LoginRequiredMixin, View):
     model = Offers
     profile = Offers
@@ -272,6 +273,7 @@ class HandleOfferView(LoginRequiredMixin, View):
             offer.save()
         finally:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 
 class ThanksSubmitOffer(TemplateView):
     template_name = 'thanks_submit_offer.html'
