@@ -26,8 +26,10 @@
                                 class="toggle-line"></span></span></button>
                         <a class="navbar-brand me-1 me-sm-3" href="{% url 'welcome' %}">
                             <div class="d-flex align-items-center">
-                                <div class="d-flex align-items-center"><img
-                                        src="{% static "assets/img/logos/header_1.jpg" %}" alt="logo" width="300"/>
+                                                                <div class="d-flex align-items-center">
+                                    <img src="{% static img_loc_logo %}" alt="logo" width="300"/>
+                                </div>
+
                                     <p class="logo-text ms-2 d-none d-sm-block">PrintDataPlatform
                                         <small>&nbsp;&nbsp;<span class="text-warning">Voorsprong</span> voor printprofessionals</small></p>
                                 </div>
@@ -39,7 +41,7 @@
                         {% include 'buttons/nav_login_out.html' %}
                         </li>
                     </ul>
-                </div>
+             
             </nav>
 
             {% block main_content %}

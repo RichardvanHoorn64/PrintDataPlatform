@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from index.categories_groups import *
 from index.create_context import creatememberplan_context
+from index.exclusive_functions import img_loc_logo
 from index.models import *
 from profileuseraccount.models import UserProfile, Members
 
@@ -121,17 +122,29 @@ class ConditionView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(ConditionView, self).get_context_data(**kwargs)
         user = self.request.user
-        context = creatememberplan_context(context, user)
-        language_id = self.request.user.language_id
+        skin = 'skins/skin_open.html'
+        language_id = 1
+        page = 'Home'
+
+        if user.is_authenticated:
+            context = creatememberplan_context(context, user)
+            skin = 'skins/skin.html'
+            language_id = self.request.user.language_id
+            page = 'Dashboard' + str(user.company)
+        else:
+            context['img_loc_logo'] = img_loc_logo(user)
 
         if language_id == 1:
-            context['title'] = "Spelregels"
+            context['title'] = 'Spelregels PrintDataPlatform'
             context[
                 'subtitle'] = ("Door gebruik te maken van het PrintDataPlatform geeft u aan akkoord te zijn met onze "
                                "spelregels")
         if language_id == 2:
-            context['title'] = "Conditions"
+            context['title'] = 'Conditions PrintDataPlatform'
             context['subtitle'] = "By using the PrintDataPlatform you agree to our conditions"
+
+        context['skin'] = skin
+        context['page'] = page
 
         context['conditions'] = Conditions.objects.filter(language_id=language_id).order_by('sequence')
         return context

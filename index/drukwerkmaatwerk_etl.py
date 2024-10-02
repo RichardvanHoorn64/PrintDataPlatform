@@ -196,7 +196,9 @@ def load_printprojects_veldhuis(inputfolder, inputfile):
 
                     enhance_sided=1,
                     enhance_front=find_enhancement_id(row['veredeling_omslag']),
+                    enhance_rear=0,
 
+                    folding=0,
                     packaging=find_packaging_id(row['verpakking']),
 
                     number_of_pages=row['aantal_paginas'],

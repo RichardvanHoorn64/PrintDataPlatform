@@ -36,6 +36,9 @@ class ProducerDownloadOffers(LoginRequiredMixin, View):
         worksheet_offers = workbook.add_worksheet(worksheet_name_offers + str(export_datum))
         df_offers = pd.DataFrame(Offers.objects.filter(producer_id=producer_id).values())
 
+        # df_offers.replace(enhance_rear.nan, None)
+        df_offers = df_offers.where(df_offers.notnull(), 0)
+
         df_offers['offertedate'] = df_offers['offer_date'].dt.strftime('%d-%m-%Y')
         df_offers['project_title'] = df_offers.apply(
             lambda row: retrieve_project_title(row['printproject_id']), axis=1)

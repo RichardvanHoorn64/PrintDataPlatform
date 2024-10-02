@@ -25,6 +25,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         printproject_id = offer.printproject_id
         producer_id = offer.producer_id
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
+
         member_id = printproject.member_id
 
         if member_id is not user.member.member_id and user.member.member_plan_id in open_memberplans:
@@ -96,8 +97,6 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
 
         url = 'https://printdatastorage.blob.core.windows.net/media/' + str(
             producer_id) + '/docs/offers/' + doc_template
-
-        # url = 'https://printdatastorage.blob.core.windows.net/media/2/docs/offers/brochures.docx'
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename=Aanbieding ' + str(

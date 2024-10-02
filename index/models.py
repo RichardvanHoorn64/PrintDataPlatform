@@ -60,6 +60,7 @@ class ProductCategory(models.Model):
 
 class Faqs(models.Model):
     faq_id = models.AutoField(primary_key=True)
+    header = models.CharField(max_length=200, null=True, blank=True)
     sequence = models.PositiveIntegerField(default=1)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     question = models.CharField(max_length=1000, null=True, blank=True)
@@ -90,17 +91,18 @@ class Faqs(models.Model):
 
 
 class Conditions(models.Model):
-    faq_id = models.AutoField(primary_key=True)
+    condition_id = models.AutoField(primary_key=True)
     sequence = models.PositiveIntegerField(default=1)
+    header = models.CharField(max_length=200, null=True, blank=True)
     condition = models.CharField(max_length=1000, null=True, blank=True)
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return self.condition
+        return self.header
 
     class Meta:
-        verbose_name = 'conditions'
-        verbose_name_plural = 'condition'
+        verbose_name = 'headers'
+        verbose_name_plural = 'header'
 
 
 class Events(models.Model):

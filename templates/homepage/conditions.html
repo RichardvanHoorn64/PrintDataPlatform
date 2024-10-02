@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'skins/skin.html' %}
+{% extends skin  %}
 {% load static %}
 <html lang="nl" dir="ltr">
 
@@ -11,18 +11,29 @@
   </head>
     {% block main_content %}
   <body>
-
+  
+      <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'welcome' %}">{{ page }}</a>
+                </li>
+                <li class="breadcrumb-item active">{{ title }}</li>
+            </ol>
+        </nav>
+     
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <div class="content">
-    <div class="container" id="new_project_header" style="background-color:whitesmoke;">
-        <nav class="mb-2" aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a class="text-info" href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
-                <li class="breadcrumb-item active">Spelregels</li>
-            </ol>
-        </nav>
+
+        
+ <div class="mb-7">
+            <div class="row align-items-center justify-content-between g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">{{ title }}</h2>
+                </div>
+            </div>
+        </div>
         <hr class="text-info">
         <h2  class="mb-4 text-info">{{ form_title }}</h2>
         <h5 class="mb-3">
@@ -33,31 +44,21 @@
     <!-- ===============================================-->
     <!--    Conditions-->
     <!-- ===============================================-->
-
-          <p class="text-700">Zoek binnen onze spelregels op onderwerp</p>
-        <div class="search-box mb-8 w-100" style="max-width:25rem;">
-            <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-              <input class="form-control search-input search" type="search" placeholder="Zoeken" aria-label="Search" />
-              <span class="fas fa-search search-box-icon"></span>
-
-            </form>
+        {% for condition in conditions %}
+                  <div class="text-left">
+            <h4 class="text-black">{{ condition.header }}</h4>
+            <p class="text-900">{{ condition.condition }}</p>
+            <hr class="text-info">
           </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">Spelregel 1</button>
-              </h2>
-              <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body pt-0">Hier komt de uitgebreide tekst, per spelregel.</div>
-              </div>
-            </div>
-            
-          </div>
-          <div class="text-center py-11">
-            <h3 class="text-black">Nog vragen over?</h3>
-              <a href="mailto:contact@printdataplatform.nl">Email: contact@printdataplatform.nl</a>
+          {% endfor %}
+      
+          <div class="text-left">
+            <h4 class="text-body">Vragen?</h4>
+              <a class="text-info" href="mailto:contact@printdataplatform.nl">Email: contact@printdataplatform.nl</a>
             <p class="text-900">We helpen graag</p>
+             <hr class="text-info">
           </div>
-        </div>
+      </div>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
