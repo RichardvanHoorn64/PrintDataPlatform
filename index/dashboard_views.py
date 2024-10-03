@@ -1,12 +1,11 @@
 from django.shortcuts import redirect
-
 from index.create_context import creatememberplan_context
 from index.dq_functions import producer_dq_functions
 from index.exclusive_functions import define_exclusive_producer_id
 from members.crm_functions import update_number_of_open_offers, update_producersmatch
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
-from offers.models import Offers
+from offers.models import *
 from orders.models import Orders
 from producers.models import ProducerProductOfferings
 from printprojects.models import *
@@ -59,7 +58,6 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         exclusive_producer_id = define_exclusive_producer_id(user)
 
         if user.member_plan_id in exclusive_memberplans:
-
             exclusive_producer = Producers.objects.get(producer_id=exclusive_producer_id)
 
             offers = offers.filter(producer_id=exclusive_producer_id)
@@ -234,8 +232,15 @@ class OfferDashboard(LoginRequiredMixin, TemplateView):
         member_id = user.member_id
 
         offers = Offers.objects.filter(member_id=member_id, active=True)
-        if offerstatus_id > 0:
+        if offerstatus_id == 0:
+            offer_table_title = 'Alle aanbiedingen'
+        else:
             offers = offers.filter(offerstatus=offerstatus_id)
+            try:
+                offerstatus = Offerstatus.objects.get(offerstatus_id=offerstatus_id).offerstatus
+            except Offerstatus.DoesNotExist:
+                offerstatus = None
+            offer_table_title = 'Aanbiedingen, status ' + str(offerstatus.lower())
 
         # dashboard lists
         context['offers_list'] = offers

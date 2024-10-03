@@ -96,14 +96,28 @@ WSGI_APPLICATION = 'printdataplatform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # Azure DB for production
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'printdataplatform_dev',
+#         'USER': 'postgres',
+#         'PASSWORD': 'PrintdataClub2025',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'printdataplatform_dev',
-        'USER': 'postgres',
-        'PASSWORD': 'PrintdataClub2025',
-        'HOST': '127.0.0.1',
+        'NAME': 'printdataplatform',
+        'USER': 'richardvanhoorn',
+        'PASSWORD': 'ybRF5$0z2iYYTzPC',
+        'HOST': 'printdataplatform-server.postgres.database.azure.com',
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
 
