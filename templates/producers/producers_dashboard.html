@@ -28,7 +28,7 @@
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a class="text-info"
-                 href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
+                                               href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
                 <li class="breadcrumb-item active">Producent dashboard</li>
             </ol>
@@ -41,7 +41,7 @@
             </div>
 
             <div id="producerTable"
-                 data-list='{"valueNames":["producer","city","country_code", "status"],"page":20,"pagination":true}'>
+                 data-list='{"valueNames":["producer","city","country_code", "status", "manager"],"page":10,"pagination":true}'>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
@@ -70,52 +70,55 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="table-responsive scrollbar mx-n1 px-1">
-                                <h3 class="mb-0 text-info">Producenten van {{ user.member.company }}</h3>
+                                <h3 class="mb-0 text-info">Producenten</h3> <br>
+                                <h5 class="mb-0 text-black-50">Kies hier je preferred suppliers voor offerteaanvragen
+                                    </h5>
+                                <hr class="text-info">
                                 <table class="table table-sm fs--1 mb-0">
                                     <thead>
                                     <tr>
+                                        <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="producer"
                                             style="width:20%;">Producent
                                         </th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
                                             style="width:10%; min-width: 100px;">Plaats
                                         </th>
-                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="country_code"
+                                        <th class="sort align-middle text-start pe-3" scope="col"
+                                            data-sort="country_code"
                                             style="width:10%; min-width: 100px;">Land
+                                        </th>
+                                        <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
+                                            Account manager
                                         </th>
                                         <th class="align-middle text-start pe-3" scope="col"
                                             style="width:10%; min-width: 100px;">Tel
                                         </th>
-                                        <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
-                                            Website
-                                        </th>
-                                        <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
+
+
                                         <th class="sort align-middle text-start pe-0" scope="col" data-sort="status"
                                             style="width:10%;">Status
                                         </th>
-                                        <th class="align-middle text-end" scope="col" style="width:5%;">Status wijzigen</th>
+                                        <th class="align-middle text-end" scope="col" style="width:5%;">Status
+                                            wijzigen
+                                        </th>
                                     </tr>
                                     </thead>
 
                                     <tbody class="list" id="producer-table-body">
                                     {% for producer in producers_list %}
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                            <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
-                                            <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
-                                        <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.country_code }}</td>
-                                            <td class="align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
-                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start">
-                                                {% if producer.producer.company_url %}
-                                                <a
-                                                    href="{{ producer.producer.company_url }}/">{{ producer.producer.company_url }}</a>
-                                                {% endif %}
-                                                
-                                            </td>
                                             <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a
                                                     href="{% url 'producer_details' producer.producer_id %}"
                                                     class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
                                                     aria-pressed="true"><i class="fas fa-info text-info fs-1"></i></a>
                                             </td>
+                                            <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
+                                            <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
+                                            <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.country_code }}</td>
+                                            <td class="manager align-middle fw-semi-bold text-1000">{{ producer.producer.manager }}</td>
+                                            <td class="align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
+                                        
                                             <td class="status align-middle white-space-nowrap text-start fw-bold text-700"><span
                                                     {% if producer.memberproducerstatus_id == 1 %}
                                                         class="badge badge-phoenix fs--2 badge-phoenix-success"><span
@@ -129,7 +132,7 @@
                                                     {% endif %}
                                             class="badge-label">{{ producer.printprojectstatus }}</span><span
                                                     class="ms-1"
-                                                    style="height:12.8px;width:12.8px;"></span>{{ producer.memberproducerstatus }}
+                                                    style="height:13px;width:13px;"></span>{{ producer.memberproducerstatus }}
                                             </span>
                                             </td>
                                             {% include 'buttons/producer_status_actions.html' %}
@@ -141,10 +144,10 @@
                             <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                                 <div class="col-auto d-flex">
                                     <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                       data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!"
+                                       data-list-info="data-list-info"></p><a class="fw-semi-bold text-info"
                                                                               data-list-view="*">Toon
                                     alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
-                                        class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
+                                        class="fw-semi-bold d-none text-info" data-list-view="less">Toon minder<span
                                         class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                                 </div>
                                 <div class="col-auto d-flex">

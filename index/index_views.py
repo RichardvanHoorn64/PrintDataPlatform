@@ -197,4 +197,4 @@ class EventsView(TemplateView):
 
 
 class TestErrorView(TemplateView):
-    template_name = '404.html'
+    template_name = 'account/password_reset_done.html'

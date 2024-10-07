@@ -3,7 +3,7 @@ from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from members.crm_functions import update_producersmatch, update_printprojectsmatch
 from methods.models import *
-from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
+from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from printprojects.models import MemberProducerMatch
 
 from printprojects.workflow_functions import *

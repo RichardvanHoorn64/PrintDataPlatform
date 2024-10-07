@@ -45,12 +45,12 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         context = createprintproject_context(context, user, printproject)
 
-        producer_id= offer.producer_id
+        producer_id = offer.producer_id
         try:
             calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=printproject_id)
         except Calculations.DoesNotExist:
             calculation = []
-        # createprintproject_context(user, printproject_id)
+        createprintproject_context(context, user, printproject)
         context['calculation'] = calculation
         context['offer'] = offer
         context['printproject'] = printproject
@@ -117,7 +117,7 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         user = self.request.user
         if user.is_authenticated:
-            return redirect('/producer_offers/0/')
+            return reverse_lazy('/producer_offers/1')
         else:
             return reverse_lazy('thanks_submit_offer')
 

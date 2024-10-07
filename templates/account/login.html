@@ -13,8 +13,18 @@
     <main class="main" id="top">
         <div class="container-fluid px-0">
             <div class="container-fluid">
-                <div class="bg-holder bg-auth-card-overlay"
-                     style="background-image:url(https://drukwerkmaatwerkopslag.blob.core.windows.net/media/brandportal/producent1/inlog_achtergrond.jpg);">
+                <div
+
+                        class="bg-holder bg-auth-card-overlay" style="background-image:
+
+                        {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
+                            url(https://printdatastorage.blob.core.windows.net/media/bg/bg_1.jpg);">
+                        {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
+                            url(https://printdatastorage.blob.core.windows.net/media/bg/bg_2.jpg);">
+                        {% else %}
+                            url(https://printdatastorage.blob.core.windows.net/media/bg/bg_2.jpg);">
+                        {% endif %}
+
                 </div>
                 <!--/.bg-holder-->
                 <div class="row flex-center position-relative min-vh-100 g-0 py-5">
@@ -29,8 +39,15 @@
                                         <!--/.bg-holder-->
                                         <div class="position-relative px-4 px-lg-7 pt-7 pb-7 pb-sm-5 text-center text-md-start pb-lg-7 pb-md-7">
 
-
-                                            <h3 class="mb-3 text-black">PrintDataplatform</h3>
+                                            <h3 class="mb-3 text-black">
+                                                {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
+                                                    Drukkerij van Hoorn (demo)
+                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
+                                                    Veldhuis Media
+                                                {% else %}
+                                                    PrintDataplatform
+                                                {% endif %}
+                                            </h3>
                                             <a href="https://www.printdataplatform.nl/" target="_blank"
                                                class="btn btn-info btn-sm me-1 mb-1" role="button"
                                                aria-pressed="true"><i class="fa-info">Meer informatie</i></a>
@@ -51,12 +68,30 @@
                                                     class="d-flex flex-center text-decoration-none mb-4"
                                                     href="https://www.printdataplatform.nl/">
                                                 <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
-                                                    <img src="{% static "assets/img/logos/logo.png" %}" alt="printdataplatform"
+                                                    {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
+                                                        <img src="{% static "assets/img/logos/logo_1.png" %}"
+                                                         alt="printdataplatform"
+                                                         width="200"/>
+                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
+                                                        <img src="{% static "assets/img/logos/logo.png" %}"
+                                                         alt="printdataplatform"
                                                          width="150"/>
+                                                {% else %}<img src="{% static "assets/img/logos/logo.png" %}"
+                                                         alt="printdataplatform"
+                                                         width="150"/>
+                                                {% endif %}
+                                                
                                                 </div>
                                             </a>
                                                 <h3 class="text-1000">Inloggen</h3>
-                                                <p class="text-700">PrintDataPlatform</p>
+                                                <p class="text-700">
+                                                {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
+                                                    Drukkerij van Hoorn (demo)
+                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
+                                                    Veldhuis Media
+                                                {% else %}
+                                                    PrintDataplatform
+                                                {% endif %}</p>
                                             </div>
                                             <div class="position-relative">
                                                 <hr class="bg-200 mt-5 mb-4"/>
@@ -96,7 +131,7 @@
                                                         instellen </a>
                                                 </div>
                                             </div>
-
+                                            {% if request.get_host ==  'www.printdataplatform.nl.nl' or request.get_host ==  'printdataplatform.nl.nl' or 'http://localhost:8000'%}
                                             <div class="position-relative">
                                                 <hr class="bg-200 mt-5 mb-4"/>
                                                 <div class="divider-content-center bg-white">Aanmelden</div>
@@ -110,13 +145,9 @@
                                                         proefaccount</a>
                                                     <br> <br>
                                                     
-{#                                                    <div class="alert alert-outline-warning" role="alert">#}
-{#                                                        <h6 class="text-warning">#}
-{#                                                        Nieuwe aanvragen worden beoordeeld</h6>#}
-{#                                                    </div>#}
-{#                                                    <br>#}
                                                 </div>
                                             </div>
+                                        {% endif %}
                                             <div class="m3-text-warning">
                                                 {% if form.non_field_errors %}
                                                     <div class="position-relative">
@@ -124,7 +155,6 @@
                                                         <div class="divider-content-center bg-white">Error</div>
                                                     </div>
                                                     <h5 class="mb-3 text-danger">{{ form.non_field_errors }}</h5>
-
                                                 {% endif %}
                                             </div>
                                         </form>

@@ -4,7 +4,7 @@ from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
 from index.forms.relationforms import *
 from index.create_context import creatememberplan_context
-from printprojects.forms.PrintprojectSalesPice import *
+from printprojects.forms.ProducerMemberSalesPrice import *
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
@@ -138,7 +138,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     profile = Producers
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
-    success_url = 'home'
+    success_url = 'producer_dashboard'
     
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user

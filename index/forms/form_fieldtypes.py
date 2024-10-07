@@ -10,6 +10,10 @@ decimal_field_notreq = forms.DecimalField(
     widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '  '}),
     min_value=0, localize=True, decimal_places=2, required=False)
 
+decimal_field_notreq_negative = forms.DecimalField(
+    widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '  '}),
+    min_value=-100, localize=True, decimal_places=2, required=False)
+
 integer_field_notreq = forms.IntegerField(
     widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '  '}),
     min_value=0, required=False)

@@ -2,6 +2,31 @@ from offers.models import *
 from orders.models import OrderStatus
 
 
+def excel_fill_worksheet(worksheet, df, columns, bold):
+    # Fill first row with header in bold
+    row = 0
+    for i, elem in enumerate(columns):
+        worksheet.write(row, i, elem, bold)
+    row += 1
+    # Now fill other rows with columns
+    index = 0
+    while index < len(df):
+        for i, elem in enumerate(columns):
+            try:
+                fieldvalue = df.iloc[index][elem]
+                if isinstance(fieldvalue, (list, tuple)):
+                    return str(fieldvalue)[1:-1]
+            except KeyError:
+                fieldvalue = []
+
+            try:
+                worksheet.write(row, i, fieldvalue)
+            except Exception as e:
+                print("no value written for: ", elem, e)
+        index = index + 1
+        row += 1
+
+
 def retrieve_productcategory(productcategory_id):
     try:
         productcategoryname = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
@@ -31,6 +56,7 @@ def retrieve_company(member_id):
     else:
         company = ""
     return company
+
 
 def retrieve_projectmanager(user_id):
     try:

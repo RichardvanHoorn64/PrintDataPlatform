@@ -1,12 +1,14 @@
 from io import BytesIO
+import io
 import pandas as pd
 import xlsxwriter
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import FileResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import View, TemplateView
+from downloads.download_functions import *
 from calculations.assortiment_uploadform import *
 from calculations.item_calculations.brochure_calculation import brochure_calculation
 from calculations.item_calculations.plano_folder_calculation import plano_folder_calculation
@@ -26,12 +28,11 @@ class AssortimentView(LoginRequiredMixin, TemplateView):
         producer_id = user.producer_id
         catalog = Calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by('calculation_id')
 
-        try:
-            last_upload = catalog[0].upload_date
-        except:
-            last_upload = None
+        last_calculation = catalog[0].offer_date
+        if not last_calculation:
+            last_calculation = '--'
         context['catalog'] = catalog
-        context['last_upload'] = last_upload
+        context['last_calculation'] = last_calculation
         return context
 
 
@@ -53,85 +54,73 @@ class CalculateAssortiment(View):
 
 class DownloadAssortiment(LoginRequiredMixin, View):
     def get(self, request):
-        producer_id = self.request.user.producer_id
+        user = self.request.user
+        producer_id = user.producer_id
         calculations = Calculations
-        name = "sheets_"
         export_datum = timezone.now().today().date()
         output = BytesIO()
+
         # Feed a buffer to workbook
-        workbook = xlsxwriter.Workbook(output)
+        buffer = io.BytesIO()
+        workbook = xlsxwriter.Workbook(buffer)
 
-        worksheet_brochures = workbook.add_worksheet(name + str(export_datum))
+        worksheet_name = 'Listcalculations '
+        worksheet_listcalculations = workbook.add_worksheet(worksheet_name + str(export_datum))
 
-        objs_brochures = calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by(
+        objs_calculations = calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by(
             "calculation_id")
-        df_brochures = pd.DataFrame(objs_brochures.values())
+        df_calculations = pd.DataFrame(objs_calculations.values())
         bold = workbook.add_format({'bold': True})
-        # columns_brochures = [f.name for f in calculations._meta.get_fields()]
-        columns_brochures = ['calculation_id', 'productcategory', 'producer', 'printproject', 'catalog_code', 'status',
-                             'error',
-                             'volume', 'printer_booklet', 'printer_cover', 'cuttingmachine_booklet', 'foldingmachine',
-                             'foldingmachines_booklet', 'bindingmachine', 'paperspec_id_booklet', 'paperspec_id_cover',
-                             'pages_per_sheet_booklet', 'pages_per_katern_booklet', 'number_of_printruns_booklet',
-                             'book_thickness', 'waste_printing', 'waste_printing1000extra', 'waste_folding',
-                             'waste_folding1000extra', 'waste_binding', 'waste_binding1000extra',
-                             'waste_printing_cover',
-                             'waste_printing1000extra_cover', 'waste_folding_cover', 'waste_folding1000extra_cover',
-                             'waste_binding_cover', 'waste_binding1000extra_cover', 'order_startcost',
-                             'printingcost', 'printingcost_booklet', 'printingcost_cover', 'printingcost1000extra',
-                             'printingcost_booklet1000extra', 'printing_cost_cover1000extra', 'inkcost',
-                             'inkcost_booklet',
-                             'inkcost_cover', 'inkcost1000extra', 'inkcost_booklet1000extra', 'inkcost_cover1000extra',
-                             'foldingcost', 'foldingcost1000extra', 'foldingcost_booklet',
-                             'foldingcost_booklet1000extra', 'cuttingcost', 'cuttingcost1000extra',
-                             'cuttingcost_booklet', 'cuttingcost_booklet1000extra', 'bindingcost',
-                             'bindingcost1000extra',
-                             'enhancecost_cover', 'enhancecost_cover1000extra', 'purchase_plates',
-                             'purchase_plates_booklet', 'margin_plates_booklet', 'platecost_cover',
-                             'platecost_booklet', 'purchase_plates_cover', 'margin_plates_cover',
-                             'papercost1000extra', 'papercost_booklet', 'papercost_booklet1000extra',
-                             'papercost_cover', 'papercost_cover1000extra', 'number_of_printruns_cover',
-                             'cover_starttime', 'printing_runtime_cover', 'add_value_purchase_paper_cover',
-                             'paper1000extra_cost', 'paper1000extra_cost_cover',
-                             'add_value_purchase_paper1000extra_cover', 'printing_cover', 'paper_quantity',
-                             'paper_quantity1000extra', 'paper_quantity_booklet',
-                             'paper_quantity_booklet1000extra', 'paper_quantity_cover',
-                             'paper_quantity_cover1000extra', 'papercost_total', 'papercost_booklet_total',
-                             'papercost_cover_total', 'papercost_total1000extra',
-                             'papercost_booklet_total1000extra', 'papercost_cover_total1000extra',
-                             'packagingcost', 'packagingcost1000extra', 'orderweight_kg',
-                             'transportcost', 'transportcost1000extra', 'total_cost', 'total_cost1000extra',
-                             'added_value', 'perc_added_value', 'added_value1000extra', 'perc_added_value1000extra']
 
-        # Fill first row with header in bold
-        row = 0
-        for i, elem in enumerate(columns_brochures):
-            worksheet_brochures.write(row, i, elem, bold)
-        row += 1
-        # Now fill other rows with columns
-        index = 0
-        while index < len(df_brochures):
-            for i, elem in enumerate(columns_brochures):
-                try:
-                    fieldvalue = df_brochures.iloc[index][elem]
-                    if isinstance(fieldvalue, (list, tuple)):
-                        return str(fieldvalue)[1:-1]
-                except KeyError:
-                    fieldvalue = []
+        calculations_columns = ['calculation_id', 'productcategory', 'producer', 'printproject', 'catalog_code',
+                                'status', 'error',
+                                'volume', 'printer_booklet', 'printer_cover', 'cuttingmachine_booklet',
+                                'foldingmachine',
+                                'foldingmachines_booklet', 'bindingmachine', 'paperspec_id_booklet',
+                                'paperspec_id_cover',
+                                'pages_per_sheet_booklet', 'pages_per_katern_booklet', 'number_of_printruns_booklet',
+                                'book_thickness', 'waste_printing', 'waste_printing1000extra', 'waste_folding',
+                                'waste_folding1000extra', 'waste_binding', 'waste_binding1000extra',
+                                'waste_printing_cover',
+                                'waste_printing1000extra_cover', 'waste_folding_cover', 'waste_folding1000extra_cover',
+                                'waste_binding_cover', 'waste_binding1000extra_cover', 'order_startcost',
+                                'printingcost', 'printingcost_booklet', 'printingcost_cover', 'printingcost1000extra',
+                                'printingcost_booklet1000extra', 'printing_cost_cover1000extra', 'inkcost',
+                                'inkcost_booklet',
+                                'inkcost_cover', 'inkcost1000extra', 'inkcost_booklet1000extra',
+                                'inkcost_cover1000extra',
+                                'foldingcost', 'foldingcost1000extra', 'foldingcost_booklet',
+                                'foldingcost_booklet1000extra', 'cuttingcost', 'cuttingcost1000extra',
+                                'cuttingcost_booklet', 'cuttingcost_booklet1000extra', 'bindingcost',
+                                'bindingcost1000extra',
+                                'enhancecost_cover', 'enhancecost_cover1000extra', 'purchase_plates',
+                                'purchase_plates_booklet', 'margin_plates_booklet', 'platecost_cover',
+                                'platecost_booklet', 'purchase_plates_cover', 'margin_plates_cover',
+                                'papercost1000extra', 'papercost_booklet', 'papercost_booklet1000extra',
+                                'papercost_cover', 'papercost_cover1000extra', 'number_of_printruns_cover',
+                                'cover_starttime', 'printing_runtime_cover', 'add_value_purchase_paper_cover',
+                                'paper1000extra_cost', 'paper1000extra_cost_cover',
+                                'add_value_purchase_paper1000extra_cover', 'printing_cover', 'paper_quantity',
+                                'paper_quantity1000extra', 'paper_quantity_booklet',
+                                'paper_quantity_booklet1000extra', 'paper_quantity_cover',
+                                'paper_quantity_cover1000extra', 'papercost_total', 'papercost_booklet_total',
+                                'papercost_cover_total', 'papercost_total1000extra',
+                                'papercost_booklet_total1000extra', 'papercost_cover_total1000extra',
+                                'packagingcost', 'packagingcost1000extra', 'orderweight_kg',
+                                'transportcost', 'transportcost1000extra', 'total_cost', 'total_cost1000extra',
+                                'added_value', 'perc_added_value', 'added_value1000extra', 'perc_added_value1000extra']
 
-                try:
-                    worksheet_brochures.write(row, i, fieldvalue)
-                except Exception as e:
-                    print("no value written for: ", elem, e)
-            index = index + 1
-            row += 1
+        excel_fill_worksheet(worksheet_listcalculations, df_calculations, calculations_columns, bold)
+
+        # Close workbook for building file
+        workbook.close()
+        buffer.seek(0)
 
         # Close workbook for building file
         workbook.close()
         output.seek(0)
-        response = HttpResponse(output.read(),
-                                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        return response
+        return FileResponse(buffer, as_attachment=True,
+                            filename='PrintDataPlatform ' + str(worksheet_name) + ' ' + str(user.company) + ' ' + str(export_datum)+'.xlsx')
 
 
 class UploadAssortimentCSV(LoginRequiredMixin, View):
@@ -240,7 +229,6 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
             except Exception as e:
                 error = 'fieldconversion error:' + str(e)
                 print("error: ", error)
-
         if not error:
             try:
                 # delete old assortiment calculations

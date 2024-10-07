@@ -49,15 +49,13 @@ def printerfilter_booklet(printer_id, rfq):
 #  calculate number of booklet pages per printer
 def pages_per_sheet_booklet_calculation(printer_id, katernheight8_mm, katernwidth8_mm):
     printer = Printers.objects.get(printer_id=printer_id)
-    katernheight4 = katernwidth8_mm
-    katernwidth4 = katernheight8_mm / 2
 
-    number_of_pages_landscape = int(printer.printsize_width / katernwidth4) * int(
-        printer.printsize_height / katernheight4)
-    number_of_pages_portrait = int(printer.printsize_width / katernheight4) * int(
-        printer.printsize_height / katernwidth4)
-    max_number_of_katern4 = int(max(number_of_pages_landscape, number_of_pages_portrait))
-    pages_per_sheet_booklet = max_number_of_katern4 * 4
+    number_of_pages_landscape = int(printer.printsize_width / katernwidth8_mm) * int(
+        printer.printsize_height / katernheight8_mm)
+    number_of_pages_portrait = int(printer.printsize_width / katernheight8_mm) * int(
+        printer.printsize_height / katernwidth8_mm)
+    max_number_of_katern8 = int(max(number_of_pages_landscape, number_of_pages_portrait))
+    pages_per_sheet_booklet = max_number_of_katern8 * 8
 
     return pages_per_sheet_booklet
 
@@ -96,31 +94,35 @@ def calculate_max_image_katern(max_pages_per_printer, katernwidth8_mm_bruto, kat
         imageheight = katernheight8_mm_bruto
 
     elif max_pages_per_printer <= 12:
-        imagewidth = (katernheight8_mm_bruto * 1.5) + katernmargin
-        imageheight = katernwidth8_mm_bruto + katernmargin
+        imagewidth = (katernwidth8_mm_bruto * 1.5) + katernmargin
+        imageheight = katernheight8_mm_bruto + katernmargin
 
     elif max_pages_per_printer <= 16:
         imagewidth = (katernheight8_mm_bruto * 2) + katernmargin
         imageheight = katernwidth8_mm_bruto + katernmargin
 
     elif max_pages_per_printer <= 24:
-        imagewidth = (katernheight8_mm_bruto * 1.5) + katernmargin
-        imageheight = (katernwidth8_mm_bruto * 3) + katernmargin
+        imagewidth = (katernwidth8_mm_bruto * 2) + katernmargin
+        imageheight = (katernheight8_mm_bruto * 1.5) + katernmargin
 
     elif max_pages_per_printer <= 32:
         imagewidth = (katernwidth8_mm_bruto * 2) + katernmargin
         imageheight = (katernheight8_mm_bruto * 2) + katernmargin
 
     elif max_pages_per_printer <= 48:
-        imagewidth = (katernwidth8_mm_bruto * 3) + katernmargin
-        imageheight = (katernheight8_mm_bruto * 4) + katernmargin
-
-    elif max_pages_per_printer <= 64:
         imagewidth = (katernwidth8_mm_bruto * 2) + katernmargin
         imageheight = (katernheight8_mm_bruto * 3) + katernmargin
 
+    elif max_pages_per_printer <= 64:
+        imagewidth = (katernheight8_mm_bruto * 4) + katernmargin
+        imageheight = (katernwidth8_mm_bruto * 2) + katernmargin
+
+    elif max_pages_per_printer <= 72:
+        imagewidth = (katernwidth8_mm_bruto * 3) + katernmargin
+        imageheight = (katernheight8_mm_bruto * 3) + katernmargin
+
     elif max_pages_per_printer <= 96:
-        imagewidth = (katernheight8_mm_bruto * 3) + katernmargin
+        imagewidth = (katernheight8_mm_bruto * 4) + katernmargin
         imageheight = (katernheight8_mm_bruto * 3) + katernmargin
 
     elif max_pages_per_printer <= 128:
@@ -130,6 +132,8 @@ def calculate_max_image_katern(max_pages_per_printer, katernwidth8_mm_bruto, kat
     else:
         imagewidth = 0
         imageheight = 0
+    imagewidth = float(imagewidth)
+    imageheight = float(imageheight)
     return imagewidth, imageheight
 
 
@@ -155,14 +159,14 @@ def calculate_number_of_sheets_incomplete(number_of_pages, pages_per_sheet_bookl
 def calculate_pages_per_katern_full(pages_per_sheet_booklet, booklet_foldingfactor):
     pages_per_katern_full = 0
     if booklet_foldingfactor > 0:
-        pages_per_katern_full = pages_per_sheet_booklet * (1 / booklet_foldingfactor)
+        pages_per_katern_full = math.floor(pages_per_sheet_booklet * (1 / booklet_foldingfactor))
     return pages_per_katern_full
 
 
-def calculate_number_of_katerns_full(pages_per_katern, booklet_foldingfactor, number_of_pages):
+def calculate_number_of_katerns_full(pages_per_katern_booklet, booklet_foldingfactor, number_of_pages):
     number_of_katerns_full = 0
     if number_of_pages > 0:
-        number_of_katerns_full = int(number_of_pages / pages_per_katern) * (1 / booklet_foldingfactor)
+        number_of_katerns_full = int((number_of_pages / pages_per_katern_booklet) * (1 / booklet_foldingfactor))
     return int(number_of_katerns_full)
 
 
@@ -248,7 +252,7 @@ def filter_foldingmachines_booklet(fit_foldingmachines_rfq, katern_width_mm, kat
     # select foldingmachine best price
     fit_foldingmachines_booklet['price_per_ex'] = (
             fit_foldingmachines_booklet['tariff_eur_hour'] / fit_foldingmachines_booklet[
-                                                      'meter_per_hour'])
+        'meter_per_hour'])
     foldingmachine_id = fit_foldingmachines_booklet[
         fit_foldingmachines_booklet.price_per_ex == min(fit_foldingmachines_booklet.price_per_ex)][
         'foldingmachine_id'].iloc[0]
@@ -729,8 +733,8 @@ def define_bindingmachine_id(selfcover, producer_id, rfq, finishingmethod_id, nu
         bindingmachines_producer.max_number_stations_max >= number_of_stations]
     bindingmachines_producer = bindingmachines_producer[(bindingmachines_producer.max_width_untrimmed_mm >= width) & (
             bindingmachines_producer.min_width_untrimmed_mm <= width) & (
-                                                    bindingmachines_producer.max_height_untrimmed_mm >= height) & (
-                                                    bindingmachines_producer.min_height_untrimmed_mm <= height)]
+                                                                bindingmachines_producer.max_height_untrimmed_mm >= height) & (
+                                                                bindingmachines_producer.min_height_untrimmed_mm <= height)]
 
     if not selfcover:
         bindingmachines_producer = bindingmachines_producer[bindingmachines_producer.cover_feeder == True]
@@ -782,9 +786,9 @@ def bindingcost_run_calculation(volume, portrait_landscape, number_of_katerns_to
         speedreduction_stations_extra = speedreduction ** aantal_stations_extra
 
     if portrait_landscape == 'liggend':
-        speedreduction_portrait_landscape = (100.0 - float(bindingmachine.vertraging_liggend)) * 0.01
+        speedreduction_portrait_landscape = (100.0 - float(bindingmachine.speedreduction_landscape)) * 0.01
     if portrait_landscape == 'vierkant':
-        speedreduction_portrait_landscape = (100.0 - float(bindingmachine.vertraging_vierkant)) * 0.01
+        speedreduction_portrait_landscape = (100.0 - float(bindingmachine.speedreduction_square)) * 0.01
 
     speed_hour = float(
         bindingmachine.max_speed_hour) * speedreduction_portrait_landscape * wastefactor * speedreduction_stations_extra

@@ -6,7 +6,6 @@ from django.http import FileResponse
 from django.utils import timezone
 from django.views.generic import View
 from downloads.download_functions import *
-from downloads.member_downloads import excel_fil_worksheeets
 from offers.models import Offers
 from orders.models import Orders
 from printprojects.models import *
@@ -75,7 +74,7 @@ class ProducerDownloadOffers(LoginRequiredMixin, View):
                          'productcategory': 'productcategorie'}, inplace=True)
 
         offers_columns = df_offers.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_offers, df_offers, offers_columns, bold)
+        excel_fill_worksheet(worksheet_offers, df_offers, offers_columns, bold)
 
         # Close workbook for building file
         workbook.close()
@@ -139,10 +138,10 @@ class ProducerDownloadOrders(LoginRequiredMixin, View):
                  'productcategorie', 'rfq_company', 'producent', 'order status']]
 
         orders_columns = df_orders.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_orders, df_orders, orders_columns, bold)
+        excel_filf_worksheet(worksheet_orders, df_orders, orders_columns, bold)
 
         orders_columns = df_orders.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_orders, df_orders, orders_columns, bold)
+        excel_fill_worksheet(worksheet_orders, df_orders, orders_columns, bold)
 
         # Close workbook for building file
         workbook.close()

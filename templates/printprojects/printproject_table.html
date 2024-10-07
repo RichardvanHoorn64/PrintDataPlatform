@@ -13,7 +13,7 @@
                 <h3 class="mb-0 text-info">{{ printproject_table_title }}</h3>
                 <hr>
                 {% if printproject_list %}
-                    <table class="table table-sm fs--1 mb-0">
+                    <table class="table table-sm fs--1 mb-0 overflow-scroll">
                         <thead>
                         <tr>
                             <th class="white-space-nowrap align-middle pe-3" scope="col"
@@ -31,21 +31,17 @@
                             <th class="sort align-middle text-start pe-3" scope="col" data-sort="printprojectstatus"
                                 style="width:10%; min-width: 100px;">Status
                             </th>
-                            <th class="sort align-middle ps-0" scope="col" data-sort="customer" style="width:15%; ">
-                                Klant
-                            </th>
-                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Klant<BR>Ordernr</th>
                             <th class="sort align-middle text-start" scope="col" data-sort="project_title"
-                                style="width:30%;">Printproject
+                                style="width:30%;">Printproject </th>
+                            <th class="align-middle ps-0" scope="col" style="width:5%; ">Aantal<br>aanbiedingen</th>
+                        <th class="align-middle ps-0" scope="col" style="width:5%; ">Laagste<br>aanbieding</th>
+
                                 
                                 {% if user.member_pla_id in open_menberplans %}
-                            </th>
+                           
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Open<br>aanbiedingen
                             </th>
                               {% endif %}
-                            
-                        
-                        
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Herberekenen</th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen</th>
                         </tr>
@@ -63,32 +59,25 @@
                                 <td class="rfq_date align-middle fw-semi-bold text-1000">{{ printproject.rfq_date |date:'d-m-Y ' }}</td>
                                 <td class="printprojectstatus align-middle white-space-nowrap text-start fw-bold text-700">
                                     {% if printproject.printprojectstatus.printprojectstatus_id == 1 %}
-                                        <span class="badge badge-phoenix fs--2 badge-phoenix-danger">
+                                        <span class="badge badge-phoenix fs--2 badge-phoenix-secondary">
                                     {% elif printproject.printprojectstatus.printprojectstatus_id == 2 %}
-                                        <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
+                                        <span class="badge badge-phoenix fs--2 badge-phoenix-info">
                                     {% elif printproject.printprojectstatus.printprojectstatus_id == 3 %}
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-success">
-                                    {% elif printproject.printprojectstatus.printprojectstatus_id == 4 %}
+                                    {% else %}
                                         <span class="badge badge-phoenix fs--2 badge-phoenix-info">
                                     {% endif %}
                                     <span class="badge-label">{{ printproject.printprojectstatus }}</span><span
                                         class="ms-1"
-                                        style="height:12.8px;width:12.8px;"></span>
+                                        style="height:13px;width:13px;"></span>
                                     </span></td>
-                                
-                                
-                                <td class="customer align-middle white-space-nowrap ps-0"><a
-                                        class="d-flex align-items-center"
-                                        {% if printproject.client_id %}
-                                        href="{% url 'client_details' printproject.client_id %}">    {% endif %}
-                                <h6 class="mb-0 ms-0 text-900 text-start text-info">{% if printproject.client_id %}
-                                    {{ printproject.client.client }}  {% else %}--{% endif %}</h6> </a></td>
-                                <td class="printproject_id align-middle white-space-nowrap py-0">
-                                    {% if printproject.client_quotenumber %}
-                                        {{ printproject.client_quotenumber }}{% endif %}</td>
 
                                 <td class="project_title align-middle white-space-nowrap text-900 fs--1 text-start">{{ printproject.volume }}
                                     ex. {{ printproject.project_title }}</td>
+                            
+                            <td class="align-middle white-space-nowrap py-0">{{ printproject.number_of_offers }}</td>
+
+                            <td class="align-middle white-space-nowrap py-0">500</td>
 
                                 {% if user.member_pla_id in open_menberplans %}
                                 <td class="printproject_id align-middle white-space-nowrap py-0">
@@ -98,7 +87,7 @@
                                     {% else %}-{% endif %}
                                 {% endif  %}
                             
-                            
+                                
                                 <td class="align-middle white-space-nowrap task ps-0 py-0">
                                     {% include 'buttons/clone_printproject.html' %}
                                 </td>
@@ -112,14 +101,14 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    {% comment %}END TABLE{% endcomment %}
+
 
                     </div>
                     <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                     <div class="col-auto d-flex">
                         <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
                            data-list-info="data-list-info"></p><a
-                            class="fw-semi-bold text-info" href="#!" data-list-view="*">Toon alles<span
+                            class="fw-semi-bold text-info" data-list-view="*">Toon alles<span
                             class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
                             class="fw-semi-bold d-none text-info" href="{{ empty_table_text }}" data-list-view="less">Toon
                         minder<span

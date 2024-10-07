@@ -17,14 +17,14 @@
                         <thead>
                         <tr>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="offer_id"
-                                style="width:5%;">ID
+                                style="width:5%;">ID 
                             </th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"  data-sort="offer_date"
                                 style="width:5%;">Datum aanvraag
                             <th class="align-middle ps-0" scope="col" data-sort="project_title" style="width:30%; ">Omschrijving</th>
                         
-                            
-                             {% if member_plan_id in non_exclusive_memberplans %}
+
+                             {% if user.member_plan_id in non_exclusive_memberplans %}
                             <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
                                 style="width:15%;">Producent
                             </th>  {% endif %}
@@ -37,8 +37,11 @@
                             </th>
                             <th class="sort align-middle ps-0" scope="col" data-sort="offer_status"  style="width:15%; ">Status</th>
                             <th class="align-middle ps-0" scope="col" style="width:5%; ">Details</th>
+                            
+                            {% if user.member_plan_id in exclusive_memberplans %}
                             <th class="align-middle ps-0" scope="col" style="width:5%; ">Herbereken<br>aanvraag</th>
-
+                            {% endif %}
+                            
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Download<br>aanbieding
                             </th>
                             <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Order plaatsen</th>
@@ -56,7 +59,7 @@
                                 <td class="project_title align-middle fw-semi-bold text-1000">
                                 {{ offer.printproject.volume }} ex. {{ offer.printproject.project_title }}</td>
                                  
-                                 {% if member_plan_id in non_exclusive_memberplans %}
+                                 {% if user.member_plan_id in non_exclusive_memberplans %}
                                 <td class="align-middle white-space-nowrap py-0">{{ offer.producer.company }}</td>
                                 {% endif %}
                             
@@ -108,9 +111,9 @@
                     <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                         <div class="col-auto d-flex">
                             <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                               data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">Toon
+                               data-list-info="data-list-info"></p><a class="fw-semi-bold" data-list-view="*">Toon
                             alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
-                                class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
+                                class="fw-semi-bold d-none" data-list-view="less">Toon minder<span
                                 class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                         </div>
                         <div class="col-auto d-flex">

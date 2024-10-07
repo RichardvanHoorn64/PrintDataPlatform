@@ -131,13 +131,12 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         # Fill size
         standardsize_id = form.cleaned_data['standard_size']
-
-        if standardsize_id != 0:
+        try:
             standard_size = StandardSize.objects.get(standardsize_id=standardsize_id)
             form.instance.height_mm_product = standard_size.height_mm_product
             form.instance.width_mm_product = standard_size.width_mm_product
             form.instance.standard_size = standard_size
-        else:
+        except StandardSize.DoesNotExist:
             form.instance.height_mm_product = form.cleaned_data['height_mm_product']
             form.instance.width_mm_product = form.cleaned_data['width_mm_product']
             form.instance.standard_size = 0

@@ -12,31 +12,6 @@ from printprojects.models import *
 from profileuseraccount.models import *
 
 
-def excel_fil_worksheeets(worksheet, df, columns, bold):
-    # Fill first row with header in bold
-    row = 0
-    for i, elem in enumerate(columns):
-        worksheet.write(row, i, elem, bold)
-    row += 1
-    # Now fill other rows with columns
-    index = 0
-    while index < len(df):
-        for i, elem in enumerate(columns):
-            try:
-                fieldvalue = df.iloc[index][elem]
-                if isinstance(fieldvalue, (list, tuple)):
-                    return str(fieldvalue)[1:-1]
-            except KeyError:
-                fieldvalue = []
-
-            try:
-                worksheet.write(row, i, fieldvalue)
-            except Exception as e:
-                print("no value written for: ", elem, e)
-        index = index + 1
-        row += 1
-
-
 class MemberDownloadPrintprojects(LoginRequiredMixin, View):
     def get(self, request):
         user = self.request.user
@@ -78,16 +53,26 @@ class MemberDownloadPrintprojects(LoginRequiredMixin, View):
             print(col)
 
         df_printprojects = df_printprojects[['printproject_id', 'productcategory_id',
-        'user_id', 'member_id', 'producer_id', 'client_id', 'clientcontact_id', 'printprojectstatus_id',
-        'project_title', 'description', 'message_extra_work', 'own_quotenumber', 'client_quotenumber', 'rfq_date',
-        'volume', 'number_of_offers', 'supply_date', 'delivery_date', 'format_selection', 'standard_size',
-        'height_mm_product', 'papercategory', 'paperbrand', 'paperweight', 'papercolor', 'pressvarnish_front',
-        'pressvarnish_rear', 'pressvarnish_booklet', 'enhance_sided', 'enhance_front', 'enhance_rear', 'packaging',
-        'folding', 'number_of_pages', 'portrait_landscape', 'finishing_brochures', 'printsided',
-        'number_pms_colors_front', 'number_pms_colors_rear', 'number_pms_colors_booklet', 'print_front', 'print_rear',
-        'print_booklet', 'papercategory_cover', 'paperbrand_cover', 'paperweight_cover', 'papercolor_cover',
-        'salesprice', 'salesprice_1000extra', 'invoiceturnover', 'created', 'modified', 'active', 'productcategory',
-        'printprojectstatus', 'projectmanager', 'client', 'clientcontact', 'request_date']]
+                                             'user_id', 'member_id', 'producer_id', 'client_id', 'clientcontact_id',
+                                             'printprojectstatus_id',
+                                             'project_title', 'description', 'message_extra_work', 'own_quotenumber',
+                                             'client_quotenumber', 'rfq_date',
+                                             'volume', 'number_of_offers', 'supply_date', 'delivery_date',
+                                             'format_selection', 'standard_size',
+                                             'height_mm_product', 'papercategory', 'paperbrand', 'paperweight',
+                                             'papercolor', 'pressvarnish_front',
+                                             'pressvarnish_rear', 'pressvarnish_booklet', 'enhance_sided',
+                                             'enhance_front', 'enhance_rear', 'packaging',
+                                             'folding', 'number_of_pages', 'portrait_landscape', 'finishing_brochures',
+                                             'printsided',
+                                             'number_pms_colors_front', 'number_pms_colors_rear',
+                                             'number_pms_colors_booklet', 'print_front', 'print_rear',
+                                             'print_booklet', 'papercategory_cover', 'paperbrand_cover',
+                                             'paperweight_cover', 'papercolor_cover',
+                                             'salesprice', 'salesprice_1000extra', 'invoiceturnover', 'created',
+                                             'modified', 'active', 'productcategory',
+                                             'printprojectstatus', 'projectmanager', 'client', 'clientcontact',
+                                             'request_date']]
 
         # if language_id == 1:
         #     df_printprojects.rename(columns={
@@ -116,7 +101,7 @@ class MemberDownloadPrintprojects(LoginRequiredMixin, View):
         #         'papercolor_cover': 'papierkleur omslag'}, inplace=True)
 
         printprojects_columns = df_printprojects.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_printprojects, df_printprojects, printprojects_columns, bold)
+        excel_fill_worksheet(worksheet_printprojects, df_printprojects, printprojects_columns, bold)
 
         # worksheet offers
         worksheet_offers = workbook.add_worksheet(worksheet_name_offers + str(export_datum))
@@ -145,7 +130,7 @@ class MemberDownloadPrintprojects(LoginRequiredMixin, View):
                          'productcategory': 'productcategorie'}, inplace=True)
 
         offers_columns = df_offers.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_offers, df_offers, offers_columns, bold)
+        excel_fill_worksheet(worksheet_offers, df_offers, offers_columns, bold)
 
         # worksheet orders
         worksheet_orders = workbook.add_worksheet('orders_' + str(export_datum))
@@ -186,7 +171,7 @@ class MemberDownloadPrintprojects(LoginRequiredMixin, View):
         #         }, inplace=True)
 
         orders_columns = df_orders.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_orders, df_orders, orders_columns, bold)
+        excel_fill_worksheet(worksheet_orders, df_orders, orders_columns, bold)
 
         # Close workbook for building file
         workbook.close()
@@ -235,7 +220,7 @@ class MemberDownloadClients(LoginRequiredMixin, View):
                 'e_mail_personal': 'email persoonlijk ', 'mobile_number': 'tel mobiel'}, inplace=True)
 
         clients_columns = df_clients.columns.values.tolist()
-        excel_fil_worksheeets(worksheet_clients, df_clients, clients_columns, bold)
+        excel_fill_worksheet(worksheet_clients, df_clients, clients_columns, bold)
 
         # Close workbook for building file
         workbook.close()

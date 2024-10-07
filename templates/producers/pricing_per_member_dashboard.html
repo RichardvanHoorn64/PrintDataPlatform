@@ -25,10 +25,9 @@
             </ol>
         </nav>
         <div class="mb-2">
-            <div class="row align-items-center justify-content-between g-3 mb-4">
+            <div class="row align-items-center justify-content-between g-3 mb-1">
                 <div class="col-auto">
                     <h2 class="mb-0 text-info">Pricing dashboard {{ member }}</h2><br>
-                    <h4 class="mb-0 text-black-50">Aanpassing toeslag op toegevoegde waarde</h4>
                 </div>
             </div>
         </div>
@@ -42,10 +41,11 @@
             <div class="col-12 rounded-2 border border-info">
                 <div class="card h-100">
                     <div class="card-body">
-                    
+                    <h5 class="mb-0 text-black-50">Aanpassing toeslag op toegevoegde waarde 
+                        voor offertes aan {{ member }}.<br> 
+                        Een negatief ingevoerd percentage wordt een korting in de berekening!</h5>
                         <hr class="text-info">
-                    
-                    
+                        
                         <br>
                           {% if 1 in product_categories %}
                             <h2 class="mb-0 text-info">{{ products.0 }}:</h2><br>

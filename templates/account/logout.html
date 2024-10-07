@@ -7,37 +7,50 @@
 {% block main_content %}
     <!-- begin:: Content -->
     <div class="content">
+        <div class="mb-2">
+            <div class="row align-items-center justify-content-between g-3 mb-1">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Uitloggen</h2><br>
+                </div>
+            </div>
+        </div>
+        <hr class="text-info">
+        <br>
         <section class="bg-white pb-8" id="signout-header">
-            <div class="container-small hero-header-container px-lg-7 px-xxl-3">
+            <div class="col-lg-11"></div>
+            <h2 class="text-info align-center text-center">
+                <strong>Weet je zeker dat je wilt uitloggenbij {{ user.company }}? </strong></h2><br>
+
+            <div class="container-small hero-header-container px-lg-7 px-xxl-3 bg-info-100">
                 <div class="row">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <strong>Weet je zeker dat je wilt uitloggen
-                                bij {{ user.company }}? </strong><br><br>
-                            <form method="post" action="{% url 'account_logout' %}">
-                                {% csrf_token %}
-                                {% if redirect_field_value %}
-                                    <input type="hidden" name="{{ redirect_field_name }}"
-                                           value="{{ redirect_field_value }}"/>
-                                {% endif %}
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-3 text-center">
+                    <hr class="text-info">
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}"
+                                       value="{{ redirect_field_value }}"/>
+                            {% endif %}
 
-                                <button type="submit" class="btn btn-warning btn-lg me-1 mb-1">
-                                    Uitloggen
-                                </button>
-
-
-                            <a type="button"  href="{% url 'welcome' %}" class="btn btn-info btn-lg me-1 mb-1" }>
+                            <button type="submit" class="btn btn-danger btn-lg me-1 mb-1">
+                                Uitloggen
+                            </button>
+                            <a type="button" href="{% url 'welcome' %}" class="btn btn-success btn-lg me-1 mb-1">
                                 <span class="far fa-caret-square-left"></span> &nbsp Home
                             </a>
-
-                    </form> </div>
-                        <div class="col-sm">
-                            <div class="kt-error404-v1__image">
-                                <img src='{% static 'assets/img/spot-illustrations/3.png' %}'
-                                     class="img-fluid" alt=""/>
-                            </div>
+                        <hr class="text-info">
+                        </form>
+                    </div>
+                 <div class="col-lg-1"></div>
+                    <div class="col-6">
+                        <div class="container-fluid">
+                            <img src='{% static 'assets/img/spot-illustrations/log_out.jpg' %}'
+                                 class="img-fluid" alt=""/>
                         </div>
-                    </div></div></div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 

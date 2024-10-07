@@ -15,16 +15,16 @@ class PrintProjectPriceUpdateForm(forms.ModelForm):
 
 
 class MemberProducerPricingForm(forms.ModelForm):
-    perc_salesallowance_1 = decimal_field_notreq
-    perc_salesallowance_2 = decimal_field_notreq
-    perc_salesallowance_3 = decimal_field_notreq
-    perc_salesallowance_4 = decimal_field_notreq
-    perc_salesallowance_5 = decimal_field_notreq
-    perc_salesallowance_6 = decimal_field_notreq
-    perc_salesallowance_7 = decimal_field_notreq
-    perc_salesallowance_8 = decimal_field_notreq
-    perc_salesallowance_9 = decimal_field_notreq
-    perc_salesallowance_10 = decimal_field_notreq
+    perc_salesallowance_1 = decimal_field_notreq_negative
+    perc_salesallowance_2 = decimal_field_notreq_negative
+    perc_salesallowance_3 = decimal_field_notreq_negative
+    perc_salesallowance_4 = decimal_field_notreq_negative
+    perc_salesallowance_5 = decimal_field_notreq_negative
+    perc_salesallowance_6 = decimal_field_notreq_negative
+    perc_salesallowance_7 = decimal_field_notreq_negative
+    perc_salesallowance_8 = decimal_field_notreq_negative
+    perc_salesallowance_9 = decimal_field_notreq_negative
+    perc_salesallowance_10 = decimal_field_notreq_negative
 
     class Meta:
         model = MemberProducerMatch

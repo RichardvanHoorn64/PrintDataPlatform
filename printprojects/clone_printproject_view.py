@@ -11,7 +11,7 @@ from materials.models import PaperCatalog
 from offers.models import *
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
-from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
+from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from index.create_context import createprintproject_context
 from producers.models import EnhancementTariffs, PackagingTariffs
 

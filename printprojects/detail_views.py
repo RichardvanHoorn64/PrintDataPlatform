@@ -8,7 +8,7 @@ from index.models import DropdownChoices
 from offers.models import *
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
-from printprojects.forms.PrintprojectSalesPice import PrintProjectPriceUpdateForm
+from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from index.create_context import createprintproject_context
 
 
@@ -59,8 +59,7 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
 
         # for select suppliers
         context['match_suppliers'] = (PrintProjectMatch.objects.filter(printproject_id=printproject_id,
-                                                                       member_id=self.request.user.member_id).exclude(
-            memberproducermatch_id__memberproducerstatus_id=3).order_by(
+                                                                       member_id=user.member_id).order_by(
             'memberproducermatch_id__memberproducerstatus_id__memberproducerstatus', '-matchprintproject'))
         context['offers_list'] = Offers.objects.filter(printproject_id=printproject_id,
                                                        member_id=self.request.user.member_id)

@@ -134,19 +134,6 @@ def brochure_calculation(producer_id, rfq):
             error = 'Calculation max number of booklet pages per printer per sheet failed'
             print('error log: ' + error + ' ' + str(e))
 
-        # PAPER CALCULATION
-        # select paperspec_id fit for printer booklet
-    if not error:
-        try:
-            calculation_booklet['paperspec_id_booklet'] = calculation_booklet.apply(
-                lambda row: paperidselector_booklet(row['printer_id'], row['pages_per_sheet_booklet'],
-                                                    paper_fit_for_rfq,
-                                                    katernheight8_mm, katernwidth8_mm, katernmargin), axis=1)
-
-        except Exception as e:
-            error = 'Calculation paperspec_id for booklet failed'
-            print('error log: ' + error + ' ' + str(e))
-
     # Define number of colors booklet, per printer, pressvarnish
     if not error:
         try:
@@ -279,11 +266,10 @@ def brochure_calculation(producer_id, rfq):
     if not error:
         try:
             calculation_booklet['pages_per_katern_booklet'] = calculation_booklet.apply(
-                lambda row: calculate_pages_per_katern_full(row['pages_per_sheet_booklet'],
-                                                            row['booklet_foldingfactor'], ), axis=1)
+                lambda row: calculate_pages_per_katern_full(row['pages_per_sheet_booklet'], row['booklet_foldingfactor'], ), axis=1)
 
             calculation_booklet['number_of_katerns_full'] = calculation_booklet.apply(
-                lambda row: calculate_number_of_katerns_full(row['pages_per_katern_booklet'],
+                lambda row: calculate_number_of_katerns_full(row['pages_per_sheet_booklet'],
                                                              row['booklet_foldingfactor'],
                                                              number_of_pages), axis=1)
 
@@ -304,11 +290,24 @@ def brochure_calculation(producer_id, rfq):
             calculation_booklet = calculation_booklet[calculation_booklet['number_of_katerns_total'] != 0]
 
         except Exception as e:
-            error = 'Number of katerns not calculated'
+            error = 'Number of katerns not calculated 2'
             print('error log: ' + error + ' ' + str(e))
 
     if not error and len(calculation_booklet) == 0:
         error = 'No number of katerns calculation.'
+
+        # PAPER CALCULATION
+        # select paperspec_id fit for printer booklet
+    if not error:
+        try:
+            calculation_booklet['paperspec_id_booklet'] = calculation_booklet.apply(
+                lambda row: paperidselector_booklet(row['printer_id'], row['pages_per_katern_booklet'],
+                                                    paper_fit_for_rfq,
+                                                    katernheight8_mm, katernwidth8_mm, katernmargin), axis=1)
+
+        except Exception as e:
+            error = 'Calculation paperspec_id for booklet failed'
+            print('error log: ' + error + ' ' + str(e))
 
     # calculate paper_width height booklet
     if not error:

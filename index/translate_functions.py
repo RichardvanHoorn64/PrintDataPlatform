@@ -1,3 +1,4 @@
+from index.categories_groups import *
 from methods.models import *
 
 empty_cols_folders = ['print_booklet', 'pressvarnish_booklet', 'finishing_brochures', 'number_of_pages',
@@ -87,15 +88,15 @@ def modify_boleaninput(rfq_input):
 def translate_dataframe(dataframe):
     dataframe = dataframe.fillna(0)
 
-    if dataframe.productcategory_id[0] == 3:  # Selfcovers
+    if dataframe.productcategory_id[0] == categories_selfcovers:
         dataframe['printsided'] = 2
 
     empty_cols = []
 
-    if dataframe.productcategory_id[0] == 2:  # Folders
+    if dataframe.productcategory_id[0] == categories_folders:
         empty_cols = empty_cols_folders
 
-    if dataframe.productcategory_id[0] in [4, 5]:  # Brochures
+    if dataframe.productcategory_id[0] in categories_brochures_all:
         empty_cols = empty_cols_brochures
         dataframe['printsided'] = 2
         dataframe['enhance_sided'] = 1
@@ -137,9 +138,6 @@ def translate_dataframe(dataframe):
         if col == 'bedrukking_bw':
             dataframe['print_booklet'] = dataframe['bedrukking_bw']
 
-        if col == 'persvernis':
-            dataframe['pressvarnish_booklet'] = dataframe['persvernis']
-
         if col == 'papiersoort':
             dataframe['paperbrand'] = dataframe['papiersoort']
 
@@ -176,8 +174,23 @@ def translate_dataframe(dataframe):
         if col == 'persvernis':
             dataframe['pressvarnish_booklet'] = dataframe['persvernis']
 
+        if col == 'persvernis':
+            dataframe['pressvarnish_booklet'] = dataframe['persvernis']
+
         if col == 'persvernis_bw':
             dataframe['pressvarnish_booklet'] = dataframe['persvernis_bw']
+
+        if col == 'persvernis_voorzijde':
+            dataframe['pressvarnish_front'] = dataframe['persvernis_voorzijde']
+
+        if col == 'persvernis_achterzijde':
+            dataframe['pressvarnish_rear'] = dataframe['persvernis_achterzijde']
+
+        if col == 'persvernis_omslag':
+            dataframe['pressvarnish_front'] = dataframe['persvernis_omslag']
+
+        if col == 'persvernis_omslag_binnenzijde':
+            dataframe['pressvarnish_rear'] = dataframe['persvernis_omslag_binnenzijde']
 
         if col == 'papiersoort_omslag':
             dataframe['paperbrand_cover'] = dataframe['papiersoort_omslag']
@@ -199,15 +212,6 @@ def translate_dataframe(dataframe):
 
         if col == 'bedrukking_achterzijde':
             dataframe['print_rear'] = dataframe['bedrukking_achterzijde']
-
-        if col == 'persvernis_omslag':
-            dataframe['pressvarnish_front'] = dataframe['persvernis_omslag']
-
-        if col == 'persvernis_voorzijde':
-            dataframe['pressvarnish_front'] = dataframe['persvernis_voorzijde']
-
-        if col == 'persvernis_achterzijde':
-            dataframe['pressvarnish_rear'] = dataframe['persvernis_achterzijde']
 
         if col == 'veredeling_voorzijde':
             dataframe['enhance_front'] = dataframe['veredeling_voorzijde']

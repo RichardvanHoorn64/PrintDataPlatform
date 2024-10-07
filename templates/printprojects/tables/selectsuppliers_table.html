@@ -11,11 +11,6 @@
         <div class="row g-3 mb-4">
             <div class="col-auto">
                 <h2 class="mb-0 text-info">{{ printproject_subtitle }}</h2>
-            
-             
-                
-                
-                
             </div>
         </div>
 
@@ -42,7 +37,7 @@
                         <div class="card h-100  rounded-2 border border-info">
                             <div class="card-body">
                                 <div class="table-responsive scrollbar mx-n1 px-1">
-                                    <table class="table table-sm fs--1 mb-0">
+                                    <table class="table table-sm fs--1 mb-0 overflow-scroll">
                                         <thead>
                                         <tr>
                                              <th class="sort align-middle text-start" scope="col" 
@@ -66,7 +61,7 @@
                                             </th>
 
                                             <th class="align-middle text-start" scope="col" style="width:10%;">Status</th>
-                                            <th class="align-middle text-start" scope="col" style="width:5%;">Aanpassen</th>
+{#                                            <th class="align-middle text-start" scope="col" style="width:5%;">Aanpassen</th>#}
                                         </tr>
                                         </thead>
 
@@ -124,7 +119,7 @@
                                                         style="height:12.8px;width:12.8px;"></span>{{ producer.producer.memberproducerstatus }}
                                                 </span>
                                                 </td>
-                                            {% include 'buttons/producer_status_actions.html' %}
+{#                                            {% include 'buttons/producer_status_actions.html' %}#}
 
 
                                             </tr>
@@ -135,7 +130,7 @@
                                 <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                                     <div class="col-auto d-flex">
                                         <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                           data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!"
+                                           data-list-info="data-list-info"></p><a class="fw-semi-bold" 
                                                                                   data-list-view="*">Toon
                                         alles<span class="fas fa-angle-right ms-1"
                                                    data-fa-transform="down-1"></span></a><a
@@ -165,6 +160,6 @@
         <!-- ===============================================-->
         <!--   END Table-->
         <!-- ===============================================-->
-    </div>
+
 </body>
 </html>
