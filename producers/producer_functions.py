@@ -8,6 +8,7 @@ def get_offercontext(producer, context, offerstatus_id, dashboard):
     try:
         if offerstatus_id == 0:
             if dashboard:
+                all_offers = all_offers.exclude(offerstatus_id=4)
                 offers = all_offers.order_by('-offer_date')[:100]
                 offer_table_title = "Laatste 100 aanbiedingen van " + str(producer.company)
             else:

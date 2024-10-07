@@ -1,3 +1,4 @@
+import math
 from django.shortcuts import redirect
 from assets.models import Bindingmachines
 from index.create_context import creatememberplan_context
@@ -152,6 +153,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         else:
             form.instance.folding = 0
             form.instance.number_of_pages = form.cleaned_data['number_of_pages']
+
+        # number of pages brochures
+        if productcategory_id in categories_brochures_all:
+            number_of_pages = form.cleaned_data['number_of_pages']
+            form.instance.number_of_pages = 4 * math.ceil(number_of_pages) / 4
 
         # enhance
         if productcategory_id in categories_selfcovers:
