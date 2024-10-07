@@ -266,7 +266,8 @@ def brochure_calculation(producer_id, rfq):
     if not error:
         try:
             calculation_booklet['pages_per_katern_booklet'] = calculation_booklet.apply(
-                lambda row: calculate_pages_per_katern_full(row['pages_per_sheet_booklet'], row['booklet_foldingfactor'], ), axis=1)
+                lambda row: calculate_pages_per_katern_full(row['pages_per_sheet_booklet'],
+                                                            row['booklet_foldingfactor'], ), axis=1)
 
             calculation_booklet['number_of_katerns_full'] = calculation_booklet.apply(
                 lambda row: calculate_number_of_katerns_full(row['pages_per_sheet_booklet'],
@@ -859,14 +860,14 @@ def brochure_calculation(producer_id, rfq):
     if not error:
         try:
             calculation_booklet['memberdiscount'] = calculation_booklet.apply(
-                lambda row: clientrelated_sales_allowance_calculation(rfq, producer_id,
-                                                                      row['perc_added_value'],
-                                                                      row['total_cost']), axis=1)
+                lambda row: memberdiscount_calculation(rfq, producer_id,
+                                                       row['perc_added_value'],
+                                                       row['total_cost']), axis=1)
 
             calculation_booklet['memberdiscount1000extra'] = calculation_booklet.apply(
-                lambda row: clientrelated_sales_allowance_calculation(rfq, producer_id,
-                                                                      row['perc_added_value1000extra'],
-                                                                      row['total_cost1000extra']),
+                lambda row: memberdiscount_calculation(rfq, producer_id,
+                                                       row['perc_added_value1000extra'],
+                                                       row['total_cost1000extra']),
                 axis=1)
 
         except Exception as e:
@@ -876,10 +877,10 @@ def brochure_calculation(producer_id, rfq):
     if not error:
         try:
 
-            calculation_booklet['offer_value'] = calculation_booklet['total_cost'] - calculation_booklet[
+            calculation_booklet['offer_value'] = calculation_booklet['total_cost'] + calculation_booklet[
                 'memberdiscount']
 
-            calculation_booklet['offer_value1000extra'] = calculation_booklet['total_cost1000extra'] - \
+            calculation_booklet['offer_value1000extra'] = calculation_booklet['total_cost1000extra'] + \
                                                           calculation_booklet[
                                                               'memberdiscount1000extra']
         except Exception as e:

@@ -470,12 +470,12 @@ def plano_folder_calculation(producer_id, rfq):
     if not error:
         try:
             calculation_plano['memberdiscount'] = calculation_plano.apply(
-                lambda row: clientrelated_sales_allowance_calculation(rfq, producer_id,
+                lambda row: memberdiscount_calculation(rfq, producer_id,
                                                                       row['perc_added_value'],
                                                                       row['total_cost']), axis=1)
 
             calculation_plano['memberdiscount1000extra'] = calculation_plano.apply(
-                lambda row: clientrelated_sales_allowance_calculation(rfq, producer_id,
+                lambda row: memberdiscount_calculation(rfq, producer_id,
                                                                       row['perc_added_value1000extra'],
                                                                       row['total_cost1000extra']),
                 axis=1)

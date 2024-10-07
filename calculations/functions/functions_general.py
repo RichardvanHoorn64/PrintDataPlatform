@@ -70,8 +70,8 @@ def net_paper_quantity_calculation(volume, items_per_sheet_cover):
     return net_paper_quantity
 
 
-def clientrelated_sales_allowance_calculation(rfq, producer_id, perc_added_value, total_cost):
-    sales_allowance = 0.00
+def memberdiscount_calculation(rfq, producer_id, perc_added_value, total_cost):
+    memberdiscount = 0.00
     perc_salesallowance = 0.00
 
     try:
@@ -98,10 +98,11 @@ def clientrelated_sales_allowance_calculation(rfq, producer_id, perc_added_value
         if rfq.productcategory_id == 10:
             perc_salesallowance = match.perc_salesallowance_10
 
-        sales_allowance = total_cost * float(perc_salesallowance/100) * float(perc_added_value)
+        added_value = float(total_cost) * float(perc_added_value * 0.01)
+        memberdiscount = added_value * float(perc_salesallowance) * float(0.01)
     except MemberProducerMatch.DoesNotExist:
         pass
-    return sales_allowance
+    return memberdiscount
 
 
 def calculate_order_startcost(producer_id):

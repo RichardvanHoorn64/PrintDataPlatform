@@ -13,101 +13,110 @@
 <!--    Printproject Detail table -->
 <!-- ===============================================-->
 <div class="p-4 mb-0 rounded-2 border border-info bg-white">
-                    <div class="row g-4">
-                        <div class="px-0">
-                            <div class="table-responsive scrollbar">
-                                <table class="table table-sm text-900 mb-0">
-                                    <thead class="bg-200">
-                                    <tr>
-                                        <th scope="col" style="width: 24px;"></th>
-                                        <th scope="col" style="width: 200px;">Projectinfo</th>
-                                        <th scope="col" style="min-width: 500px;">Aanvraag
-                                            ID: {{ offer.offer_id }}
-                                            {% if printproject.own_quotenumber  %}
-                                            Ordernummer: {{ printproject.own_quotenumber }}
-                                            {% endif %}
+    <div class="row g-4">
+        <div class="px-0">
+            <div class="table-responsive scrollbar">
+                <table class="table table-sm text-900 mb-0">
+                    <thead class="bg-200">
+                    <tr>
+                        <th scope="col" style="width: 24px;"></th>
+                        <th scope="col" style="width: 200px;">Projectinfo</th>
+                        <th scope="col" style="min-width: 500px;">Aanvraag
+                            ID: {{ offer.offer_id }}
+                            {% if printproject.own_quotenumber %}
+                                Ordernummer: {{ printproject.own_quotenumber }}
+                            {% endif %}
 
-                                        </th>
-                                        <th scope="col" style="width: 24px;"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangeboden door</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }} op {{ offer.offer_date |date:'d-m-Y ' }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.offerstatus.offerstatus }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
+                        </th>
+                        <th scope="col" style="width: 24px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangeboden door</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }}
+                                op {{ offer.offer_date |date:'d-m-Y ' }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.offerstatus.offerstatus }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
 
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Oplage</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.printproject.volume }} ex. {{ offer.printproject.project_title }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                                                        <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Oplage</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.printproject.volume }}
+                                ex. {{ offer.printproject.project_title }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
 
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">1.000 ex meer</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer1000extra }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">1.000 ex meer</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">€ {{ offer.offer1000extra }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
 
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer: </p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">
-                                                {% if offer.producer_quote  %}
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer: </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {% if offer.producer_quote %}
 
-                                                {{ offer.producer_quote }}</p>
-                                            {% else %} Geen opgave {% endif %}
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <hr class="text-info">
-                           {% include 'buttons/submit_order.html' %}
-                         {% include 'buttons/deniel_offer.html' %}
-                        </div>
-                    </div>
+                                    {{ offer.producer_quote }}</p>
+                                {% else %} Geen opgave {% endif %}
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="text-info">
+            {% if offer.offerstatus_id in offer_availeble %}
+                {% include 'buttons/submit_order.html' %}
+                {% include 'buttons/deniel_offer.html' %}
+                {% include 'buttons/download_member_offer.html' %}
+            {% else %}
+                <div class="align-left">
+                    <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>
                 </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 <!-- ===============================================-->
 <!--    End Printproject Detail table -->
 <!-- ===============================================-->

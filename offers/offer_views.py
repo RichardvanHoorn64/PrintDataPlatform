@@ -16,7 +16,7 @@ from index.create_context import createprintproject_context, creatememberplan_co
 
 # Create your views here.
 class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
-    template_name = 'offers/offer_member.html'
+    template_name = 'offers/member_offerdetails.html'
     model = Offers
     profile = Offers
 

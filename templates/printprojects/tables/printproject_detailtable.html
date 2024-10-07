@@ -13,367 +13,370 @@
 <!--    Printproject Detail table -->
 <!-- ===============================================-->
 <div class="p-4 mb-0 rounded-2 border border-info bg-white">
-                    <div class="row g-4">
-                        <div class="px-0">
-                            <div class="table-responsive scrollbar">
-                                <table class="table table-sm text-900 mb-0">
-                                    <thead class="bg-200">
-                                    <tr>
-                                        <th scope="col" style="width: 24px;"></th>
-                                        <th scope="col" style="width: 200px;">Projectinfo</th>
-                                        <th scope="col" style="min-width: 500px;">
-                                            Offertenummer: {{ printproject_own_quotenumber }} </th>
-                                        <th scope="col" style="width: 24px;"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangevraagd door</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_requester }} op {{ printproject.rfq_date |date:'d-m-Y ' }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                        
-                                    </tr>
-                                     {%  if member_plan_id in open_memberplans %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.printprojectstatus.printprojectstatus }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {%  endif %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
+    <div class="row g-4">
+        <div class="px-0">
+            <div class="table-responsive scrollbar">
+                <table class="table table-sm text-900 mb-0">
+                    <thead class="bg-200">
+                    <tr>
+                        <th scope="col" style="width: 24px;"></th>
+                        <th scope="col" style="width: 200px;">Projectinfo</th>
+                        <th scope="col" style="min-width: 500px;">
+                            Offertenummer: {{ printproject_own_quotenumber }} </th>
+                        <th scope="col" style="width: 24px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangevraagd door</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_requester }}
+                                op {{ printproject.rfq_date |date:'d-m-Y ' }}</p>
+                        </td>
+                        <td class="border-0"></td>
 
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Omschrijving</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_title }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
+                    </tr>
+                    {% if member_plan_id in open_memberplans %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Status</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.printprojectstatus.printprojectstatus }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
 
-                                    {% if not printproject.productcategory_id is 1 %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Uitvoering</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_number_of_pages }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% endif %}
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Omschrijving</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_title }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
 
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Formaat</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_size }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
+                    {% if not printproject.productcategory_id is 1 %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Uitvoering</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_number_of_pages }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
 
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Papier</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_paper }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% if printproject.productcategory_id in productcategory_cover %}
-                                        <tr>
-                                            <td class="border-0"></td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">Papier omslag</p>
-                                            </td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_paper_cover }}</p>
-                                            </td>
-                                            <td class="border-0"></td>
-                                        </tr>
-                                    {% endif %}
-                                    {% if printproject.productcategory_id in productcategory_plano %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if printproject.productcategory_id in categories_brochures_all %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking 
-                                                {% if printproject.productcategory_id in categories_selfcovers %}
-                                                    selfcover
-                                                {% else %}binnenwerk{% endif %}</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing_booklet }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% endif %}
-                                    {% if printproject.productcategory_id in productcategory_cover %}
-                                        <tr>
-                                            <td class="border-0"></td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking omslag</p>
-                                            </td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing_cover }}</p>
-                                            </td>
-                                            <td class="border-0"></td>
-                                        </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis 
-                                            {% if printproject.productcategory_id in productcategory_cover %}
-                                                omslag{% endif %}
-                                            </p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish }}
-                                             
-                                            </p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% if printproject.productcategory_id in productcategory_cover %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Veredeling</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_enhance }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% endif %}
-                                        <tr>
-                                            <td class="border-0"></td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">Nabewerking</p>
-                                            </td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_finishing }}</p>
-                                            </td>
-                                            <td class="border-0"></td>
-                                        </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Formaat</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_size }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
 
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verpakking</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_packaging }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {% if printproject.delivery_date %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Gewenste leverdatum</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.delivery_date |date:'d-m-Y ' }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                        {% endif %}
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Papier</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_paper }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    {% if printproject.productcategory_id in productcategory_cover %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Papier omslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_paper_cover }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    {% if printproject.productcategory_id in productcategory_plano %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    {% if printproject.productcategory_id in categories_brochures_all %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking
+                                    {% if printproject.productcategory_id in categories_selfcovers %}
+                                        selfcover
+                                    {% else %}binnenwerk{% endif %}</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing_booklet }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    {% if printproject.productcategory_id in productcategory_cover %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Bedrukking omslag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_printing_cover }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Vernis
+                                {% if printproject.productcategory_id in productcategory_cover %}
+                                    omslag{% endif %}
+                            </p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish }}
 
-                                    {% if printproject.supply_date %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verwachte aanlevering</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.supply_date |date:'d-m-Y ' }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                        {% endif %}
+                            </p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    {% if printproject.productcategory_id in productcategory_cover %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Veredeling</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_enhance }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Nabewerking</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_finishing }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
 
-                                    {% if printproject.message_extra_work %}
-                                        <tr>
-                                            <td class="border-0"></td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">Aanvraag extra werk</p>
-                                            </td>
-                                            <td class="align-middle">
-                                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_message_extra_work }}</p>
-                                            </td>
-                                            <td class="border-0"></td>
-                                        </tr>
-                                    {% endif %}
-                                    
-                                    {%  if offer %}
-                                      <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            ></p>
-                                        </td>
-                                        <td class="border-0">&nbsp;</td>
-                                    </tr>
-                                        <tr>
-                                        <th scope="col" style="width: 24px;"></th>
-                                        <th scope="col" style="width: 200px;">Aanbieding</th>
-                                        <th scope="col" style="min-width: 500px;">
-                                            {{ offer.producer.company }} </th>
-                                        <th scope="col" style="width: 24px;"></th>
-                                    </tr>
-                                        
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding </p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            >€ {{ offer.offer }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            >€ {{ offer.offer1000extra }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                        
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            >{{ offer.producer_contact }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                        <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            >{{ offer.producer_quote }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>    
-                                         <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Offerte toelichting</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                            >{{ offer.producer_notes }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>    
-                                    {%  endif %}
-                                    
-                                    {%  if member_plan_id in open_memberplans %}
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verkoopprijs</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Verpakking</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_packaging }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    {% if printproject.delivery_date %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Gewenste leverdatum</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.delivery_date |date:'d-m-Y ' }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if printproject.supply_date %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Verwachte aanlevering</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject.supply_date |date:'d-m-Y ' }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if printproject.message_extra_work %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Aanvraag extra werk</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_message_extra_work }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if user.member_plan_id in producer_memberplans %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                ></p>
+                            </td>
+                            <td class="border-0">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <th scope="col" style="width: 24px;"></th>
+                            <th scope="col" style="width: 200px;">Aanbieding</th>
+                            <th scope="col" style="min-width: 500px;">
+                                {{ offer.producer.company }} </th>
+                            <th scope="col" style="width: 24px;"></th>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding </p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                >€ {{ offer.offer }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                >€ {{ offer.offer1000extra }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                >{{ offer.producer_contact }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                >{{ offer.producer_quote }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Offerte toelichting</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold"
+                                >{{ offer.producer_notes }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+
+                    {% if member_plan_id in open_memberplans %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Verkoopprijs</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold
                                             {% if printproject.salesprice %} text-success
                                             {% else %} text-warning
                                             {% endif %}"
-                                            >{{ printproject_salesprice }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold
+                                >{{ printproject_salesprice }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold
                                         {% if printproject.salesprice1000extra %} text-success
                                             {% else %} text-warning
                                             {% endif %}"
-                                        >{{ printproject_salesprice1000extra }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-0"></td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold">Factuurbedrag</p>
-                                        </td>
-                                        <td class="align-middle">
-                                            <p class="line-clamp-1 mb-0 fw-semi-bold
+                                >{{ printproject_salesprice1000extra }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Factuurbedrag</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold
                                         {% if printproject.invoiceturnover %} text-success
                                             {% else %} text-warning
                                             {% endif %}"
-                                        >{{ printproject_invoiceturnover }}</p>
-                                        </td>
-                                        <td class="border-0"></td>
-                                    </tr>
-                                    {%  endif %}
-                                    
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-<hr class="text-info">
-  {% if offer.offerstatus_id in offer_availeble %}
-      <a href="{% url 'producer_download_offer'  offer.offer_id  %}"
-   class="btn btn-outline-secondary btn-sm me-1 mb-1" role="button"
-   aria-pressed="true"><i class="far fa-file-word text-secondary fs-2"></i></a>
-      Download aanbieding
-{% else %}      
-  <div class="align-left">
-   <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>
-   </div>
+                                >{{ printproject_invoiceturnover }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr class="text-info">
+{% if user.member_plan_id in producer_memberplans %}
+    {% if offer.offerstatus_id in offer_availeble %}
+        <a href="{% url 'producer_download_offer'  offer.offer_id %}"
+           class="btn btn-outline-secondary btn-sm me-1 mb-1" role="button"
+           aria-pressed="true"><i class="far fa-file-word text-secondary fs-2"></i></a>
+        Download aanbieding
+    {% else %}
+        <div class="align-left">
+            <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>
+        </div>
+    {% endif %}
 {% endif %}
-                </div>
+</div>
 <!-- ===============================================-->
 <!--    End Printproject Detail table -->
 <!-- ===============================================-->
