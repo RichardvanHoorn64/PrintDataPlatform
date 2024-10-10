@@ -14,7 +14,7 @@ class WelcomeView(TemplateView):
         if not user.is_authenticated:
             return redirect('/accounts/login/')
 
-        if not user.member.active:
+        if not user.active:
             return redirect('/no_access/')
 
         # authenticated user landing
@@ -101,7 +101,7 @@ class WelcomeView(TemplateView):
         elif user.is_authenticated and user.member.active and user.member_plan_id in producer_memberplans:
             return redirect('/producer_sales_dashboard/0')
 
-        elif user.is_authenticated and user.member.active and user.member_pla_id not in producer_memberplans:
+        elif user.is_authenticated and user.member.active and user.member_plan_id not in producer_memberplans:
             return redirect('/printdataplatform_dashboard/')
 
         else:

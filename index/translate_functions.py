@@ -229,3 +229,16 @@ def translate_dataframe(dataframe):
             dataframe['folding'] = dataframe['nabewerking_folders']
 
     return dataframe
+
+
+def find_gendercode(gender):
+    x = gender
+    gendercode = '-'
+    if gender == '1':
+        gendercode = 'M'
+    if gender == '2':
+        gendercode = 'V'
+    if gender == '0':
+        gendercode = 'G'
+    return gendercode
+

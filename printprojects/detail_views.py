@@ -2,12 +2,9 @@ from django.shortcuts import redirect
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from index.categories_groups import *
-from index.exclusive_functions import define_exclusive_producer_id
 from index.forms.form_invalids import form_invalid_message_quotes
-from index.models import DropdownChoices
 from offers.models import *
 from methods.models import *
-from printprojects.forms.NewPrintProject import PrintProjectsForm
 from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from index.create_context import createprintproject_context
 

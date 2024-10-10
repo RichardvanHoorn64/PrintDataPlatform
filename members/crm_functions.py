@@ -1,8 +1,12 @@
+from sqlite3 import IntegrityError
+
+from django.shortcuts import redirect
 from django.http import JsonResponse
 from offers.models import Offers
 from orders.models import Orders
 from printprojects.models import *
 from producers.models import *
+from producers.producer_functions import get_producercategories
 
 
 def update_clientdashboard(member_id):
@@ -70,45 +74,44 @@ def update_producersmatch(request):
 
 def update_printprojectsmatch(request, printproject_id):
     member_id = request.user.member_id
-    printproject = PrintProjects.objects.get(printproject_id=printproject_id)
-    productcategory_id = printproject.productcategory_id
+    user = request.user
 
-    projectmatches = PrintProjectMatch.objects.filter(member_id=member_id, printproject_id=printproject_id).values_list(
-        'producer_id',
-        flat=True)
+    try:
+        printproject = PrintProjects.objects.get(printproject_id=printproject_id,
+                                                 member_id=member_id)
 
-    producers = ProducerProductOfferings.objects.filter(productcategory_id=productcategory_id).values_list(
-        'producer_id',
-        flat=True)
-    preferred_suppliers = MemberProducerMatch.objects.filter(member_id=member_id, memberproducerstatus=1).values_list(
-        'producer_id',
-        flat=True)  # .exclude(memberproducerstatus=3)
+        preferred_suppliers = MemberProducerMatch.objects.filter(member_id=member_id,
+                                                                 memberproducerstatus=1).values_list(
+            'producer_id',
+            flat=True)
 
-    for producer_id in producers:
-        if producer_id in preferred_suppliers:
-            if producer_id not in projectmatches:
+    except PrintProjects.DoesNotExist:
+        return redirect('/no_access/')
+
+    print('preferred_suppliers: ', preferred_suppliers)
+    current_matchers = PrintProjectMatch.objects.filter(printproject_id=printproject_id)
+    for current_match in current_matchers:
+        current_match.delete()
+
+    # preferred suppliers projectmatch
+    for producer_id in preferred_suppliers:
+        producer_product_categories = get_producercategories(producer_id)
+        if printproject.productcategory_id in producer_product_categories:
+            memberproducermatch = MemberProducerMatch.objects.get(producer_id=producer_id, member_id=member_id)
+            if producer_id in preferred_suppliers:
                 try:
-                    match = MemberProducerMatch.objects.get(producer_id=producer_id, member_id=member_id)
-                    memberproducermatch_id = match.memberproducermatch_id
-                    if match.memberproducerstatus_id == 1:
-                        preferred_supplier = True
-                    else:
-                        preferred_supplier = False
-
-                except MemberProducerMatch.DoesNotExist:
-                    memberproducermatch_id = None
-                    preferred_supplier = False
-
-                projectmatch = PrintProjectMatch.objects.filter(producer_id=producer_id, member_id=member_id,
-                                                                printproject_id=printproject_id, )
-
-                if not projectmatch:
-                    PrintProjectMatch.objects.create(printproject_id=printproject_id, member_id=member_id,
-                                                     user_id=request.user.id,
+                    PrintProjectMatch.objects.create(printproject_id=printproject_id,
+                                                     memberproducermatch_id=memberproducermatch.memberproducermatch_id,
+                                                     member_id=member_id,
+                                                     user_id=user.id,
                                                      producer_id=producer_id,
-                                                     memberproducermatch_id=memberproducermatch_id,
-                                                     preferred_supplier=preferred_supplier
+                                                     ranking=memberproducermatch.ranking,
+                                                     member_block=False,
+                                                     preferred_supplier=True,
+                                                     active=True
                                                      )
+                except IntegrityError:
+                    pass
 
 
 def update_number_of_open_offers(member_id):

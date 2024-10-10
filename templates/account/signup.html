@@ -16,16 +16,19 @@
     <!--    Main Content heading-->
     <!-- ===============================================-->
     <div class="content">
-        <div class="container" id="signup-header" style="background-color:whitesmoke;">
-            <nav class="mb-2" aria-label="breadcrumb">
+        <div class="container mb-0" id="signup-header" style="background-color:whitesmoke;">
+            <nav class="mb-0" aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
-                                                   href="{% url 'home' %}">Home</a></li>
+                                                   target="_blank" href="https://www.printdataplatform.nl/">Info</a>
+                    </li>
                     <li class="breadcrumb-item active">Aanmelden op {{ site_name }}</li>
                 </ol>
             </nav>
             <hr class="text-info">
-            <h2 class="mb-4 text-info">Aanmelden {{ site_name }}</h2>
+            <h2 class="mb-4 text-info">Gratis aanmelden op het {{ site_name }}</h2>
+            <hr class="text-info">
+            {% include 'members/includes/sign_up_card.html' %}
 
 
             <!-- ===============================================-->
@@ -72,12 +75,23 @@
                         <span class="form-text text-muted">{{ form.password2.help_text }}</span>
                     </div>
                     <!-- ===============================================-->
-                    <!--  First and lastname -->
+                    <!--  Personal -->
                     <!-- ===============================================-->
                     <hr class="text-info">
                     <div class="row">
-                        <h4 class="mb-3 text-info">Naam, contactgegevens en functie</h4>
+                        <h4 class="mb-3 text-info">Persoonlijk</h4>
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="gender">Aanhef</label>
+                            <select class="form-select" id="gender" name="gender">
+                                {% for i in genders %}
+                                    <option value={{ i.value }}>{{ i.text }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-4">
                             <label class="form-label" for="first_name">Voornaam:</label>
@@ -91,48 +105,41 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <label class="form-label" for="jobtitle">Functie:</label>
                             <p>{{ form.jobtitle }}</p>
                             <span class="form-text text-muted">{{ form.jobtitle.help_text }}</span>
-                        </div>
-                    </div>
-                    <!-- ===============================================-->
-                    <!--  Company  / e_mail_general -->
-                    <!-- ===============================================-->
-                    <hr class="text-info">
-                    <div class="row">
-                        <h4 class="mb-3 text-info">Bedrijf</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="company">Bedrijfsnaam:</label>
-                            <p>{{ form.company }}</p>
-                            <span class="form-text text-muted">{{ form.company.help_text }}</span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="e_mail_general">Email algemeen:</label>
-                            <p>{{ form.e_mail_general }}</p>
-                            <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
-                        </div>
-                    </div>
-                    <!-- ===============================================-->
-                    <!--  General and mobile number -->
-                    <!-- ===============================================-->
-                    <hr class="text-info">
-                    <div class="row">
-                        <h4 class="mb-3 text-info">Telefoonnummers</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
-                            <p>{{ form.tel_general }}</p>
-                            <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label" for="mobile_number">Persoonlijk mobiel nummer:</label>
                             <p>{{ form.mobile_number }}</p>
                             <span class="form-text text-muted">{{ form.mobile_number.help_text }}</span>
+                        </div>
+                    </div>
+                    <!-- ===============================================-->
+                    <!--  Company   -->
+                    <!-- ===============================================-->
+                    <hr class="text-info">
+                    <div class="row">
+                        <h4 class="mb-3 text-info">Organisatie</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="form-label" for="company">naam:</label>
+                            <p>{{ form.company }}</p>
+                            <span class="form-text text-muted">{{ form.company.help_text }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="e_mail_general">Email algemeen:</label>
+                            <p>{{ form.e_mail_general }}</p>
+                            <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="tel_general">Algemeen telefoonnummer:</label>
+                            <p>{{ form.tel_general }}</p>
+                            <span class="form-text text-muted">{{ form.tel_general.help_text }}</span>
                         </div>
                     </div>
 
@@ -181,16 +188,39 @@
                     {% include 'members/includes/social_media.html' %}
                     <hr class="text-info">
 
+                    <!-- ===============================================-->
+                    <!--  Social media -->
+                    <!-- ===============================================-->
                     <div class="row">
-                        <h4 class="mb-1 text-info">Gratis basisaansluiting</h4>
+                        <h4 class="mb-3 text-info">Spelregels</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-12">
+                            <div class="form-check">
+                                <label class="form-check-label" for="conditions_approved">Als gebruiker van
+                                    het PrintDataPlatform gaat u akkoord gaan met de
+                                    <a class="mx-1 text-info" href="{% url 'conditions' %}" target=”_blank”>
+                                        spelregels</a></label>
+                                <p>{{ form.conditions_approved }} <small> Ik ga akkoord met de spelregels</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr class="text-info">
+
+                    <div class="row">
+                        <h4 class="mb-1 text-info">Gratis printmanager account</h4>
                     </div>
                     <div class="col-md-12">
-                        <button class="btn btn-success" type="submit">Aanvragen</button>
+                        <button class="btn btn-info" type="submit">Aanvragen</button>
                     </div>
                     <br>
 
                 </div>
                 <hr class="text-info">
+
+
             </form>
             <br>
             {% include 'messages/form_valid_errormelding.html' %}

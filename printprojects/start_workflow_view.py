@@ -28,6 +28,7 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         if not user.member.active:
             return redirect('/wait_for_approval/')
 
+        # retrieve printproject plus check ownership
         try:
             rfq_name = str(user.first_name) + " " + str(user.last_name)
             member_plan_id = user.member_plan_id

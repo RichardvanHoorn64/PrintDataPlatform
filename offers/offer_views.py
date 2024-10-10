@@ -12,6 +12,7 @@ from offers.form.offer_forms import *
 from offers.models import Offers
 from printprojects.models import PrintProjects
 from index.create_context import createprintproject_context, creatememberplan_context
+from profileuseraccount.models import UserProfile
 
 
 # Create your views here.
@@ -57,20 +58,20 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
         return context
 
 
-class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
+class OfferProducersFormCheckView(UpdateView):
     template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
     form_class = OfferProducerFormAccess
 
-    def dispatch(self, request, *args, **kwargs):
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     user = self.request.user
+    #     if not user.is_authenticated:
+    #         return redirect('/home/')
+    #     elif not user.member.active:
+    #         return redirect('/wait_for_approval/')
+    #     else:
+    #         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         offer_id = self.kwargs['pk']
@@ -93,15 +94,13 @@ class OfferProducersFormCheckView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super().get_context_data(**kwargs)
-        context = creatememberplan_context(context, user)
         offer_id = self.kwargs['pk']
         context['display'] = 0
         context['display_access'] = 1
 
         user = self.request.user
-        offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
+        offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
-        context = createprintproject_context(context, user, printproject)
         context['offer'] = offer
         context['printproject'] = printproject
 
@@ -174,7 +173,6 @@ class OfferProducersOpenUpdateView(UpdateView):
         reference_key = self.kwargs['reference_key']
         if offer.reference_key != reference_key:
             return redirect('/no_access/')
-
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -189,9 +187,7 @@ class OfferProducersOpenUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
-        user = self.request.user
         context = super().get_context_data(**kwargs)
-        context = creatememberplan_context(context, user)
         offer_id = self.kwargs['pk']
         offer = Offers.objects.get(offer_id=offer_id)
         if offer.offer_key_test == offer.offer_key:
@@ -199,9 +195,10 @@ class OfferProducersOpenUpdateView(UpdateView):
         else:
             context['display'] = 0
         context['display_access'] = 0
-        user = self.request.user
-        offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
+
+        offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
+        user = UserProfile.objects.get(id=printproject.user.id)
         context = createprintproject_context(context, user, printproject)
         context['key'] = True
         context['offer'] = offer

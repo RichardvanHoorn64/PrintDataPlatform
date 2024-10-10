@@ -152,7 +152,7 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
         user = self.request.user
         if not user.is_authenticated:
             return redirect('/home/')
-        elif not user.member.active:
+        elif not user.active:
             return redirect('/wait_for_approval/')
         else:
             return super().dispatch(request, *args, **kwargs)

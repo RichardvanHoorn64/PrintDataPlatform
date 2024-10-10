@@ -314,17 +314,40 @@
                     {% endif %}
 
                     {% if member_plan_id in open_memberplans %}
+                                                
+                    <thead class="bg-200">
+                    <tr>
+                        <th scope="col" style="width: 24px;"></th>
+                        <th scope="col" style="width: 200px;">Verkoop</th>
+                        <th scope="col" style="min-width: 500px;"></th>
+                        <th scope="col" style="width: 24px;"></th>
+                    </tr>
+                    </thead>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Klant</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {% if printproject.client_id %}
+                                {{ printproject.client_id }}
+                            {% else %} -- {% endif %}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Verkoopprijs</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold
-                                            {% if printproject.salesprice %} text-success
-                                            {% else %} text-warning
-                                            {% endif %}"
-                                >{{ printproject_salesprice }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {% if printproject.salesprice %}
+                                {{ printproject_salesprice }}
+                            {% else %} -- {% endif %}
+                                </p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -334,11 +357,10 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold
-                                        {% if printproject.salesprice1000extra %} text-success
-                                            {% else %} text-warning
-                                            {% endif %}"
-                                >{{ printproject_salesprice1000extra }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {% if printproject.salesprice_1000extra %} 
+                                {{ printproject_salesprice1000extra }}
+                            {% else %} -- {% endif %}
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -348,11 +370,10 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Factuurbedrag</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold
-                                        {% if printproject.invoiceturnover %} text-success
-                                            {% else %} text-warning
-                                            {% endif %}"
-                                >{{ printproject_invoiceturnover }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                        {% if printproject.invoiceturnover %} 
+                                        {{ printproject_invoiceturnover }}
+                                         {% else %} -- {% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>

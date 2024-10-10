@@ -6,7 +6,24 @@ from calculations.models import Calculations
 from offers.models import Offers
 
 
-def create_open_calculation_offer(rfq_name, rfq, producer_id, calculation_module):
+def create_new_offer(rfq, producer_id):
+    new_offer = Offers(
+        printproject_id=rfq.printproject_id,
+        offer_date=timezone.now().today().date(),
+        producer_id=producer_id,
+        member_id=rfq.member_id,
+        productcategory_id=rfq.productcategory_id,
+        offerstatus_id=1,
+        description=rfq.description,
+        offer_key=0,
+        requester=rfq.user_id,
+        offer=0,
+        offer1000extra=0,
+    )
+    new_offer.save()
+
+
+def create_open_calculation_offer(rfq, producer_id, calculation_module):
     Calculations.objects.filter(producer_id=producer_id, printproject_id=rfq.printproject_id).delete()
     Offers.objects.filter(producer_id=producer_id, printproject_id=rfq.printproject_id).delete()
 
@@ -27,21 +44,7 @@ def create_open_calculation_offer(rfq_name, rfq, producer_id, calculation_module
             assortiment_item=False,
         )
         open_calculation.save()
-
-        new_offer = Offers(
-            printproject_id=rfq.printproject_id,
-            offer_date=timezone.now().today().date(),
-            producer_id=producer_id,
-            member_id=rfq.member_id,
-            productcategory_id=rfq.productcategory_id,
-            offerstatus_id=1,
-            description=rfq.description,
-            offer_key=0,
-            requester=rfq_name,
-            offer=0,
-            offer1000extra=0,
-            )
-        new_offer.save()
+    create_new_offer(rfq, producer_id)
 
 
 def auto_calculate_offer(rfq, producer_id):

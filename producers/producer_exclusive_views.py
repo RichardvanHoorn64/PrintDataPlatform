@@ -23,6 +23,7 @@ from allauth.account.utils import (
     passthrough_next_redirect_url,
 )
 
+
 class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
     template_name = "producers/tables/producer_members.html"
 
@@ -131,15 +132,6 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
         form.instance.member_plan_id = 3
         form.instance.producer_id = self.request.user.producer_id
         userprofile.save()
-
-        # self.user = form.save(self.request)
-        # try:
-        #     return complete_signup(
-        #         self.request, self.user,
-        #         ACCOUNT_EMAIL_VERIFICATION,
-        #         self.get_success_url())
-        # except ImmediateHttpResponse as e:
-        #     return e.response
         return super(CreateProducerExclusiveMember, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -148,10 +140,11 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
-        ret = super(CreateProducerExclusiveMember, self).get_context_data(**kwargs)
-        site_name = define_site_name(self.request.user)
+        context = super(CreateProducerExclusiveMember, self).get_context_data(**kwargs)
+        user = self.request.user
+        site_name = define_site_name(user)
 
-        form = ret['form']
+        form = context['form']
         email = self.request.session.get('account_verified_email')
         if email:
             email_keys = ['email', 'email2']
@@ -165,56 +158,15 @@ class CreateProducerExclusiveMember(LoginRequiredMixin, CreateView):
                                                  redirect_field_name)
 
         countries = DropdownCountries.objects.filter(language_id=1).order_by('country_id')
-        ret.update({"login_url": login_url,
-                    "site_name": site_name,
-                    "countries": countries,
-                    "redirect_field_name": redirect_field_name,
-                    "redirect_field_value": redirect_field_value})
-        return ret
+        genders = DropdownChoices.objects.filter(dropdown='gender', language_id=1).order_by('dropdown_id')
+        context = creatememberplan_context(context, user)
+        context['login_url'] = login_url
+        context['site_name'] = site_name
+        context['countries'] = countries
+        context['genders'] = genders
+        context['redirect_field_name'] = redirect_field_name
+        context['redirect_field_value'] = redirect_field_value
+        context['title'] = 'Klanten via PrintDataPlatform'
+        context['add_members'] = False
 
-
-# signup = CreateProducerExclusiveMember.as_view()
-
-
-# class UMemberUpdateForm:
-#     pass
-
-
-# class CreateNewExclusiveMemberLanding(View):
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         user = self.request.user
-#
-#         if not user.is_authenticated:
-#             return redirect('/welcome/')
-#
-#         if not user.member_id:
-#             new_member = Members(
-#                 active=True,
-#                 user_admin=user.id,
-#                 company=user.company,
-#                 manager=user.first_name + " " + user.last_name,
-#                 tel_general=user.tel_general,
-#                 e_mail_general=user.e_mail_general,
-#                 street_number=user.street_number,
-#                 postal_code=user.postal_code,
-#                 city=user.city,
-#                 member_plan_id=3,
-#                 language_id=user.language_id,
-#                 exclusive_producer_id=user.producer_id
-#             )
-#
-#             try:
-#                 new_member.save()
-#                 my_profile = UserProfile.objects.get(id=user.id)
-#                 my_profile.member_id = new_member.member_id
-#                 my_profile.member_plan_id = 3
-#                 my_profile.language_id = 1
-#                 my_profile.save()
-#             except Exception as e:
-#                 print('SignupLandingView error: ', e)
-#                 pass
-#         else:
-#             pass
-#
-#         return redirect('/printproject_dashboard/1')
+        return context

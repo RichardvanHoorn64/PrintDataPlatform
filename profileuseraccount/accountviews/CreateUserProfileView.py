@@ -6,6 +6,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.edit import FormView
 from index.exclusive_functions import define_site_name
 from index.models import *
+from index.translate_functions import find_gendercode
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registration_userprofile import UserProfileCreationForm
 from profileuseraccount.models import UserProfile
@@ -39,9 +40,12 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
         # By assigning the User to a property on the view, we allow subclasses
         # of SignupView to access the newly created User instance
         new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
+        gender = form.cleaned_data['gender']
         form.instance.id = new_id
         form.instance.member_plan_id = 1
         form.instance.producer_id = 1
+        form.instance.active = False
+        form.instance.gender = find_gendercode(gender)
 
         self.user = form.save(self.request)
         try:
@@ -75,8 +79,11 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
                                                  redirect_field_name)
 
         countries = DropdownCountries.objects.filter(language_id=1).order_by('country_id')
+        genders = DropdownChoices.objects.filter(dropdown='gender', language_id=1).order_by('dropdown_id')
+
         ret.update({"login_url": login_url,
                     "site_name": site_name,
+                    'genders': genders,
                     "countries": countries,
                     "redirect_field_name": redirect_field_name,
                     "redirect_field_value": redirect_field_value})

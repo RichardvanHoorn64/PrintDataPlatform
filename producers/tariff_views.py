@@ -13,7 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
+from django.views.generic import *
 from django.views.generic.edit import FormMixin
 from profileuseraccount.form_invalids import form_invalid_message
 
@@ -188,68 +188,6 @@ class ProducerTransportUpdate(LoginRequiredMixin, UpdateView):
             pass
 
         return context
-
-
-class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
-    template_name = 'producers/producer_details.html'
-    model = Producers
-    profile = Producers
-    form_class = NoteForm
-
-    # def __init__(self, **kwargs):
-    #     super().__init__(kwargs)
-    #     self.object = None
-
-    def get_success_url(self):
-        return reverse('producer_details', kwargs={'pk': self.object.producer_id})
-
-    def get_context_data(self, **kwargs):
-        context = super(ProducerDetails, self).get_context_data(**kwargs)
-        user = self.request.user
-        member_id = user.member_id
-        producer_id = self.kwargs['pk']
-        producer = Producers.objects.get(producer_id=producer_id)
-        context = creatememberplan_context(context, user)
-        context['producer'] = producer
-        context['order_table_title'] = 'Orders' + " " + str(producer)
-        context['empty_table_text_orders'] = "Geen orders geplaaatst bij " + str(producer)
-        context['producermatch_list'] = MemberProducerMatch.objects.filter(member_id=member_id, producer_id=producer_id)
-        context['producercontact_list'] = ProducerContacts.objects.filter(member_id=member_id, producer_id=producer_id,
-                                                                          active=True)
-        context['order_list'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id)
-        context['producer_notes'] = Notes.objects.filter(member_id=member_id, producer_id=producer_id)
-        context['product_categories'] = get_producercategories(producer_id)
-
-        number_of_orders = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
-        if number_of_orders > 0:
-            order_value = \
-                Orders.objects.filter(member_id=member_id, producer_id=producer_id).aggregate(Sum('order_value'))[
-                    'order_value__sum']
-        else:
-            order_value = 0
-
-        # counts
-        context['count_offers_by_member'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id).count()
-        context['count_orders_by_member'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
-        context['order_value_by_member'] = order_value
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        user = self.request.user
-        note = form.save(commit=False)
-        note.member_id = user.member_id
-        note.producer_id = self.kwargs['pk']
-        note.user_id = user.id
-        note.save()
-        return super(ProducerDetails, self).form_valid(form)
 
 
 class ChangeMemberProducerStatus(View, LoginRequiredMixin):

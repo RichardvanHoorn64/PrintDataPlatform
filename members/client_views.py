@@ -30,6 +30,7 @@ class ClientDashboard(LoginRequiredMixin, TemplateView):
         member_id = user.member_id
 
         Clients.objects.filter(member_id=member_id)
+        context = creatememberplan_context(context, user)
         context['clients_list'] = Clients.objects.filter(member_id=member_id)
         context['open_orders'] = Orders.objects.filter(order_status=1).count()
         return context
@@ -131,6 +132,7 @@ class CreateNewClient(CreateView, LoginRequiredMixin):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super(CreateNewClient, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         context['title'] = "Nieuwe klant aanmaken"
@@ -165,6 +167,7 @@ class UpdateClient(UpdateView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateClient, self).get_context_data(**kwargs)
+        user = self.request.user
         client_id = self.kwargs['pk']
         client = Clients.objects.get(client_id=client_id)
         context = creatememberplan_context(context, user)

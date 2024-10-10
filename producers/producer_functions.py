@@ -67,6 +67,22 @@ def get_ordercontext(producer, context, order_status_id, dashboard):
 
 
 def get_producercategories(producer_id):
-    product_categories = ProducerProductOfferings.objects.filter(producer_id=producer_id, availeble=True).values_list(
+    all_productcategories = ProductCategory.objects.all().values_list(
         'productcategory_id', flat=True)
-    return product_categories
+
+    current_producer_categories = ProducerProductOfferings.objects.filter(producer_id=producer_id, availeble=True).values_list(
+        'productcategory_id', flat=True)
+
+    for productcategory_id in all_productcategories:
+        if productcategory_id not in current_producer_categories:
+            new_producer_category = ProducerProductOfferings.objects.create(
+                productcategory_id=productcategory_id,
+                producer_id=producer_id,
+                availeble=True
+            )
+            new_producer_category.save()
+
+    producer_categories = ProducerProductOfferings.objects.filter(producer_id=producer_id, availeble=True).values_list(
+        'productcategory_id', flat=True)
+
+    return producer_categories

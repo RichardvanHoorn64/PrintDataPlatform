@@ -4,7 +4,7 @@ from django.views.generic import View
 from offers.models import *
 from offers.rfq_functions import *
 from printprojects.models import *
-from printprojects.workflow_functions import auto_calculate_offer
+from printprojects.workflow_functions import auto_calculate_offer, create_new_offer
 
 
 # send rfq to selected suppliers
@@ -29,7 +29,13 @@ class SendRFQView(LoginRequiredMixin, View):
         # Try to make automated calculations
         for producer_id in selected_producers:
             producer = Producers.objects.get(producer_id=producer_id)
-            new_offer = Offers.objects.get(printproject_id=printproject_id, producer_id=producer_id)
+
+            try:
+                new_offer = Offers.objects.get(printproject_id=printproject_id, producer_id=producer_id)
+            except Offers.DoesNotExist:
+                create_new_offer(rfq, producer_id)
+                new_offer = Offers.objects.get(printproject_id=printproject_id, producer_id=producer_id)
+
             if producer.calculation_module:
                 try:
                     auto_calculate_offer(rfq, producer_id)

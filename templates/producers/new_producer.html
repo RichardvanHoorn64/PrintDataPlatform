@@ -26,7 +26,6 @@
             </nav>
             <hr class="text-info">
             <h2 class="mb-4 text-info">Producent toevoegen</h2>
-            <h5 class="mb-3">toevoegen country_code</h5>
 
             <!-- ===============================================-->
             <!--    End Header-->
@@ -45,13 +44,14 @@
                     <h4 class="mb-3 text-info">Nieuwe Producent</h4>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label class="form-label" for="company">Nieuwe Producent:</label>
                         <p>{{ form.company }}</p>
                     </div>
-
-                    <div class="col-md-3">
-                            <label class="form-label" for="manager">Accountmanager:</label>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                            <label class="form-label" for="manager">Contactpersoon | Accountmanager:</label>
                             <p>{{ form.manager }}</p>
                             <span class="form-text text-muted">{{ form.manager.help_text }}</span>
                         </div>

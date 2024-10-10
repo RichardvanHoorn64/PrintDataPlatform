@@ -24,14 +24,11 @@ def send_rfq_mail(producer, member_company, offer, printproject):
     text_body = render_to_string('offers/emails_rfq/rfq_text.txt', merge_data)
     html_body = render_to_string(email_template, merge_data)
 
-    from_email = EMAIL_TO_USERS
-    if DEBUG:
-        recepients = ["info@richardvanhoorn.nl", ]
-    else:
-        recepients = [producer.e_mal_general, ]
+    from_email = DEFAULT_FROM_EMAIL
+    recipient = [producer.e_mail_rfq, ]
 
     rfq_mail = EmailMultiAlternatives(subject=subject, from_email=from_email,
-                                      to=recepients, body=text_body)
+                                      to=recipient, body=text_body)
     rfq_mail.attach_alternative(html_body, "text/html")
     try:
         rfq_mail.send()

@@ -28,8 +28,8 @@
                         <th class="sort align-middle text-start" scope="col" data-sort="rfq_date" style="width:10%;">
                             Actief<BR>sinds
                         </th>
-                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Account<br>aaanpassen
-                        </th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Status</th>
+                        <th class="align-middle text-start pe-0" scope="col" style="width:10%;">Status<br>aaanpassen
                     </tr>
                     </thead>
 
@@ -45,7 +45,10 @@
                             <td class="printproject_id align-middle white-space-nowrap py-0">{{ account.mobile_number }}</td>
 
                             <td class="rfq_date align-middle fw-semi-bold text-1000">{{ account.created |date:'d-m-Y ' }}</td>
-                            
+                            <td class="printproject_id align-middle white-space-nowrap py-0">
+                                {% if account.active == True %}
+                                Actief {% else %} Niet actief{% endif %}
+                            </td>
                             <td class="align-middle white-space-nowrap task ps-0 py-0">
                                 {% if account.active == True %}
                                 {% include 'buttons/deactivate_co_worker.html' %} Deactiveren

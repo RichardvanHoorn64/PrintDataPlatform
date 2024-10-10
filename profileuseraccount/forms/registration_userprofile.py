@@ -44,15 +44,18 @@ class UserProfileCreationForm(UserCreationForm):
     city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Plaats'}),
                            max_length=30)
 
+    gender = char_field_100_false
     linkedin_url = url_field_false
-
+    company_url = url_field_false
     country_code = char_field_100_false
+    conditions_approved = boolean_field
 
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name',
                   'producer', 'member', 'jobtitle', 'company', 'tel_general', 'mobile_number', 'e_mail_general',
-                  'street_number', 'postal_code', 'city', 'country_code', 'linkedin_url'
+                  'street_number', 'postal_code', 'city', 'country_code', 'linkedin_url', 'company_url',
+                  'conditions_approved', 'gender'
                   )
 
 
@@ -96,10 +99,10 @@ class CoWorkerUserProfileCreateForm(UserCreationForm):
 
     jobtitle = char_field_200_false
     mobile_number = char_field_100_false
-    linkedin_url = url_field_false
+    gender = char_field_100_false
 
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2',
-                  'mobile_number', 'jobtitle', 'linkedin_url'
+                  'mobile_number', 'jobtitle', 'gender'
                   )

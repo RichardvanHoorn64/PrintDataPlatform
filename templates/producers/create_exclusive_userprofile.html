@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'skins/skin_open.html' %}
+{% extends 'skins/skin.html' %}
 {% load static %}
 <html lang="nl" dir="ltr">
 
@@ -71,39 +71,10 @@
                         <span class="form-text text-muted">{{ form.password2.help_text }}</span>
                     </div>
                     <!-- ===============================================-->
-                    <!--  First and lastname -->
+                    <!--  Personal -->
                     <!-- ===============================================-->
-                    <hr class="text-info">
-                    <div class="row">
-                        <h4 class="mb-3 text-info">Contactpersoon, contactgegevens en functie</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="first_name">Voornaam:</label>
-                            <p>{{ form.first_name }}</p>
-                            <span class="form-text text-muted">{{ form.first_name.help_text }}</span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="last_name">Achternaam:</label>
-                            <p>{{ form.last_name }}</p>
-                            <span class="form-text text-muted">{{ form.last_name.help_text }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="form-label" for="jobtitle">Functie:</label>
-                            <p>{{ form.jobtitle }}</p>
-                            <span class="form-text text-muted">{{ form.jobtitle.help_text }}</span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="mobile_number">Mobiel nummer:</label>
-                            <p>{{ form.mobile_number }}</p>
-                            <span class="form-text text-muted">{{ form.mobile_number.help_text }}</span>
-                        </div>
-                    </div>
-                   
-                    <hr class="text-info">
-                    
+                {% include 'members/includes/personal.html' %}
+                                      
                     <!-- ===============================================-->
                     <!--  Exclusive Company  / general -->
                     <!-- ===============================================-->

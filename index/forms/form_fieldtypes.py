@@ -48,5 +48,6 @@ char_field_2500_req = forms.CharField(widget=forms.TextInput(attrs={'class': 'fo
 date_field = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': '  '}),
                              required=False)
 
-url_field_false = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control', 'placeholder': '  '}),
-                                 required=False)
+url_field_false = forms.URLField(
+    widget=forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'url incl https://www.'}),
+    required=False)

@@ -1,16 +1,85 @@
 from index.categories_groups import *
+from index.display_functions import display_country, display_producercategories
 from index.models import DropdownCountries
-from members.crm_functions import *
-from api.forms.api_forms import APImanagerForm
-from index.forms.relationforms import *
 from index.create_context import creatememberplan_context
 from printprojects.forms.ProducerMemberSalesPrice import *
+from profileuseraccount.form_invalids import form_invalid_message
+from members.crm_functions import *
+from api.forms.api_forms import APImanagerForm
+from index.forms.note_form import *
+from index.forms.relationforms import *
 from producers.producer_functions import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, View
-from profileuseraccount.form_invalids import form_invalid_message
-from index.dq_functions import producer_dq_functions
+from django.urls import reverse
+from django.views.generic import *
+from django.views.generic.edit import FormMixin
+
+
+class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
+    template_name = 'producers/producer_details.html'
+    model = Producers
+    profile = Producers
+    form_class = NoteForm
+
+    # def __init__(self, **kwargs):
+    #     super().__init__(kwargs)
+    #     self.object = None
+
+    def get_success_url(self):
+        return reverse('producer_details', kwargs={'pk': self.object.producer_id})
+
+    def get_context_data(self, **kwargs):
+        context = super(ProducerDetails, self).get_context_data(**kwargs)
+        user = self.request.user
+        member_id = user.member_id
+        producer_id = self.kwargs['pk']
+        producer = Producers.objects.get(producer_id=producer_id)
+        context = creatememberplan_context(context, user)
+        # product_categories = get_producercategories(producer_id)
+        context['producer'] = producer
+        context['order_table_title'] = 'Orders' + " " + str(producer)
+        context['empty_table_text_orders'] = "Geen orders geplaaatst bij " + str(producer)
+        context['producermatch_list'] = MemberProducerMatch.objects.filter(member_id=member_id, producer_id=producer_id)
+        context['producercontact_list'] = ProducerContacts.objects.filter(member_id=member_id, producer_id=producer_id,
+                                                                          active=True)
+        context['order_list'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id)
+        context['producer_notes'] = Notes.objects.filter(member_id=member_id, producer_id=producer_id)
+        # context['product_categories'] = product_categories
+        context['producer_product_categories'] = display_producercategories(producer_id)
+
+        number_of_orders = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
+        if number_of_orders > 0:
+            order_value = \
+                Orders.objects.filter(member_id=member_id, producer_id=producer_id).aggregate(Sum('order_value'))[
+                    'order_value__sum']
+        else:
+            order_value = 0
+
+        # counts
+        context['count_offers_by_member'] = Offers.objects.filter(member_id=member_id, producer_id=producer_id).count()
+        context['count_orders_by_member'] = Orders.objects.filter(member_id=member_id, producer_id=producer_id).count()
+        context['order_value_by_member'] = order_value
+        context['producer_country'] = display_country(producer.country_code, user.language_id)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        user = self.request.user
+        note = form.save(commit=False)
+        note.member_id = user.member_id
+        note.producer_id = self.kwargs['pk']
+        note.user_id = user.id
+        note.save()
+        return super(ProducerDetails, self).form_valid(form)
 
 
 class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
@@ -138,7 +207,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     profile = Producers
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
-    success_url = 'producer_dashboard'
+    success_url = '/producer_dashboard/'
     
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -148,6 +217,21 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
             return redirect('/wait_for_approval/')
         else:
             return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        email = form.cleaned_data['e_mail_general']
+        country_code = form.cleaned_data['country_code']
+        try:
+            language_id = DropdownCountries.objects.get(country_code=country_code).language_id
+        except DropdownCountries.DoesNotExist:
+            language_id = 1
+        form.instance.uploaded_by = self.request.user.id
+        form.instance.member_plan_id = 5
+        form.instance.language_id = language_id
+        form.instance.e_mail_rfq = email
+        form.instance.e_mail_offers = email
+        form.instance.e_mail_orders = email
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         response = super().form_invalid(form)

@@ -153,8 +153,6 @@ urlpatterns = [
     # producer exclusive members
     path('create_producer_exclusive_member', CreateProducerExclusiveMember.as_view(),
          name='create_producer_exclusive_member'),
-    # path('create_producer_exclusive_member_landing/<int:user_id>', CreateNewExclusiveMemberLanding.as_view(),
-    #      name='create_producer_exclusive_member_landing'),
 
     # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),

@@ -1,7 +1,9 @@
 from index.categories_groups import *
+from index.models import *
 from index.convert_functions import *
 from printprojects.models import ClientContacts
-from django.shortcuts import redirect
+from producers.models import ProducerProductOfferings
+from producers.producer_functions import get_producercategories
 
 
 def printproject_client_quotenumber(client_quotenumber):
@@ -104,7 +106,8 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
         printprojectprinting = printsided_text + " in " + print_front_text
 
     if printsided == 3:  # "Tweezijdig verschillend"
-        printprojectprinting = "Voorzijde in " + print_front_text + pms_colors_front + ", achterzijde in " + print_rear_text + " " + pms_colors_rear
+        printprojectprinting = ("Voorzijde in " + print_front_text + pms_colors_front + ", achterzijde in "
+                                + print_rear_text + " " + pms_colors_rear)
 
     return printprojectprinting
 
@@ -232,3 +235,26 @@ def order_requester(order):
         requester = 'onbekend'
 
     return requester
+
+
+def display_country(country_code, language_id):
+    try:
+        country = DropdownCountries.objects.get(country_code=country_code, language_id=language_id).country
+    except DropdownCountries.DoesNotExist:
+        country = 'Nederland'
+    return country
+
+
+def display_producercategories(producer_id):
+    all_productcategories = ProductCategory.objects.all().values_list(
+        'productcategory_id', flat=True)
+    producer_product_categories = get_producercategories(producer_id)
+    available_producercategories = ""
+
+    for productcategory_id in all_productcategories:
+        if productcategory_id in producer_product_categories:
+            product_category = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
+            available_producercategories = available_producercategories + str(product_category) + ", "
+
+    return available_producercategories[:-2]+'.'
+

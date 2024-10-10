@@ -6,6 +6,7 @@ from printprojects.models import ProductCategory
 def creatememberplan_context(context, user):
     context['site_name'] = define_site_name(user)
     context['img_loc_logo'] = img_loc_logo(user)
+    context['starter_memberplans'] = starter_memberplans
     context['free_memberplans'] = free_memberplans
     context['open_memberplans'] = open_memberplans
     context['pro_memberplans'] = pro_memberplans

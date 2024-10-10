@@ -1,4 +1,5 @@
 from datetime import timedelta
+from django.db.models import Max
 from index.create_context import *
 from members.forms.accountforms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -57,8 +58,6 @@ class ThanksSubmitView(TemplateView):
 
 
 class SignupLandingView(View):
-    # template_name = 'account/signup_landing.html'
-
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
 
@@ -66,8 +65,10 @@ class SignupLandingView(View):
             return redirect('/welcome/')
 
         if not user.member_id:
+            new_id = Members.objects.aggregate(Max('member_id')).get('member_id__max') + 1
             new_member = Members(
-                active=False,
+                member_id=new_id,
+                active=user.active,
                 user_admin=user.id,
                 company=user.company,
                 manager=user.first_name + " " + user.last_name,
@@ -91,7 +92,6 @@ class SignupLandingView(View):
             except Exception as e:
                 print('SignupLandingView error: ', e)
                 pass
-
         else:
             pass
 
@@ -187,7 +187,6 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
             return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        # maken dat user account voor bedrijfsnaam bijgewerkt wordt
         user = self.request.user
         member_id = self.kwargs['pk']
         member = Members.objects.get(member_id=member_id)
@@ -220,7 +219,7 @@ class BusinessAccountUpdateView(UpdateView, LoginRequiredMixin):
                 company_url=member.company_url,
                 language_id=member.language_id,
             )
-        return reverse('business_account_update', kwargs={'pk': self.object.member_id})
+        return reverse('my_account', kwargs={'pk': self.object.member_id})
 
     def get_context_data(self, **kwargs):
         context = super(BusinessAccountUpdateView, self).get_context_data(**kwargs)

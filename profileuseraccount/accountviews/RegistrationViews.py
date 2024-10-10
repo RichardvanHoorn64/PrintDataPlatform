@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
-
+from django.db.models import Max
 from index.create_context import creatememberplan_context
+from index.models import DropdownChoices
 from profileuseraccount.form_invalids import form_invalid_message
 from profileuseraccount.forms.registration_userprofile import *
 from profileuseraccount.models import *
@@ -14,7 +15,6 @@ from django.contrib import messages
 class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = reverse_lazy('users:login')
     form_class = CoWorkerUserProfileCreateForm
-    success_message = 'Een nieuw collega user profiel is aangemaakt'
     pk_url_kwarg = 'member_id'
     template_name = 'members/create_coworker.html'
 
@@ -42,15 +42,17 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
                            extra_tags='alert alert-danger')
             return render(self.request, self.template_name, form)
 
+        new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
+
         member_id = user.member_id
         member = Members.objects.get(member_id=member_id)
 
+        new_user_profile.id = new_id
         new_user_profile.username = form.cleaned_data['username']
         new_user_profile.first_name = form.cleaned_data['first_name']
         new_user_profile.last_name = form.cleaned_data['last_name']
         new_user_profile.mobile_number = form.cleaned_data['mobile_number']
         new_user_profile.jobtitle = form.cleaned_data['jobtitle']
-        new_user_profile.linkedin_url = form.cleaned_data['linkedin_url']
         new_user_profile.member_id = member.member_id
         new_user_profile.producer_id = user.producer_id
         new_user_profile.company = member.company
@@ -75,8 +77,13 @@ class CoWorkerUserProfileCreateView(LoginRequiredMixin, SuccessMessageMixin, Cre
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, *args, **kwargs):
+        user = self.request.user
         context = super(CoWorkerUserProfileCreateView, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, self.request.user)
+        genders = DropdownChoices.objects.filter(dropdown='gender', language_id=1).order_by('dropdown_id')
+        context = creatememberplan_context(context, user)
+        context['genders'] = genders
+        context['title'] = 'Klanten via PrintDataPlatform'
         return context
 
 
@@ -168,9 +175,7 @@ class ProducerCollegaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateV
         context = super(ProducerCollegaCreateView, self).get_context_data(**kwargs)
         user = self.request.user
         context = creatememberplan_context(context, user)
-        # context['skin_template_name'] = get_skin_template_name(user)
         context['user_type'] = user.user_type
-        # context['productaanbod'] = productaanbod_vaststellen(user)
         return context
 
 

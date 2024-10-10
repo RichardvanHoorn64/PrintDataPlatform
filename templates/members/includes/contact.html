@@ -24,9 +24,16 @@
         <span class="form-text text-muted">{{ form.email_general.help_text }}</span>
     </div>
 </div>
+
+<hr class="text-info">
+<div class="row">
+    <h4 class="mb-3 text-info">Websites {{ user.company }}</h4>
+    <h6 class="mb-3 text-secondary">Websites inclusief https://www.</h6>
+</div>
+
 <div class="row">
     <div class="col-md-8">
-        <label class="form-label" for="company_url">Website:</label>
+        <label class="form-label" for="company_url">Website - {{ user.company }}:</label>
         <p>{{ form.company_url }}</p>
         <span class="form-text text-muted">{{ form.company_url.help_text }}</span>
     </div>
