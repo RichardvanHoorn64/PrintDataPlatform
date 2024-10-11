@@ -4,7 +4,7 @@ from django.views.generic import View
 from offers.models import *
 from offers.rfq_functions import *
 from printprojects.models import *
-from printprojects.workflow_functions import auto_calculate_offer, create_new_offer
+from printprojects.workflow_functions import auto_calculate_offer, create_new_offer, create_open_calculation_offer
 
 
 # send rfq after select suppliers for open calculations
@@ -38,7 +38,10 @@ class SendRFQView(LoginRequiredMixin, View):
                 new_offer = Offers.objects.get(printproject_id=printproject_id, producer_id=producer_id)
 
             if producer.calculation_module:
+
+
                 if auto_quote:
+                    create_open_calculation_offer(rfq, producer_id, True)
                     try:
                         auto_calculate_offer(rfq, producer_id)
                             # send automated mail completed
