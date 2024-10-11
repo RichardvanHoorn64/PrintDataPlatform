@@ -39,7 +39,6 @@
                         <td class="border-0"></td>
 
                     </tr>
-                    {% if member_plan_id in open_memberplans %}
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
@@ -50,7 +49,6 @@
                             </td>
                             <td class="border-0"></td>
                         </tr>
-                    {% endif %}
                     <tr>
                         <td class="border-0"></td>
                         <td class="align-middle">
@@ -235,7 +233,8 @@
                         </tr>
                     {% endif %}
 
-                    {% if user.member_plan_id in producer_memberplans %}
+                    {% if user.member_plan_id in open_memberplans %}
+                        {% if offer %}
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
@@ -261,8 +260,10 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Aanbieding </p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                >€ {{ offer.offer }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                   {% if offer.offer == 0 %}Wacht op aanbieding
+                                        {% else %}€ {{ offer.offer }}
+                                        {% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -272,8 +273,10 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">1000 ex meer</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                >€ {{ offer.offer1000extra }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                    {% if offer.offer1000extra == 0 %}Wacht op aanbieding
+                                        {% else %}€ {{ offer.offer1000extra }}
+                                        {% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -284,8 +287,9 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Contactpersoon</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                >{{ offer.producer_contact }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                 {% if offer.producer_contact %}{{ offer.producer_contact }}
+                                 {% else %}--{% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -295,8 +299,9 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Offertenummer</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                >{{ offer.producer_quote }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                 {% if offer.producer_quote %}{{ offer.producer_quote }}
+                                 {% else %}--{% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
@@ -306,14 +311,15 @@
                                 <p class="line-clamp-1 mb-0 fw-semi-bold">Offerte toelichting</p>
                             </td>
                             <td class="align-middle">
-                                <p class="line-clamp-1 mb-0 fw-semi-bold"
-                                >{{ offer.producer_notes }}</p>
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">
+                                {% if offer.producer_notes %}{{ offer.producer_notes }}
+                                 {% else %}--{% endif %}</p>
                             </td>
                             <td class="border-0"></td>
                         </tr>
                     {% endif %}
 
-                    {% if member_plan_id in open_memberplans %}
+                    {% if member_plan_id in pron_memberplans %}
                                                 
                     <thead class="bg-200">
                     <tr>
@@ -396,6 +402,7 @@
             <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>
         </div>
     {% endif %}
+{% endif %}
 {% endif %}
 </div>
 <!-- ===============================================-->

@@ -21,7 +21,7 @@ def find_enhancement_id(rfq_input):
 def find_packaging_id(rfq_input):
     try:
         packagingoption_id = PackagingOptions.objects.get(packaging=rfq_input).packagingoption_id
-    except EnhancementOptions.DoesNotExist:
+    except  PackagingOptions.DoesNotExist:
         packagingoption_id = rfq_input
     return packagingoption_id
 
@@ -44,8 +44,18 @@ def find_foldingspecs(rfq_input):
     return foldingmethod_id
 
 
+def find_folding_number_of_pages(rfq_input):
+    try:
+        folding = FoldingMethods.objects.get(foldingmethod=rfq_input).number_of_pages
+        number_of_pages = folding.foldingmethod_id
+
+    except FoldingMethods.DoesNotExist:
+        number_of_pages = 0
+    return number_of_pages
+
+
 def find_orientation(rfq_input):
-    orientation = 0
+    orientation = 1
     if rfq_input in [1, 'Staand', 'staand', 'Portrait', 'portrait']:
         orientation = 1
     if rfq_input in [2, 'Liggend' 'liggend', 'Landscape', 'landscape']:
@@ -241,4 +251,3 @@ def find_gendercode(gender):
     if gender == '0':
         gendercode = 'G'
     return gendercode
-

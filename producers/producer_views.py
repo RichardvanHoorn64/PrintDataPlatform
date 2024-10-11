@@ -110,6 +110,8 @@ class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
         context['calculation_module'] = producer.calculation_module
         context['exclusive_module'] = producer.exclusive_module
         context['add_members'] = False
+        context['open_members'] = True
+        context['exclusive_members'] = False
         return context
 
 
@@ -167,7 +169,7 @@ class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
         producer_id = user.producer_id
         error_calculations = Calculations.objects.filter(producer_id=producer_id).exclude(error=None).exclude(
-            status=4).order_by('calculation_id')
+            status=4).order_by('-offer_date')
 
         context['error_calculations'] = error_calculations
         context['offer_pagination'] = 25

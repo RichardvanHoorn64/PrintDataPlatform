@@ -270,20 +270,6 @@ class APIproducerManager(LoginRequiredMixin, UpdateView):
         return context
 
 
-# class APIproducerAccept(LoginRequiredMixin, View):
-#     success_url = '/member_dashboard/'
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         memberproducermatch_id = self.kwargs['pk']
-#         memberproducermatch = MemberProducerMatch.objects.get(memberproducermatch_id=memberproducermatch_id)
-#         if memberproducermatch.producer_accept:
-#             memberproducermatch.producer_accept = False
-#         else:
-#             memberproducermatch.producer_accept = True
-#         memberproducermatch.save()
-#         return redirect('/producer_open_members/')
-
-
 class ProducerMemberAccept(LoginRequiredMixin, View):
     success_url = '/member_dashboard/'
 
@@ -294,6 +280,27 @@ class ProducerMemberAccept(LoginRequiredMixin, View):
             memberproducermatch.producer_accept = False
         else:
             memberproducermatch.producer_accept = True
+        memberproducermatch.save()
+
+        member_id = memberproducermatch.member_id
+        member_plan_id = Members.objects.get(member_id=member_id).member_plan_id
+
+        if member_plan_id == str(3):
+            return redirect('/producer_exlusive_members/')
+        else:
+            return redirect('/producer_open_members/')
+
+
+class ProducerMemberAutoQuote(LoginRequiredMixin, View):
+    success_url = '/member_dashboard/'
+
+    def dispatch(self, request, *args, **kwargs):
+        memberproducermatch_id = self.kwargs['pk']
+        memberproducermatch = MemberProducerMatch.objects.get(memberproducermatch_id=memberproducermatch_id)
+        if memberproducermatch.auto_quote:
+            memberproducermatch.auto_quote = False
+        else:
+            memberproducermatch.auto_quote = True
         memberproducermatch.save()
 
         member_id = memberproducermatch.member_id

@@ -53,7 +53,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
-        categories_available = categories_all
+
         # store
         exclusive_producer_id = define_exclusive_producer_id(user)
 
@@ -66,6 +66,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             categories_available = ProducerProductOfferings.objects.filter(producer_id=exclusive_producer_id,
                                                                            availeble=True).values_list(
                 'productcategory_id', flat=True)
+            context['categories_available'] = categories_available
 
             # text
             printproject_table_title = 'Laatste 10 printprojecten'
@@ -75,6 +76,8 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
             dashboard_title = "Welkom bij " + str(exclusive_producer.company)
             start_printproject = 'Start nieuwe aanvraag'
             start_project_buttontext = 'Start aanvraag'
+        else:
+            categories_available = categories_all
 
         # store image location on Azure
         blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
@@ -91,9 +94,9 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['categories_available'] = categories_available
         context['start_printproject'] = start_printproject
         context['start_project_buttontext'] = start_project_buttontext
-        context['printproject_list'] = printprojects.order_by('-rfq_date')[:10][::-1]
-        context['order_list'] = orders.order_by('-orderdate')[:10][::-1]
-        context['offers_list'] = offers.order_by('-offer_date')[:10][::-1]
+        context['printproject_list'] = printprojects.order_by('-rfq_date')[:10]
+        context['order_list'] = orders.order_by('-orderdate')[:10]
+        context['offers_list'] = offers.order_by('-offer_date')[:10]
 
         # text
         context['printproject_table_title'] = printproject_table_title
@@ -104,6 +107,9 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['empty_table_text'] = "Geen printprojecten"
         context['empty_table_text_offers'] = "Plaats je eerste offerteaanvraag"
         context['empty_table_text_orders'] = "Plaats je eerste opdracht"
+        context['offer_pagination'] = 10
+        context['order_pagination'] = 10
+        context['dashboard'] = True
 
         return context
 
@@ -139,7 +145,7 @@ class ProducerSalesDashboard(LoginRequiredMixin, TemplateView):
         context = get_ordercontext(producer, context, order_status_id, dashboard=True)
         context['offer_pagination'] = 10
         context['order_pagination'] = 10
-
+        context['dashboard'] = True
         return context
 
 
@@ -194,8 +200,8 @@ class PrintprojectDashboard(LoginRequiredMixin, TemplateView):
         else:
             context['printproject_list'] = printprojects.filter(printprojectstatus=printprojectstatus_id).order_by(
                 '-rfq_date')
-        context['order_list'] = orders  # .order_by('-rfq_date')
-        context['offers_list'] = offers  # .order_by('-rfq_date')
+        context['order_list'] = orders.order_by('-order_id')
+        context['offers_list'] = offers.order_by('-offer_date')
 
         # counts
         context['all_projects'] = printprojects.count()
@@ -250,6 +256,5 @@ class OfferDashboard(LoginRequiredMixin, TemplateView):
         context['open_offers'] = offers.filter(offerstatus=1).count()
         context['submitted_offers'] = offers.filter(offerstatus=2).count()
         context['production_offers'] = offers.filter(offerstatus=3).count()
-        context['closed_offers'] = offers.filter(offerstatus=4).count()
-        context['denied_offers'] = offers.filter(offerstatus=5).count()
+        context['denied_offers'] = offers.filter(offerstatus=4).count()
         return context

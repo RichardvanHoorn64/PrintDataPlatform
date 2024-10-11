@@ -253,9 +253,13 @@ def filter_foldingmachines_booklet(fit_foldingmachines_rfq, katern_width_mm, kat
     fit_foldingmachines_booklet['price_per_ex'] = (
             fit_foldingmachines_booklet['tariff_eur_hour'] / fit_foldingmachines_booklet[
         'meter_per_hour'])
-    foldingmachine_id = fit_foldingmachines_booklet[
-        fit_foldingmachines_booklet.price_per_ex == min(fit_foldingmachines_booklet.price_per_ex)][
-        'foldingmachine_id'].iloc[0]
+    try:
+        foldingmachine_id = fit_foldingmachines_booklet[
+            fit_foldingmachines_booklet.price_per_ex == min(fit_foldingmachines_booklet.price_per_ex)][
+            'foldingmachine_id'].iloc[0]
+    except Exception as e:
+        print('filter_foldingmachines_booklet error: ', e)
+        foldingmachine_id = 0
     return foldingmachine_id
 
 

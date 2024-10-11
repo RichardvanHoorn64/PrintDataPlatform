@@ -55,6 +55,9 @@ class ProducerExclusiveMembers(LoginRequiredMixin, TemplateView):
         context['exclusive_module'] = producer.exclusive_module
         context['calculation_module'] = producer.calculation_module
         context['add_members'] = True
+        context['open_members'] = False
+        context['exclusive_members'] = True
+
 
         return context
 

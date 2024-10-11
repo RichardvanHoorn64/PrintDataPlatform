@@ -6,6 +6,11 @@ from producers.models import ProducerProductOfferings
 from producers.producer_functions import get_producercategories
 
 
+def describe_requester(printproject):
+    user = UserProfile.objects.get(id=printproject.user_id)
+    requester = user.first_name + " " + user.last_name + ", " + user.company
+    return requester
+
 def printproject_client_quotenumber(client_quotenumber):
     if client_quotenumber:
         client_quotenumber = client_quotenumber

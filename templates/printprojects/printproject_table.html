@@ -101,16 +101,15 @@
                         {% endfor %}
                         </tbody>
                     </table>
-
-
                     </div>
+                    {% if not dashboard %}
                     <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                     <div class="col-auto d-flex">
                         <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
                            data-list-info="data-list-info"></p><a
                             class="fw-semi-bold text-info" data-list-view="*">Toon alles<span
                             class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
-                            class="fw-semi-bold d-none text-info" href="{{ empty_table_text }}" data-list-view="less">Toon
+                            class="fw-semi-bold d-none text-info" data-list-view="less">Toon
                         minder<span
                                 class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                     </div>
@@ -122,6 +121,7 @@
                         <button class="page-link pe-0" data-list-pagination="next"><span
                                 class="fas fa-chevron-right"></span></button>
                     </div>
+                    {% endif %}
                 {% else %}
                     {{ empty_table_text }}
                 {% endif %}

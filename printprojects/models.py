@@ -145,8 +145,9 @@ class MemberProducerMatch(models.Model):
     modified = models.DateTimeField(auto_now=True or "")
     producer_accept = models.BooleanField(default=True)
     member_accept = models.BooleanField(default=True)
+    auto_quote = models.BooleanField(default=False)
 
-    # Member salesallowance per productcategy
+    # Member salesallowance per productcategory
     perc_salesallowance_1 = models.DecimalField(default=0, decimal_places=2, max_digits=5)
     perc_salesallowance_2 = models.DecimalField(default=0, decimal_places=2,max_digits=5)
     perc_salesallowance_3 = models.DecimalField(default=0, decimal_places=2,max_digits=5)

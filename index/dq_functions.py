@@ -41,20 +41,25 @@ def set_calculationsettings(producer_id):
 
 
 def update_productcategory_offerings(producer_id):
+    availeble_producers = ProducerProductOfferings.objects.values_list('producer_id', flat=True)
+
     productcategories = ProductCategory.objects.values_list('productcategory_id', flat=True)
     producer_productcategories = ProducerProductOfferings.objects.values_list('productcategory_id', flat=True).filter(
         producer_id=producer_id)
     missing_producer_productcategories = [x for x in productcategories if x not in producer_productcategories]
     for productcategory_id in missing_producer_productcategories:
-        try:
-            new_productcategory_id = ProducerProductOfferings(
-                productcategory_id=productcategory_id,
-                producer_id=producer_id,
-                availeble=True
-            )
-            new_productcategory_id.save()
-        except IntegrityError:
+        if producer_id in availeble_producers:
             pass
+        else:
+            try:
+                new_productcategory_id = ProducerProductOfferings(
+                    productcategory_id=productcategory_id,
+                    producer_id=producer_id,
+                    availeble=True
+                )
+                new_productcategory_id.save()
+            except IntegrityError:
+                pass
 
 
 def update_enhancement_offerings(producer_id):

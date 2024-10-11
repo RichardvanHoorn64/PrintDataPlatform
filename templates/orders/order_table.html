@@ -16,16 +16,14 @@
                         <thead>
                         <tr>
                             <th class="white-space-nowrap align-middle pe-3" scope="col" data-sort="printproject_id"
-                                style="width:5%;">Details
+                                style="width:5%;">Info
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                 data-sort="quote_id" style="width:5%;">ID
                             </th>
                             <th class="sort align-middle text-start" scope="col" data-sort="rfq_date"
                                 style="width:10%;">Geplaatst
                             </th>
-                            <th class="sort align-middle text-start pe-3" scope="col"
-                                data-sort="orderstatus" style="width:6%; min-width: 100px;">Status
-                            </th>
+
                             <th class="sort align-middle ps-0" scope="col" data-sort="customer"
                                 style="width:10%; min-width: 100px;">Klant
                             </th>
@@ -33,8 +31,12 @@
                             <th class="sort align-middle text-start" scope="col" data-sort="project_title"
                                 style="width:30%;">Omschrijving
                             </th>
-                            <th class="align-middle text-start pe-0" style="width:5%;" scope="col">Status wijzigen</th>
-                            <th class="align-middle text-start pe-0" style="width:5%;" scope="col">Concept factuur</th>
+
+                            <th class="sort align-middle text-start pe-3" scope="col"
+                                data-sort="orderstatus" style="width:6%; min-width: 100px;">Status
+                            </th>
+                            <th class="align-middle text-center pe-0" style="width:5%;" scope="col">Status wijzigen</th>
+                            {#      <th class="align-middle text-start pe-0" style="width:5%;" scope="col">Concept factuur</th>#}
                             <th class="align-middle text-start pe-0" style="width:5%;" scope="col">Verwijderen</th>
                         </tr>
                         </thead>
@@ -42,26 +44,14 @@
                         <tbody class="list" id="order-table-body">
                         {% for order in order_list %}
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="align-middle white-space-nowrap task ps-0 py-0"><a
+                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a
                                         href="{% url 'order_details' order.order_id %}"
                                         class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
                                         aria-pressed="true"><i class="fas fa-info text-info fs-1"></i></a>
 
                                 <td class="quote_id align-middle white-space-nowrap py-0">{{ order.order_id }}</td>
                                 <td class="rfq_date align-middle fw-semi-bold text-1000">{{ order.created |date:'d-m-Y ' }}</td>
-                                <td class="orderstatus align-middle white-space-nowrap text-start fw-bold text-700">
-                                                <span class="badge badge-phoenix fs--2
-                                                {% if order.order_status_id == 1 %} badge-phoenix-info
-                                                {% elif order.order_status_id == 2 %} badge-phoenix-warning
-                                                {% elif order.order_status_id == 3 %} badge-phoenix-danger
-                                                {% elif order.order_status_id == 3 %} badge-phoenix-success
-                                                {% elif order.order_status_id == 3 %} badge-phoenix-primary
-                                                {% else %} badge-phoenix-primary
-                                                {% endif %}
-                                                "><span
-                                                        class="badge-label">{{ order.order_status }}</span><span
-                                                        class="ms-1"
-                                                        style="height:13px;width:13px;"></span></span></td>
+
                                 <td class="customer align-middle white-space-nowrap ps-0"><a
                                         class="d-flex align-items-center"
                                         {% if order.client_id %}
@@ -77,12 +67,28 @@
                                 <td class="project_title align-middle white-space-nowrap text-900 fs--1 text-start">{{ order.order_volume }}
                                     ex. {{ order.printproject.project_title }}</td>
 
-                               {% include 'buttons/order_status_actions.html' %}
-                                        <td class="align-middle white-space-nowrap task ps-0 py-0"><a
-                                        href="{% url 'order_details' order.order_id %}"
-                                        class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
-                                        aria-pressed="true"><i class="far fa-file-word text-info fs-1"></i></a>
+                                <td class="orderstatus align-middle white-space-nowrap text-start fw-bold text-700">
+                                                <span class="badge badge-phoenix fs--2
+                                                {% if order.order_status_id == 1 %} badge-phoenix-info
+                                                {% elif order.order_status_id == 2 %} badge-phoenix-warning
+                                                {% elif order.order_status_id == 3 %} badge-phoenix-danger
+                                                {% elif order.order_status_id == 3 %} badge-phoenix-success
+                                                {% elif order.order_status_id == 3 %} badge-phoenix-primary
+                                                {% else %} badge-phoenix-primary
+                                                {% endif %}
+                                                "><span
+                                                        class="badge-label">{{ order.order_status }}</span><span
+                                                        class="ms-1"
+                                                        style="height:13px;width:13px;"></span></span></td>
+
+                                <td class="align-middle white-space-nowrap text-start pe-0 ps-5">
+                                    {% include 'buttons/order_status_actions.html' %}
                                 </td>
+                                {#                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a#}
+                                {#                                        href="{% url 'order_details' order.order_id %}"#}
+                                {#                                        class="btn btn-outline-info btn-sm me-1 mb-1" role="button"#}
+                                {#                                        aria-pressed="true"><i class="far fa-file-word text-info fs-1"></i></a>#}
+                                {#                                </td>#}
                                 <td class="align-middle white-space-nowrap task ps-0 py-0"><a
                                         href="{% url 'order_delete' order.order_id %}"
                                         class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
@@ -93,22 +99,24 @@
                         </tbody>
                     </table>
                     </div>
+                    {% if not dashboard %}
                     <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                        <div class="col-auto d-flex">
-                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                               data-list-info="data-list-info"></p><a class="fw-semi-bold text-info" href="#!"
-                                                                      data-list-view="*">Toon alles<span
-                                class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
-                                class="fw-semi-bold d-none" href="#!" data-list-view="less">Toon minder<span
-                                class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
-                        </div>
-                        <div class="col-auto d-flex">
-                            <button class="page-link" data-list-pagination="prev"><span
-                                    class="fas fa-chevron-left"></span></button>
-                            <ul class="mb-0 pagination"></ul>
-                            <button class="page-link pe-0" data-list-pagination="next"><span
-                                    class="fas fa-chevron-right"></span></button>
-                         </div>
+                    <div class="col-auto d-flex">
+                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                           data-list-info="data-list-info"></p><a class="fw-semi-bold text-info" href="#!"
+                                                                  data-list-view="*">Toon alles<span
+                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                            class="fw-semi-bold d-none text-info" data-list-view="less">Toon minder<span
+                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    </div>
+                    <div class="col-auto d-flex">
+                        <button class="page-link" data-list-pagination="prev"><span
+                                class="fas fa-chevron-left"></span></button>
+                        <ul class="mb-0 pagination"></ul>
+                        <button class="page-link pe-0" data-list-pagination="next"><span
+                                class="fas fa-chevron-right"></span></button>
+                    </div>
+                    {% endif %}
                 {% else %}
                     {{ empty_table_text_orders }}
                 {% endif %}

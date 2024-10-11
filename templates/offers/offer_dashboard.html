@@ -42,13 +42,11 @@
                         class="text-700 fw-semi-bold">({{ all_offers }})</span></a></li>
                 <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 1 %}">Aangevraagd<span
                         class="text-700 fw-semi-bold">({{ open_offers }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 2 %}">Open<span 
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 2 %}">Aangeboden<span 
                         class="text-700 fw-semi-bold">({{ submitted_offers }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 3 %}">Aangeboden
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 3 %}">In productie
                     <span class="text-700 fw-semi-bold">({{ production_offers }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 4 %}">Order geplaatst
-                    <span class="text-700 fw-semi-bold">({{ closed_offers }})</span></a></li>
-                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 5 %}">Geweigerde aanvragen
+                <li class="nav-item"><a class="nav-link px-2 py-1 text-info" href="{% url 'offer_dashboard' 4 %}">Geweigerde aanvragen
                     <span class="text-700 fw-semi-bold">({{ denied_offers }})</span></a></li>
             </ul>
             <div id="printprojectTable"

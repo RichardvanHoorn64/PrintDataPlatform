@@ -28,6 +28,8 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
 
         member_id = printproject.member_id
 
+        persoonsnaam = describe_requester(printproject)
+
         if member_id is not user.member.member_id and user.member.member_plan_id in open_memberplans:
             return redirect('/no_access/')
 
@@ -115,7 +117,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
             klant=str(company),
             adres=str(client.street_number),
             pc_plaats=str(client.postal_code) + "" + str(client.city),
-            persoonsnaam=str(user.first_name) + " " + str(user.last_name),
+            persoonsnaam=persoonsnaam,
             oplage=str(printproject.volume) + " ex.",
             uitvoering=str(printproject_number_of_pages_description),
             bedrukking=printproject_printing_description,

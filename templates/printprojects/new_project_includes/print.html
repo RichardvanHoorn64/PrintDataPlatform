@@ -115,6 +115,7 @@
     <!-- ===============================================-->
     <!--   Row Enhance choices outside cover-->
     <!-- ===============================================-->
+    {% if productcategory_id in categories_brochures_cover %}
     <div class="row">
         <div class="col-sm-6 col-md-6">
             <h4 class="mb-3 text-info">Vedeling buitenzijde omslag</h4>
@@ -139,6 +140,7 @@
         </div>
     </div>
     <hr class="text-info"><br>
+    {% endif %}
 </div>
 
 </body>

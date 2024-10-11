@@ -40,7 +40,7 @@ def createprintproject_context(context, user, printproject):
     context['productcategory'] = printproject.productcategory
     context['productcategory_cover'] = [4, 5]
     context['productcategory_brochures'] = [3, 4, 5]
-    context['printproject_requester'] = user.first_name + " " + user.last_name + ", " + user.company
+    context['printproject_requester'] = describe_requester(printproject)
     context['printproject_size'] = printproject_size(printproject)
     context['member_id'] = user.member_id
     context['printproject_paper'] = printproject_paper(printproject.papercategory, printproject.paperbrand,

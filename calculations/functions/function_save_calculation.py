@@ -5,7 +5,12 @@ from calculations.models import Calculations
 
 
 def save_calculation(producer_id, rfq, best_offer, error):
-    calculation = Calculations.objects.get(printproject_id=rfq.printproject_id, producer_id=producer_id)
+    try:
+        calculation = Calculations.objects.get(printproject_id=rfq.printproject_id, producer_id=producer_id)
+    except Calculations.DoesNotExist:
+        error = 'Calculation not availeble'
+        print(error, ' printproject: ', rfq.printproject_id, ' producer :', producer_id)
+        calculation = []
 
     if not error:
         try:

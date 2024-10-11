@@ -40,7 +40,8 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         if member_plan_id in exclusive_memberplans:
             producer_id = user.member.exclusive_producer_id
             calculation_module = Producers.objects.get(producer_id=producer_id).calculation_module
-            create_open_calculation_offer(rfq_name, rfq, producer_id, calculation_module)
+            # create open calculations
+            create_open_calculation_offer(rfq, producer_id, True)
 
             # make calculations
             if calculation_module:
@@ -57,11 +58,18 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         if member_plan_id in open_memberplans:
             update_producersmatch(self.request)
             update_printprojectsmatch(self.request, printproject_id)
-            producer_id_list = MemberProducerMatch.objects.filter(member_id=user.member_id).values_list('producer_id',
-                                                                                                        flat=True)
 
+            # create open calculations
+            producer_id_list = MemberProducerMatch.objects.filter(member_id=user.member_id, producer_accept=True,
+                                                                  member_accept=True,
+                                                                  memberproducerstatus_id=1).values_list('producer_id',
+                                                                                                         flat=True)
             for producer_id in producer_id_list:
-                calculation_module = Producers.objects.get(producer_id=producer_id).calculation_module
-                create_open_calculation_offer(rfq_name, rfq, producer_id, calculation_module)
+                member_id = rfq.member_id
+                auto_quote = MemberProducerMatch.objects.get(member_id=member_id, producer_id=producer_id).auto_quote
+                create_open_calculation_offer(rfq, producer_id, auto_quote)
+
+            # make calculations and send mails after sending rfq's
+            # send_rfq/<int:printproject_id> SendRFQView.as_view
 
         return redirect('/printproject_details/' + str(printproject_id))

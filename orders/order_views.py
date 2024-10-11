@@ -105,13 +105,16 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
 
         order_volume = form.cleaned_data['order_volume']
-
-        if order_volume == printproject.volume:
-            order_value = offer.offer
-        else:
+        if order_volume:
+            order_volume = order_volume
             volume_difference = float((order_volume - printproject.volume) * 0.001)
             offer1000extra = float(offer.offer1000extra)
             order_value = float(offer.offer) + (volume_difference * offer1000extra)
+
+        else:
+            order_volume = printproject.volume
+            order_value = offer.offer
+
         # fill general data
         form.instance.order_value = order_value
         form.instance.order_status_id = 1
@@ -124,6 +127,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         form.instance.member_id = user.member_id
         form.instance.productcategory_id = offer.productcategory_id
         form.instance.client_id = printproject.client_id
+        form.instance.order_volume = order_volume
 
         # general updates
         if not form.instance.order_volume:

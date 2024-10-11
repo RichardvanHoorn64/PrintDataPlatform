@@ -11,9 +11,8 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Producer embers dashboard</title>
+    <title>Producer members dashboard</title>
 </head>
-
 
 <!-- ===============================================-->
 <!--    Main Content-->
@@ -53,7 +52,7 @@
                                 </form>
                             </div>
                         </div>
-                        {% if exclusive_module %}
+                        {% if exclusive_members %}
                             <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
                                 <div class="btn-group position-static" role="group">
                                     <div class="col-auto">
@@ -79,11 +78,9 @@
                                 <table class="table table-sm fs--1 mb-0">
                                     <thead>
                                     <tr>
-                                        <th class="align-middle text-start" scope="col" style="width:5%;">Details en
-                                            medewerkers
+                                        <th class="align-middle text-start" scope="col" style="width:5%;">Info
                                         </th>
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Toeslag
-                                            aanpassen
                                         </th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="client"
                                             style="width:20%;">Klant
@@ -97,15 +94,22 @@
                                         <th class="align-middle text-start pe-3" scope="col"
                                             style="width:10%; min-width: 100px;">Tel
                                         </th>
-                                        <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
-                                            Website
-                                        </th>
 
                                         <th class="sort align-middle text-start" scope="col" data-sort="status"
                                             style="width:5%;">Status
                                         </th>
-                                        <th class="align-middle text-start" scope="col" style="width:5%;">Blokkeren/<br>deblokkeren
+                                        <th class="align-middle text-start" scope="col" style="width:5%;">
+                                            Aanvragen<br>accepteren
                                         </th>
+                                            {% if calculation_module %}
+                                                <th class="align-middle text-start pe-0" scope="col" style="width:5%;">
+                                                    Auto<br>offerte
+                                                </th>
+                                                <th class="align-middle text-start pe-0" scope="col" style="width:5%;">
+                                                    Auto<br>offertes
+                                                </th>
+                        
+                                        {% endif %}
 
                                     </tr>
                                     </thead>
@@ -123,41 +127,18 @@
                                                     href="{% url 'pricing_dashboard' member.memberproducermatch_id %}"
                                                     class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
                                                     aria-pressed="true"><i
-                                                    class="fas fa-calculator text-warning fs-1"></i></a>
+                                                    class="fas fa-percent text-warning fs-1"></i></a>
                                             </td>
 
                                             <td class="client align-middle fw-semi-bold text-1000">{{ member.member.company }}</td>
                                             <td class="manager align-middle fw-semi-bold text-1000">{{ member.member.manager }}</td>
                                             <td class="city align-middle fw-semi-bold text-1000">{{ member.member.city }}</td>
                                             <td class="align-middle fw-semi-bold text-1000">{{ member.member.tel_general }}</td>
-                                            <td class="align-middle white-space-nowrap text-900 fs--1 text-start">
-                                                {% if member.member.company_url %}
-                                                    <a href="https://{{ member.member.company_url }}/">{{ member.member.company_url }} </a>
-                                                {% else %}---{% endif %}
-                                            </td>
 
 
                                             <td class="status align-middle fw-semi-bold text-1000">
                                                 {% if member.producer_accept %}
                                                     Open{% else %}Geblokkeerd</td>{% endif %}
-
-
-                                            {#                                            {% if member.api %}#}
-                                            {#                                           <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a#}
-                                            {#                                                    href="{% url 'producer_api_manager' member.memberproducermatch_id %}"#}
-                                            {#                                                    class="btn btn-outline-success btn-sm me-1 mb-1" role="button"#}
-                                            {#                                                    aria-pressed="true"><i class="fas fa-exchange-alt#}
-                                            {#                                                    text-success fs-1"></i></a>#}
-                                            {#                                            </td>#}
-                                            {#                                                {% else %}#}
-                                            {#                                                    <td class="align-middle white-space-nowrap task text-info ps-0 py-0"><a#}
-                                            {#                                                    href="{% url 'producer_api_manager' member.memberproducermatch_id %}"#}
-                                            {#                                                    class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"#}
-                                            {#                                                    aria-pressed="true"><i class="fab fa-mixer#}
-                                            {#                                                    text-warning fs-1"></i></a>#}
-                                            {#                                            </td>#}
-                                            {#                                            {% endif %}#}
-
 
                                             {% if member.producer_accept %}
                                                 <td class="align-middle white-space-nowrap task text-danger ps-0 py-0">
@@ -178,6 +159,31 @@
                                                             class="far fa-handshake text-success fs-1"></i></a>
                                                 </td>
                                             {% endif %}
+
+                                            <td class="status align-middle fw-semi-bold text-1000">
+                                                {% if member.auto_quote %}
+                                                    Aan{% else %}Uit</td>{% endif %}
+                                            
+                                        {% if calculation_module %}
+                                            {% if member.auto_quote %}
+
+                                                    <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                                        <a href="{% url 'producer_member_autoquote' member.memberproducermatch_id %}"
+                                                           class="btn btn-outline-danger btn-sm me-1 mb-1"
+                                                           role="button"
+                                                           aria-pressed="true"><i
+                                                                class="fab fa-mixer text-danger fs-1"></i></a>
+                                                    </td>
+                                                {% else %}
+                                                    <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                                        <a href="{% url 'producer_member_autoquote' member.memberproducermatch_id %}"
+                                                           class="btn btn-outline-success btn-sm me-1 mb-1"
+                                                           role="button"
+                                                           aria-pressed="true"><i
+                                                                class="fas fa-calculator text-success fs-1"></i></a>
+                                                    </td>
+                                                {% endif %}
+                                        {% endif %}
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -213,13 +219,10 @@
             {% endif %}
         </div>
     </div>
-    </div>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
     </body>
 {% endblock %}
-
-
 </html>

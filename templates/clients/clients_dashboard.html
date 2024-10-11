@@ -59,7 +59,9 @@
                                 <div class="col-auto">
                                     <a class="btn btn-warning px-5 px-sm-5" href="{% url 'create_client' %}"><span
                                             class="fa-solid fa-plus fs--1 me-2"></span>Klant toevoegen</a>
-                                    {% include 'buttons/clientdata_download.html' %}
+                                    {% if clients_list.count > 0 %}
+                                    {% include 'buttons/clientdata_download.html' %} 
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

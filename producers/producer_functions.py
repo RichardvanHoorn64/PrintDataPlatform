@@ -25,8 +25,7 @@ def get_offercontext(producer, context, offerstatus_id, dashboard):
     context['open_offers'] = all_offers.filter(offerstatus=1).count()
     context['offered_offers'] = all_offers.filter(offerstatus=2).count()
     context['prod_offers'] = all_offers.filter(offerstatus=3).count()
-    context['closed_offers'] = all_offers.filter(offerstatus=4).count()
-    context['denied_offers'] = all_offers.filter(offerstatus=5).count()
+    context['denied_offers'] = all_offers.filter(offerstatus=4).count()
     context['offer_table_title'] = offer_table_title
     return context
 

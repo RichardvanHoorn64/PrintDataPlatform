@@ -7,6 +7,7 @@ from index.categories_groups import *
 from index.exclusive_functions import define_exclusive_producer_id
 from index.forms.form_invalids import form_invalid_message_quotes
 from index.models import DropdownChoices, BrandPortalData
+from index.translate_functions import find_packaging_id
 from materials.models import PaperCatalog
 from offers.models import *
 from methods.models import *
@@ -94,6 +95,18 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         if productcategory_id not in categories_folders:
             form.instance.folding = item.folding
 
+        # packaging
+        packaging = form.cleaned_data['packaging']
+        if form.cleaned_data['packaging'] == "0":
+            packaging = item.packaging
+        else:
+            packaging = find_packaging_id(packaging)
+        form.instance.packaging = packaging
+
+        # portrait_landscape
+        packaging = form.cleaned_data['packaging']
+        if form.cleaned_data['portrait_landscape'] == "0":
+            form.instance.portrait_landscape = item.portrait_landscape
         return super().form_valid(form)
 
     def form_invalid(self, form):

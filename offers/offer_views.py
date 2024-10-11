@@ -116,7 +116,7 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         user = self.request.user
         if user.is_authenticated:
-            return reverse_lazy('/producer_offers/1')
+            return reverse_lazy('home')
         else:
             return reverse_lazy('thanks_submit_offer')
 
@@ -215,7 +215,7 @@ class DenyOfferView(View):
         try:
             offer_id = self.kwargs['pk']
             offer = Offers.objects.get(offer_id=offer_id)
-            offer.offerstatus_id = 3
+            offer.offerstatus_id = 5 # denied
             offer.offer_date = datetime.now()
             offer.save()
         finally:
@@ -231,9 +231,7 @@ class CloseOfferView(View):
         try:
             offer_id = self.kwargs['pk']
             offer = Offers.objects.get(offer_id=offer_id)
-            offer.offerstatus_id = 4  # closed
-            offer.offer_date = datetime.now()
-            offer.save()
+            offer.delete()
         finally:
             pass
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

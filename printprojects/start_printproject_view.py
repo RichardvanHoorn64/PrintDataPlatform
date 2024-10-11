@@ -127,6 +127,10 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
 
+        if productcategory_id in categories_plano:
+            form.instance.pressvarnish_booklet = 0
+            form.instance.finishing_brochures = 0
+
         # Fill PrintProject-status
         form.instance.printprojectstatus_id = 1
 
@@ -147,9 +151,9 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.portrait_landscape = 1 # staand
 
         if productcategory_id in categories_folders:
-            folding = find_foldingspecs(form.cleaned_data['folding'])
-            form.instance.folding = folding[0]
-            form.instance.number_of_pages = folding[1]
+            folding_id = find_foldingspecs(form.cleaned_data['folding'])
+            form.instance.folding =  find_foldingspecs(folding_id)
+            form.instance.number_of_pages = find_folding_number_of_pages(folding_id)
         else:
             form.instance.folding = 0
             form.instance.number_of_pages = form.cleaned_data['number_of_pages']

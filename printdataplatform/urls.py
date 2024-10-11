@@ -187,6 +187,7 @@ urlpatterns = [
 
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),
     path('producer_memberaccept/<int:pk>', ProducerMemberAccept.as_view(), name='producer_memberaccept'),
+    path('producer_member_autoquote/<int:pk>', ProducerMemberAutoQuote.as_view(), name='producer_member_autoquote'),
 
     # producer orders
     path('producer_orders/<int:order_status_id>', ProducerOrders.as_view(), name='producer_orders'),

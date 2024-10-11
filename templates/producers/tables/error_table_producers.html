@@ -6,7 +6,7 @@
 </head>
 <body>
 <div id="producerOfferTable"
-     data-list='{"valueNames":["calculation_id","project_title","Opdrachtgever"],"page":{{ offer_pagination }},"pagination":true}'>
+     data-list='{"valueNames":["error","calculation_id","project_title","printmanager"],"page":{{ offer_pagination }},"pagination":true}'>
     <div class="mb-4">
         <div class="row g-3">
             <div class="col-auto">
@@ -19,14 +19,14 @@
                 </div>
             </div>
             <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
-                <div class="btn-group position-static" role="group">
-                    <div class="col-auto">
-                        <a class="btn btn-info px-5 px-sm-5" href="{% url 'welcome' %}"><span
-                                class="fa-solid fa-file-export fs--1 me-2"></span>Export</a>
-                        <a class="btn btn-info px-5 px-sm-5" href="{% url 'welcome' %}"><span
-                                class="fa-solid fa-download fs--1 me-2"></span>Download</a>
-                    </div>
-                </div>
+                {#                <div class="btn-group position-static" role="group">#}
+                {#                    <div class="col-auto">#}
+                {#                        <a class="btn btn-info px-5 px-sm-5" href="{% url 'welcome' %}"><span#}
+                {#                                class="fa-solid fa-file-export fs--1 me-2"></span>Export</a>#}
+                {#                        <a class="btn btn-info px-5 px-sm-5" href="{% url 'welcome' %}"><span#}
+                {#                                class="fa-solid fa-download fs--1 me-2"></span>Download</a>#}
+                {#                    </div>#}
+                {#                </div>#}
             </div>
         </div>
     </div>
@@ -35,93 +35,94 @@
     <!--    Table-->
     <!-- ===============================================-->
 
-                <div class="col-12 rounded-2 border border-info">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="table-responsive scrollbar mx-n1 px-1">
-                                <h3 class="mb-0 text-info">Foutcalculaties van {{ user.member.company }}</h3>
-                                <table class="table table-sm fs--1 mb-0">
-                                    <thead>
+    <div class="col-12 rounded-2 border border-info">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                    <h3 class="mb-0 text-info">Foutcalculaties van {{ user.member.company }}</h3>
+                    <table class="table table-sm fs--1 mb-0">
+                        <thead>
                         <tr>
-                            <th class="white-space-nowrap align-middle pe-3" scope="col" data-sort="printproject_id"
-                                style="width:5%;">Details
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                 data-sort="calculation_id"
                                 style="width:5%;">Id
                             </th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                 data-sort="calculation_id"
+                                style="width:5%;">Info
+                            </th>
+                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen
+                            </th>
+
+
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                data-sort="calculation_id"
                                 style="width:5%;">Calculatiedatum
+                            </th>
+                            <th class="sort align-middle text-start" scope="col" data-sort="printmanager"
+                                style="width:15%;">
+                                Aanvrager
                             </th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                 data-sort="project_title"
                                 style="width:25%;">Omschrijving
                             </th>
-                            <th class="sort align-middle text-start" scope="col" data-sort="Opdrachtgever"
-                                style="width:15%;">
-                                Opdrachtgever
-                            </th>
-                            <th class="align-middle text-start pe-3" scope="col"
+
+                            <th class="error align-middle text-start pe-3" scope="col" data-sort="error"
                                 style="width:10%; min-width: 100px;">Error
-                            </th>
-                            <th class="align-middle text-start pe-0" scope="col" style="width:5%;">Verwijderen
-                            </th>
+
                         </tr>
                         </thead>
 
                         <tbody class="list" id="offer-table-body">
-                         {% for calculation in error_calculations %}
+                        {% for calculation in error_calculations %}
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="align-middle white-space-nowrap task ps-0 py-0"><a
+                                <td class="calculation_id align-middle white-space-nowrap py-0">{{ calculation.calculation_id }}</td>
+                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a
                                         href="{% url 'producer_error_details' calculation.calculation_id %}"
                                         class="btn btn-outline-info btn-sm me-1 mb-1" role="button" aria-pressed="true"><i
                                         class="fas fa-info text-info fs-1"></i></a></td>
-                                <td class="calculation_id align-middle white-space-nowrap py-0">{{ calculation.calculation_id }}</td>
-                                
-                                   <td class="align-middle white-space-nowrap task ps-0 py-0 fw-semi-bold text-1000">
-                                    {{ calculation.offer_date |date:'d-m-Y ' }}
 
-                                <td class="project_title align-middle white-space-nowrap py-0">{{ calculation.printproject.volume }}
-                                    ex. {{ calculation.printproject.project_title }}</td>
-                                <td class="Printmanager align-middle white-space-nowrap py-0">{{ calculation.member.company }}</td>
-
-                                <td class="align-middle white-space-nowrap py-0">
-                                    {{ calculation.error }}</td>
-                                                              <td class="align-middle white-space-nowrap task ps-0 py-0"><a
+                                <td class="align-middle white-space-nowrap task ps-0 py-0"><a
                                         href="{% url 'close_calculation_error' calculation.calculation_id %}"
                                         class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
                                         aria-pressed="true"><i class="fas fa-trash text-warning fs-1"></i></a>
                                 </td>
 
+                                <td class="align-middle white-space-nowrap task ps-0 py-0 fw-semi-bold text-1000">
+                                    {{ calculation.offer_date |date:'d-m-Y ' }}</td>
+
+                                <td class="printmanager align-middle white-space-nowrap py-0">{{ calculation.member.company }}</td>
 
 
-
-
-
-                                  
-                                </td>
+                                <td class="project_title align-middle white-space-nowrap py-0">{{ calculation.printproject.volume }}
+                                    ex. {{ calculation.printproject.project_title }}</td>
+                                <td class="error align-middle white-space-nowrap task ps-0 py-0 fw-semi-bold text-1000">
+                                    {{ calculation.error }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                                <div class="col-auto d-flex">
-                                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                       data-list-info="data-list-info"></p><a class="fw-semi-bold text-info" href="#producerOfferTable"
-                                                                              data-list-view="*">Toon
-                                    alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
-                                        class="fw-semi-bold d-none text-info" href="#producerOfferTable" data-list-view="less">Toon minder<span
-                                        class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
-                                </div>
-                                <div class="col-auto d-flex">
-                                    <button class="page-link" data-list-pagination="prev"><span
-                                            class="fas fa-chevron-left"></span></button>
-                                    <ul class="mb-0 pagination"></ul>
-                                    <button class="page-link pe-0" data-list-pagination="next"><span
-                                            class="fas fa-chevron-right"></span></button>
-                                </div>
-                            </div>
+                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                    <div class="col-auto d-flex">
+                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                           data-list-info="data-list-info"></p><a class="fw-semi-bold text-info"
+                                                                  href="#producerOfferTable"
+                                                                  data-list-view="*">Toon
+                        alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                            class="fw-semi-bold d-none text-info" href="#producerOfferTable" data-list-view="less">Toon
+                        minder<span
+                                class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                    </div>
+                    <div class="col-auto d-flex">
+                        <button class="page-link" data-list-pagination="prev"><span
+                                class="fas fa-chevron-left"></span></button>
+                        <ul class="mb-0 pagination"></ul>
+                        <button class="page-link pe-0" data-list-pagination="next"><span
+                                class="fas fa-chevron-right"></span></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -53,10 +53,10 @@ def define_exclusive_site_name(user):
     return exclusive_site_name
 
 
-def update_exclusive_members(user):
+def update_exclusive_members(user): # for producers
     producer_id = user.producer_id
     member_matchlist = MemberProducerMatch.objects.filter(producer_id=producer_id).values_list('member_id', flat=True)
-    exclusive_members = Members.objects.filter(exclusive_producer=producer_id)
+    exclusive_members = Members.objects.filter(member_plan__in=exclusive_memberplans, exclusive_producer_id=producer_id)
 
     for exclusive_member in exclusive_members:
         try:
