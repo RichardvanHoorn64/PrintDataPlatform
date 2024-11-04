@@ -24,7 +24,7 @@
         <div class="col-sm-6 col-md-3">
             <label class="form-label" for="printsided">Eén- of tweezijdig</label>
             <select class="form-select" id="printsided" name="printsided"
-                    onchange="print_rearCoverSelectCheck(this)">
+                    onchange="print_backCoverSelectCheck(this)">
                 {% for i in printsided_choices %}
                      <option value="{{ i.value }}">{{ i.text }}</option>
                 {% endfor %}
@@ -74,17 +74,17 @@
     </div>
 
     <!-- ===============================================-->
-    <!--   Row print rear cover -->
+    <!--   Row print back cover -->
     <!-- ===============================================-->
 
     <br>
-    <div id="print_rear_cover_row" style="display: none">
+    <div id="print_back_cover_row" style="display: none">
         <div class="row">
             <div class="col-sm-6 col-md-3">
             </div>
             <div class="col-sm-6 col-md-3">
-                <label class="form-label" id="print_rear_cover" for="print_rear">Bedrukking binnnezijde omslag</label>
-                <select class="form-select" id="print_rear" name="print_rear">
+                <label class="form-label" id="print_back_cover" for="print_back">Bedrukking binnnezijde omslag</label>
+                <select class="form-select" id="print_back" name="print_back">
                     {% for i in print_choices %}
                           <option value="{{ i.value }}">{{ i.text }}</option>
                     {% endfor %}
@@ -92,17 +92,17 @@
             </div>
          {% if brandportal.brandportal_show_pms_input %}
             <div class="col-sm-6 col-md-3">
-                <label class="form-label" id="number_pms_colors_rear_cover" for="number_pms_colors_rear">Aantal PMS kleuren
+                <label class="form-label" id="number_pms_colors_back_cover" for="number_pms_colors_back">Aantal PMS kleuren
                     binnenzijde omslag</label>
-                <input type="text" class="form-control" id="number_pms_colors_rear" name="number_pms_colors_rear"
+                <input type="text" class="form-control" id="number_pms_colors_back" name="number_pms_colors_back"
                        placeholder=0 value=0>
             </div>
         {% endif %}
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="pressvarnish_rear_cover" for="pressvarnish_rear">Persvernis binnnezijde omslag</label>
-            <select class="form-select" id="pressvarnish_rear" name="pressvarnish_rear">
+            <label class="form-label" id="pressvarnish_back_cover" for="pressvarnish_back">Persvernis binnnezijde omslag</label>
+            <select class="form-select" id="pressvarnish_back" name="pressvarnish_back">
                                  {% if update %}
-                    <option value={{  printproject.pressvarnish_rear }}>Wijzig persvernis binnenzijde</option>
+                    <option value={{  printproject.pressvarnish_back }}>Wijzig persvernis binnenzijde</option>
                 {% endif %}
                 {% for i in pressvarnish_choices %}
                       <option value="{{ i.value }}">{{ i.text }}</option>

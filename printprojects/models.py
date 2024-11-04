@@ -37,7 +37,7 @@ class PrintProjects(models.Model):
 
     rfq_date = models.DateTimeField(auto_now_add=True)
     upload_date = models.DateTimeField(null=True, blank=True)
-    volume = models.PositiveIntegerField(null=True, blank=True)
+    volume = models.PositiveIntegerField(blank=True, null=True, default=0)
     number_of_offers = models.PositiveIntegerField(default=0)
 
     # planning
@@ -53,45 +53,45 @@ class PrintProjects(models.Model):
     # paper
     papercategory = models.CharField(max_length=200, blank=True, null=True)
     paperbrand = models.CharField(max_length=200, blank=True, null=True)
-    paperweight = models.PositiveIntegerField(null=True, blank=True)
+    paperweight = models.PositiveIntegerField(blank=True, null=True, default=0)
     papercolor = models.CharField(max_length=200, blank=True, null=True)
 
     # pressvarnish
-    pressvarnish_front = models.PositiveIntegerField(blank=True, null=True)
-    pressvarnish_rear = models.PositiveIntegerField(blank=True, null=True)
-    pressvarnish_booklet = models.PositiveIntegerField(blank=True, null=True)
+    pressvarnish_front = models.PositiveIntegerField(blank=True, null=True, default=0)
+    pressvarnish_back = models.PositiveIntegerField(blank=True, null=True, default=0)
+    pressvarnish_booklet = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # enhance
-    enhance_sided = models.PositiveIntegerField(blank=True, null=True)
-    enhance_front = models.PositiveIntegerField(blank=True, null=True)
-    enhance_rear = models.PositiveIntegerField(blank=True, null=True)
+    enhance_sided = models.PositiveIntegerField(blank=True, null=True, default=0)
+    enhance_front = models.PositiveIntegerField(blank=True, null=True, default=0)
+    enhance_back = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # packaging choices
     packaging = models.CharField(max_length=200, blank=True, null=True)
 
     # for folders
-    folding = models.PositiveIntegerField(blank=True, null=True)
+    folding = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # for folders, selfcovers and brochures:
-    number_of_pages = models.PositiveIntegerField(blank=True, null=True)
-    portrait_landscape = models.PositiveIntegerField(blank=True, null=True)
-    finishing_brochures = models.PositiveIntegerField(blank=True, null=True)
+    number_of_pages = models.PositiveIntegerField(blank=True, null=True, default=0)
+    portrait_landscape = models.PositiveIntegerField(blank=True, null=True, default=0)
+    finishing_brochures = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # printing general
-    printsided = models.PositiveIntegerField(blank=True, null=True)
+    printsided = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # print pms colors
     number_pms_colors_front = models.PositiveIntegerField(validators=[MaxValueValidator(10)], blank=True, null=True,
                                                           default=0)
-    number_pms_colors_rear = models.PositiveIntegerField(
+    number_pms_colors_back = models.PositiveIntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(0)], blank=True, null=True, default=0)
     number_pms_colors_booklet = models.PositiveIntegerField(
         validators=[MaxValueValidator(10), MinValueValidator(0)], blank=True, null=True, default=0)
 
     # basic print black, full color or only specials
-    print_front = models.PositiveIntegerField(blank=True, null=True)
-    print_rear = models.PositiveIntegerField(blank=True, null=True)
-    print_booklet = models.PositiveIntegerField(blank=True, null=True)
+    print_front = models.PositiveIntegerField(blank=True, null=True, default=0)
+    print_back = models.PositiveIntegerField(blank=True, null=True, default=0)
+    print_booklet = models.PositiveIntegerField(blank=True, null=True, default=0)
 
     # paper cover
     papercategory_cover = models.CharField(max_length=200, blank=True, null=True)

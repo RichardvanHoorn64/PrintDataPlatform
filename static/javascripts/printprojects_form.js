@@ -57,33 +57,33 @@ function standaard_sizeSelectCheck(nameSelect) {
     }
 }
 
-// Print rear checks -------------------------------------------------------------------------------->
-function print_rearSelectCheck(nameSelect) {
+// Print back checks -------------------------------------------------------------------------------->
+function print_backSelectCheck(nameSelect) {
     // row level
-    const print_rear_row = document.getElementById("print_rear_row")
+    const print_back_row = document.getElementById("print_back_row")
     // div level
     const pms_colors_front_label = document.getElementById("pms_colors_front_label")
     // field level
     const print_front_label = document.getElementById("print_front_label")
     const pressvarnish_front_label = document.getElementById("pressvarnish_front_label")
 
-    console.log("print rear plano choice: ", nameSelect.value);
+    console.log("print back plano choice: ", nameSelect.value);
     if (nameSelect.value === "3") {
-        print_rear_row.style.display = "block";
+        print_back_row.style.display = "block";
         print_front_label.innerHTML = "BEDRUKKING VOORZIJDE";
         pms_colors_front_label.innerHTML = "AANTAL PMS KLEUREN VOORZIJDE";
         pressvarnish_front_label.innerHTML = "PERSVERNIS VOORZIJDE";
     } else {
-        print_rear_row.style.display = "none";
+        print_back_row.style.display = "none";
         print_front_label.innerHTML = "BEDRUKKING";
         pms_colors_front_label.innerHTML = "AANTAL PMS KLEUREN";
         pressvarnish_front_label.innerHTML = "PERSVERNIS";
     }
 }
 
-function print_rearCoverSelectCheck(nameSelect) {
+function print_backCoverSelectCheck(nameSelect) {
     // row level
-    const print_rear_cover_row = document.getElementById("print_rear_cover_row")
+    const print_back_cover_row = document.getElementById("print_back_cover_row")
     // div level
     const number_pms_colors_cover_label = document.getElementById("number_pms_colors_cover_label")
     // field level
@@ -92,12 +92,12 @@ function print_rearCoverSelectCheck(nameSelect) {
 
      console.log("print cover choice: ", nameSelect.value);
     if (nameSelect.value === "3") {
-        print_rear_cover_row.style.display = "block";
+        print_back_cover_row.style.display = "block";
         print_front_label_cover.innerHTML = "BEDRUKKING VOORZIJDE OMSLAG";
         number_pms_colors_cover_label.innerHTML = "AANTAL PMS KLEUREN VOORZIJDE OMSLAG";
         pressvarnish_cover_label.innerHTML = "PERSVERNIS VOORZIJDE OMSLAG";
     } else {
-        print_rear_cover_row.style.display = "none";
+        print_back_cover_row.style.display = "none";
         print_front_label_cover.innerHTML = "BEDRUKKING OMSLAG";
         number_pms_colors_cover_label.innerHTML = "AANTAL PMS KLEUREN OMSLAG";
         pressvarnish_cover_label.innerHTML = "PERSVERNIS OMSLAG";
@@ -113,39 +113,39 @@ enhanceDisplayInput.addEventListener('change', e => {
     const enhanceChoice = e.target.value
     // fields
     const field_enhance_front = document.getElementById('field_enhance_front');
-    const field_enhance_rear = document.getElementById('field_enhance_rear');
+    const field_enhance_back = document.getElementById('field_enhance_back');
     const field_enhance_front_label = document.getElementById('field_enhance_front_label');
-    const field_enhance_rear_label = document.getElementById('field_enhance_rear_label');
+    const field_enhance_back_label = document.getElementById('field_enhance_back_label');
 
     console.log(enhanceChoice, " = enhanceChoice");
 
     if (enhanceChoice === 0) {
         field_enhance_front.style.display = "none";
-        field_enhance_rear.style.display = "none";
+        field_enhance_back.style.display = "none";
     }
 
     if (enhanceChoice === "Tweezijdig gelijk") {
         field_enhance_front.style.display = "block";
-        field_enhance_rear.style.display = "none";
+        field_enhance_back.style.display = "none";
         field_enhance_front_label.innerHTML = "Veredeling";
     }
 
     if (enhanceChoice === "Alleen voorzijde") {
         field_enhance_front.style.display = "block";
-        field_enhance_rear.style.display = "none";
+        field_enhance_back.style.display = "none";
         field_enhance_front_label.innerHTML = "Veredeling voorzijde";
     }
 
     if (enhanceChoice === "Alleen achterzijde") {
         field_enhance_front.style.display = "none";
-        field_enhance_rear.style.display = "block";
-        field_enhance_rear_label.innerHTML = "Veredeling achterzijde";
+        field_enhance_back.style.display = "block";
+        field_enhance_back_label.innerHTML = "Veredeling achterzijde";
     }
     if (enhanceChoice === "Tweezijdig verschillend") {
         field_enhance_front.style.display = "block";
-        field_enhance_rear.style.display = "block";
+        field_enhance_back.style.display = "block";
         field_enhance_front_label.innerHTML = "Veredeling voorzijde";
-        field_enhance_rear_label.innerHTML = "Veredeling achterzijde";
+        field_enhance_back_label.innerHTML = "Veredeling achterzijde";
     }
 
 

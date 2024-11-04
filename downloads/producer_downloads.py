@@ -35,7 +35,7 @@ class ProducerDownloadOffers(LoginRequiredMixin, View):
         worksheet_offers = workbook.add_worksheet(worksheet_name_offers + str(export_datum))
         df_offers = pd.DataFrame(Offers.objects.filter(producer_id=producer_id).values())
 
-        # df_offers.replace(enhance_rear.nan, None)
+        # df_offers.replace(enhance_back.nan, None)
         df_offers = df_offers.where(df_offers.notnull(), 0)
 
         df_offers['offertedate'] = df_offers['offer_date'].dt.strftime('%d-%m-%Y')
@@ -57,10 +57,10 @@ class ProducerDownloadOffers(LoginRequiredMixin, View):
             'offer_id', 'printproject_id', 'calculation_id', 'offer_date', 'requester', 'offer', 'offer1000extra',
             'offertedate', 'project_title_x', 'productcategory', 'offerstatus', 'producer', 'volume',
             'height_mm_product', 'width_mm_product', 'papercategory', 'paperbrand', 'paperweight', 'papercolor',
-            'pressvarnish_front', 'pressvarnish_rear', 'pressvarnish_booklet', 'enhance_sided', 'enhance_front',
-            'enhance_rear', 'packaging', 'folding', 'number_of_pages', 'portrait_landscape', 'finishing_brochures',
-            'printsided', 'number_pms_colors_front', 'number_pms_colors_rear', 'number_pms_colors_booklet',
-            'print_front', 'print_rear', 'print_booklet', 'papercategory_cover', 'paperbrand_cover',
+            'pressvarnish_front', 'pressvarnish_back', 'pressvarnish_booklet', 'enhance_sided', 'enhance_front',
+            'enhance_back', 'packaging', 'folding', 'number_of_pages', 'portrait_landscape', 'finishing_brochures',
+            'printsided', 'number_pms_colors_front', 'number_pms_colors_back', 'number_pms_colors_booklet',
+            'print_front', 'print_back', 'print_booklet', 'papercategory_cover', 'paperbrand_cover',
             'paperweight_cover', 'papercolor_cover'
         ]]
 

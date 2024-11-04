@@ -38,9 +38,9 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="col-sm-6 col-md-3" id="field_enhance_rear" style="display : none">
-            <label class="form-label" id="field_enhance_rear_label" for="enhance_rear">Veredeling achterzijde</label>
-            <select class="form-select" id="enhance_rear" name="enhance_rear">
+        <div class="col-sm-6 col-md-3" id="field_enhance_back" style="display : none">
+            <label class="form-label" id="field_enhance_back_label" for="enhance_back">Veredeling achterzijde</label>
+            <select class="form-select" id="enhance_back" name="enhance_back">
             <option value=0>{{ no_enhancement }}</option>
                 {% for i in enhance_choices %}
                      <option value="{{ i.enhancement_id }}">{{ i.enhancement }}</option>

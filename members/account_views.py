@@ -1,14 +1,16 @@
 from datetime import timedelta
 from django.db.models import Max
 from index.create_context import *
+from index.mail.email_function import send_printdataplatform_mail
 from members.forms.accountforms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView, DetailView, View
-from profileuseraccount.confirmation_mails import new_member_confirmationmail
+from index.mail.new_member_notice import *
 from producers.models import *
 from profileuseraccount.models import Members
+from printdataplatform.settings import EMAIL_TO_ADMIN
 
 
 # company account
@@ -96,7 +98,23 @@ class SignupLandingView(View):
             pass
 
         try:
-            new_member_confirmationmail(user)
+            # new_member_notice mail to EMAIL_TO_ADMIN
+            subject = 'Nieuwe aanmelding PrintDataPlatform van: ' + user.first_name + ' ' + user.last_name + ', ' + user.company
+            body = new_member_notice_body(user)
+            address = EMAIL_TO_ADMIN
+            send_printdataplatform_mail(subject, address, body)
+
+        except Exception as e:
+            print('SignupLandingView error: ', e)
+            pass
+
+        try:
+            # new member confirmationmail to EMAIL_TO_ADMIN
+            subject = 'Dank voor uw aanmelding op het PrintDataPlatform'
+            body = new_member_confirmationmail_body(user)
+            address = user.email
+            send_printdataplatform_mail(subject, address, body)
+
         except Exception as e:
             print('SignupLandingView error: ', e)
             pass

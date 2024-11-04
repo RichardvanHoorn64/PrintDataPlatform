@@ -82,8 +82,9 @@
             
         <!-- end of .container-->
         <!-- <section> close ============================-->
-
+        {%  if member_plan_id in pro_memberplans %}
             {% include 'printprojects/new_project_includes/salesprice_update.html' %}
+            {% endif %}
             {%  endif %}
     </div>
     </body>

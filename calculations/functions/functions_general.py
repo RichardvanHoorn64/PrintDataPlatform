@@ -146,16 +146,16 @@ def calculate_number_of_colors_front(rfq, varnish_unit):
     return number_of_colors_front
 
 
-def calculate_number_of_colors_rear(rfq, varnish_unit):
-    number_of_colors_rear = 0
-    if rfq.print_rear == 1:  # 'black':
-        number_of_colors_rear = 1
-    if rfq.print_rear == 4:  # 'Full Colour':
-        number_of_colors_rear = 4
-    number_of_colors = number_of_colors_rear + rfq.number_pms_colors_rear
-    if not varnish_unit and rfq.pressvarnish_rear == 1:
-        number_of_colors_rear = number_of_colors + 1
-    return number_of_colors_rear
+def calculate_number_of_colors_back(rfq, varnish_unit):
+    number_of_colors_back = 0
+    if rfq.print_back == 1:  # 'black':
+        number_of_colors_back = 1
+    if rfq.print_back == 4:  # 'Full Colour':
+        number_of_colors_back = 4
+    number_of_colors = number_of_colors_back + rfq.number_pms_colors_back
+    if not varnish_unit and rfq.pressvarnish_back == 1:
+        number_of_colors_back = number_of_colors + 1
+    return number_of_colors_back
 
 
 # Functies voor beeldmaten aanvraag
@@ -181,19 +181,19 @@ def inkcost_calculation(setup, rfq, printer_id, paper_quantity, printsided):
     printer = Printers.objects.get(printer_id=printer_id)
     paper_quantity = float(paper_quantity / 1000)
     black_inkcost_front = float(0.0)
-    black_inkcost_rear = float(0.0)
+    black_inkcost_back = float(0.0)
     fc_inkcost_front = float(0.0)
-    fc_inkcost_rear = float(0.0)
+    fc_inkcost_back = float(0.0)
     pms_inkcost = float(0.0)
     pressvarnish_inkcost_front = float(0.0)
-    pressvarnish_inkcost_rear = float(0.0)
+    pressvarnish_inkcost_back = float(0.0)
     inkcost = 0.0
 
-    if rfq.number_pms_colors_front > 0 or rfq.number_pms_colors_rear > 0:
+    if rfq.number_pms_colors_front > 0 or rfq.number_pms_colors_back > 0:
         pms_inkcost = float(paper_quantity * float(printer.ink_1000_prints_pms))
         pms_inkcost_front = float(rfq.number_pms_colors_front) * float(pms_inkcost)
-        pms_inkcost_rear = float(rfq.number_pms_colors_rear) * float(pms_inkcost)
-        pms_inkcost = pms_inkcost_front + pms_inkcost_rear
+        pms_inkcost_back = float(rfq.number_pms_colors_back) * float(pms_inkcost)
+        pms_inkcost = pms_inkcost_front + pms_inkcost_back
 
         if printsided == 2:  # 'Tweezijdig gelijk':
             pms_inkcost = 2 * pms_inkcost_front
@@ -202,10 +202,10 @@ def inkcost_calculation(setup, rfq, printer_id, paper_quantity, printsided):
             if pms_inkcost < float(printer.ink_start_costs_pms):
                 pms_inkcost = printer.ink_start_costs_pms
 
-    if rfq.number_pms_colors_front > 0 or rfq.number_pms_colors_rear > 0:
+    if rfq.number_pms_colors_front > 0 or rfq.number_pms_colors_back > 0:
         pressvarnish_inkcost = paper_quantity * float(printer.ink_1000_prints_varnish)
         pressvarnish_inkcost_front = float(rfq.pressvarnish_front) * float(pressvarnish_inkcost)
-        pressvarnish_inkcost_rear = float(rfq.pressvarnish_rear) * pressvarnish_inkcost
+        pressvarnish_inkcost_back = float(rfq.pressvarnish_back) * pressvarnish_inkcost
 
     if rfq.print_front == 1:  # 'black':
         black_inkcost_front = paper_quantity * float(printer.ink_1000_prints_zw)
@@ -218,13 +218,13 @@ def inkcost_calculation(setup, rfq, printer_id, paper_quantity, printsided):
         inkcost = 2 * inkcost_front
 
     if printsided == 3:  # 'Tweezijdig verschillend':
-        if rfq.print_rear == 1:  # 'black':
-            black_inkcost_rear = paper_quantity * float(printer.ink_1000_prints_zw)
-        if rfq.print_rear == 4:  # 'Full Colour':
-            fc_inkcost_rear = paper_quantity * float(printer.ink_1000_prints_fc)
+        if rfq.print_back == 1:  # 'black':
+            black_inkcost_back = paper_quantity * float(printer.ink_1000_prints_zw)
+        if rfq.print_back == 4:  # 'Full Colour':
+            fc_inkcost_back = paper_quantity * float(printer.ink_1000_prints_fc)
 
-        inkcost_rear = float(black_inkcost_rear) + float(fc_inkcost_rear) + pressvarnish_inkcost_rear
-        inkcost = inkcost_front + inkcost_rear + pms_inkcost
+        inkcost_back = float(black_inkcost_back) + float(fc_inkcost_back) + pressvarnish_inkcost_back
+        inkcost = inkcost_front + inkcost_back + pms_inkcost
 
     return inkcost
 
@@ -269,17 +269,17 @@ def printing_starttime_calculation(rfq, printer_id, items_per_sheet):
         rfq.number_pms_colors_front) * printer.start_time_pms_color) + (float(
         rfq.pressvarnish_front) * float(start_time_varnish))
 
-    starttime_rear = float(printer.start_time_sheet_backside) + (float(
-        rfq.number_pms_colors_rear) * printer.start_time_pms_color) + (float(
-        rfq.pressvarnish_rear) * float(start_time_varnish))
+    starttime_back = float(printer.start_time_sheet_backside) + (float(
+        rfq.number_pms_colors_back) * printer.start_time_pms_color) + (float(
+        rfq.pressvarnish_back) * float(start_time_varnish))
 
     if rfq.printsided == 1:  # 'Eenzijdig':
-        starttime_rear = 0.0
+        starttime_back = 0.0
 
     if rfq.printsided == 2:  # 'Tweezijdig gelijk' or use_perfecting:
-        starttime_rear = 0.0
+        starttime_back = 0.0
 
-    printing_starttime = printer.starttime_per_order + starttime_front + starttime_rear
+    printing_starttime = printer.starttime_per_order + starttime_front + starttime_back
     return printing_starttime
 
 
@@ -322,36 +322,36 @@ def printingcost_calculation(set_up, volume, tariff_eur_hour, printing_starttime
 def purchase_plates_calculation(rfq, printer_id, items_per_sheet, number_of_printruns):
     printer = Printers.objects.get(printer_id=printer_id)
     number_colors_front = float(calculate_number_of_colors_front(rfq, printer.varnish_unit))
-    number_colors_rear = float(calculate_number_of_colors_rear(rfq, printer.varnish_unit))
+    number_colors_back = float(calculate_number_of_colors_back(rfq, printer.varnish_unit))
     buy_tariff_plate_eur = float(printer.buy_tariff_plate_eur)
 
     purchase_plates_front = number_colors_front * buy_tariff_plate_eur
-    purchase_plates_rear = number_colors_rear * buy_tariff_plate_eur
+    purchase_plates_back = number_colors_back * buy_tariff_plate_eur
 
     if number_of_printruns == 1 and not printer.perfecting:
-        purchase_plates_rear = 0
+        purchase_plates_back = 0
     if items_per_sheet % 2 == 0 and not printer.perfecting and rfq.printsided == 1:  # "Eenzijdig":
-        purchase_plates_rear = 0
+        purchase_plates_back = 0
 
-    purchase_plates = purchase_plates_front + purchase_plates_rear
+    purchase_plates = purchase_plates_front + purchase_plates_back
     return purchase_plates
 
 
 def margin_plates_calculation(rfq, printer_id, items_per_sheet, number_of_printruns):
     printer = Printers.objects.get(printer_id=printer_id)
     number_colors_front = float(calculate_number_of_colors_front(rfq, printer.varnish_unit))
-    number_colors_rear = float(calculate_number_of_colors_rear(rfq, printer.varnish_unit))
+    number_colors_back = float(calculate_number_of_colors_back(rfq, printer.varnish_unit))
     margin_plate_eur = float(printer.margin_plate_eur)
 
     margin_plates_front = number_colors_front * margin_plate_eur
-    margin_plates_rear = number_colors_rear * margin_plate_eur
+    margin_plates_back = number_colors_back * margin_plate_eur
 
     if number_of_printruns == 1 and not printer.perfecting:
-        margin_plates_rear = 0
+        margin_plates_back = 0
     if items_per_sheet % 2 == 0 and not printer.perfecting and rfq.printsided == 1:  # "Eenzijdig":
-        margin_plates_rear = 0
+        margin_plates_back = 0
 
-    margin_plates = margin_plates_front + margin_plates_rear
+    margin_plates = margin_plates_front + margin_plates_back
     return margin_plates
 
 
@@ -363,22 +363,22 @@ def printingwaste_calculation(set_up, rfq, printer_id, printsided, items_per_she
     print_front = rfq.print_front
     number_pms_colors_front = rfq.number_pms_colors_front
     pressvarnish_front = int(rfq.pressvarnish_front)
-    pressvarnish_rear = int(rfq.pressvarnish_rear)
-    print_rear = rfq.print_rear
-    number_pms_colors_rear = int(rfq.number_pms_colors_rear)
+    pressvarnish_back = int(rfq.pressvarnish_back)
+    print_back = rfq.print_back
+    number_pms_colors_back = int(rfq.number_pms_colors_back)
 
     waste_perfecting = 0
 
     printingwaste_front = int(printer.paperwaste_per_order)
-    printingwaste_rear = 0
+    printingwaste_back = 0
 
     if printsided == 2:  # 'Tweezijdig gelijk':
-        print_rear = print_front
-        number_pms_colors_rear = number_pms_colors_front
-        pressvarnish_rear = pressvarnish_front
+        print_back = print_front
+        number_pms_colors_back = number_pms_colors_front
+        pressvarnish_back = pressvarnish_front
 
     waste_printrun_pms = int(
-        (number_pms_colors_front + number_pms_colors_rear) * printer.perc_paperwaste_printing_1000_sheet_perfector)
+        (number_pms_colors_front + number_pms_colors_back) * printer.perc_paperwaste_printing_1000_sheet_perfector)
 
     if printsided != 1:  # 'Eenzijdig' and number_of_printruns == 1:
         waste_perfecting = int(printer.perc_paperwaste_printing_1000_sheet_perfector)
@@ -389,14 +389,14 @@ def printingwaste_calculation(set_up, rfq, printer_id, printsided, items_per_she
         if rfq.print_front == 4:  # 'Full Colour':
             printingwaste_front = printingwaste_front + printer.paperwaste_per_side_fc
 
-        if print_rear == 1:  # 'black':
-            printingwaste_rear = int(printer.paperwaste_per_side_black)
-        if print_rear == 4:  # 'Full Colour':
-            printingwaste_rear = int(printer.paperwaste_per_side_fc)
+        if print_back == 1:  # 'black':
+            printingwaste_back = int(printer.paperwaste_per_side_black)
+        if print_back == 4:  # 'Full Colour':
+            printingwaste_back = int(printer.paperwaste_per_side_fc)
 
-        printingwaste_pms = int(rfq.number_pms_colors_front) + number_pms_colors_rear * printer.paperwaste_per_side_pms
-        printingwaste_pressvarnish = (pressvarnish_front + pressvarnish_rear) * int(printer.paperwaste_per_side_varnish)
-        waste_setup = printingwaste_front + printingwaste_rear + printingwaste_pms + printingwaste_pressvarnish
+        printingwaste_pms = int(rfq.number_pms_colors_front) + number_pms_colors_back * printer.paperwaste_per_side_pms
+        printingwaste_pressvarnish = (pressvarnish_front + pressvarnish_back) * int(printer.paperwaste_per_side_varnish)
+        waste_setup = printingwaste_front + printingwaste_back + printingwaste_pms + printingwaste_pressvarnish
 
     # waste printrun
     waste_printrun_basis = int(printer.perc_paperwaste_printing_1000_sheets)
@@ -570,7 +570,7 @@ def calculate_enhancement_cost(set_up, volume, enhancement_id, enhancement_tarif
 
 def enhancement_cost_calculation(set_up, rfq, producer_id, paper_quantity_cover, paperspec_id, items_per_sheet):
     enhancement_cost_front = 0.0
-    enhancement_cost_rear = 0.0
+    enhancement_cost_back = 0.0
     paperspec = PaperCatalog.objects.get(paperspec_id=paperspec_id)
 
     volume = (1000 / items_per_sheet) * 0.001
@@ -585,10 +585,10 @@ def enhancement_cost_calculation(set_up, rfq, producer_id, paper_quantity_cover,
     if rfq.enhance_front > 0:
         enhancement_cost_front = calculate_enhancement_cost(set_up, volume, rfq.enhance_front, enhancement_tariffs)
 
-    if rfq.enhance_rear > 0:
-        enhancement_cost_rear = calculate_enhancement_cost(set_up, volume, rfq.enhance_rear, enhancement_tariffs)
+    if rfq.enhance_back > 0:
+        enhancement_cost_back = calculate_enhancement_cost(set_up, volume, rfq.enhance_back, enhancement_tariffs)
 
-    enhancement_cost = enhancement_cost_front + enhancement_cost_rear
+    enhancement_cost = enhancement_cost_front + enhancement_cost_back
     return enhancement_cost
 
 
@@ -598,7 +598,7 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
     folding_purchase = 0.0
     enhance_purchase = 0.0
     enhance_front_added_value = True
-    enhance_rear_added_value = True
+    enhance_back_added_value = True
     enhancement_tariffs_front = []
 
     added_value_foldingmachine = Foldingmachines.objects.get(producer_id=producer_id,
@@ -613,11 +613,11 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
         enhancement_id_front = 0
 
     try:
-        enhancement_id_rear = EnhancementOptions.objects.get(enhancement=rfq.enhance_rear).enhancement_id
+        enhancement_id_back = EnhancementOptions.objects.get(enhancement=rfq.enhance_back).enhancement_id
     except EnhancementOptions.DoesNotExist:
-        enhancement_id_rear = 0
+        enhancement_id_back = 0
 
-    if enhancement_id_front > 0 or enhancement_id_rear > 0:
+    if enhancement_id_front > 0 or enhancement_id_back > 0:
         paperspec = PaperCatalog.objects.get(paperspec_id=paperspec_id)
         enhancement_tariffs = pd.DataFrame(
             EnhancementTariffs.objects.filter(producer_id=producer_id, availeble=True,
@@ -630,13 +630,13 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
             enhance_front_added_value = \
                 enhancement_tariffs[enhancement_tariffs.production_cost_1000sheets == min_tariff].iloc[0].added_value
 
-        if enhancement_id_rear > 0:
-            enhancement_tariffs_rear = enhancement_tariffs[enhancement_tariffs.enhancement_id == enhancement_id_rear]
+        if enhancement_id_back > 0:
+            enhancement_tariffs_back = enhancement_tariffs[enhancement_tariffs.enhancement_id == enhancement_id_back]
             min_tariff = min(enhancement_tariffs_front.production_cost_1000sheets)
-            enhance_rear_added_value = \
+            enhance_back_added_value = \
                 enhancement_tariffs[enhancement_tariffs.production_cost_1000sheets == min_tariff].iloc[0].added_value
 
-        if not enhance_front_added_value or not enhance_rear_added_value:
+        if not enhance_front_added_value or not enhance_back_added_value:
             enhance_purchase = enhancementcost
 
     purchase = papercost + inkcost + purchase_plates + folding_purchase + enhance_purchase

@@ -64,15 +64,6 @@ class OfferProducersFormCheckView(UpdateView):
     profile = Offers
     form_class = OfferProducerFormAccess
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     user = self.request.user
-    #     if not user.is_authenticated:
-    #         return redirect('/home/')
-    #     elif not user.member.active:
-    #         return redirect('/wait_for_approval/')
-    #     else:
-    #         return super().dispatch(request, *args, **kwargs)
-
     def get_success_url(self):
         offer_id = self.kwargs['pk']
         offer = Offers.objects.get(offer_id=offer_id)
@@ -92,18 +83,16 @@ class OfferProducersFormCheckView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
-        user = self.request.user
         context = super().get_context_data(**kwargs)
         offer_id = self.kwargs['pk']
-        context['display'] = 0
-        context['display_access'] = 1
+        context['display_printdetails'] = 0
 
         user = self.request.user
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         context['offer'] = offer
         context['printproject'] = printproject
-
+        context['rfq_project'] = str(printproject.volume) + ' ex' + str(printproject.project_title)
         return context
 
 
@@ -153,8 +142,8 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
         context['key'] = False
         context['offer'] = offer
         context['printproject'] = printproject
-        context['display_access'] = 0
-        context['display'] = 1
+        context['display_printdetails'] = 1
+
 
         return context
 
@@ -191,10 +180,10 @@ class OfferProducersOpenUpdateView(UpdateView):
         offer_id = self.kwargs['pk']
         offer = Offers.objects.get(offer_id=offer_id)
         if offer.offer_key_test == offer.offer_key:
-            context['display'] = 1
+            context['display_printdetails'] = 1
         else:
-            context['display'] = 0
-        context['display_access'] = 0
+            context['display_printdetails'] = 0
+
 
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
@@ -215,7 +204,7 @@ class DenyOfferView(View):
         try:
             offer_id = self.kwargs['pk']
             offer = Offers.objects.get(offer_id=offer_id)
-            offer.offerstatus_id = 5 # denied
+            offer.offerstatus_id = 5  # denied
             offer.offer_date = datetime.now()
             offer.save()
         finally:
@@ -290,4 +279,3 @@ class ThanksSubmitOffer(TemplateView):
     #
     #     if user.is_authenticated and user.member.active and not user.member.producerplan:
     #         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
-

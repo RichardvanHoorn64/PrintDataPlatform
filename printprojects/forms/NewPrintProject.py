@@ -22,20 +22,20 @@ class PrintProjectsForm(forms.ModelForm):
     printsided = char_field_100_false
 
     print_front = char_field_100_false
-    print_rear = char_field_100_false
+    print_back = char_field_100_false
     print_booklet = char_field_100_false
 
     number_pms_colors_front = integer_field_notreq
-    number_pms_colors_rear = integer_field_notreq
+    number_pms_colors_back = integer_field_notreq
     number_pms_colors_booklet = integer_field_notreq
 
     pressvarnish_front = char_field_100_false
-    pressvarnish_rear = char_field_100_false
+    pressvarnish_back = char_field_100_false
     pressvarnish_booklet = char_field_100_false
 
     enhance_sided = char_field_100_false
     enhance_front = char_field_100_false
-    enhance_rear = char_field_100_false
+    enhance_back = char_field_100_false
 
     packaging = char_field_100_false
     number_of_pages = integer_field_notreq
@@ -69,8 +69,8 @@ class PrintProjectsForm(forms.ModelForm):
             'client_id', 'clientcontact_id', 'project_title', 'description', 'message_extra_work',
             'own_quotenumber', 'client_quotenumber', 'volume', 'format_selection', 'standard_size',
             'height_mm_product', 'width_mm_product', 'papercategory', 'paperbrand', 'paperweight', 'papercolor',
-            'printsided', 'print_front', 'print_rear', 'print_booklet','number_pms_colors_front', 'number_pms_colors_rear',
-            'number_pms_colors_booklet', 'pressvarnish_front', 'pressvarnish_rear', 'pressvarnish_booklet', 'enhance_sided', 'enhance_front', 'enhance_rear',
+            'printsided', 'print_front', 'print_back', 'print_booklet','number_pms_colors_front', 'number_pms_colors_back',
+            'number_pms_colors_booklet', 'pressvarnish_front', 'pressvarnish_back', 'pressvarnish_booklet', 'enhance_sided', 'enhance_front', 'enhance_back',
             'packaging', 'number_of_pages', 'portrait_landscape', 'finishing_brochures', 'paperbrand_new', 'paperweight_new', 'papercolor_new',
             'brochure_type', 'papercategory_cover', 'paperbrand_cover', 'paperweight_cover', 'papercolor_cover', 'paperbrand_cover_new',
             'paperweight_cover_new', 'papercolor_cover_new', 'folding', 'paperweight_cover', 'papercolor_cover',

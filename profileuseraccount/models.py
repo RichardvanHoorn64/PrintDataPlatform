@@ -42,7 +42,7 @@ class Producers(models.Model):
     e_mail_general = models.EmailField(blank=True)
     e_mail_rfq = models.EmailField(blank=True)
     e_mail_offers = models.EmailField(blank=True)
-    e_mail_orders= models.EmailField(blank=True)
+    e_mail_orders = models.EmailField(blank=True)
     street_number = models.CharField(max_length=300, blank=True)
     postal_code = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=250, blank=True)
@@ -109,7 +109,6 @@ class Members(models.Model):
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
 
-
     def __str__(self):
         return self.company
 
@@ -136,6 +135,7 @@ class UserProfile(AbstractUser):
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
 
     conditions_approved = models.BooleanField(default=True)
+    producer_application = models.BooleanField(default=False)
     gender = models.CharField(max_length=10, blank=True, null=True)
 
     # social media
@@ -145,7 +145,6 @@ class UserProfile(AbstractUser):
     created = models.DateTimeField(auto_now=True or "")
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
-
 
     class Meta:
         verbose_name = 'Profile'

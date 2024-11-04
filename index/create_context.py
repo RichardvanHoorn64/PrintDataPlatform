@@ -51,23 +51,23 @@ def createprintproject_context(context, user, printproject):
         printproject.pressvarnish_booklet)
 
     context['printproject_printing_cover'] = printproject_printing(printproject.printsided, printproject.print_front,
-                                                                   printproject.print_rear,
+                                                                   printproject.print_back,
                                                                    printproject.number_pms_colors_front,
-                                                                   printproject.number_pms_colors_rear)
+                                                                   printproject.number_pms_colors_back)
 
     context['printproject_paper_cover'] = printproject_paper(printproject.papercategory_cover,
                                                              printproject.paperbrand_cover,
                                                              printproject.paperweight_cover,
                                                              printproject.papercolor_cover)
     context['printproject_printing'] = printproject_printing(printproject.printsided, printproject.print_front,
-                                                             printproject.print_rear,
+                                                             printproject.print_back,
                                                              printproject.number_pms_colors_front,
-                                                             printproject.number_pms_colors_rear)
+                                                             printproject.number_pms_colors_back)
     context['printproject_varnish'] = printproject_varnish(printproject.printsided, printproject.pressvarnish_front,
-                                                           printproject.pressvarnish_rear)
+                                                           printproject.pressvarnish_back)
     context['printproject_enhance'] = printproject_enhance(printproject.productcategory_id,
                                                            printproject.enhance_sided, printproject.enhance_front,
-                                                           printproject.enhance_rear, )
+                                                           printproject.enhance_back, )
     context['printproject_finishing'] = printproject_finishing(printproject)
 
     context['printproject_packaging'] = printproject_packaging(printproject.packaging)

@@ -1,0 +1,33 @@
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>new member admin notice email</title></head>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+</html>
+<body>
+<h4>
+    Hallo Richard,<br><br>
+        Er is een nieuwe aanmelding op Het PrintdDataPlatform van<br>
+        {{user.first_name}} ' ' str(user.last_name}}<br>
+        namens:  {{user.company}} uit {{user.city}} , email:  {{user.e_mail_general}}<br>
+        telefoonnummer: {{user.tel_general}}<br><br>
+    
+        Producer aanmelding: {{ user.producer_application }} br><br>
+    )
+</h4>
+<br><br>
+</body>

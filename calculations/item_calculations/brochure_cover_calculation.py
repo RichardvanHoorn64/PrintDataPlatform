@@ -71,8 +71,8 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
         try:
             calculation_cover['number_of_colors_cover'] = calculation_cover.apply(
                 lambda row: calculate_number_of_colors_front(rfq, row['varnish_unit']), axis=1)
-            calculation_cover['number_of_colors_rear_cover'] = calculation_cover.apply(
-                lambda row: calculate_number_of_colors_rear(rfq, row['varnish_unit']), axis=1)
+            calculation_cover['number_of_colors_back_cover'] = calculation_cover.apply(
+                lambda row: calculate_number_of_colors_back(rfq, row['varnish_unit']), axis=1)
         except Exception as e:
             error = 'Calculation number of colors cover failed'
             print('error log: ' + error + ' ' + str(e))

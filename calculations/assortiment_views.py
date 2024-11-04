@@ -15,6 +15,7 @@ from calculations.item_calculations.plano_folder_calculation import plano_folder
 from index.create_context import creatememberplan_context
 from index.translate_functions import *
 from index.categories_groups import *
+from django.contrib import messages
 
 
 class AssortimentView(LoginRequiredMixin, TemplateView):
@@ -28,9 +29,11 @@ class AssortimentView(LoginRequiredMixin, TemplateView):
         producer_id = user.producer_id
         catalog = Calculations.objects.filter(producer_id=producer_id, assortiment_item=True).order_by('calculation_id')
 
-        last_calculation = catalog[0].offer_date
-        if not last_calculation:
+        if len(catalog) > 0:
+            last_calculation = catalog[0].offer_date
+        else:
             last_calculation = '--'
+
         context['catalog'] = catalog
         context['last_calculation'] = last_calculation
         return context
@@ -120,37 +123,18 @@ class DownloadAssortiment(LoginRequiredMixin, View):
         workbook.close()
         output.seek(0)
         return FileResponse(buffer, as_attachment=True,
-                            filename='PrintDataPlatform ' + str(worksheet_name) + ' ' + str(user.company) + ' ' + str(export_datum)+'.xlsx')
+                            filename='PrintDataPlatform ' + str(worksheet_name) + ' ' + str(user.company) + ' ' + str(
+                                export_datum) + '.xlsx')
 
 
-class UploadAssortimentCSV(LoginRequiredMixin, View):
+class UploadAssortimentCSV(LoginRequiredMixin, TemplateView):
     template = 'producers/assortiment_upload.html'
+    template_name = 'producers/assortiment_upload.html'
     form_class = UploadAssortimentCSVForm
     success_url = '/producer_assortiment/'
     instruction = 'Gebruik de voorgeschreven CSV file met header en de seperator ;'
     upload_date = timezone.now().today().date()
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class
-        producer_id = self.request.user.producer_id
-        catalog = PrintProjects.objects.filter(producer_id=producer_id, printprojectstatus_id=5)
-
-        if catalog:
-            catalog_size = catalog.count()
-            upload_date = catalog[0].upload_date
-        else:
-            catalog_size = 0
-            upload_date = None
-
-        return render(request, self.template, {'form': form,
-                                               'instruction': self.instruction,
-                                               'catalog': catalog,
-                                               'catalog_size': catalog_size,
-                                               'last_upload': upload_date,
-                                               'Productcategories': ProductCategory.objects.all().order_by(
-                                                   'productcategory_id'),
-                                               'error': self.kwargs['error']
-                                               })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class
@@ -175,14 +159,12 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                 csv_file = self.request.FILES['assortiment_file']
 
             except Exception as e:
-                error = 'Alleen een CSV file toegestaan: ' + str(e)
+                error = 'Laad een CSV file : ' + str(e)
                 print("error: ", error)
 
         if not error:
             try:
                 if not csv_file.name.endswith('.csv'):
-                    messages.error(request,
-                                   'Error:  Your file is not Excel .xlsx type, please refresh page and try again')
                     error = 'Alleen een CSV file toegestaan'
                     print("error: ", error)
                 else:
@@ -195,9 +177,6 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
             if not error:
                 try:
                     if csv_file.multiple_chunks():
-                        messages.error(request,
-                                       "Error: Your uploaded file is too big (%.10f MB), please refresh page and try again" % (
-                                           csv_file.size / (1000 * 1000),))
                         error = "Your uploaded file is too big (%.10f MB), please refresh page and try again"
 
                 except Exception as e:
@@ -253,21 +232,21 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                         papercolor=row['papercolor'],
                         printsided=modify_printsided(row['printsided']),
                         pressvarnish_front=modify_boleaninput(row['pressvarnish_front']),
-                        pressvarnish_rear=modify_boleaninput(row['pressvarnish_rear']),
+                        pressvarnish_back=modify_boleaninput(row['pressvarnish_back']),
                         pressvarnish_booklet=modify_boleaninput(row['pressvarnish_booklet']),
                         enhance_sided=modify_printsided(row['enhance_sided']),
                         enhance_front=find_enhancement_id(row['enhance_front']),
-                        enhance_rear=find_enhancement_id(row['enhance_rear']),
+                        enhance_back=find_enhancement_id(row['enhance_back']),
                         packaging=find_packaging_id(row['packaging']),
                         folding=find_foldingspecs(row['folding']),
                         number_of_pages=row['number_of_pages'],
                         portrait_landscape=find_orientation(row['portrait_landscape']),
                         finishing_brochures=find_brochure_finishingmethod_id(row['finishing_brochures']),
                         print_front=modify_printcolors(row['print_front']),
-                        print_rear=modify_printcolors(row['print_rear']),
+                        print_back=modify_printcolors(row['print_back']),
                         print_booklet=modify_printcolors(row['print_booklet']),
                         number_pms_colors_front=row['number_pms_colors_front'],
-                        number_pms_colors_rear=row['number_pms_colors_rear'],
+                        number_pms_colors_back=row['number_pms_colors_back'],
                         number_pms_colors_booklet=row['number_pms_colors_booklet'],
                         paperbrand_cover=row['paperbrand_cover'],
                         paperweight_cover=row['paperweight_cover'],
@@ -297,7 +276,7 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                     new_calculation.save()
 
             except Exception as e:
-                error = 'File not loaded, error:' + str(e)
+                error = 'File not loaded, error: ' + str(e)
                 print("error: ", error)
 
         if not error:
@@ -307,16 +286,43 @@ class UploadAssortimentCSV(LoginRequiredMixin, View):
                              'catalog_size': catalog_size,
                              'last_upload': upload_date,
                              'messages': messages,
-                             'instruction': 'File succesfull stored',
                              })
 
         else:
-            return redirect('/producer_assortiment_upload/' + str(error),
+            messages.error(request, error)
+            return redirect('/producer_assortiment_upload/'+str(error),
                             {'form': form,
                              'catalog': catalog,
                              'catalog_size': catalog_size,
                              'last_upload': upload_date,
                              'messages': messages,
-                             'instruction': 'File succesfull stored',
+                             'instruction': 'File not stored',
                              'error': error
                              })
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadAssortimentCSV, self).get_context_data(**kwargs)
+        user = self.request.user
+        context = creatememberplan_context(context, user)
+        producer_id = self.request.user.producer_id
+        catalog = PrintProjects.objects.filter(producer_id=producer_id, printprojectstatus_id=5)
+
+        if catalog:
+            catalog_size = catalog.count()
+            upload_date = catalog[0].upload_date
+        else:
+            catalog_size = 0
+            upload_date = None
+
+        context['upload_date'] = upload_date
+        context['catalog_size'] = catalog_size
+        context['instruction'] = self.instruction
+        context['catalog'] = catalog
+        context['catalog_size'] = catalog_size
+        context['last_upload'] = upload_date
+        context['messages'] = messages
+        context['error'] = self.kwargs['error']
+        context['Productcategories'] = ProductCategory.objects.all().order_by(
+                                                   'productcategory_id')
+
+        return context

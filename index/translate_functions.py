@@ -5,8 +5,8 @@ empty_cols_folders = ['print_booklet', 'pressvarnish_booklet', 'finishing_brochu
                       'number_pms_colors_booklet',
                       'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
 
-empty_cols_brochures = ['folding', 'print_front', 'print_rear', 'pressvarnish_front', 'pressvarnish_rear',
-                        'enhance_front', 'enhance_rear', 'number_pms_colors_front', 'number_pms_colors_rear',
+empty_cols_brochures = ['folding', 'print_front', 'print_back', 'pressvarnish_front', 'pressvarnish_back',
+                        'enhance_front', 'enhance_back', 'number_pms_colors_front', 'number_pms_colors_back',
                         'paperbrand_cover', 'paperweight_cover', 'papercolor_cover']
 
 
@@ -36,7 +36,7 @@ def find_brochure_finishingmethod_id(rfq_input):
 
 def find_foldingspecs(rfq_input):
     try:
-        folding = FoldingMethods.objects.get(foldingmethod=rfq_input).foldingmethod_id
+        folding = FoldingMethods.objects.get(foldingmethod=rfq_input)
         foldingmethod_id = folding.foldingmethod_id
 
     except FoldingMethods.DoesNotExist:
@@ -176,7 +176,7 @@ def translate_dataframe(dataframe):
             dataframe['number_pms_colors_front'] = dataframe['aantal_pms_kleuren_voorzijde']
 
         if col == 'aantal_pms_kleuren_achterzijde':
-            dataframe['number_pms_colors_rear'] = dataframe['aantal_pms_kleuren_achterzijde']
+            dataframe['number_pms_colors_back'] = dataframe['aantal_pms_kleuren_achterzijde']
 
         if col == 'aantal_pms_kleuren':
             dataframe['number_pms_colors_booklet'] = dataframe['aantal_pms_kleuren']
@@ -194,13 +194,13 @@ def translate_dataframe(dataframe):
             dataframe['pressvarnish_front'] = dataframe['persvernis_voorzijde']
 
         if col == 'persvernis_achterzijde':
-            dataframe['pressvarnish_rear'] = dataframe['persvernis_achterzijde']
+            dataframe['pressvarnish_back'] = dataframe['persvernis_achterzijde']
 
         if col == 'persvernis_omslag':
             dataframe['pressvarnish_front'] = dataframe['persvernis_omslag']
 
         if col == 'persvernis_omslag_binnenzijde':
-            dataframe['pressvarnish_rear'] = dataframe['persvernis_omslag_binnenzijde']
+            dataframe['pressvarnish_back'] = dataframe['persvernis_omslag_binnenzijde']
 
         if col == 'papiersoort_omslag':
             dataframe['paperbrand_cover'] = dataframe['papiersoort_omslag']
@@ -221,13 +221,13 @@ def translate_dataframe(dataframe):
             dataframe['print_front'] = dataframe['bedrukking_voorzijde']
 
         if col == 'bedrukking_achterzijde':
-            dataframe['print_rear'] = dataframe['bedrukking_achterzijde']
+            dataframe['print_back'] = dataframe['bedrukking_achterzijde']
 
         if col == 'veredeling_voorzijde':
             dataframe['enhance_front'] = dataframe['veredeling_voorzijde']
 
         if col == 'veredeling_achterzijde':
-            dataframe['enhance_rear'] = dataframe['veredeling_achterzijde']
+            dataframe['enhance_back'] = dataframe['veredeling_achterzijde']
 
         if col == 'veredeling_uitvoering':
             dataframe['enhance_sided'] = dataframe['veredeling_uitvoering']

@@ -77,52 +77,52 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         form.instance.packaging = find_packaging_id(form.cleaned_data['packaging'])
 
-        # fill print rear
-        if productcategory_id in categories_selfcovers:
-            print_front = 0
-            print_rear = 0
-            printsided = 0
-            pressvarnish_front = 0
-            pressvarnish_rear = 0
+        # fill print back
+        # if productcategory_id in categories_selfcovers:
+        #     print_front = 0
+        #     print_back = 0
+        #     printsided = 0
+        #     pressvarnish_front = 0
+        #     pressvarnish_back = 0
 
-        else:
-            printsided = form.cleaned_data['printsided']
-            print_front = form.cleaned_data['print_front']
-            print_rear = form.cleaned_data['print_rear']
-            pressvarnish_front = form.cleaned_data['pressvarnish_front']
-            pressvarnish_rear = form.cleaned_data['pressvarnish_rear']
-            form.instance.printsided = printsided
+        # else:
+        printsided = form.cleaned_data['printsided']
+        print_front = form.cleaned_data['print_front']
+        print_back = form.cleaned_data['print_back']
+        pressvarnish_front = form.cleaned_data['pressvarnish_front']
+        pressvarnish_back = form.cleaned_data['pressvarnish_back']
+        form.instance.printsided = printsided
 
         if printsided == 2:
-            form.instance.print_rear = print_front
-            form.instance.pressvarnish_rear = pressvarnish_front
-        elif printsided == 1:
-            form.instance.print_rear = 0
-            form.instance.number_pms_colors_rear = 0
-            form.instance.pressvarnish_rear = 0
-        else:
-            form.instance.print_front = print_front
-            form.instance.print_rear = print_rear
-            form.instance.pressvarnish_front = pressvarnish_front
-            form.instance.pressvarnish_rear = pressvarnish_rear
-            form.instance.printsided = printsided
+            form.instance.print_back = print_front
+            form.instance.pressvarnish_back = pressvarnish_front
+        if printsided == 1:
+            form.instance.print_back = 0
+            form.instance.number_pms_colors_back = 0
+            form.instance.pressvarnish_back = 0
+        # else:
+        #     form.instance.print_front = print_front
+        #     form.instance.print_back = print_back
+        #     form.instance.pressvarnish_front = pressvarnish_front
+        #     form.instance.pressvarnish_back = pressvarnish_back
+        #     form.instance.printsided = printsided
 
         # handling pms data
         if not brandportal.brandportal_show_pms_input:
             form.instance.number_pms_colors_front = 0
-            form.instance.number_pms_colors_rear = 0
+            form.instance.number_pms_colors_back = 0
         else:
             number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
-            number_pms_colors_rear = form.cleaned_data['number_pms_colors_rear']
+            number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
 
             if number_pms_colors_front is None:
                 number_pms_colors_front = 0
-            if number_pms_colors_rear is None:
-                number_pms_colors_rear = 0
+            if number_pms_colors_back is None:
+                number_pms_colors_back = 0
             if printsided == 2:
-                number_pms_colors_rear = number_pms_colors_front
+                number_pms_colors_back = number_pms_colors_front
             form.instance.number_pms_colors_front = number_pms_colors_front
-            form.instance.number_pms_colors_rear = number_pms_colors_rear
+            form.instance.number_pms_colors_back = number_pms_colors_back
 
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
@@ -164,13 +164,13 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.number_of_pages = 4 * math.ceil(number_of_pages) / 4
 
         # enhance
-        if productcategory_id in categories_selfcovers:
-            form.instance.enhance_front = 0
-            form.instance.enhance_rear = 0
+        # if productcategory_id in categories_selfcovers:
+        #     form.instance.enhance_front = 0
+        #     form.instance.enhance_back = 0
 
         if productcategory_id in categories_brochures_all:
             form.instance.enhance_sided = 1
-            form.instance.enhance_rear = 0
+            form.instance.enhance_back = 0
         else:
             form.instance.enhance_sided = form.cleaned_data['enhance_sided']
         return super().form_valid(form)

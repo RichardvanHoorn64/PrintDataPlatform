@@ -49,13 +49,14 @@ class UserProfileCreationForm(UserCreationForm):
     company_url = url_field_false
     country_code = char_field_100_false
     conditions_approved = boolean_field
+    producer_application = boolean_field
 
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name',
                   'producer', 'member', 'jobtitle', 'company', 'tel_general', 'mobile_number', 'e_mail_general',
                   'street_number', 'postal_code', 'city', 'country_code', 'linkedin_url', 'company_url',
-                  'conditions_approved', 'gender'
+                  'conditions_approved', 'producer_application', 'gender'
                   )
 
 

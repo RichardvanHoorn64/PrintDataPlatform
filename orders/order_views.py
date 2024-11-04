@@ -150,7 +150,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
             deliver_street_number = delivery_data.street_number
             deliver_postcode = delivery_data.postal_code
             deliver_city = delivery_data.city
-            deliver_contactperson = delivery_data.manager_first_name + "" + delivery_data.manager_last_name
+            deliver_contactperson = delivery_data.manager_first_name + " " + delivery_data.manager_last_name
             deliver_tel = delivery_data.tel_general
 
         else:
@@ -159,7 +159,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
             deliver_street_number = delivery_data.street_number
             deliver_postcode = delivery_data.postal_code
             deliver_city = delivery_data.city
-            deliver_contactperson = user.first_name + "" + user.last_name
+            deliver_contactperson = user.first_name + " " + user.last_name
             deliver_tel = delivery_data.tel_general
 
         if not form.instance.deliver_company:
@@ -205,7 +205,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
             context['deliver_street_number'] = delivery_data.street_number
             context['deliver_postcode'] = delivery_data.postal_code
             context['deliver_city'] = delivery_data.city
-            context['deliver_contactperson'] = delivery_data.manager_first_name + "" + delivery_data.manager_last_name
+            context['deliver_contactperson'] = delivery_data.manager_first_name + " " + delivery_data.manager_last_name
             context['deliver_tel'] = delivery_data.tel_general
 
         else:
@@ -214,7 +214,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
             context['deliver_street_number'] = delivery_data.street_number
             context['deliver_postcode'] = delivery_data.postal_code
             context['deliver_city'] = delivery_data.city
-            context['deliver_contactperson'] = user.first_name + "" + user.last_name
+            context['deliver_contactperson'] = user.first_name + " " + user.last_name
             context['deliver_tel'] = delivery_data.tel_general
 
         context['offer'] = offer

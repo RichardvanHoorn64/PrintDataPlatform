@@ -59,7 +59,7 @@ def foldingcost_calculation(set_up, rfq, foldingmachine_number_of_stations, pape
         run_time = run_time * speedfactor_light_paper
     if paper.paperweight_m2 >= foldingmachine.weight_heavy_paper:
         run_time = run_time * speedfactor_heavy_paper
-    if rfq.enhance_front > 0 or rfq.enhance_rear > 0:
+    if rfq.enhance_front > 0 or rfq.enhance_back > 0:
         run_time = run_time * speedfactor_heavy_paper
     foldingcost = (set_up_time + run_time) * float(foldingmachine.tariff_eur_hour / 60)
     return foldingcost

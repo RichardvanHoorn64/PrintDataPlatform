@@ -189,23 +189,43 @@
                     <hr class="text-info">
 
                     <!-- ===============================================-->
-                    <!--  Social media -->
+                    <!--  Conditions approved  -->
                     <!-- ===============================================-->
                     <div class="row">
-                        <h4 class="mb-3 text-info">Spelregels</h4>
+                        <h4 class="mb-0 text-info">Spelregels</h4>
+                        <p class="mb-0">Als deelnemer aan het PrintDataPlatform gaat u akkoord met de
+                    <a class="mx-1 text-info mb-0" href="{% url 'conditions' %}" target=”_blank”>
+                                        spelregels</a></p>
                     </div>
+                
                     <div class="row">
-                        <div class="col-sm-6 col-md-12">
+                        <div class="col-sm-12">
                             <div class="form-check">
-                                <label class="form-check-label" for="conditions_approved">Als gebruiker van
-                                    het PrintDataPlatform gaat u akkoord gaan met de
-                                    <a class="mx-1 text-info" href="{% url 'conditions' %}" target=”_blank”>
-                                        spelregels</a></label>
-                                <p>{{ form.conditions_approved }} <small> Ik ga akkoord met de spelregels</small></p>
+                                <label class="form-check-label" for="conditions_approved"></label>
+                                <p>{{ form.conditions_approved }} Ik ga akkoord met de spelregels</p>
                             </div>
                         </div>
                     </div>
+                <hr class="text-info">
+                    <!-- ===============================================-->
+                    <!--  Conditions approved  -->
+                    <!-- ===============================================-->
 
+
+                    <div class="row">
+                        <h4 class="mb-0 text-info">Als producent aanmelden</h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-12">
+                            <div class="form-check">
+                                <label class="form-check-label" for="producer_application"></label>
+                                <p>{{ form.producer_application }} 
+                                    Ik wil me als producent aanmelden. Neem contact met me op voor gratis intake
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
                     <hr class="text-info">
 

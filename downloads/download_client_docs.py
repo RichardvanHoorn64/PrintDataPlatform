@@ -59,26 +59,26 @@ class DownloadClientOfferInvoice(LoginRequiredMixin, View):
                                                                   printproject.paperweight, printproject.papercolor)
 
         printproject_printing_description = printproject_printing(printproject.printsided, printproject.print,
-                                                                  printproject.print_rear,
+                                                                  printproject.print_back,
                                                                   printproject.number_pms_colors,
-                                                                  printproject.number_pms_colors_rear)
+                                                                  printproject.number_pms_colors_back)
 
         printproject_printing_description_cover = printproject_printing(printproject.printsided_cover,
                                                                         printproject.print_cover,
-                                                                        printproject.print_rear_cover,
+                                                                        printproject.print_back_cover,
                                                                         printproject.number_pms_colors_cover,
-                                                                        printproject.number_pms_colors_rear_cover)
+                                                                        printproject.number_pms_colors_back_cover)
 
         printproject_varnish_description = printproject_varnish(printproject.printsided, printproject.pressvarnish,
-                                                                printproject.pressvarnish_rear, )
+                                                                printproject.pressvarnish_back, )
 
         printproject_varnish_description_cover = printproject_varnish(printproject.printsided_cover,
                                                                       printproject.pressvarnish_cover,
-                                                                      printproject.pressvarnish_rear_cover, )
+                                                                      printproject.pressvarnish_back_cover, )
 
         printproject_enhance_description = printproject_enhance(productcategory_id,
                                                                 printproject.enhance_sided, printproject.enhance,
-                                                                printproject.enhance_rear, )
+                                                                printproject.enhance_back, )
 
         printproject_finishing_description = printproject_finishing(printproject)
 

@@ -100,8 +100,8 @@ def plano_folder_calculation(producer_id, rfq):
             try:
                 calculation_plano['number_of_colors_front'] = calculation_plano.apply(
                     lambda row: calculate_number_of_colors_front(rfq, row['varnish_unit']), axis=1)
-                calculation_plano['number_of_colors_rear'] = calculation_plano.apply(
-                    lambda row: calculate_number_of_colors_rear(rfq, row['varnish_unit']), axis=1)
+                calculation_plano['number_of_colors_back'] = calculation_plano.apply(
+                    lambda row: calculate_number_of_colors_back(rfq, row['varnish_unit']), axis=1)
             except Exception as e:
                 error = 'Calculation number of colors plano product failed'
                 print('error log: ' + error + ' ' + str(e))
@@ -530,4 +530,4 @@ def plano_folder_calculation(producer_id, rfq):
             print('error log: ' + error + ' ' + str(e))
 
     # save calculation
-    save_calculation(rfq, best_offer, error)
+    save_calculation(producer_id, rfq, best_offer, error)

@@ -96,13 +96,13 @@ def update_enhancement_offerings(producer_id):
 
 def update_packaging_tariffs(producer_id):
     packaging_options = PackagingOptions.objects.values_list('packagingoption_id', flat=True)
-    producer_packaging_tariffs = PackagingTariffs.objects.values_list('packagingtariff_id', flat=True).filter(
+    producer_packaging_tariffs = PackagingTariffs.objects.values_list('packagingoption_id', flat=True).filter(
         producer_id=producer_id)
 
     for tariff in packaging_options:
         if tariff not in producer_packaging_tariffs:
             try:
-                new_transport = PackagingTariffs(
+                packaging_tariff = PackagingTariffs(
                     producer_id=producer_id,
                     packagingoption_id=tariff,
                     availeble=True,
@@ -111,7 +111,7 @@ def update_packaging_tariffs(producer_id):
                     cost_per_unit=0,
                     max_weight_packaging_unit_kg=100,
                 )
-                new_transport.save()
+                packaging_tariff.save()
             except IntegrityError:
                 pass
 

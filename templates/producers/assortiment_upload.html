@@ -72,7 +72,10 @@
                         <div class="container" id="submit_general">
                         <div class="row">
                             <h4 class="mb-1 text-info">Assortiment vervangen</h4>
-                            {% if error %}
+                        
+                        
+                        <h4 class="mb-1 text-danger">{{ message }}</h4>
+                            {% if not error == 'None' %}
                             <h4 class="mb-1 text-danger">{{ error }}</h4>
                                 {% else %}
                                 <h4 class="mb-1 text-success">{{ instruction }}</h4>

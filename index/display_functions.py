@@ -99,12 +99,12 @@ def printproject_printing_booklet(print_booklet, number_pms_colors_booklet, pres
     return printprojectprinting_booklet
 
 
-def printproject_printing(printsided, print_front, print_rear, number_pms_colors_front, number_pms_colors_rear):
+def printproject_printing(printsided, print_front, print_back, number_pms_colors_front, number_pms_colors_back):
     printsided_text = write_sided_text(printsided)
     print_front_text = write_print_text(print_front)
-    print_rear_text = write_print_text(print_rear)
+    print_back_text = write_print_text(print_back)
     pms_colors_front = write_print_text(number_pms_colors_front)
-    pms_colors_rear = write_print_text(number_pms_colors_rear)
+    pms_colors_back = write_print_text(number_pms_colors_back)
 
     printprojectprinting = []
     if printsided in [1, 2]:  # "Eenzijdig" or "Tweezijdig gelijk"
@@ -112,36 +112,36 @@ def printproject_printing(printsided, print_front, print_rear, number_pms_colors
 
     if printsided == 3:  # "Tweezijdig verschillend"
         printprojectprinting = ("Voorzijde in " + print_front_text + pms_colors_front + ", achterzijde in "
-                                + print_rear_text + " " + pms_colors_rear)
+                                + print_back_text + " " + pms_colors_back)
 
     return printprojectprinting
 
 
-def printproject_varnish(printsided, pressvarnish_front, pressvarnish_rear, ):
+def printproject_varnish(printsided, pressvarnish_front, pressvarnish_back, ):
     pressvarnish_front_description = "geen persvernis"
-    pressvarnish_rear_description = "geen persvernis"
+    pressvarnish_back_description = "geen persvernis"
 
     pressvarnish_description = pressvarnish_front_description
 
     if pressvarnish_front == 1:
         pressvarnish_front_description = "persvernis"
 
-    if pressvarnish_rear == 1:
-        pressvarnish_rear_description = "persvernis"
+    if pressvarnish_back == 1:
+        pressvarnish_back_description = "persvernis"
 
-    if pressvarnish_front == pressvarnish_rear and printsided == 1:
+    if pressvarnish_front == pressvarnish_back and printsided == 1:
         pressvarnish_description = "Eenzijdig " + pressvarnish_front_description
         if printsided == 2 and pressvarnish_front == 1:
             pressvarnish_description = "Tweeijdig " + pressvarnish_front_description
 
     if printsided == 3:
-        pressvarnish_description = "Voorzijde " + pressvarnish_front_description + " en achterzijde " + pressvarnish_rear_description
+        pressvarnish_description = "Voorzijde " + pressvarnish_front_description + " en achterzijde " + pressvarnish_back_description
     return str(pressvarnish_description)
 
 
-def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_rear):
+def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_back):
     enhance_front_text = write_enhance_text(enhance_front)
-    enhance_rear_text = write_enhance_text(enhance_rear)
+    enhance_back_text = write_enhance_text(enhance_back)
 
     enhance_description = 'Geen opgave'
 
@@ -156,11 +156,11 @@ def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_
         if enhance_sided == 2:  # 'Tweezijdig gelijk':
             enhance_description = "Tweezijdig " + enhance_front_text
         if enhance_sided == 3:  # 'Tweezijdig verschillend':
-            enhance_description = "Voorzijde " + enhance_front_text + "en achterzijde " + enhance_rear_text
+            enhance_description = "Voorzijde " + enhance_front_text + "en achterzijde " + enhance_back_text
         if enhance_sided == 4:  # 'Alleen voorzijde':
             enhance_description = "Voorzijde " + enhance_front_text + ", achterzijde geen veredeling "
         if enhance_sided == 5:  # 'Alleen achterzijde':
-            enhance_description = "Achterzijde " + enhance_rear_text + ", voorzijde geen veredeling "
+            enhance_description = "Achterzijde " + enhance_back_text + ", voorzijde geen veredeling "
 
     return enhance_description
 
@@ -191,7 +191,7 @@ def printproject_number_of_pages(printproject):
         pages = number_of_pages + " pagina's"
     elif productcategory_id == 3:
         pages = number_of_pages + " pagina's selfcover."
-    elif productcategory_id in [4, 5]:
+    elif productcategory_id in categories_brochures_cover:
         pages = number_of_pages + " pagina's binnenwerk in 4 pagina's omslag"
     else:
         pages = number_of_pages
@@ -201,7 +201,7 @@ def printproject_number_of_pages(printproject):
 def printproject_finishing(printproject):
     productcategory_id = printproject.productcategory_id
     finishing_text = ""
-    if productcategory_id == categories_plano:
+    if productcategory_id in categories_plano:
         finishing_text = 'Gesneden tot afgewerkt formaat'
     elif productcategory_id == categories_folders:
         finishing_text = write_foldingmethod_text(printproject.folding)
