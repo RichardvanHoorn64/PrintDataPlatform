@@ -58,7 +58,6 @@ class NoAccessView(TemplateView):
 class ThanksSubmitView(TemplateView):
     template_name = 'thanks_submit_offer.html'
 
-
 class SignupLandingView(View):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -67,7 +66,10 @@ class SignupLandingView(View):
             return redirect('/welcome/')
 
         if not user.member_id:
-            new_id = Members.objects.aggregate(Max('member_id')).get('member_id__max') + 1
+            try:
+                new_id = Members.objects.aggregate(Max('member_id')).get('member_id__max') + 1
+            except TypeError:
+                new_id = 1
             new_member = Members(
                 member_id=new_id,
                 active=user.active,

@@ -39,34 +39,35 @@ class LoadVeldhuisDataView(LoginRequiredMixin, View):
 def load_klanten_veldhuis(inputfolder, inputfile, request):
     try:
         with open(inputfolder + inputfile, 'r') as klanten_veldhuis_csv_file:
-            klanten_veldhuis = pd.read_csv(klanten_veldhuis_csv_file, delimiter=',', header=0, encoding="utf-8")
-            klanten_veldhuis_oud = Members.objects.filter(exclusive_producer_id=2, member_plan_id=3)
+            # klanten_veldhuis = pd.read_csv(klanten_veldhuis_csv_file, delimiter=',', header=0, encoding="utf-8")
+            klanten_veldhuis_oud = Members.objects.filter(exclusive_producer_id=2, member_plan_id=3).exclude(member_id=6).exclude(member_id=7)
+            klanten_veldhuis_oud.delete()
             klanten_veldhuis_oud.delete()
 
-            for index, row in klanten_veldhuis.iterrows():
-                veldhuis_klant = Members(
-                    member_id=row['klant_id'],
-                    company=row['bedrijfsnaam'],
-                    user_admin=row['user_admin'],
-                    exclusive_producer_id=2,
-                    manager=row['manager'],
-                    tel_general=row['telefoonnummer_algemeen'],
-                    e_mail_general=row['e_mail_algemeen'],
-                    street_number=row['straat_huisnummer'],
-                    postal_code=row['postcode'],
-                    city=row['plaats'],
-                    demo_company=False,
-                    member_plan_id=3,
-                    language_id=1,
-                    active=True,
-                    country_code='nl',
-                    created=row['created'],
-                )
-                try:
-                    veldhuis_klant.save()
-                except Exception as e:
-                    print('error drukwerkmaatwerk klant load: ', str(e))
-        print('drukwerkmaatwerk klanten veldhuis loaded')
+        #     for index, row in klanten_veldhuis.iterrows():
+        #         veldhuis_klant = Members(
+        #             member_id=row['klant_id'],
+        #             company=row['bedrijfsnaam'],
+        #             user_admin=row['user_admin'],
+        #             exclusive_producer_id=2,
+        #             manager=row['manager'],
+        #             tel_general=row['telefoonnummer_algemeen'],
+        #             e_mail_general=row['e_mail_algemeen'],
+        #             street_number=row['straat_huisnummer'],
+        #             postal_code=row['postcode'],
+        #             city=row['plaats'],
+        #             demo_company=False,
+        #             member_plan_id=3,
+        #             language_id=1,
+        #             active=True,
+        #             country_code='nl',
+        #             created=row['created'],
+        #         )
+        #         try:
+        #             veldhuis_klant.save()
+        #         except Exception as e:
+        #             print('error drukwerkmaatwerk klant load: ', str(e))
+        # print('drukwerkmaatwerk klanten veldhuis loaded')
     except Exception as e:
         print('error drukwerkmaatwerk_klanten_veldhuis load: ', str(e))
 
