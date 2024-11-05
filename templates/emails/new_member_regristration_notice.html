@@ -1,0 +1,39 @@
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>new member admin notice email</title></head>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+</html>
+<body>
+<h4>
+    Beste {{ user.first_name }}<br><br>
+    Bedankt voor uw aanmelding op het PrintDataPlatform, uw aanmelding wordt nog beoordeeld.<br> 
+    {% if user.producer_application %}
+    U heeft zich aangemeld als producent. Ik neem met u contact op voor een vrijblijvend gesprek over de mogelijkheden.
+    {% else %}
+    U hoort zo snel mogelijk van ons. Aarzel niet om contact met ons op te nemen als hierover nog vragen zijn.
+    {% endif %}
+
+    <br><br>
+    Hartelijke groet,<br>
+    Richard van Hoorn <br>
+    PrintDataPlatform BV <br><br>
+    contact@printdataplatform.nl<br>
+    tel: 0655962062
+</h4>
+<br><br>
+</body>

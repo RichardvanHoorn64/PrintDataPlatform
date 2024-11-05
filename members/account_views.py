@@ -7,10 +7,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView, DetailView, View
-from index.mail.new_member_notice import *
 from producers.models import *
 from profileuseraccount.models import Members
 from printdataplatform.settings import EMAIL_TO_ADMIN
+from django.template.loader import render_to_string
 
 
 # company account
@@ -58,6 +58,7 @@ class NoAccessView(TemplateView):
 class ThanksSubmitView(TemplateView):
     template_name = 'thanks_submit_offer.html'
 
+
 class SignupLandingView(View):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -99,23 +100,30 @@ class SignupLandingView(View):
         else:
             pass
 
+        # mail notifications
+        merge_data = {
+            'user': user,
+        }
+
         try:
             # new_member_notice mail to EMAIL_TO_ADMIN
             subject = 'Nieuwe aanmelding PrintDataPlatform van: ' + user.first_name + ' ' + user.last_name + ', ' + user.company
-            body = new_member_notice_body(user)
+            email_template = 'emails/new_member_admin_notice.html'
+            html_body = render_to_string(email_template, merge_data)
             address = EMAIL_TO_ADMIN
-            send_printdataplatform_mail(subject, address, body)
+            send_printdataplatform_mail(subject, address, html_body)
 
         except Exception as e:
             print('SignupLandingView error: ', e)
             pass
 
         try:
-            # new member confirmationmail to EMAIL_TO_ADMIN
+            # New_member regristration notice to NEW MEMBER
             subject = 'Dank voor uw aanmelding op het PrintDataPlatform'
-            body = new_member_confirmationmail_body(user)
+            email_template = 'emails/new_member_regristration_notice.html'
+            html_body = render_to_string(email_template, merge_data)
             address = user.email
-            send_printdataplatform_mail(subject, address, body)
+            send_printdataplatform_mail(subject, address, html_body)
 
         except Exception as e:
             print('SignupLandingView error: ', e)

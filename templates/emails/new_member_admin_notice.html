@@ -15,19 +15,30 @@
         text-align: left;
         padding: 8px;
     }
-
 </style>
 </html>
 <body>
 <h4>
     Hallo Richard,<br><br>
-        Er is een nieuwe aanmelding op Het PrintdDataPlatform van<br>
-        {{user.first_name}} ' ' str(user.last_name}}<br>
-        namens:  {{user.company}} uit {{user.city}} , email:  {{user.e_mail_general}}<br>
+        Er is een nieuwe aanmelding op Het PrintDataPlatform van {{user.first_name}} &nbsp;{{user.last_name}}<br>
+        functie:  {{user.jobtitle }}<br>
+        namens:  {{user.company}} uit {{user.city}} <br>
+        email persoonlijk:  {{user.email}}<br>
+        email algemeen:  {{user.e_mail_general}}<br>
+        mobiel:  {{user.e_mail_general}}<br>
         telefoonnummer: {{user.tel_general}}<br><br>
-    
-        Producer aanmelding: {{ user.producer_application }} br><br>
-    )
+
+        {% if user.conditions_approved %}
+        {{user.company}} is akkoord met de spelregels
+        {% else %}
+        <strong>{{user.company}} heeft geen akkoord op de spelregels gegeven</strong>
+        {% endif %}
+        <br><br>
+        {% if user.producer_application %}
+        {{user.company}} heeft zich aangemaeld als producent
+        {% else %}
+        Dit is geen producent aanmelding
+        {% endif %}><br>
 </h4>
 <br><br>
 </body>

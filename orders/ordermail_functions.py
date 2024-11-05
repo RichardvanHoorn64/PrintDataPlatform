@@ -121,7 +121,7 @@ def send_ordermail_producer(order_id):
         'categories_brochures_all' : categories_brochures_all,
         'categories_brochures_cover' : categories_brochures_cover,
     }
-    print('merge_data: ', merge_data)
+
     # select email template
     email_template = 'orders/ordermail_includes/email_order_notice.html'
     subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)
