@@ -122,19 +122,13 @@ def send_ordermail_producer(order_id):
         'categories_brochures_cover' : categories_brochures_cover,
     }
 
-    # select email template
-    email_template = 'orders/ordermail_includes/email_order_notice.html'
-    subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)
-    text_body = render_to_string('orders/ordermail_includes/text_order_notice.txt', merge_data)
-    html_body = render_to_string(email_template, merge_data)
-
-    from_email = EMAIL_HOST_USER
-    recepients = [producer.e_mail_orders, ]
-
-    order_mail = EmailMultiAlternatives(subject=subject, from_email=from_email,
-                                        to=recepients, body=text_body)
-    order_mail.attach_alternative(html_body, "text/html")
+    # send ordermail
     try:
-        order_mail.send()
+        email_template = 'orders/ordermail_includes/email_order_notice.html'
+        subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)
+        html_body = render_to_string(email_template, merge_data)
+        adress = recepients = producer.e_mail_orders
+        send_printdataplatform_mail(subject, address, html_body)
     except Exception as e:
         error_mail_admin('order_mail.send() error: ', e)
+

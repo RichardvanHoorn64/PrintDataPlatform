@@ -21,7 +21,7 @@
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a class="text-info"
                                                    href="{% url 'home' %}">Dashboard {{ user.company }}</a></li>
-                    <li class="breadcrumb-item active">Nieuwe producent aanmaken</li>
+                    <li class="breadcrumb-item active">Nieuwe producent toevoegen</li>
                 </ol>
             </nav>
             <hr class="text-info">
@@ -75,12 +75,12 @@
                             <p>{{ form.e_mail_general }}</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label" for="company_url">Website:</label>
-                            <p>{{ form.company_url }}</p>
-                        </div>
-                    </div>
+{#                    <div class="row">#}
+{#                        <div class="col-md-6">#}
+{#                            <label class="form-label" for="company_url">Website:</label>#}
+{#                            <p>{{ form.company_url }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
 
                     <!-- ===============================================-->
                     <!--  Adress -->

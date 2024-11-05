@@ -39,13 +39,10 @@ class SendRFQView(LoginRequiredMixin, View):
 
             if producer.calculation_module:
 
-
                 if auto_quote:
                     create_open_calculation_offer(rfq, producer_id, True)
                     try:
                         auto_calculate_offer(rfq, producer_id)
-                            # send automated mail completed
-                            # send_rfq_mail(producer, member_company, new_offer, printproject)
                     except Exception as e:
                             print('auto_calculate_offer failed: (rfq, producer_id)', e)
                             send_rfq_mail(producer, member_company, new_offer, printproject)

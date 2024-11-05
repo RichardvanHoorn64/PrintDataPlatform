@@ -20,7 +20,8 @@
 <body>
 <h4>
     Hallo Richard,<br><br>
-        Er is een nieuwe aanmelding op Het PrintDataPlatform van {{user.first_name}} &nbsp;{{user.last_name}}<br>
+        Er is een nieuwe aanmelding op Het PrintDataPlatform van: <br><br>
+        {{user.first_name}} &nbsp;{{user.last_name}}<br>
         functie:  {{user.jobtitle }}<br>
         namens:  {{user.company}} uit {{user.city}} <br>
         email persoonlijk:  {{user.email}}<br>
@@ -34,11 +35,12 @@
         <strong>{{user.company}} heeft geen akkoord op de spelregels gegeven</strong>
         {% endif %}
         <br><br>
+
         {% if user.producer_application %}
-        {{user.company}} heeft zich aangemaeld als producent
+        {{user.company}} heeft zich aangemeld als producent
         {% else %}
         Dit is geen producent aanmelding
-        {% endif %}><br>
+        {% endif %}<br>
 </h4>
 <br><br>
 </body>

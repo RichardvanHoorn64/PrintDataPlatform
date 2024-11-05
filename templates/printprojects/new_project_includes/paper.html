@@ -56,7 +56,7 @@
                 <label class="form-label" for="paperweight">Papiergewicht</label>
                 <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmpyPaperBrand()"
                         {% if not update %} required {% endif %}>
-                 {% if update %}
+                    {% if update %}
                         <option value="0">Wijzig papiergewicht</option>{% endif %}
                     {% for i in paperweights %}
                         <option value="{{ i.paperweight_m2 }}">{{ i.paperweight_m2 }}</option>

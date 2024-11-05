@@ -22,7 +22,7 @@
     <div id="default_paper_input">
         <div class="row">
                 <div class="col-sm-6 col-md-6">
-                    <label class="form-label" for="papercategory_cover">Papiercategorie omslag *</label>
+                    <label class="form-label" for="papercategory_cover">Papiercategorie omslag</label>
                     <select class="form-select" id="papercategory_cover" name="papercategory_cover">
                         {% if not update %} required {% endif %}>
                         {% if update %}
@@ -39,7 +39,11 @@
                 <label class="form-label" for="paperbrand_cover">Kies papiermerk omslag *</label>
                 <select class="form-select" id="paperbrand_cover" name="paperbrand_cover"
                         onclick="popUpEmpyPaperCategoryCover()">
-                    <option value="">Kies papiermerk omslag</option>
+                         {% if update %}
+                        <option value="0">Wijzig papiermerk omslag</option>
+                        {% else %}
+                        <option value="0">Kies papiermerk omslag</option>
+                        {% endif %}
                     {% for i in paperbrands_cover %}
                         <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
                     {% endfor %}
@@ -56,6 +60,13 @@
                 <label class="form-label" for="paperweight_cover">Kies papiergewicht omslag*</label>
                 <select class="form-select" id="paperweight_cover" name="paperweight_cover"
                         onclick="popUpEmpyPaperBrandCover()">
+                                    {% if update %}
+                        <option value="0">Wijzig papiergewicht omslag</option>{% endif %}
+                
+                
+                    {% for i in paperweights %}
+                        <option value="{{ i.paperweight_m2 }}">{{ i.paperweight_m2 }}</option>
+                    {% endfor %}
                     {% for i in paperweights_cover %}
                         <option value="{{ i.paperweight_m2 }}">{{ i.paperweight_m2 }}</option>
                     {% endfor %}
@@ -66,6 +77,8 @@
                     <label class="form-label" for="papercolor_cover">Kies papierkleur * </label>
                     <select class="form-select" id="papercolor_cover" name="papercolor_cover"
                             onclick="popUpEmpyPaperWeightCover()">
+                                                     {% if update %}
+                        <option value="0">Wijzig papierkleur omslag</option>{% endif %}
                         {% for i in papercolors_cover %}
                             <option value="{{ i.paperspec_id }}">{{ i.papercolor }}</option>
                         {% endfor %}
