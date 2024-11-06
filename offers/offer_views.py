@@ -204,7 +204,7 @@ class DenyOfferView(View):
         try:
             offer_id = self.kwargs['pk']
             offer = Offers.objects.get(offer_id=offer_id)
-            offer.offerstatus_id = 5  # denied
+            offer.offerstatus_id = 4  # denied
             offer.offer_date = datetime.now()
             offer.save()
         finally:

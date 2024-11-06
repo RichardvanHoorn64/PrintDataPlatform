@@ -95,7 +95,7 @@ class CreateOrderView(LoginRequiredMixin, CreateView):
         try:
             send_ordermail_producer(order_id)
         except Exception as e:
-            error_mail_admin('order id: ' + str(self.object.id) + 'doorverwijzing naar orderbevestiging: ,', e)
+            error_mail_admin('order id: ' + str(self.object.order_id) + ' ordermail failed: ,', e)
         return '/order_details/' + str(order_id)
 
     def form_valid(self, form):

@@ -49,6 +49,7 @@ class Producers(models.Model):
     country_code = models.CharField(max_length=100, default="NL")
     language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
     demo_company = models.BooleanField(default=False)
+    only_exclusive = models.BooleanField(default=False)
     company_url = models.URLField(null=True, blank=True, max_length=200)
 
     # modules

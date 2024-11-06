@@ -1,7 +1,5 @@
 from sqlite3 import IntegrityError
-
 from django.core.exceptions import ObjectDoesNotExist
-
 from assets.models import GeneralCalculationSettings
 from producers.models import *
 from methods.models import *

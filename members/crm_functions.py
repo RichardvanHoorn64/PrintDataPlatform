@@ -1,5 +1,4 @@
 from sqlite3 import IntegrityError
-
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from offers.models import Offers
@@ -45,6 +44,7 @@ def update_producersmatch(request):
     member_id = request.user.member_id
     producers = Producers.objects.filter(active=True, demo_company=demo_company).values_list('producer_id', flat=True)
     producers_not_active = Producers.objects.filter(active=False).values_list('producer_id', flat=True)
+    producers_not_open_for_match = Producers.objects.filter(only_exclusive=True).values_list('producer_id', flat=True)
     matches = MemberProducerMatch.objects.filter(member_id=member_id).values_list('producer_id',
                                                                                   flat=True)
     # create new member producer matches
@@ -60,6 +60,14 @@ def update_producersmatch(request):
             not_active_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
                                                                     member_id=member_id)
             for no_match in not_active_matches:
+                no_match.delete()
+
+    # delete producers not open for match
+    for producer_not_open_for_match in producers_not_open_for_match:
+        if producer_not_open_for_match in matches:
+            not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
+                                                                    member_id=member_id)
+            for no_match in not_open_matches:
                 no_match.delete()
 
     # delete demo producers for match
