@@ -148,11 +148,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
 
         # portrait_landscape
         if form.cleaned_data['portrait_landscape'] == 0:
-            form.instance.portrait_landscape = 1 # staand
+            form.instance.portrait_landscape = 1  # staand
 
         if productcategory_id in categories_folders:
             folding_id = find_foldingspecs(form.cleaned_data['folding'])
-            form.instance.folding =  find_foldingspecs(folding_id)
+            form.instance.folding = find_foldingspecs(folding_id)
             form.instance.number_of_pages = find_folding_number_of_pages(folding_id)
         else:
             form.instance.folding = 0
@@ -261,12 +261,14 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                 context['print_choices'] = dropdowns.filter(dropdown='print_choices').order_by('-value').exclude(
                     value=0)
 
-            enhance_options_producer = EnhancementTariffs.objects.filter(producer_id=exclusive_producer_id).values_list(
+            enhance_options_producer = EnhancementTariffs.objects.filter(producer_id=exclusive_producer_id,
+                                                                         availeble=True).values_list(
                 'enhancement_id', flat=True)
             enhance_choices = EnhancementOptions.objects.filter(language_id=language_id,
                                                                 enhancement_id__in=enhance_options_producer)
 
-            packagingoptions_producer = PackagingTariffs.objects.filter(producer_id=exclusive_producer_id).values_list(
+            packagingoptions_producer = PackagingTariffs.objects.filter(producer_id=exclusive_producer_id,
+                                                                        availeble=True).values_list(
                 'packagingoption_id', flat=True)
             packaging_choices = PackagingOptions.objects.filter(language_id=language_id,
                                                                 packagingoption_id__in=packagingoptions_producer).order_by(

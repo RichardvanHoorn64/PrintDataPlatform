@@ -25,7 +25,7 @@
 
 <div class="row">
         <div class="col-sm-6 col-md-9">
-            <label class="form-label" for="project_title">Projectnaam *</label>
+            <label class="form-label" for="project_title">Projectnaam</label>
             <input type="text" class="form-control" id="project_title" name="project_title"
                     {% if update %}
                    value="{{ printproject.project_title }}"
@@ -39,15 +39,22 @@
     <!--   Row volume, ordernumber and planning -->
     <!-- ===============================================-->
     <div class="row">
+     <div class="mb-3 row">
+    
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="volume">Oplage *</label>
-            <input class="form-control" type="text" id="volume" name="volume"
+            <label class="form-label" for="volume">Oplage 
+                {% if update %} {{ printproject.volume }} {% endif %} 
+
+            </label>
+            <input class="form-control"  id="volume" name="volume" type="number"
                     {% if update %}
                    value="{{ printproject.volume }}"
                     {% else %}
                    placeholder="Oplage"
                     {% endif %}required/>
         </div>
+    
+    
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="own_quotenumber" for="own_quotenumber">Eigen ordernr</label>
             <input class="form-control" type="text" id="own_quotenumber" name="own_quotenumber"
@@ -148,6 +155,7 @@
     </div>
     <hr class="text-info"><br>
 {% endif %}
+</div>
 </div>
 </body>
 </html>

@@ -223,6 +223,9 @@ def translate_dataframe(dataframe):
         if col == 'bedrukking_achterzijde':
             dataframe['print_back'] = dataframe['bedrukking_achterzijde']
 
+        if col == 'veredeling_omslag':
+            dataframe['enhance_front'] = dataframe['veredeling_omslag']
+
         if col == 'veredeling_voorzijde':
             dataframe['enhance_front'] = dataframe['veredeling_voorzijde']
 
