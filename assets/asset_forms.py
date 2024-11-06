@@ -193,17 +193,26 @@ class ProducerUpdateGeneralTariffForm(forms.ModelForm):
 
 
 class ProducerCreateUpdateEnhancementForm(forms.ModelForm):
-    enhancement_id = char_field_200_false
     setup_cost = decimal_field_notreq
     minimum_cost = decimal_field_notreq
     production_cost_1000sheets = decimal_field_notreq
-    max_sheet_width = decimal_field_notreq
-    max_sheet_height = decimal_field_notreq
+    max_sheet_width = integer_field_notreq
+    max_sheet_height = integer_field_notreq
 
     class Meta:
         model = EnhancementTariffs
-        fields = ('enhancement_id', 'setup_cost', 'minimum_cost', 'production_cost_1000sheets', 'max_sheet_width',
+        fields = ('setup_cost', 'minimum_cost', 'production_cost_1000sheets', 'max_sheet_width',
                   'max_sheet_height')
+
+
+class ProducerUpdateTransportForm(forms.ModelForm):
+    transporttariff_id = integer_field_notreq
+    setup_cost = decimal_field_notreq
+    cost_per_100kg = decimal_field_notreq
+
+    class Meta:
+        model = TransportTariffs
+        fields = ('setup_cost', 'cost_per_100kg')
 
 
 class ProducerUpdatePackagingForm(forms.ModelForm):

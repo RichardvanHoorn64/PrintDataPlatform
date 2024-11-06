@@ -29,6 +29,10 @@
                                Kosten per 100kg
 
                             </th>
+                                                         <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:10%;">Toegevoegde waarde
+                                 </th>
+                            <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Wel/geen <br>Eigen productie</th>
+                            
                              <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:20%;">Status
                             </th>
                                                         <th class="white-space-nowrap align-middle pe-1" scope="col" style="width:5%;">Wel/niet <br>Aanbieden</th>
@@ -44,6 +48,22 @@
                                 <td class="align-middle fw-semi-bold text-1000">{{ i.transportoption.transport  }}</td>
                                 <td class="align-middle fw-semi-bold text-1000">€ {{ i.setup_cost }}</td>
                                 <td class="align-middle fw-semi-bold text-1000">€ {{ i.cost_per_100kg }}</td>
+                            
+                             <td class="align-middle fw-semi-bold text-1000">
+                                {% if i.added_value %}Eigen productie{% else %}Inkoop{% endif %} </td>
+
+                                {% if i.added_value  %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_transport_added_value' i.transporttariff_id %}"
+                                class="btn btn-outline-warning btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-ban"></i></a>
+                            </td>
+                                {% else %}
+                            <td class="speed align-middle fw-semi-bold text-1000"><a href="{% url 'change_transport_added_value' i.transporttariff_id %}"
+                                class="btn btn-outline-success btn-sm me-1 mb-1" role="button"
+                                aria-pressed="true"><i class="fas fa-plus"></i></a>
+                            </td>
+                            {% endif %}
+                            
                             <td class="align-middle fw-semi-bold text-1000">
                                 {% if i.availeble %}Aangeboden{% else %}Niet aangeboden{% endif %} </td>
 

@@ -271,6 +271,9 @@ urlpatterns = [
          name='enhancement_create'),
     path('change_enhancement_added_value/<int:enhancementtariff_id>', ChangeEnhancementAddedValue.as_view(),
          name='change_enhancement_added_value'),
+    path('change_transport_added_value/<int:transporttariff_id>', ChangeTransportAddedValue.as_view(),
+         name='change_transport_added_value'),
+
     path('enhancement_update/<int:enhancementtariff_id>', ProducerEnhancementUpdate.as_view(),
          name='enhancement_update'),
     path('enhancement_delete/<int:enhancementtariff_id>', ProducerEnhancementDelete.as_view(),

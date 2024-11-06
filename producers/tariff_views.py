@@ -50,7 +50,6 @@ class ProducerTariffs(LoginRequiredMixin, TemplateView):
             update_transport_tariffs(user.producer_id)
             transport_tariffs = TransportTariffs.objects.filter(producer_id=user.producer_id)
         transport_tariffs = transport_tariffs
-
         context['general_settings'] = general_settings
         context['enhancement_tariffs'] = enhancement_tariffs.order_by('enhancement_id', 'max_sheet_height')
         context['packaging_tariffs'] = packaging_tariffs
@@ -163,8 +162,8 @@ class ProducerPackagingUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ProducerTransportUpdate(LoginRequiredMixin, UpdateView):
-    model = PackagingTariffs
-    form_class = ProducerUpdatePackagingForm
+    model = TransportTariffs
+    form_class = ProducerUpdateTransportForm
     pk_url_kwarg = 'transporttariff_id'
     success_url = '/producer_tariffs/'
 
@@ -178,6 +177,7 @@ class ProducerTransportUpdate(LoginRequiredMixin, UpdateView):
         context = super(ProducerTransportUpdate, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         producer_id = self.request.user.producer_id
+        context['form_title'] = 'Transport - Tarief update'
         transporttariff_id = self.kwargs['transporttariff_id']
 
         try:
@@ -199,7 +199,6 @@ class ChangeMemberProducerStatus(View, LoginRequiredMixin):
         user = self.request.user
         memberproducermatch_id = kwargs.get('memberproducermatch_id')
         memberproducerstatus_id = kwargs.get('memberproducerstatus_id')
-
 
         # Update MemberProducerMatch
         memberproducermatch = MemberProducerMatch.objects.get(memberproducermatch_id=memberproducermatch_id)
@@ -370,6 +369,27 @@ class ChangeEnhancementAddedValue(LoginRequiredMixin, View):
                     new_status = False
                 enhancementoffering.added_value = new_status
                 enhancementoffering.save()
+        finally:
+            pass
+        return redirect('/producer_tariffs/')
+
+
+class ChangeTransportAddedValue(LoginRequiredMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        transporttariff_id = kwargs.get('transporttariff_id')
+        producer_id = request.user.producer_id
+        try:
+            transportoffering = TransportTariffs.objects.get(transporttariff_id=transporttariff_id,
+                                                                 producer_id=producer_id)
+
+            if transportoffering:
+                offering_status = transportoffering.added_value
+                if not offering_status:
+                    new_status = True
+                else:
+                    new_status = False
+                transportoffering.added_value = new_status
+                transportoffering.save()
         finally:
             pass
         return redirect('/producer_tariffs/')

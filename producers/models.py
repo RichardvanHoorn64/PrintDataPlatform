@@ -53,7 +53,7 @@ class EnhancementTariffs(models.Model):
     max_sheet_height = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name = ' enhancementtariffs'
+        verbose_name = 'enhancementtariffs'
         verbose_name_plural = 'enhancementtariff'
 
 
