@@ -18,7 +18,7 @@ def plano_folder_calculation(producer_id, rfq):
     # packaging and transport
     if not error:
         try:
-            packagingtariff = PackagingOptions.objects.get(packaging=rfq.packaging)
+            packagingtariff = PackagingOptions.objects.get(packagingoption_id=rfq.packaging)
             packagingoption_id = packagingtariff.packagingoption_id
         except Exception as e:
             error = 'No packagingtariff available, update settings'

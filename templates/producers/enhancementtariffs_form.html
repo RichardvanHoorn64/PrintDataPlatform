@@ -78,19 +78,19 @@
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" for="setup_cost">Opstarten:  €</label>
                         <div class="col-sm-3">
-                          <input class="form-control" id="setup_cost" name="setup_cost" type="number" value="{{ enhancement.setup_cost }}" step='0.01'>
+                          <input class="form-control" id="setup_cost" name="setup_cost" type="number" value="{{ enhancement.setup_cost }}" step='0.01' required>
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" for="production_cost_1000sheets">Productiekosten per 1000 vel  €</label>
                         <div class="col-sm-3">
-                          <input class="form-control" id="production_cost_1000sheets" name="production_cost_1000sheets" type="number" value="{{ enhancement.production_cost_1000sheets }}" step='0.01'>
+                          <input class="form-control" id="production_cost_1000sheets" name="production_cost_1000sheets" type="number" value="{{ enhancement.production_cost_1000sheets }}" step='0.01' required>
                         </div>
                       </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" for="minimum_cost">Minimum kosten  €</label>
                         <div class="col-sm-3">
-                             <input class="form-control" id="minimum_cost" name="minimum_cost" type="number" value="{{ enhancement.minimum_cost }}" step='0.01'>
+                             <input class="form-control" id="minimum_cost" name="minimum_cost" type="number" value="{{ enhancement.minimum_cost }}" step='0.01' required>
 
                         </div>
                       </div>
@@ -110,13 +110,13 @@
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" for="max_sheet_height">Hoogte mm</label>
                         <div class="col-sm-3">
-                          <input class="form-control" id="smax_sheet_height" name="max_sheet_height" type="number" value="{{ enhancement.max_sheet_height }}">
+                          <input class="form-control" id="smax_sheet_height" name="max_sheet_height" type="number" value="{{ enhancement.max_sheet_height }} required">
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label" for="max_sheet_width">Breedte mm</label>
                         <div class="col-sm-3">
-                          <input class="form-control" id="max_sheet_width" name="max_sheet_width" type="number" value="{{ enhancement.max_sheet_width }}">
+                          <input class="form-control" id="max_sheet_width" name="max_sheet_width" type="number" value="{{ enhancement.max_sheet_width }} required">
                         </div>
                       </div>
                 <hr class="text-info">

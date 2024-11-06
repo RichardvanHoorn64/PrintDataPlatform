@@ -205,7 +205,7 @@ def brochure_cover_calculation(producer_id, rfq, book_thickness, portrait_landsc
                 axis=1)
 
         except Exception as e:
-            error = 'Enhancement cost calculation cover failed'
+            error = 'Enhancement cost calculation cover failed, set tariff'
             print('error log: ' + error + ' ' + str(e))
 
     if not error:
