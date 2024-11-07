@@ -29,7 +29,7 @@ class PrintProjects(models.Model):
     printprojectstatus = models.ForeignKey(PrintprojectStatus, null=True, blank=True, on_delete=models.SET_NULL)
     project_title = models.CharField(max_length=500, blank=True, null=True)
     catalog_code = models.CharField(max_length=500, blank=True, null=True)
-    description = models.TextField(max_length=1000, blank=True)
+    description = models.TextField(max_length=2500, blank=True)
     error = models.TextField(max_length=500, blank=True)
     message_extra_work = models.TextField(max_length=1000, blank=True)
     own_quotenumber = models.CharField(max_length=200, null=True, blank=True, )
@@ -41,8 +41,8 @@ class PrintProjects(models.Model):
     number_of_offers = models.PositiveIntegerField(default=0)
 
     # planning
-    supply_date = models.DateTimeField(null=True, blank=True)
-    delivery_date = models.DateTimeField(null=True, blank=True)
+    supply_date = models.DateField(null=True, blank=True)
+    delivery_date = models.DateField(null=True, blank=True)
 
     # Products
     format_selection = models.CharField(max_length=200, blank=True, null=True)

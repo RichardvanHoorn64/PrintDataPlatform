@@ -38,6 +38,16 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
         context = createprintproject_context(context, user, printproject)
         member_plan_id = user.member.member_plan_id
 
+        if member_plan_id in pro_memberplans:
+            try:
+                client = Clients.objects.get(client_id=printproject.client_id, member_id=user.member_id).client
+            except Clients.DoesNotExist:
+                client = 'Geen opgave'
+        else:
+            client = 'Alleen voor pro accounts'
+
+        context['client'] = client
+
         printproject_subtitle = []
         if printproject.printprojectstatus_id == 1:
             printproject_subtitle = '  Kies leveranciers en verstuur offerteaanvragen'

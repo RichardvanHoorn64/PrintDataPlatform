@@ -37,7 +37,11 @@
         <!-- ===============================================-->
         <!--   New project form-->
         <!-- ===============================================-->
-        <form name="printproject_form" method="post" onsubmit="return validateFormPrintProjects()" method="post">
+        <form id="printproject_form" name="printproject_form" method="post" 
+               {% if not update %}
+              onsubmit="return validateFormPrintProjects()" 
+              {% endif %}
+              method="post">
             {% csrf_token %}
             <div class="row">
                 <div class="col-xl-12">

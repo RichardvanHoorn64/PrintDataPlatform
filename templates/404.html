@@ -56,6 +56,11 @@
                                    class="btn btn-info btn-sm me-1 mb-1" role="button"
                                    aria-pressed="true">Meer info</a>
                                 <a class="btn btn-info btn-sm me-1 mb-1" href="{% url 'home' %}">Home</a>
+                                {% if request.user.is_authenticated %}
+                                    <hr class="text-info">
+                                    <p class="card-text">Het is verstandig om eerst even uit te loggen<br></p>
+                                    {% include 'buttons/nav_login_out.html' %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

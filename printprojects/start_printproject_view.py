@@ -298,17 +298,17 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                 else:
                     brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=5)
 
+        print_type = ""
+        if productcategory_id in categories_brochures_cover:
+            print_type = " omslag"
+
         context['packaging_choices'] = packaging_choices
-
-        context['no_enhancement'] = 'Geen verdeling'
+        context['no_enhancement'] = 'Kies verdeling'
         context['enhance_choices'] = enhance_choices.order_by('enhancement_id')
-
         context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = show_papercolor
+        context['print_type'] = print_type
 
-        context['print_type'] = ''
-        if productcategory_id in categories_brochures_cover:
-            context['print_type'] = 'Omslag'
 
         return context

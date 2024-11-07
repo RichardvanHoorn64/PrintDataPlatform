@@ -45,8 +45,10 @@ char_field_2500_false = forms.CharField(widget=forms.TextInput(attrs={'class': '
 char_field_2500_req = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '  '}),
                                       max_length=2500, required=True)
 
-date_field = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': '  '}),
+date_field = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                              required=False)
+
+textarea = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), max_length=2500, required=False)
 
 url_field_false = forms.URLField(
     widget=forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'url incl https://www.'}),

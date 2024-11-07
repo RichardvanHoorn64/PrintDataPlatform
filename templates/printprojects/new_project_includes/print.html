@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container" id="printing_cover">
-<!-- ===============================================-->
+    <!-- ===============================================-->
     <!--   Row print cover title -->
     <!-- ===============================================-->
     <div class="row">
@@ -30,11 +30,9 @@
                 {% endfor %}
             </select>
         </div>
-
         <!-- ===============================================-->
         <!--   Print choice -->
         <!-- ===============================================-->
-
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="print_front_label_cover" for="print_front">Bedrukking</label>
             <select class="form-select" id="print_front" name="print_front">
@@ -51,7 +49,7 @@
             {% if brandportal.brandportal_show_pms_input %}
             <div class="col-sm-6 col-md-3">
                 <label class="form-label" id="number_pms_colors_cover_label" for="number_pms_colors_front">Aantal PMS kleuren
-                    omslag</label>
+                    {{ print_type }}</label>
                 <input type="text" class="form-control" id="number_pms_colors_front" name="number_pms_colors_front"
                        placeholder=0 value=0>
             </div>
@@ -59,9 +57,8 @@
         <!-- ===============================================-->
         <!--   Pressvarnish front cover-->
         <!-- ===============================================-->
-
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="pressvarnish_cover_label" for="pressvarnish_front">Vernis omslag</label>
+            <label class="form-label" id="pressvarnish_cover_label" for="pressvarnish_front">Vernis {{ print_type }}</label>
             <select class="form-select" id="pressvarnish_front" name="pressvarnish_front" data-value=0>
                                  {% if update %}
                     <option value={{  printproject.pressvarnish_front }}>Wijzig persvernis voorzijde</option>
@@ -72,11 +69,9 @@
             </select>
         </div>
     </div>
-
     <!-- ===============================================-->
     <!--   Row print back cover -->
     <!-- ===============================================-->
-
     <br>
     <div id="print_back_cover_row" style="display: none">
         <div class="row">
@@ -99,7 +94,7 @@
             </div>
         {% endif %}
         <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="pressvarnish_back_cover" for="pressvarnish_back">Persvernis binnnezijde omslag</label>
+            <label class="form-label" id="pressvarnish_back_cover" for="pressvarnish_back">Persvernis binnnezijde{{ print_type }}</label>
             <select class="form-select" id="pressvarnish_back" name="pressvarnish_back">
                                  {% if update %}
                     <option value={{  printproject.pressvarnish_back }}>Wijzig persvernis binnenzijde</option>
@@ -118,7 +113,7 @@
     {% if productcategory_id in categories_brochures_cover %}
     <div class="row">
         <div class="col-sm-6 col-md-6">
-            <h4 class="mb-3 text-info">Vedeling buitenzijde omslag</h4>
+            <h4 class="mb-3 text-info">Vedeling buitenzijde{{ print_type }}</h4>
             {% if update %}
         <h6 class="mb-3">{{ printproject_printing_cover }}</h6>
         {% endif %}
@@ -126,7 +121,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-3" id="field_enhance_front">
-            <label class="form-label" id="field_enhance_front_label"  for="enhance_front">Veredeling buitenzijde omslag</label>
+            <label class="form-label" id="field_enhance_front_label"  for="enhance_front">Veredeling buitenzijde{{ print_type }}</label>
             <select class="form-select" id="enhance_front" name="enhance_front">
                  {% if update %}
                     <option value={{printproject.enhance_front }}>Wijzig persvernis binnenzijde</option>
@@ -142,6 +137,5 @@
     <hr class="text-info"><br>
     {% endif %}
 </div>
-
 </body>
 </html>

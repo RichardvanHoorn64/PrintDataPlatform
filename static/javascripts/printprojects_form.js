@@ -5,38 +5,38 @@
 /* jshint browser: true */
 
 // New paper input
-function new_paperSelectCheck() {
-    const ProductCategoryID = returnProductCategoryID()
-    console.log("selectedProductCategoryID 2:", ProductCategoryID)
-    // NewPaperSwitch
-    const NewPaperSwitch = document.getElementById("NewPaperSwitch");
-    // Get the checkbox
-    const checkBox = document.getElementById("NewPaperSwitch");
-    // Get the default input
-    const default_paper_input = document.getElementById("default_paper_input");
-    const papercategory = document.getElementById("papercategory")
-    const paperbrand = document.getElementById("paperbrand")
-    const paperweight = document.getElementById("paperweight")
-    const papercolor = document.getElementById("papercolor")
-
-
-    if (default_paper_input.style.display === "none") {
-        default_paper_input.style.display = "block";
-        papercategory.required = true;
-        paperbrand.required = true;
-        paperweight.required = true;
-        papercolor.required = true;
-        NewPaperSwitch.innerHTML = "Papiersoort niet gevonden? Maak een nieuwe specificatie aan.";
-    } else {
-        default_paper_input.style.display = "none";
-        papercategory.required = false;
-        paperbrand.required = false;
-        paperweight.required = false;
-        papercolor.required = false;
-        NewPaperSwitch.innerHTML = "Maak een nieuwe specificatie aan.";
-    }
-    console.log(default_paper_input.style.display)
-}
+// function new_paperSelectCheck() {
+//     const ProductCategoryID = returnProductCategoryID()
+//     console.log("selectedProductCategoryID 2:", ProductCategoryID)
+//     // NewPaperSwitch
+//     const NewPaperSwitch = document.getElementById("NewPaperSwitch");
+//     // Get the checkbox
+//     const checkBox = document.getElementById("NewPaperSwitch");
+//     // Get the default input
+//     const default_paper_input = document.getElementById("default_paper_input");
+//     const papercategory = document.getElementById("papercategory")
+//     const paperbrand = document.getElementById("paperbrand")
+//     const paperweight = document.getElementById("paperweight")
+//     const papercolor = document.getElementById("papercolor")
+//
+//
+//     if (default_paper_input.style.display === "none") {
+//         default_paper_input.style.display = "block";
+//         papercategory.required = true;
+//         paperbrand.required = true;
+//         paperweight.required = true;
+//         papercolor.required = true;
+//         NewPaperSwitch.innerHTML = "Papiersoort niet gevonden? Maak een nieuwe specificatie aan.";
+//     } else {
+//         default_paper_input.style.display = "none";
+//         papercategory.required = false;
+//         paperbrand.required = false;
+//         paperweight.required = false;
+//         papercolor.required = false;
+//         NewPaperSwitch.innerHTML = "Maak een nieuwe specificatie aan.";
+//     }
+//     console.log(default_paper_input.style.display)
+// }
 
 
 function standaard_sizeSelectCheck(nameSelect) {
@@ -117,37 +117,37 @@ enhanceDisplayInput.addEventListener('change', e => {
     const field_enhance_front_label = document.getElementById('field_enhance_front_label');
     const field_enhance_back_label = document.getElementById('field_enhance_back_label');
 
-    console.log(enhanceChoice, " = enhanceChoice");
+    console.log("general enhanceChoice = ", enhanceChoice);
 
-    if (enhanceChoice === 0) {
+    if (enhanceChoice === "0") {
+        console.log("no enhanceChoice = ", enhanceChoice);
         field_enhance_front.style.display = "none";
         field_enhance_back.style.display = "none";
     }
 
-    if (enhanceChoice === "Tweezijdig gelijk") {
-        field_enhance_front.style.display = "block";
-        field_enhance_back.style.display = "none";
-        field_enhance_front_label.innerHTML = "Veredeling";
-    }
-
-    if (enhanceChoice === "Alleen voorzijde") {
+    if (enhanceChoice === "1") {
         field_enhance_front.style.display = "block";
         field_enhance_back.style.display = "none";
         field_enhance_front_label.innerHTML = "Veredeling voorzijde";
     }
 
-    if (enhanceChoice === "Alleen achterzijde") {
+    if (enhanceChoice === "2") {
+        field_enhance_front.style.display = "block";
+        field_enhance_back.style.display = "none";
+        field_enhance_front_label.innerHTML = "Veredeling tweezijdig";
+    }
+
+    if (enhanceChoice === "3") {
         field_enhance_front.style.display = "none";
         field_enhance_back.style.display = "block";
         field_enhance_back_label.innerHTML = "Veredeling achterzijde";
     }
-    if (enhanceChoice === "Tweezijdig verschillend") {
+    if (enhanceChoice === "4") {
         field_enhance_front.style.display = "block";
         field_enhance_back.style.display = "block";
         field_enhance_front_label.innerHTML = "Veredeling voorzijde";
         field_enhance_back_label.innerHTML = "Veredeling achterzijde";
     }
-
 
 });
 

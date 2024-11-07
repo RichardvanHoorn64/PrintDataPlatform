@@ -5,30 +5,37 @@
 /* jshint browser: true */
 
 
-function validateFormPrintProjects() {
-    const productCategoryID = document.getElementById('productcategory_id').value;
-
+function validateFormPrintProjects(event) {
     console.log("PrintProject submit validator started");
-    let inputform = document.forms.printproject_form;
+    let inputform = document.getElementById('printproject_form');
+    const productCategoryID = inputform.printproject_id.value;
+    console.log("productCategoryID: ", productCategoryI);
+
+    if (inputform.project_title.value==="") {
+        alert("Geef een projectnaam op")
+        return false;
+    }
+
+    if (inputform.volume.value==="") {
+        alert("Geef de gewenste oplage op")
+        return false;
+    }
 
     if (inputform.standard_size.value === "0" && inputform.width_mm_product.value==="") {
         alert("Geef bij vrij formaat de productbreedte (mm) in");
-        event.preventDefault();
-        return true;
+        return false;
     }
 
     if (inputform.standard_size.value === "0" && inputform.height_mm_product.value==="") {
         alert("Geef bij vrij formaat de producthoogte (mm) in");
-        event.preventDefault();
-        return true;
+        return false;
     }
 
     // for folders
     if (inputform.folding.value === "0" && productCategoryID==="2") {
         alert("Kies een vouwmethode");
         console.log("Vouwmethode alert started");
-        event.preventDefault();
-        return true;
+        return false;
     }
 
         // for brochures
@@ -37,22 +44,17 @@ function validateFormPrintProjects() {
          {
         alert("Kies aantal pagina's als veelvoud van 4");
         console.log("Aantal pagina's alert started");
-        event.preventDefault();
-        return true;
+        return false;
     }
-
 
         if (inputform.finishing_brochures.value === ""  &&  ["3", "4", "5"].includes(productCategoryID))
          {
         alert("Kies nabewerking selfcovers");
         console.log("Nabewerking selfcovers alert started");
-        event.preventDefault();
-        return true;
+        return false;
     }
-    return true;
+        return true;
 }
-
-
 
 
 // Paper general
@@ -105,7 +107,6 @@ function popUpEmpyPaperWeightCover() {
          alert("Kies eerst het omslag papiergewicht.");
          }
 }
-
 
 
 

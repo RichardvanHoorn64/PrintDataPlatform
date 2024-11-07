@@ -19,7 +19,7 @@
     <!-- ===============================================-->
     <!--    Header-->
     <!-- ===============================================-->
-        <nav class="mb-0" aria-label="breadcrumb">
+        <nav class="mb-1" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
@@ -30,8 +30,12 @@
         <div class="mb-4">
             <div class="row g-3 mb-2">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info mb-2">Printproject {{ printproject_title }} </h2>
-                    <h4> {{ printproject_subtitle }}</h4>
+                    <h2 class="mb-1 text-info mb-2">Printproject {{ printproject_title }} </h2>
+                  {% if user.member_plan_id in pro_memberplans %}
+                 <h4 class="mb-1 text-info mb-2">Klant:  {{ client }}</h4>
+                
+                {% endif %}
+                    <h4 class="mb-0 text-warning-500 mb-2"> {{ printproject_subtitle }}</h4>
                 </div>
             </div>
         </div>

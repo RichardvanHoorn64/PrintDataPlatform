@@ -40,9 +40,11 @@ def select_supplier_switch_json(request, **kwargs):
 
 
 def update_producersmatch(request):
-    demo_company = request.user.member.demo_company
-    member_id = request.user.member_id
-    producers = Producers.objects.filter(active=True, demo_company=demo_company).values_list('producer_id', flat=True)
+    user = request.user
+    member_id = user.member_id
+    demo_company = user.member.demo_company
+
+    producers = Producers.objects.filter(active=True).values_list('producer_id', flat=True)
     producers_not_active = Producers.objects.filter(active=False).values_list('producer_id', flat=True)
     producers_not_open_for_match = Producers.objects.filter(only_exclusive=True).values_list('producer_id', flat=True)
     matches = MemberProducerMatch.objects.filter(member_id=member_id).values_list('producer_id',
@@ -54,7 +56,7 @@ def update_producersmatch(request):
                                                member_id=member_id,
                                                memberproducerstatus_id=2)
 
-    # delete not active producers for match
+    # delete not active producers
     for producer_not_active in producers_not_active:
         if producer_not_active in matches:
             not_active_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
@@ -78,6 +80,7 @@ def update_producersmatch(request):
                 demo_matches = MemberProducerMatch.objects.filter(producer_id=producer_id, member_id=member_id)
                 for demo in demo_matches:
                     demo.delete()
+
 
 
 def update_printprojectsmatch(request, printproject_id):

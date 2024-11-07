@@ -484,7 +484,7 @@
                                     </p>
                                     <hr class="navbar-vertical-line"/>
 
-                                    {% if user.member.member_plan_id in open_memberplans %}
+                                    {% if user.member_plan_id in pro_memberplans %}
                                         <!-- parent pages-->
                                         <div class="nav-item-wrapper"><a class="nav-link label-1"
                                                                          href="{% url 'client_dashboard' %}"

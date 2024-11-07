@@ -90,7 +90,6 @@ class ClientDetails(DetailView, LoginRequiredMixin, FormMixin):
         return super(ClientDetails, self).form_valid(form)
 
 
-
 class CreateNewClient(CreateView, LoginRequiredMixin):
     model = Clients
     profile = Clients

@@ -9,153 +9,130 @@
     <!-- ===============================================-->
     <!--   Client title -->
     <!-- ===============================================-->
-    
+
     <!-- ===============================================-->
     <!--   General intro title -->
     <!-- ===============================================-->
-    <div class="row">
-        <h4 class="mb-3 text-info">Project</h4>
+    <div class="row" style="display : none">
+        <label class="form-label" for="printproject_id"></label>
+        <input class="form-control" id="printproject_id" name="printproject_id" value={{ printproject_id }}>
+    </div>
+
         {% if update %}
-        <h6 class="mb-3">{{ printproject_title }}</h6>
+            <h6 class="mb-3">{{ printproject_title }}</h6>
         {% endif %}
     </div>
     <!-- ===============================================-->
     <!--   Row Project title -->
     <!-- ===============================================-->
 
-<div class="row">
+      <div class="row">
         <div class="col-sm-6 col-md-9">
-            <label class="form-label" for="project_title">Projectnaam</label>
-            <input type="text" class="form-control" id="project_title" name="project_title"
-                    {% if update %}
-                   value="{{ printproject.project_title }}"
-                    {% else %}
-                   placeholder="Geef een projectnaam op"
-                    {% endif %}/>
+            <label class="form-label" id="project_title" for="project_title">Projectnaam</label>
+          <p>{{ form.project_title }}</p>
         </div>
     </div>
-    <br>
     <!-- ===============================================-->
     <!--   Row volume, ordernumber and planning -->
     <!-- ===============================================-->
     <div class="row">
-     <div class="mb-3 row">
-    
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="volume">Oplage 
-                {% if update %} {{ printproject.volume }} {% endif %} 
+        <div class="mb-3 row">
 
-            </label>
-            <input class="form-control"  id="volume" name="volume" type="number"
-                    {% if update %}
-                   value="{{ printproject.volume }}"
-                    {% else %}
-                   placeholder="Oplage"
-                    {% endif %}required/>
-        </div>
-    
-    
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="own_quotenumber" for="own_quotenumber">Eigen ordernr</label>
-            <input class="form-control" type="text" id="own_quotenumber" name="own_quotenumber"
-                    {% if update %}
-                   value="{{ printproject.own_quotenumber }}"
-                    {% else %}
-                   placeholder="Geen"
-                    {% endif %} />
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="supply_date">aanleverdatum
-                {% if update %}
-                    : &nbsp; {{ printproject.supply_date | date:'d-m-Y ' }}
-                {% endif %}
-            </label>
-            <input class="form-control" id="supply_date" type="date" name="supply_date"
-                    {% if update %}
-                   value="{{ printproject.supply_date }}"
-                    {% endif %}>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="delivery_date">leverdatum
-                {% if update %}
-                    : &nbsp; {{ printproject.delivery_date | date:'d-m-Y ' }}
-                {% endif %}
-            </label>
-            <input class="form-control" type="date" id="delivery_date" name="delivery_date"
-                    {% if update %}
-                   value="{{ printproject.delivery_date }}"
-                    {% endif %}>
-        </div>
-        <!-- ===============================================-->
-        <!--   Row description -->
-        <!-- ===============================================-->
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" id='volume' for='volume'>Oplage
+                    {% if update %} {{ printproject.volume }} {% endif %} </label>
+                <p>{{ form.volume }}</p>
+            </div>
 
-        <div class="col-12 gy-4">
-            <label class="form-label" for="description">Eigen projectomschrijving, wordt niet naar leveranciers
-                verzonden</label>
-            <textarea class="form-control" id="description" name="description"
-                      style="vertical-align: top">{% if update %}{{ printproject.description }}{% endif %}
-            </textarea>
-        </div>
-    </div>
-    <hr class="text-info"><br>
-<!-- ===============================================-->
-    <!--   Row client -->
-    <!-- ===============================================-->
- {% if member_plan_id in open_memberplans %}
-    <div class="row">
-        <div class="col-sm-6 col-md-6">
-            <h4 class="mb-3 text-info">Klant</h4>
-            <h6 class="mb-3">Optie voor eigen gebruik, wordt niet naar leveranciers verzonden.</h6>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <a href="{% url 'create_client' %}" class="btn btn-warning px-5 px-sm-5">
-                + Nieuwe klant aanmaken</a>
-        </div>
-    </div>
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" id="own_quotenumber" for="own_quotenumber">Eigen ordernr</label>
+                <p>{{ form.own_quotenumber }}</p>
+            </div>
 
-    <div class="row">
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="client_id">
-                Klant  {% if update %}: &nbsp; {{ printproject.client }} {% endif %}</label>
-            <select class="form-select" id="client_id" name="client_id">
-                {% if update %}
-                    <option value="{{ printproject.client_id }}">Wijzig klant</option>
-                {% else %}
-                    <option value="">Geen klantopgave</option>
-                {% endif %}
-                {% for i in clients %}
-                    <option value="{{ i.client_id }}">{{ i.client }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="clientcontact_id">
-                Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>
-            <select class="form-select" id="clientcontact_id" name="clientcontact_id">
-                {% if update %}
-                    <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'
-                {% else %}
-                    <option value="">Geen contactpersoon</option>'
-                {% endif %}
-
-                {% for i in clientcontact_id %}
-                    <option value="{{ i.clientcontact_id }}">{{ i.first_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <label class="form-label" id="client_quotenumber" for="client_quotenumber">Klant ordernr</label>
-            <input class="form-control" type="text" id="client_quotenumber" name="client_quotenumber"
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" for="supply_date">aanleverdatum
                     {% if update %}
-                   value="{{ printproject.client_quotenumber }}"
+                        : &nbsp; {{ printproject.supply_date | date:'d-m-Y ' }}
                     {% endif %}
-                   placeholder="Geen opgave"/>
+                </label>
+                <p>{{ form.supply_date }}</p>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" for="delivery_date">leverdatum
+                    {% if update %}
+                        : &nbsp; {{ printproject.delivery_date | date:'d-m-Y ' }}
+                    {% endif %}
+                </label>
+                <p>{{ form.delivery_date }}</p>
+            </div>
+            <!-- ===============================================-->
+            <!--   Row description -->
+            <!-- ===============================================-->
+
+            <div class="col-12 gy-1">
+                <label class="form-label" id="description" for="description">Eigen projectomschrijving, wordt niet naar
+                    leveranciers
+                    verzonden</label>
+                <p>{{ form.description }}</p>
+            </div>
         </div>
-    </div>
-    <hr class="text-info"><br>
-{% endif %}
-</div>
-</div>
+        <hr class="text-info">
+        <br>
+        <!-- ===============================================-->
+        <!--   Row client -->
+        <!-- ===============================================-->
+        <div>
+            {% if user.member_plan_id in pro_memberplans %}
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-3 text-info">Mijn klant</h4>
+                        <h6 class="mb-3">Voor eigen gebruik, wordt niet met producenten gedeeld.</h6>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <a href="{% url 'create_client' %}" class="btn btn-warning px-5 px-sm-5">
+                            + Nieuwe klant aanmaken</a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="client_id">
+                            Klant  {% if update %}: &nbsp; {{ client }} {% endif %}</label>
+                        <select class="form-select" id="client_id" name="client_id">
+                            {% if update %}
+                                <option value="">Wijzig klant</option>
+                            {% else %}
+                                <option value="">Geen klantopgave</option>
+                            {% endif %}
+                            {% for i in clients %}
+                                <option value="{{ i.client_id }}">{{ i.client }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    {#        <div class="col-sm-6 col-md-3">#}
+                    {#            <label class="form-label" for="clientcontact_id">#}
+                    {#                Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>#}
+                    {#            <select class="form-select" id="clientcontact_id" name="clientcontact_id">#}
+                    {#                {% if update %}#}
+                    {#                    <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'#}
+                    {#                {% else %}#}
+                    {#                    <option value="">Geen contactpersoon</option>'#}
+                    {#                {% endif %}#}
+                    {##}
+                    {#                {% for i in clientcontact_id %}#}
+                    {#                    <option value="{{ i.clientcontact_id }}">{{ i.first_name }}</option>#}
+                    {#                {% endfor %}#}
+                    {#            </select>#}
+                    {#        </div>#}
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" id="client_quotenumber" for="client_quotenumber">Klant ordernr</label>
+                        <p>{{ form.client_quotenumber }}</p>
+                    </div>
+                </div></div></div>
+                <hr class="text-info"><br>
+            {% endif %}
+
 </body>
 </html>

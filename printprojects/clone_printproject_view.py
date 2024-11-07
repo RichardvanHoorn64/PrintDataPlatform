@@ -1,7 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from assets.models import Bindingmachines
 from index.categories_groups import *
 from index.exclusive_functions import define_exclusive_producer_id
@@ -9,10 +8,8 @@ from index.forms.form_invalids import form_invalid_message_quotes
 from index.models import DropdownChoices, BrandPortalData
 from index.translate_functions import find_packaging_id
 from materials.models import PaperCatalog
-from offers.models import *
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
-from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from index.create_context import createprintproject_context
 from producers.models import EnhancementTariffs, PackagingTariffs
 
@@ -79,18 +76,16 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.enhance_sided = item.enhance_sided
             form.instance.enhance_front = item.enhance_front
             form.instance.enhance_rear = item.enhance_rear
-
-        if not productcategory_id in categories_brochures_cover:
             form.instance.papercategory_cover = item.papercategory_cover
             form.instance.paperbrand_cover = item.paperbrand_cover
             form.instance.paperweight_cover = item.paperweight_cover
             form.instance.papercolor_cover = item.papercolor_cover
 
-            if form.cleaned_data['papercategory_cover'] == "0":
-                form.instance.papercategory_cover = item.papercategory_cover
-                form.instance.paperbrand_cover = item.paperbrand_cover
-                form.instance.paperweight_cover = item.paperweight_cover
-                form.instance.papercolor_cover = item.papercolor_cover
+        if productcategory_id in categories_plano:
+            form.instance.papercategory_cover = item.papercategory_cover
+            form.instance.paperbrand_cover = item.paperbrand_cover
+            form.instance.paperweight_cover = item.paperweight_cover
+            form.instance.papercolor_cover = item.papercolor_cover
 
         if productcategory_id not in categories_folders:
             form.instance.folding = item.folding
@@ -104,9 +99,13 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.packaging = packaging
 
         # portrait_landscape
-        packaging = form.cleaned_data['packaging']
         if form.cleaned_data['portrait_landscape'] == "0":
             form.instance.portrait_landscape = item.portrait_landscape
+
+        # client
+        if form.cleaned_data['client_id'] == "0":
+            form.instance.client_id = item.client_id
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -162,6 +161,15 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         context['papercategories_cover'] = papercategories_cover.distinct('papercategory').order_by('papercategory')
 
         # context['member_id'] = user.member_id
+        if member_plan_id in pro_memberplans:
+            try:
+                client = Clients.objects.get(client_id=printproject.client_id, member_id=user.member_id).client
+            except Clients.DoesNotExist:
+                client = 'Geen opgave'
+        else:
+            client = 'Alleen voor pro accounts'
+
+        context['client'] = client
         context['clients'] = Clients.objects.filter(member_id=user.member_id).order_by('client')
         context['printsided_choices'] = dropdowns.filter(dropdown='printsided_choices')
         context['print_choices'] = dropdowns.filter(dropdown='print_choices').order_by('-value')
@@ -202,8 +210,7 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
                 producer_id=exclusive_producer_id).values_list(
                 'packagingoption_id', flat=True)
             packaging_choices = PackagingOptions.objects.filter(language_id=language_id,
-                                                                packagingoption_id__in=packagingoptions_producer).order_by(
-                'packagingoption_id')
+                                packagingoption_id__in=packagingoptions_producer).order_by('packagingoption_id')
 
             # Brochures finishingmethods exclusive producer
             bindingoptions_producer = Bindingmachines.objects.filter(producer_id=exclusive_producer_id).values_list(
@@ -230,6 +237,13 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
                     brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=3)
                 else:
                     brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=5)
+
+        if productcategory_id in categories_brochures_cover:
+            cover = " omslag"
+        else:
+            cover = ""
+        context["cover"] = cover
+
         context['packaging_choices'] = packaging_choices
 
         context['no_enhancement'] = 'Geen verdeling'
