@@ -21,7 +21,6 @@ def update_clientdashboard(member_id):
         update_client.save()
 
 
-
 def update_producersmatch(request):
     user = request.user
     member_id = user.member_id
@@ -68,20 +67,18 @@ def update_producersmatch(request):
 
     # delete not active producers
     for producer_not_active in producers_not_active:
-        if producer_not_active in matches:
-            not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
+        not_active_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
                                                                   member_id=member_id)
-            for no_match in not_open_matches:
-                no_match.delete()
+        for no_match in not_active_matches:
+            no_match.delete()
 
 
     # delete producers not open for match
     for producer_not_open_for_match in producers_not_open_for_match:
-        if producer_not_open_for_match in matches:
-            not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
+        not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
                                                                       member_id=member_id)
-            for no_match in not_open_matches:
-                no_match.delete()
+        for no_match in not_open_matches:
+            no_match.delete()
 
 
 def update_printprojectsmatch(request, printproject_id):
