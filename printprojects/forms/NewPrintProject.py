@@ -3,7 +3,7 @@ from index.forms.form_fieldtypes import *
 
 
 class PrintProjectsForm(forms.ModelForm):
-    productcategory_id = integer_field
+    productcategory_id = integer_field_notreq
     client_id = integer_field_notreq
     clientcontact_id = integer_field_notreq
     project_title = char_field_1000_false

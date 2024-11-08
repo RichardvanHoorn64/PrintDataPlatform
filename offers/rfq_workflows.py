@@ -60,8 +60,8 @@ class SendRFQView(LoginRequiredMixin, View):
             project_update.save()
 
         # delete printprojectmatch records
-        # completed_rfqs = PrintProjectMatch.objects.filter(printproject_id=printproject_id)
-        # for completed_rfq in completed_rfqs:
-        #     completed_rfq.delete()
+        completed_rfqs = PrintProjectMatch.objects.filter(printproject_id=printproject_id)
+        for completed_rfq in completed_rfqs:
+            completed_rfq.delete()
 
         return redirect('/printproject_details/' + str(printproject_id))

@@ -78,20 +78,20 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         form.instance.packaging = find_packaging_id(form.cleaned_data['packaging'])
 
         # fill print back
-        # if productcategory_id in categories_selfcovers:
-        #     print_front = 0
-        #     print_back = 0
-        #     printsided = 0
-        #     pressvarnish_front = 0
-        #     pressvarnish_back = 0
+        if productcategory_id in categories_selfcovers:
+            print_front = 0
+            print_back = 0
+            printsided = 0
+            pressvarnish_front = 0
+            pressvarnish_back = 0
 
-        # else:
-        printsided = form.cleaned_data['printsided']
-        print_front = form.cleaned_data['print_front']
-        print_back = form.cleaned_data['print_back']
-        pressvarnish_front = form.cleaned_data['pressvarnish_front']
-        pressvarnish_back = form.cleaned_data['pressvarnish_back']
-        form.instance.printsided = printsided
+        else:
+            printsided = form.cleaned_data['printsided']
+            print_front = form.cleaned_data['print_front']
+            print_back = form.cleaned_data['print_back']
+            pressvarnish_front = form.cleaned_data['pressvarnish_front']
+            pressvarnish_back = form.cleaned_data['pressvarnish_back']
+            form.instance.printsided = printsided
 
         if printsided == 2:
             form.instance.print_back = print_front
@@ -100,12 +100,12 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.print_back = 0
             form.instance.number_pms_colors_back = 0
             form.instance.pressvarnish_back = 0
-        # else:
-        #     form.instance.print_front = print_front
-        #     form.instance.print_back = print_back
-        #     form.instance.pressvarnish_front = pressvarnish_front
-        #     form.instance.pressvarnish_back = pressvarnish_back
-        #     form.instance.printsided = printsided
+        else:
+            form.instance.print_front = print_front
+            form.instance.print_back = print_back
+            form.instance.pressvarnish_front = pressvarnish_front
+            form.instance.pressvarnish_back = pressvarnish_back
+            form.instance.printsided = printsided
 
         # handling pms data
         if not brandportal.brandportal_show_pms_input:

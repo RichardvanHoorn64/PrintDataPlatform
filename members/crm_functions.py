@@ -68,7 +68,7 @@ def update_producersmatch(request):
     for producer_not_open_for_match in producers_not_open_for_match:
         if producer_not_open_for_match in matches:
             not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
-                                                                    member_id=member_id)
+                                                                  member_id=member_id)
             for no_match in not_open_matches:
                 no_match.delete()
 
@@ -82,10 +82,10 @@ def update_producersmatch(request):
                     demo.delete()
 
 
-
 def update_printprojectsmatch(request, printproject_id):
     member_id = request.user.member_id
     user = request.user
+
 
     try:
         printproject = PrintProjects.objects.get(printproject_id=printproject_id,
