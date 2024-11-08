@@ -24,12 +24,11 @@ from members.crm_functions import *
 from members.crm_views import *
 from offers.offer_functions import *
 from offers.offer_views import *
-from offers.rfq_workflows import *
 from orders.order_views import *
 from printprojects.clone_printproject_view import *
 from printprojects.detail_views import *
 from printprojects.start_printproject_view import *
-from printprojects.start_workflow_view import PrintProjectStartWorkflowView
+from printprojects.start_workflow_view import PrintProjectStartWorkflowView, SendRFQView
 from producers.contact_views import *
 from producers.offer_views import *
 from producers.producer_exclusive_views import *

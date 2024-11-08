@@ -2,10 +2,20 @@ from calculations.item_calculations.brochure_calculation import brochure_calcula
 from calculations.item_calculations.plano_folder_calculation import plano_folder_calculation
 from index.categories_groups import *
 from django.utils import timezone
+from django.http import JsonResponse
 from calculations.models import Calculations
 from offers.models import Offers
+from printprojects.models import PrintProjectMatch
 from profileuseraccount.models import Producers
 import random
+from index.mail.email_function import send_printdataplatform_mail
+from django.template.loader import render_to_string
+from profileuseraccount.form_invalids import error_mail_admin
+
+try:
+    from printdataplatform.settings import *
+finally:
+    pass
 
 
 def create_new_offer(rfq, producer_id):
@@ -24,6 +34,23 @@ def create_new_offer(rfq, producer_id):
         offer1000extra=0,
     )
     new_offer.save()
+
+
+def select_supplier_switch_json(request, **kwargs):
+    printprojectmatch_id = kwargs.get('printprojectmatch_id')
+    member_id = request.user.member_id
+    match = PrintProjectMatch.objects.get(printprojectmatch_id=printprojectmatch_id, member_id=member_id)
+    match_status = match.matchprintproject
+    if not match_status:
+        new_status = True
+
+    else:
+        new_status = False
+
+    update_record = match
+    update_record.matchprintproject = new_status
+    update_record.save()
+    return JsonResponse({'data': new_status})
 
 
 def create_open_calculation_offer(rfq, producer_id, auto_quote):
@@ -53,7 +80,7 @@ def create_open_calculation_offer(rfq, producer_id, auto_quote):
             except Exception as e:
                 print('open_calculation.save error: ', e)
         else:
-            print('no auto quote printproject producer', rfq.printproject_id, "", producer_id )
+            print('no auto quote printproject producer', rfq.printproject_id, "", producer_id)
     else:
         print('no calculation_module printproject producer', rfq.printproject_id, "", producer_id)
 
@@ -62,7 +89,6 @@ def create_open_calculation_offer(rfq, producer_id, auto_quote):
 
 
 def auto_calculate_offer(rfq, producer_id):
-
     if rfq.productcategory_id in categories_plano:
         try:
             plano_folder_calculation(producer_id, rfq)
@@ -87,3 +113,23 @@ def auto_calculate_offer(rfq, producer_id):
         offer.save()
 
 
+# send rfq to selected producers
+def send_rfq_mail(producer, member_company, offer, printproject):
+    merge_data = {
+        'producer': producer,
+        'member_company': member_company,
+        'offer': offer,
+        'offer_key': str(offer.offer_key),
+        'printproject': printproject,
+    }
+
+    # select email template
+    email_template = 'offers/emails_rfq/rfq_mailbody.html'
+    subject = render_to_string("offers/emails_rfq/rfq_subject.txt", merge_data)
+    html_body = render_to_string(email_template, merge_data)
+    address = producer.e_mail_rfq
+
+    try:
+        send_printdataplatform_mail(subject, address, html_body)
+    except Exception as e:
+        error_mail_admin('rfq_mail.send() error: ', e)

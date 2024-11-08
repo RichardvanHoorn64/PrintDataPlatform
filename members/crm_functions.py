@@ -1,6 +1,5 @@
 from sqlite3 import IntegrityError
 from django.shortcuts import redirect
-from django.http import JsonResponse
 from offers.models import Offers
 from orders.models import Orders
 from printprojects.models import *
@@ -22,70 +21,72 @@ def update_clientdashboard(member_id):
         update_client.save()
 
 
-def select_supplier_switch_json(request, **kwargs):
-    printprojectmatch_id = kwargs.get('printprojectmatch_id')
-    member_id = request.user.member_id
-    match = PrintProjectMatch.objects.get(printprojectmatch_id=printprojectmatch_id, member_id=member_id)
-    match_status = match.matchprintproject
-    if not match_status:
-        new_status = True
-
-    else:
-        new_status = False
-
-    update_record = match
-    update_record.matchprintproject = new_status
-    update_record.save()
-    return JsonResponse({'data': new_status})
-
 
 def update_producersmatch(request):
     user = request.user
     member_id = user.member_id
     demo_company = user.member.demo_company
 
-    producers = Producers.objects.filter(active=True).values_list('producer_id', flat=True)
+    producers_demo = Producers.objects.filter(demo=True, active=True).values_list('producer_id', flat=True)
+    producers_open = Producers.objects.filter(demo=False, active=True).values_list('producer_id', flat=True)
+
     producers_not_active = Producers.objects.filter(active=False).values_list('producer_id', flat=True)
     producers_not_open_for_match = Producers.objects.filter(only_exclusive=True).values_list('producer_id', flat=True)
-    matches = MemberProducerMatch.objects.filter(member_id=member_id).values_list('producer_id',
-                                                                                  flat=True)
-    # create new member producer matches
-    for producer_id in producers:
-        if producer_id not in matches:
-            MemberProducerMatch.objects.create(producer_id=producer_id,
-                                               member_id=member_id,
-                                               memberproducerstatus_id=2)
+    matches = MemberProducerMatch.objects.filter(member_id=member_id).values_list('producer_id', flat=True)
+
+    # Matches for demo companies
+    if demo_company:
+        # create new member producer matches demo
+        for producer_id in producers_demo:
+            if producer_id not in matches:
+                MemberProducerMatch.objects.create(producer_id=producer_id,
+                                                   member_id=member_id,
+                                                   memberproducerstatus_id=2)
+        # delete open production companies for demo members
+        for producer_open_match in producers_open:
+            if producer_open_match in matches:
+                open_matches = MemberProducerMatch.objects.filter(producer_id=producer_open_match,
+                                                                      member_id=member_id)
+                for no_match in open_matches:
+                    no_match.delete()
+
+    # Matches for open production companies
+    else:
+        # create new member producer matches demo
+        for producer_id in producers_open:
+            if producer_id not in matches:
+                MemberProducerMatch.objects.create(producer_id=producer_id,
+                                                   member_id=member_id,
+                                                   memberproducerstatus_id=2)
+        # delete demo companies for non demo members
+        for producer_demo_match in producers_demo:
+            if producer_demo_match in matches:
+                not_demo_matches = MemberProducerMatch.objects.filter(producer_id=producer_demo_match,
+                                                                      member_id=member_id)
+                for no_match in not_demo_matches:
+                    no_match.delete()
 
     # delete not active producers
     for producer_not_active in producers_not_active:
         if producer_not_active in matches:
-            not_active_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
-                                                                    member_id=member_id)
-            for no_match in not_active_matches:
+            not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
+                                                                  member_id=member_id)
+            for no_match in not_open_matches:
                 no_match.delete()
+
 
     # delete producers not open for match
     for producer_not_open_for_match in producers_not_open_for_match:
         if producer_not_open_for_match in matches:
             not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
-                                                                  member_id=member_id)
+                                                                      member_id=member_id)
             for no_match in not_open_matches:
                 no_match.delete()
-
-    # delete demo producers for match
-    if demo_company:
-        producers_demo = Producers.objects.filter(demo_company=True).values_list('producer_id', flat=True)
-        for producer_id in producers_demo:
-            if producer_id in matches:
-                demo_matches = MemberProducerMatch.objects.filter(producer_id=producer_id, member_id=member_id)
-                for demo in demo_matches:
-                    demo.delete()
 
 
 def update_printprojectsmatch(request, printproject_id):
     member_id = request.user.member_id
     user = request.user
-
 
     try:
         printproject = PrintProjects.objects.get(printproject_id=printproject_id,

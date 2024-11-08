@@ -65,17 +65,17 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         if productcategory_id in categories_selfcovers:
             form.instance.printsided = item.printsided
             form.instance.print_front = item.print_front
-            form.instance.print_rear = item.print_rear
+            form.instance.print_back = item.print_back
             form.instance.number_pms_colors_front = item.number_pms_colors_front
-            form.instance.number_pms_colors_rear = item.number_pms_colors_rear
+            form.instance.number_pms_colors_back = item.number_pms_colors_back
             form.instance.pressvarnish_front = item.pressvarnish_front
-            form.instance.pressvarnish_rear = item.pressvarnish_rear
+            form.instance.pressvarnish_back = item.pressvarnish_back
             form.instance.printsided = item.printsided
             form.instance.enhance_front = item.enhance_front
-            form.instance.enhance_rear = item.enhance_rear
+            form.instance.enhance_back = item.enhance_back
             form.instance.enhance_sided = item.enhance_sided
             form.instance.enhance_front = item.enhance_front
-            form.instance.enhance_rear = item.enhance_rear
+            form.instance.enhance_back = item.enhance_back
             form.instance.papercategory_cover = item.papercategory_cover
             form.instance.paperbrand_cover = item.paperbrand_cover
             form.instance.paperweight_cover = item.paperweight_cover
