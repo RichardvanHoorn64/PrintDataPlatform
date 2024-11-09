@@ -20,14 +20,14 @@
                 <li class="breadcrumb-item"><a class="text-info"
                                                href="{% url 'welcome' %}">Dashboard {{ user.company }}</a>
                 </li>
-                <li class="breadcrumb-item active">Offerte uitbrengen</li>
+                <li class="breadcrumb-item active">{{ title }}</li>
             </ol>
         </nav>
         <hr class="text-info">
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0 text-info">Offerte uitbrengen</h2>
+                    <h2 class="mb-0 text-info">{{ title }}</h2>
                 </div>
             </div>
             <hr class="text-info">
@@ -38,50 +38,43 @@
             <!-- ===============================================-->
 
             <div class="d-flex justify-content-between align-items-end mb-2">
-                <h3 class="mb-0">Offerteaanvraag
-                    van: {{ printproject.member.company }}, {{ printproject.member.city }}</h3>
+                <h3 class="mb-0">{{ header }}</h3>
             </div>
             <div class="d-flex justify-content-between align-items-end mb-2">
-                <h4 class="mb-0 me-3">Aanvraag: {{ printproject.volume }} Ex. {{ printproject.project_title }}
-                    {% if printproject.own_quotenumber %}- ordernummer: {{ printproject.own_quotenumber }}
-                    {% endif %}
+                <h4 class="mb-0 me-3">{{ project_summary }} 
                 </h4>
             </div>
             <br>
-
-            <!-- ===============================================-->
-            <!--   END RFQ Header -->
-            <!-- ===============================================-->
+               
             <!-- ===============================================-->
             <!--   RFQ Access -->
             <!-- ===============================================-->
             {% if display_printdetails == 0 %}
-                <div class="d-flex justify-content-between align-items-end mb-2">
+>
                     <form method="post">
                         {% csrf_token %}
-                        <div class="col-12 rounded-2 border border-info">
-
-                            <div id="rfq_acces_test" class="card h-100">
+                        <div class="col-6 rounded-2 border border-info">
+                            <div id="rfq_access_test" class="card h-100">
                                 <div class="card-body" id="intro_general">
                                     <!-- ===============================================-->
                                     <!--   Row access control producer -->
                                     <!-- ===============================================-->
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-6">
+                                        <div class="col-sm-12 col-md-12">
                                             <h4 class="mb-2 text-info">Toegangscontrole</h4>
-                                            <p class="mb-3">Vul de toegangscode in, zoals per mail verzonden.
+                                            <p class="mb-2">Vul de toegangscode in, zoals per mail verzonden.<br>
                                                 Bekijk de details van de aanvraag en breng uw offerte uit.</p>
 
                                         </div>
                                         <div class="row">
-                                            <div class="col-sm-6 col-md-3">
+                                            <div class="col-sm-6 col-md-6">
                                                 <label class="form-label" for="offer_key_test">Toegangscode</label>
                                                 <input class="form-control" type="text" id="offer_key_test"
                                                        name="offer_key_test"
                                                        placeholder="Toegangscode"/>
                                             </div>
-                                            <div class="col-sm-6 col-md-3">
-                                                <label class="form-label" for="offer_key_test_button">Verzenden</label>
+                                            <div class="col-sm-6 col-md-6"><br>
+                                                <label class="form-label" for="offer_key_test_button"></label>
                                                 <button type="submit" id="offer_key_test_button"
                                                         class="btn btn-success px-5 px-sm-5">
                                                     Toegang offerteaanvraag
@@ -95,8 +88,41 @@
                         </div>
                     </form>
                 </div>
-            {% endif %}
-
+            <!-- ===============================================-->
+            <!--  Explanation -->
+            <!-- ===============================================-->
+                <div class="d-flex justify-content-between align-items-end mb-2">
+                
+                 <div class="col-6 rounded-2 border border-info">
+                 <div id="rfq_access_test" class="card h-100">
+                                <div class="card-body" id="intro_general">
+                      <div class="row g-0">
+                        <div class="col-sm-6 col-md-6 col-md-3">
+                          <img class="img-fluid h-100 rounded-start"  src="{% static "assets/img/generic/conditions.png"%}"  alt="...">
+                        </div>
+                        <div class="col-md-6">
+                          <div class="card-body">
+                            <h4 class="card-title text-info">{{ explanation_header }}</h4>
+                             
+                            <p class="card-text">Kijk op de producentenpagina hoe je een offerte uitbrengt of log in als je een pro account hebt.</p>
+                                  
+                              <div class="btn-group" role="group">
+                              <a href="https://www.printdataplatform.nl/producenten/" target="_blank"
+                                   class="btn btn-info btn-sm me-1 mb-1" role="button"
+                                   aria-pressed="true">Meer info</a>
+                                  
+                                   <a href="https://www.printdataplatform.com" target="_blank"
+                                   class="btn btn-success btn-sm me-1 mb-1" role="button"
+                                   aria-pressed="true">Inloggen</a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+                 </div>
+                </div>
+    {% endif %}
             <!-- ===============================================-->
             <!--  END RFQ Access -->
             <!-- ===============================================-->

@@ -1,13 +1,12 @@
 import json
 from datetime import datetime
-
 import requests
 from api.models import APIs
 from django.http import JsonResponse
 from offers.models import Offers
-from offers.rfq_functions import *
 from printdataplatform.settings import DEBUG
 from printprojects.models import PrintProjects
+from printprojects.workflow_functions import send_rfq_mail
 
 
 def api_printdataplatform_com(user, offer_id):

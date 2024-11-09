@@ -7,6 +7,7 @@ from offers.models import *
 from methods.models import *
 from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from index.create_context import createprintproject_context
+from django.http import HttpResponseRedirect
 
 
 # Pricing update included
@@ -88,4 +89,4 @@ class PrintProjectDeleteView(LoginRequiredMixin, TemplateView):
                 printproject.active = False
                 printproject.save()
             finally:
-                return redirect('/printproject_dashboard/' + str(1))
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

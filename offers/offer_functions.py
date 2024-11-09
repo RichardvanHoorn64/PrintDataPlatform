@@ -1,9 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import redirect
-from django.views.generic import TemplateView, View
 from offers.models import *
-from offers.rfq_functions import *
 from printprojects.models import *
 
 

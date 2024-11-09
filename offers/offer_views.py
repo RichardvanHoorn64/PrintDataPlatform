@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import *
-
 from calculations.models import Calculations
 from index.forms.form_invalids import form_invalid_message_quotes
 from offers.form.offer_forms import *
@@ -91,8 +90,14 @@ class OfferProducersFormCheckView(UpdateView):
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         context['offer'] = offer
+        context['explanation_header'] = 'Uitleg'
         context['printproject'] = printproject
+        context['title'] = 'Offerte uitbrengen namens ' + str(offer.producer.company)
         context['rfq_project'] = str(printproject.volume) + ' ex' + str(printproject.project_title)
+        context['header'] = 'Offerteaanvraag van ' + str(offer.requester) + ' namens ' + str(
+            printproject.member.company) + ' uit ' + str(printproject.member.city)
+        context['project_summary'] = 'Offerteaanvraag. Productcategorie: ' + str(
+            offer.productcategory) + '. Project ' + str(printproject.volume) + ' ex. ' + str(printproject.project_title)
         return context
 
 
@@ -144,7 +149,6 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
         context['printproject'] = printproject
         context['display_printdetails'] = 1
 
-
         return context
 
 
@@ -183,7 +187,6 @@ class OfferProducersOpenUpdateView(UpdateView):
             context['display_printdetails'] = 1
         else:
             context['display_printdetails'] = 0
-
 
         offer = Offers.objects.get(offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)

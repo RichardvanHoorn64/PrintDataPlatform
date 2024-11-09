@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect
 from assets.asset_forms import *
 from index.create_context import creatememberplan_context
 from index.dq_functions import *
-from members.crm_functions import *
 from api.forms.api_forms import APImanagerForm
 from index.forms.note_form import *
 from index.forms.relationforms import *
@@ -280,14 +279,7 @@ class ProducerMemberAccept(LoginRequiredMixin, View):
         else:
             memberproducermatch.producer_accept = True
         memberproducermatch.save()
-
-        member_id = memberproducermatch.member_id
-        member_plan_id = Members.objects.get(member_id=member_id).member_plan_id
-
-        if member_plan_id == str(3):
-            return redirect('/producer_exlusive_members/')
-        else:
-            return redirect('/producer_open_members/')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 class ProducerMemberAutoQuote(LoginRequiredMixin, View):
@@ -301,14 +293,8 @@ class ProducerMemberAutoQuote(LoginRequiredMixin, View):
         else:
             memberproducermatch.auto_quote = True
         memberproducermatch.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-        member_id = memberproducermatch.member_id
-        member_plan_id = Members.objects.get(member_id=member_id).member_plan_id
-
-        if member_plan_id == str(3):
-            return redirect('/producer_exlusive_members/')
-        else:
-            return redirect('/producer_open_members/')
 
 
 class ProducerProductofferingSwitch(LoginRequiredMixin, View):
@@ -350,7 +336,7 @@ class ChangeEnhancementAvailability(LoginRequiredMixin, View):
                 enhancementoffering.save()
         finally:
             pass
-        return redirect('/producer_tariffs/')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 class ChangeEnhancementAddedValue(LoginRequiredMixin, View):
@@ -371,7 +357,7 @@ class ChangeEnhancementAddedValue(LoginRequiredMixin, View):
                 enhancementoffering.save()
         finally:
             pass
-        return redirect('/producer_tariffs/')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 class ChangeTransportAddedValue(LoginRequiredMixin, View):

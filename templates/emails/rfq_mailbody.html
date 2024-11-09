@@ -2,30 +2,15 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head><title>rfq email</title></head>
+{% include 'emails/email_style.html' %}
 
-<style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-
-    }
-
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-</style>
 </html>
 <body>
 <h4>
     Hallo,<br><br>
-    Op het PrintDataPlatform heeft {{ offer.requester }} namens {{ member_company }}
+    Op het PrintDataPlatform heeft {{ member_requester }} namens {{ member_company }}
     op {{ offer.created |date:'d-m-Y ' }} voor {{ producer.company }} een offerteaanvraag voor {{ printproject.volume }}
     ex. {{ printproject.project_title }} gedaan.<br><br>
-
-
     Bekijk en beantwoord de offerteaanvraag op: <a
         href="https://printdataplatform.com/{% url 'offer_producers_form' offer.offer_id %}">Printdatahub.com/offer_producers_form</a>,
     <br>

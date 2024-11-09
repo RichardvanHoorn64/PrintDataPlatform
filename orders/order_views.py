@@ -292,10 +292,9 @@ class ChangeOrderStatus(View, LoginRequiredMixin):
     context_object_name = 'orderstatus_id'
 
     def dispatch(self, request, *args, **kwargs):
-        referer = request.META.get("HTTP_REFERER")
         order_id = kwargs.get('order_id')
         order_status_id = kwargs.get('order_status_id')
         update_record = Orders.objects.get(order_id=order_id)
         update_record.order_status_id = order_status_id
         update_record.save()
-        return HttpResponseRedirect(referer)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

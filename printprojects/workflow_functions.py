@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from calculations.models import Calculations
 from offers.models import Offers
 from printprojects.models import PrintProjectMatch
-from profileuseraccount.models import Producers
+from profileuseraccount.models import *
 import random
 from index.mail.email_function import send_printdataplatform_mail
 from django.template.loader import render_to_string
@@ -20,6 +20,9 @@ finally:
 
 def create_new_offer(rfq, producer_id):
     offer_key = random.randint(100000, 999999)
+    requester = UserProfile.objects.get(id=rfq.user_id)
+    requester_name = requester.first_name + " " + requester.last_name
+
     new_offer = Offers(
         printproject_id=rfq.printproject_id,
         offer_date=timezone.now().today().date(),
@@ -29,7 +32,7 @@ def create_new_offer(rfq, producer_id):
         offerstatus_id=1,
         description=rfq.description,
         offer_key=offer_key,
-        requester=rfq.user_id,
+        requester=requester_name,
         offer=0,
         offer1000extra=0,
     )
@@ -118,14 +121,15 @@ def send_rfq_mail(producer, member_company, offer, printproject):
     merge_data = {
         'producer': producer,
         'member_company': member_company,
+        'member_requester': offer.requester,
         'offer': offer,
         'offer_key': str(offer.offer_key),
         'printproject': printproject,
     }
 
     # select email template
-    email_template = 'offers/emails_rfq/rfq_mailbody.html'
-    subject = render_to_string("offers/emails_rfq/rfq_subject.txt", merge_data)
+    email_template = 'emails/rfq_mailbody.html'
+    subject = render_to_string("emails/rfq_subject.txt", merge_data)
     html_body = render_to_string(email_template, merge_data)
     address = producer.e_mail_rfq
 
