@@ -11,12 +11,11 @@
     Op het PrintDataPlatform heeft {{ member_requester }} namens {{ member_company }}
     op {{ offer.created |date:'d-m-Y ' }} voor {{ producer.company }} een offerteaanvraag voor {{ printproject.volume }}
     ex. {{ printproject.project_title }} gedaan.<br><br>
-    Bekijk en beantwoord de offerteaanvraag op: <a
-        href="https://printdataplatform.com/{% url 'offer_producers_form' offer.offer_id %}">PrintDataPlatform.com/offer_producers_form</a>,
-    <br>
-    Hier kunt u ook uw offertedocument uploaden.
-    <br>
-    Open de aanvraag met deze unieke toegangscode: {{ offer_key }}
+    
+    Resultaat autocalculatie: {{ result }}<br><br>
+    
+    Bekijk de calculatie op: <a
+        href="https://printdataplatform.com/{% url 'producer_offer_details' offer.printproject_id %}">PrintDataPlatform.com/producer_offer_details</a>,
     <br><br>
     Hartelijke groet,<br>
     Richard van Hoorn

@@ -56,11 +56,17 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         item = PrintProjects.objects.get(printproject_id=self.kwargs['printproject_id'])
         productcategory_id = item.productcategory_id
 
+        # if no paper update
         if form.cleaned_data['papercategory'] == "0":
             form.instance.papercategory = item.papercategory
             form.instance.paperbrand = item.paperbrand
             form.instance.paperweight = item.paperweight
             form.instance.papercolor = item.papercolor
+        if form.cleaned_data['papercategory_cover'] == "0":
+            form.instance.papercategory_cover = item.papercategory_cover
+            form.instance.paperbrand_cover = item.paperbrand_cover
+            form.instance.paperweight_cover = item.paperweight_cover
+            form.instance.papercolor_cover = item.papercolor_cover
 
         if productcategory_id in categories_selfcovers:
             form.instance.printsided = item.printsided
@@ -105,6 +111,11 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         # client
         if form.cleaned_data['client_id'] == "0":
             form.instance.client_id = item.client_id
+
+        # finishing_brochures
+        if productcategory_id in categories_brochures_all:
+            if form.cleaned_data['papercategory'] == "0":
+                form.instance.finishing_brochures = item.finishing_brochures
 
         return super().form_valid(form)
 

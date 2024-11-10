@@ -5,11 +5,15 @@
 /* jshint browser: true */
 
 
-function validateFormPrintProjects(event) {
+function validateFormPrintProjects() {
     console.log("PrintProject submit validator started");
     let inputform = document.getElementById('printproject_form');
-    const productCategoryID = inputform.printproject_id.value;
-    console.log("productCategoryID: ", productCategoryI);
+
+
+    const printproject = document.querySelector("#start_printproject");
+    let categories_brochures = ["3", "4", "5"];
+    let productCategoryID = printproject.dataset.productcategory_id;
+    console.log("productCategoryID: ", productCategoryID);
 
     if (inputform.project_title.value==="") {
         alert("Geef een projectnaam op")
@@ -32,28 +36,32 @@ function validateFormPrintProjects(event) {
     }
 
     // for folders
-    if (inputform.folding.value === "0" && productCategoryID==="2") {
-        alert("Kies een vouwmethode");
-        console.log("Vouwmethode alert started");
-        return false;
+    if (productCategoryID==="2"){
+            if (inputform.folding.value === "0") {
+                alert("Kies een vouwmethode");
+                console.log("Vouwmethode alert started");
+                return false;
+            }
     }
 
-        // for brochures
-   let page_remainder = inputform.number_of_pages.value % 4;
-    if (page_remainder !== 0  &&  ["3", "4", "5"].includes(productCategoryID))
-         {
-        alert("Kies aantal pagina's als veelvoud van 4");
-        console.log("Aantal pagina's alert started");
-        return false;
+    // for brochures
+   if (["3", "4", "5"].includes(productCategoryID)) {
+        console.log("finishing brochures: ", inputform.finishing_brochures.value)
+           if (inputform.finishing_brochures.value === "0") {
+               alert("Kies nabewerking");
+               console.log("Kies nabewerking alert started");
+               return false;
+           }
+           let page_remainder = inputform.number_of_pages.value % 4;
+        if (page_remainder !== 0 )
+             {
+            alert("Kies aantal pagina's als veelvoud van 4");
+            console.log("Aantal pagina's alert started");
+            return false;
+           }
     }
 
-        if (inputform.finishing_brochures.value === ""  &&  ["3", "4", "5"].includes(productCategoryID))
-         {
-        alert("Kies nabewerking selfcovers");
-        console.log("Nabewerking selfcovers alert started");
-        return false;
-    }
-        return true;
+    return true;
 }
 
 

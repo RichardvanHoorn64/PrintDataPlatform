@@ -1,0 +1,1 @@
+{% autoescape off %} PrintDataPlatform {{ printproject.project_title }} calculatie  {{ member_company }}: {{ result }}   {% endautoescape %}

@@ -3,6 +3,7 @@ from math import floor
 import numpy as np
 import pandas as pd
 from assets.models import *
+from index.categories_groups import categories_folders
 from materials.models import *
 from printprojects.models import MemberProducerMatch
 from producers.models import *
@@ -601,11 +602,11 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
     enhance_back_added_value = True
     enhancement_tariffs_front = []
 
-    added_value_foldingmachine = Foldingmachines.objects.get(producer_id=producer_id,
-                                                             foldingmachine_id=foldingmachine_id).added_value
-
-    if not added_value_foldingmachine:
-        folding_purchase = foldingcost
+    if rfq.productcategory_id in categories_folders:
+        added_value_foldingmachine = Foldingmachines.objects.get(producer_id=producer_id,
+                                                                 foldingmachine_id=foldingmachine_id).added_value
+        if not added_value_foldingmachine:
+            folding_purchase = foldingcost
 
     try:
         enhancement_id_front = EnhancementOptions.objects.get(enhancement=rfq.enhance_front).enhancement_id
@@ -632,7 +633,7 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
 
         if enhancement_id_back > 0:
             enhancement_tariffs_back = enhancement_tariffs[enhancement_tariffs.enhancement_id == enhancement_id_back]
-            min_tariff = min(enhancement_tariffs_front.production_cost_1000sheets)
+            min_tariff = min(enhancement_tariffs_back.production_cost_1000sheets)
             enhance_back_added_value = \
                 enhancement_tariffs[enhancement_tariffs.production_cost_1000sheets == min_tariff].iloc[0].added_value
 
@@ -640,8 +641,8 @@ def added_value_plano_calculation(producer_id, rfq, total_cost, papercost,
             enhance_purchase = enhancementcost
 
     purchase = papercost + inkcost + purchase_plates + folding_purchase + enhance_purchase
-    brochure_added_value = total_cost - purchase
-    return brochure_added_value
+    added_value_plano = total_cost - purchase
+    return added_value_plano
 
 
 def find_paper_width(paperspec_id_fit_for_printer):

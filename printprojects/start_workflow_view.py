@@ -53,31 +53,16 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
                                           producer_id=producer_id).offer_id
             return redirect('/offer_details/' + str(offer_id))
 
-        # start open member workflow
+        # start open workflow: step 1. workflow select suppliers
         if member_plan_id in open_memberplans:
             update_producersmatch(self.request)
             update_printprojectsmatch(self.request, printproject_id)
 
-            # create open calculations
-            # producer_id_list = MemberProducerMatch.objects.filter(member_id=user.member_id, producer_accept=True,
-            #                                                       member_accept=True,
-            #                                                       memberproducerstatus_id=1).values_list('producer_id',
-            #                                                                                              flat=True)
-            # for producer_id in producer_id_list:
-            #     member_id = rfq.member_id
-            #     auto_quote = MemberProducerMatch.objects.get(member_id=member_id, producer_id=producer_id).auto_quote
-            #     if auto_quote:
-            #         create_open_calculation_offer(rfq, producer_id, auto_quote)
-
-            # make calculations and send mails after sending rfq's
-            # send_rfq/<int:printproject_id> SendRFQView.as_view
-
         return redirect('/printproject_details/' + str(printproject_id))
 
 
-# send rfq after select suppliers for open calculations
+# Open workflow step 2: send rfq after select suppliers for open calculations
 class SendRFQView(LoginRequiredMixin, View):
-    template_name = 'printprojects/printproject_details.html'
     pk_url_kwarg = 'printproject_id'
 
     def dispatch(self, request, *args, **kwargs):
@@ -94,7 +79,7 @@ class SendRFQView(LoginRequiredMixin, View):
         except PrintProjects.DoesNotExist:
             return redirect('no_access')
 
-        # Try to make automated calculations
+        # create open offers
         for producer_id in selected_producers:
             producer = Producers.objects.get(producer_id=producer_id)
             auto_quote = MemberProducerMatch.objects.get(member_id=member_id, producer_id=producer_id).auto_quote
@@ -105,19 +90,22 @@ class SendRFQView(LoginRequiredMixin, View):
                 create_new_offer(rfq, producer_id)
                 new_offer = Offers.objects.get(printproject_id=printproject_id, producer_id=producer_id)
 
+            # Try to make automated calculations
             if producer.calculation_module:
-
                 if auto_quote:
                     create_open_calculation_offer(rfq, producer_id, True)
                     try:
                         auto_calculate_offer(rfq, producer_id)
-                    except Exception as e:
-                            print('auto_calculate_offer failed: (rfq, producer_id)', e)
-                            send_rfq_mail(producer, member_company, new_offer, printproject)
-                else: # Send rfq's
+                        # Send calculation update mail
+                        calculation = Calculations.objects.get(producer_id, new_offer.printproject_id)
+                        send_calculationupdate_mail(producer, member_company, new_offer, calculation)
+                    except Exception as e: # Send rfq's
+                        print('auto_calculate_offer failed: (rfq, producer_id)', e)
+                        send_rfq_mail(producer, member_company, new_offer, printproject)
+                else:  # Send rfq's
                     send_rfq_mail(producer, member_company, new_offer, printproject)
                     print('no auto quote printproject producer', rfq.printproject_id, "", producer_id)
-            else: # Send rfq's
+            else:  # Send rfq's
                 send_rfq_mail(producer, member_company, new_offer, printproject)
                 print('no calculation_module printproject producer', rfq.printproject_id, "", producer_id)
 
@@ -133,4 +121,3 @@ class SendRFQView(LoginRequiredMixin, View):
             completed_rfq.delete()
 
         return redirect('/printproject_details/' + str(printproject_id))
-

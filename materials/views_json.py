@@ -30,10 +30,13 @@ def get_json_papercolor(request, **kwargs):
     paperbrand = kwargs.get('paperbrand')
     paperweight = kwargs.get('paperweight')
     papercolors = list(
-        PaperCatalog.objects.filter(paperbrand=paperbrand, paperweight_m2=paperweight, producer_id=exclusive_producer_id).values().distinct(
+        PaperCatalog.objects.filter(paperbrand=paperbrand, paperweight_m2=paperweight,
+                                    producer_id=exclusive_producer_id).values().distinct(
             'papercolor').order_by('papercolor'))
     return JsonResponse({'data': papercolors})
-#-------------------------------------------------------------------------------------------------------------------
+
+
+
 # For brochures covers
 def get_json_cover_paperbrand(request, **kwargs):
     user = request.user

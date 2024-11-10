@@ -71,6 +71,15 @@ class OfferProducersFormCheckView(UpdateView):
         else:
             return reverse_lazy('offer_producers_form', args=(self.object.offer_id,))
 
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            offer_id = self.kwargs['pk']
+            Offers.objects.get(offer_id=offer_id)
+            return super().dispatch(request, *args, **kwargs)
+        except Offers.DoesNotExist:
+            return redirect('/no_access/')
+
+
     def form_valid(self, form):
         form.instance.reference_key = random.randint(10000, 99999)
         return super().form_valid(form)

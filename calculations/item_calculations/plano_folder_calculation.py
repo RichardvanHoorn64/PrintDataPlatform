@@ -285,8 +285,8 @@ def plano_folder_calculation(producer_id, rfq):
                 print('error log: ' + error + ' ' + str(e))
 
         # folding calculation
-        if not error:
-            if rfq.productcategory_id == 2:
+        if rfq.productcategory_id == 2:
+            if not error:
                 calculation_plano['number_of_pages'] = number_of_pages
                 try:
                     calculation_plano['foldingmachine'] = calculation_plano.apply(
@@ -296,7 +296,6 @@ def plano_folder_calculation(producer_id, rfq):
                     error = 'No folding machine fit for this request'
                     print('error log: ' + error + ' ' + str(e))
 
-            # foldingcost  calculation
             if not error:
                 try:
                     calculation_plano['foldingcost'] = calculation_plano.apply(
@@ -322,6 +321,12 @@ def plano_folder_calculation(producer_id, rfq):
                 except Exception as e:
                     error = 'Folding waste calculation failed'
                     print('error log: ' + error + ' ' + str(e))
+        else:
+            calculation_plano['foldingcost'] = 0.0
+            calculation_plano['foldingcost1000extra'] = 0.0
+            calculation_plano['waste_folding'] = 0.0
+            calculation_plano['waste_folding1000extra'] = 0.0
+            calculation_plano['foldingmachine'] = 0.0
 
         # papercost  calculation
         if not error:
@@ -471,13 +476,13 @@ def plano_folder_calculation(producer_id, rfq):
         try:
             calculation_plano['memberdiscount'] = calculation_plano.apply(
                 lambda row: memberdiscount_calculation(rfq, producer_id,
-                                                                      row['perc_added_value'],
-                                                                      row['total_cost']), axis=1)
+                                                       row['perc_added_value'],
+                                                       row['total_cost']), axis=1)
 
             calculation_plano['memberdiscount1000extra'] = calculation_plano.apply(
                 lambda row: memberdiscount_calculation(rfq, producer_id,
-                                                                      row['perc_added_value1000extra'],
-                                                                      row['total_cost1000extra']),
+                                                       row['perc_added_value1000extra'],
+                                                       row['total_cost1000extra']),
                 axis=1)
 
         except Exception as e:

@@ -15,7 +15,7 @@
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
-    <div class="content">
+    <div class="content" id="start_printproject" data-productcategory_id="{{ productcategory_id }}">
     <div class="container" id="new_project_header" style="background-color:whitesmoke;">
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
@@ -24,7 +24,7 @@
             </ol>
         </nav>
         <hr class="text-info">
-        <h2  class="mb-4 text-info">{{ form_title }}</h2>
+        <h2  class="mb-4 text-info">{{ form_title }} {{ productcategory_id }}</h2>
         <h5 class="mb-3">
             {% if update %}
             Pas offerteaanvraag aan en verstuur opnieuw.
@@ -40,6 +40,7 @@
         <form id="printproject_form" name="printproject_form" method="post" 
                {% if not update %}
               onsubmit="return validateFormPrintProjects()" 
+              
               {% endif %}
               method="post">
             {% csrf_token %}

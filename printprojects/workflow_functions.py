@@ -137,3 +137,30 @@ def send_rfq_mail(producer, member_company, offer, printproject):
         send_printdataplatform_mail(subject, address, html_body)
     except Exception as e:
         error_mail_admin('rfq_mail.send() error: ', e)
+
+
+def send_calculationupdate_mail(producer, member_company, offer, calculation):
+    if calculation.error:
+        result = 'calculatie error: ' + str(calculation.error)
+    else:
+        result = 'Offerte uitgebracht'
+
+    merge_data = {
+        'producer': producer,
+        'member_company': member_company,
+        'member_requester': offer.requester,
+        'offer': offer,
+        'error': calculation.error,
+        'result': result
+    }
+
+    # select email template
+    email_template = 'emails/calculationupdate_mailbody.html'
+    subject = render_to_string("emails/calculationupdate_subject.txt", merge_data)
+    html_body = render_to_string(email_template, merge_data)
+    address = producer.e_mail_rfq
+
+    try:
+        send_printdataplatform_mail(subject, address, html_body)
+    except Exception as e:
+        error_mail_admin('calculationupdate_mail.send() error: ', e)

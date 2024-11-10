@@ -2,6 +2,7 @@ import pandas as pd
 from django.utils import timezone
 from decimal import Decimal
 from calculations.models import Calculations
+from printprojects.models import PrintProjects
 
 
 def save_calculation(producer_id, rfq, best_offer, error):
@@ -151,6 +152,7 @@ def save_calculation(producer_id, rfq, best_offer, error):
             calculation.error = error,
             calculation.total_cost = 0
             calculation.total_cost1000extra = 0
+            calculation.error = general_error,
             print(error)
             calculation.save()
 
@@ -158,7 +160,8 @@ def save_calculation(producer_id, rfq, best_offer, error):
         status = 'Calculation failed'
         calculation.status = status
         calculation.offer_date = timezone.now().today().date()
-        calculation.error = error
+        calculation.error = 'Calculation failed ' + error
         calculation.total_cost = 0
         calculation.total_cost1000extra = 0
         calculation.save()
+

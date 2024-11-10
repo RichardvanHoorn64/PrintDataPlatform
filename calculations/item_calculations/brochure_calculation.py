@@ -65,7 +65,7 @@ def brochure_calculation(producer_id, rfq):
         try:
             book_thickness = calc_book_thickness(selfcover, rfq, producer_id)
         except Exception as e:
-            error = 'book thickness calculation failed'
+            error = 'book thickness calculation failed '
             print('error log: ' + error + str(e))
 
     # booklet------------------------------------------------------------------------------------------

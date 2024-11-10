@@ -24,11 +24,11 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         printproject_id = offer.printproject_id
         producer = Producers.objects.get(producer_id=offer.producer_id)
         producer_id = producer.producer_id
+        producer_company = producer.company
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
 
         member_id = printproject.member_id
-
-        persoonsnaam = describe_requester(printproject)
+        requester_name = describe_requester(printproject)
 
         if member_id is not user.member.member_id and user.member.member_plan_id in open_memberplans:
             return redirect('/no_access/')
@@ -62,7 +62,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         else:
             printproject_printing_description = printproject_printing(printproject.printsided, printproject.print_front,
                                                                       printproject.print_back,
-                                                                      printproject.number_pms_colors,
+                                                                      printproject.number_pms_colors_front,
                                                                       printproject.number_pms_colors_back)
 
         printproject_printing_cover = printproject_printing(printproject.printsided,
@@ -115,7 +115,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
 
         document.merge(
             # general
-            producer=producer.company,
+            producer=producer_company,
             omschrijving=printproject_description(printproject, productcategory),
 
             offertenummer=str(printproject_quotenumber),
@@ -124,7 +124,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
             klant=str(company),
             adres=str(client.street_number),
             pc_plaats=str(client.postal_code) + "" + str(client.city),
-            persoonsnaam=persoonsnaam,
+            persoonsnaam=requester_name,
             oplage=str(printproject.volume) + " ex.",
             uitvoering=str(printproject_number_of_pages_description),
             bedrukking=printproject_printing_description,
