@@ -484,33 +484,7 @@
                                     </p>
                                     <hr class="navbar-vertical-line"/>
 
-                                    {% if user.member_plan_id in pro_memberplans %}
-                                        <!-- parent pages-->
-                                        <div class="nav-item-wrapper"><a class="nav-link label-1"
-                                                                         href="{% url 'client_dashboard' %}"
-                                                                         role="button" data-bs-toggle=""
-                                                                         aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                                    class="far fa-address-card fs-3"></span></span><span
-                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn klanten</span></span>
-                                            </div>
-                                        </a>
-                                        </div>
-                                    {% endif %}
-                                    {% if user.member.member_plan_id in non_exclusive_memberplans %}
-
-                                        <!-- parent pages-->
-                                        <div class="nav-item-wrapper"><a class="nav-link label-1"
-                                                                         href="{% url 'producer_dashboard' %}"
-                                                                         role="button" data-bs-toggle=""
-                                                                         aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                                    class="far fa-newspaper fs-3"></span></span><span
-                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn producenten</span></span>
-                                            </div>
-                                        </a>
-                                        </div>
-                                    {% endif %}
+                                    
                                     <!-- parent pages-->
                                     <div class="nav-item-wrapper"><a class="nav-link label-1"
                                                                      href="{% url 'my_account_update' user.id %}"
@@ -532,6 +506,44 @@
                                         </div>
                                     </a>
                                     </div>
+                                
+                                {% if user.member_plan_id in pro_memberplans %}
+                                        <!-- parent pages-->
+                                        <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                                         href="{% url 'client_dashboard' %}"
+                                                                         role="button" data-bs-toggle=""
+                                                                         aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                    class="far fa-address-card fs-3"></span></span><span
+                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn klanten</span></span>
+                                            </div>
+                                        </a>
+                                        </div>
+                                    {% endif %}
+                                    {% if user.member.member_plan_id in non_exclusive_memberplans %}
+
+                                        <!-- parent pages-->
+                                        <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                                         href="{% url 'preferred_suppliers' %}"
+                                                                         role="button" data-bs-toggle=""
+                                                                         aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                    class="far fas fa-handshake fs-3"></span></span><span
+                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Mijn producenten</span></span>
+                                            </div>
+                                        </a>
+                                        </div>
+                                        <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                                         href="{% url 'availeble_suppliers' %}"
+                                                                         role="button" data-bs-toggle=""
+                                                                         aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                    class="fas fa-handshake-slash fs-3"></span></span><span
+                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8">Meer producenten</span></span>
+                                            </div>
+                                        </a>
+                                        </div>
+                                    {% endif %}
 
                                     <!-- Assets production calculation-->
                                     {% if  producer.calculation_module %}

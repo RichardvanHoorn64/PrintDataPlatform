@@ -11,17 +11,6 @@
         <div class="card-body">
             <div class="table-responsive scrollbar mx-n1 px-1">
                 <h3 class="mb-0 text-info">{{ offer_table_title }}</h3>
-                {% if user.member_plan_id in non_exclusive_memberplans %}<br>
-                <div class="row">
-                     <div class="col-1"> 
-                         {% include 'buttons/clone_printproject.html' %}
-                     </div>
-                    <div class="col-9"><br>
-                        <h5>Aanpassen en herberekenen aanvraag</h5>
-                    </div>
-                </div>
-               {% endif %}
-            
                 <hr>
                 {% if offers_list %}
                     <table class="table table-sm fs--1 mb-0">

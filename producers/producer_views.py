@@ -84,7 +84,7 @@ class ProducerDetails(DetailView, LoginRequiredMixin, FormMixin):
 
 class ProducerOpenMembers(LoginRequiredMixin, TemplateView):
     template_name = "producers/tables/producer_members.html"
-    
+
     def dispatch(self, request, *args, **kwargs):
         update_producersmatch(self.request)
         user = self.request.user
@@ -119,7 +119,7 @@ class ProducerMemberDetails(LoginRequiredMixin, DetailView):
     template_name = "producers/member_details_contacts.html"
     model = Members
     profile = Members
-    
+
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -151,7 +151,7 @@ class ProducerCalculationErrors(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_error_dashboard.html"
     pk_url_kwarg = 'offerstatus_id'
     context_object_name = 'offerstatus_id'
-    
+
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -180,7 +180,7 @@ class ProducerOrders(LoginRequiredMixin, TemplateView):
     template_name = "producers/producer_order_dashboard.html"
     pk_url_kwarg = 'order_status_id'
     context_object_name = 'order_status_id'
-    
+
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -210,7 +210,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
     success_url = '/producer_dashboard/'
-    
+
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -251,7 +251,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
         return context
 
 
-class ProducersDashboard(LoginRequiredMixin, TemplateView):
+class PreferredSuppliers(LoginRequiredMixin, TemplateView):
     template_name = "producers/producers_dashboard.html"
 
     def dispatch(self, request, *args, **kwargs):
@@ -266,9 +266,39 @@ class ProducersDashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         user = self.request.user
-        context = super(ProducersDashboard, self).get_context_data(**kwargs)
+        context = super(PreferredSuppliers, self).get_context_data(**kwargs)
         member_id = user.member_id
-        producers = MemberProducerMatch.objects.filter(member_id=member_id).order_by('memberproducerstatus')
+        producers = MemberProducerMatch.objects.filter(member_id=member_id, memberproducerstatus_id=1).order_by(
+            'memberproducerstatus')
+        context = creatememberplan_context(context, user)
+        context['user'] = user
+        # dashboard lists
+        context['producers_list'] = producers  # .filter(printprojectstatus=1).order_by('-rfq_date')
+
+        # counts
+        context['suppliers_projects'] = 1  # producers.count()
+
+        return context
+
+
+class AvailaleSuppliers(LoginRequiredMixin, TemplateView):
+    template_name = "producers/producers_dashboard.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        update_producersmatch(self.request)
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user
+        context = super(AvailaleSuppliers, self).get_context_data(**kwargs)
+        member_id = user.member_id
+        producers = MemberProducerMatch.objects.filter(member_id=member_id).order_by('memberproducerstatus').exclude(memberproducerstatus_id=1)
         context = creatememberplan_context(context, user)
         context['user'] = user
         # dashboard lists

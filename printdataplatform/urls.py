@@ -143,7 +143,9 @@ urlpatterns = [
          name='delete_clientcontact'),
 
     # producers
-    path('producer_dashboard/', ProducersDashboard.as_view(), name='producer_dashboard'),
+    path('preferred_suppliers/', PreferredSuppliers.as_view(), name='preferred_suppliers'),
+    path('availeble_suppliers/', AvailaleSuppliers.as_view(), name='availeble_suppliers'),
+
     path('create_new_producer/', CreateNewProducer.as_view(), name='create_new_producer'),
     path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
