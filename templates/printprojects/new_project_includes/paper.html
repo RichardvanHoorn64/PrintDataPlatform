@@ -68,8 +68,8 @@
                 <label class="form-label" for="papercolor">Papierkleur</label>
                 <select class="form-select" id="papercolor" name="papercolor" onclick="popUpEmpyPaperWeight()"
                         {% if not update %} required {% endif %}>
-                                 {% if update %}
-                        <option value="0">Wijzig papierkleur</option>{% endif %}
+                   {% if update %}<option value="0">Wijzig papierkleur</option>
+                   {% else %} <option value="0">Kies papierkleur</option>{% endif %}
                     {% for i in papercolors %}
                         <option value="{{ i.paperspec_id }}">{{ i.papercolor }}</option>
                     {% endfor %}

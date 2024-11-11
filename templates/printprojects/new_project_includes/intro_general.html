@@ -7,30 +7,23 @@
 <body>
 <div class="container" id="intro_general">
     <!-- ===============================================-->
-    <!--   Client title -->
-    <!-- ===============================================-->
-
-    <!-- ===============================================-->
     <!--   General intro title -->
     <!-- ===============================================-->
-    <div class="row" style="display : none">
-        <label class="form-label" for="printproject_id"></label>
-        <input class="form-control" id="printproject_id" name="printproject_id" value={{ printproject_id }}>
-    </div>
-
-        {% if update %}
-            <h6 class="mb-3">{{ printproject_title }}</h6>
-        {% endif %}
+    <div class="row">
+        <h4 class="mb-3 text-info">Algemeen
+            {% if update %}
+                <h6 class="mb-3">{{ printproject_title }}</h6>
+            {% endif %}
+        </h4>
     </div>
     <!-- ===============================================-->
     <!--   Row Project title -->
     <!-- ===============================================-->
 
-  
     <div class="row">
-        <div class="col-sm-6 col-md-9">
+        <div class="col-sm-6 col-md-6">
             <label class="form-label" id="project_title" for="project_title">Projectnaam</label>
-          <p>{{ form.project_title }}</p>
+            <p>{{ form.project_title }}</p>
         </div>
     </div>
     <!-- ===============================================-->
@@ -95,45 +88,45 @@
                             + Nieuwe klant aanmaken</a>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="client_id">
                             Klant  {% if update %}: &nbsp; {{ client }} {% endif %}</label>
                         <select class="form-select" id="client_id" name="client_id">
                             {% if update %}
-                                <option value="">Wijzig klant</option>
+                                <option value="0">Wijzig klant</option>
                             {% else %}
-                                <option value="">Geen klantopgave</option>
+                                <option value="0">Geen klantopgave</option>
                             {% endif %}
                             {% for i in clients %}
                                 <option value="{{ i.client_id }}">{{ i.client }}</option>
                             {% endfor %}
                         </select>
                     </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="clientcontact_id">
+                            Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>
+                        <select class="form-select" id="clientcontact_id" name="clientcontact_id">
+                            {#                                    {% if update %}#}
+                            {#                                        <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'#}
+                            {#                                    {% else %}#}
+                            {#                                        <option value="">Geen contactpersoon</option>'#}
+                            {#                                    {% endif %}#}
 
-                    {#        <div class="col-sm-6 col-md-3">#}
-                    {#            <label class="form-label" for="clientcontact_id">#}
-                    {#                Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>#}
-                    {#            <select class="form-select" id="clientcontact_id" name="clientcontact_id">#}
-                    {#                {% if update %}#}
-                    {#                    <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'#}
-                    {#                {% else %}#}
-                    {#                    <option value="">Geen contactpersoon</option>'#}
-                    {#                {% endif %}#}
-                    {##}
-                    {#                {% for i in clientcontact_id %}#}
-                    {#                    <option value="{{ i.clientcontact_id }}">{{ i.first_name }}</option>#}
-                    {#                {% endfor %}#}
-                    {#            </select>#}
-                    {#        </div>#}
+                            {% for i in clientcontacts %}
+                                <option value="{{ i.clientcontact_id }}">{{ i.clientcontact }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" id="client_quotenumber" for="client_quotenumber">Klant ordernr</label>
                         <p>{{ form.client_quotenumber }}</p>
                     </div>
-                </div></div></div>
+                </div></div>
                 <hr class="text-info"><br>
             {% endif %}
-
+    </div>
+</div>
 </body>
 </html>

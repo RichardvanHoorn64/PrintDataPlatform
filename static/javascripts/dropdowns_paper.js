@@ -79,8 +79,8 @@ paperWeightInput.addEventListener('change', e => {
             console.log(response.data)
             data = response.data
 
-            let html_data =
-                 '<option value="">Kies kleur</option>'
+            let html_data = null
+                 // '<option value="">Kies kleur</option>'
             data.forEach(function (data) {
                 html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
 
@@ -178,7 +178,8 @@ paperWeightCoverInput.addEventListener('change', e => {
             console.log(response.data)
             data = response.data
 
-            let html_data = '<option value="">Kies kleur</option>'
+            let html_data = null
+                // '<option value="">Kies kleur</option>'
             data.forEach(function (data) {
                 html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
             })

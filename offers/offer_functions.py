@@ -5,9 +5,12 @@ from printprojects.models import *
 
 def select_clientcontact_json(requests, **kwargs):
     client_id = kwargs.get('client_id')
-    member_id = requests.user.member_id
-    clientcontacts = list(
-        ClientContacts.objects.filter(client_id=client_id, member_id=member_id).values().order_by('last_name'))
+    if client_id == "0":
+        clientcontacts = None
+    else:
+        member_id = requests.user.member_id
+        clientcontacts = list(
+            ClientContacts.objects.filter(client_id=client_id, member_id=member_id).values().order_by('last_name'))
     return JsonResponse({'data': clientcontacts})
 
 

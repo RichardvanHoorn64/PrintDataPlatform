@@ -6,19 +6,19 @@ clientIdInput.addEventListener('change', e => {
     const selectedClientId = e.target.value
     console.log("selectedClientId: ", selectedClientId);
 
-
     $.ajax({
         type: 'GET', url: `/select_clientcontact_json/${selectedClientId}`,
 
         success: function (response) {
-            console.log('client_ids', response.data);
-            data = response.data
+            console.log('client_ids: ', response.data);
+            let data = response.data
 
-            let html_data =
+            let html_data = null
             data.forEach(function (data) {
-                html_data += `<option value="${data.clientcontact_id}">${data.first_name} ${data.last_name}</option>`
+                html_data += `<option value="${data.clientcontact_id}">${data.clientcontact}</option>`
 
             })
+            console.log('html_data: ', html_data);
             $("#clientcontact_id").html(html_data)
 
          }, error: function (error) {
