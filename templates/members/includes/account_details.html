@@ -74,8 +74,8 @@
                     {% include 'members/includes/exclusive_accountdetails.html' %}
                     
                     {% if member_plan_id in starter_memberplans %}
-                         {% include 'members/includes/upgrade_accountplan.html' %}
-                        {% endif %}
+                         {% include 'members/includes/up_downgrade_accountplan.html' %}
+                    {% endif %}
                 {% endif %}
                 {% if member_plan_id in producer_memberplans %}
                     {% include 'members/includes/producer_communications.html' %}
@@ -88,7 +88,7 @@
             <div class="col-auto">
                 <div class="row g-3">
                     <div class="col-auto">
-                     {% if member_plan_id in starter_memberplans %}
+                     {% if member_plan_id in open_memberplans %}
                         {% include 'buttons/update_member_account.html' %}&nbsp;
                     {% endif %}
                         {% if member_plan_id in non_exclusive_memberplans %}

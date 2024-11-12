@@ -16,44 +16,37 @@
         </div>
         <hr class="text-info">
         <br>
-        <section class="bg-white pb-8" id="signout-header">
-            <div class="col-lg-11"></div>
-            <h2 class="text-info align-center text-center">
-                <strong>Weet je zeker dat je wilt uitloggen? </strong></h2><br>
+        <section class="bg-info-100 pb-8 border border-info" id="signout-header">
 
-            <div class="container-small hero-header-container px-lg-7 px-xxl-3 bg-info-100">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-3 text-center">
+            <h2 class="align-left text-lg-center">
+                <strong>Weet je zeker dat je wilt uitloggen? </strong></h2><br>
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <hr class="text-info">
+
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}"
+                           value="{{ redirect_field_value }}"/>
+                {% endif %}
+
+                <div class="align-left text-lg-center mb-3 ">
+                    <div class="btn-group align-center">
+                        <button href="{% url 'welcome' %}" class="btn btn-info btn-lg me-1 mb-2">
+                            <span class="far fa-arrow-alt-circle-left"></span> &nbsp Terug
+                        </button>
+                        <button type="submit" class="btn btn-danger btn-lg me-1 mb-2">
+                            <span class="far fa-window-close"></span> &nbsp Uitloggen
+                        </button>
+                    </div>
+                    <br>
+                <div class="align-left text-lg-center">
+                    <input class='border border-info' type="image" src='{% static 'assets/img/spot-illustrations/log_out.jpg' %}' alt="Alt text"/>
                     <hr class="text-info">
-                        <form method="post" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}"
-                                       value="{{ redirect_field_value }}"/>
-                            {% endif %}
-                        <div class="btn-group">
-                             <button href="{% url 'welcome' %}" class="btn btn-info btn-lg me-1 mb-2">
-                                <span class="far fa-arrow-alt-circle-left"></span> &nbsp Terug
-                            </button>
-                            <button type="submit" class="btn btn-danger btn-lg me-1 mb-2">
-                                <span class="far fa-window-close"></span> &nbsp Uitloggen
-                            </button>
-                        </div>
-                        <hr class="text-info">
-                        </form>
-                    </div>
-                 <div class="col-lg-1"></div>
-                    <div class="col-6">
-                        <div class="container-fluid">
-                            <img src='{% static 'assets/img/spot-illustrations/log_out.jpg' %}'
-                                 class="img-fluid" alt=""/>
-                        </div>
-                    </div>
                 </div>
-            </div>
+                </div>
+            </form>
         </section>
     </div>
-
+    <hr class="text-info">
     <!-- end:: Content -->
 {% endblock %}

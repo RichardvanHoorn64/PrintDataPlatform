@@ -108,12 +108,6 @@
                         <label class="form-label" for="clientcontact_id">
                             Contact {% if update %}: &nbsp; {{ clientcontact }}{% endif %} </label>
                         <select class="form-select" id="clientcontact_id" name="clientcontact_id">
-                            {#                                    {% if update %}#}
-                            {#                                        <option value="{{ printproject.clientcontact_id }}">Wijzig contactpersoon</option>'#}
-                            {#                                    {% else %}#}
-                            {#                                        <option value="">Geen contactpersoon</option>'#}
-                            {#                                    {% endif %}#}
-
                             {% for i in clientcontacts %}
                                 <option value="{{ i.clientcontact_id }}">{{ i.clientcontact }}</option>
                             {% endfor %}
@@ -123,9 +117,10 @@
                         <label class="form-label" id="client_quotenumber" for="client_quotenumber">Klant ordernr</label>
                         <p>{{ form.client_quotenumber }}</p>
                     </div>
-                </div></div>
+                </div>
                 <hr class="text-info"><br>
             {% endif %}
+        </div>
     </div>
 </div>
 </body>

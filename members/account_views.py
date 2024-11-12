@@ -300,7 +300,7 @@ class ActivateCoWorker(LoginRequiredMixin, View):
             return redirect('/my_account/' + str(user.member_id))
 
 
-class MemberplanUpgradeView(LoginRequiredMixin, View):
+class MemberplanUpDowngradeView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
         if not user.is_authenticated:
@@ -310,8 +310,21 @@ class MemberplanUpgradeView(LoginRequiredMixin, View):
         else:
             member_id = self.kwargs['member_id']
 
-            if user.member_id == member_id and user.member.member_plan_id in [1, 3]:
-                upgrade_member = Members.objects.get(member_id=member_id)
-                upgrade_member.member_plan_id = 2
-                upgrade_member.save()
-            return redirect('/my_account/' + str(user.member_id))
+        upgrade_user = UserProfile.objects.get(member_id=member_id)
+        upgrade_member = Members.objects.get(member_id=member_id)
+
+        # upgrade
+        if user.member_id == member_id and user.member.member_plan_id in starter_memberplans:
+            upgrade_member.member_plan_id = 2
+            upgrade_member.save()
+            upgrade_user.member_plan_id = 2
+            upgrade_user.save()
+
+        # downgrade
+        if user.member_id == member_id and user.member.member_plan_id in pro_memberplans:
+            upgrade_member.member_plan_id = 1
+            upgrade_member.save()
+            upgrade_user.member_plan_id = 1
+            upgrade_user.save()
+
+        return redirect('/my_account/' + str(user.member_id))

@@ -42,7 +42,8 @@
                 <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmpyPaperCategory()"
                          {% if not update %} required {% endif %}>
                          {% if update %}
-                        <option value="0">Wijzig papiermerk</option>{% endif %}
+                        <option value="0">Wijzig papiermerk</option>
+                                   {% else %} <option value="0">Kies papiermerk</option>{% endif %}
                     {% for i in paperbrands %}
                         <option value="{{ i.paperbrand }}">{{ i.paperbrand }}</option>
                     {% endfor %}
@@ -57,7 +58,8 @@
                 <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmpyPaperBrand()"
                         {% if not update %} required {% endif %}>
                     {% if update %}
-                        <option value="0">Wijzig papiergewicht</option>{% endif %}
+                        <option value="0">Wijzig papiergewicht</option>
+                                   {% else %} <option value="0">Kies papiergewicht</option>{% endif %}
                     {% for i in paperweights %}
                         <option value="{{ i.paperweight_m2 }}">{{ i.paperweight_m2 }}</option>
                     {% endfor %}

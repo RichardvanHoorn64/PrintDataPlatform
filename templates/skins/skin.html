@@ -46,7 +46,7 @@
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
                                                                          href="#sales_dashboard" role="button"
                                                                          data-bs-toggle="collapse" aria-expanded="false"
-                                                                         aria-controls="project-management">
+                                                                         aria-controls="member-printprojects">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
@@ -111,7 +111,7 @@
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
                                                                          href="#producer_orders" role="button"
                                                                          data-bs-toggle="collapse" aria-expanded="false"
-                                                                         aria-controls="project-management">
+                                                                         aria-controls="member-printprojects">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
@@ -214,20 +214,17 @@
                                             </div>
                                         </a>
                                         </div>
-                                         
                                         {% endif %}
-
                                     {% endif %}
 
                                     <!-- Open members printprojects-->
                                     {% if user.member.member_plan_id in non_exclusive_memberplans %}
-
                                         <hr class="navbar-vertical-line"/>
                                         <!-- Printprojects-->
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                                                         href="#project-management" role="button"
+                                                                         href="#member-printprojects" role="button"
                                                                          data-bs-toggle="collapse" aria-expanded="false"
-                                                                         aria-controls="project-management">
+                                                                         aria-controls="member-printprojects">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
@@ -238,7 +235,7 @@
                                         </a>
                                             <div class="parent-wrapper label-1">
                                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                                    id="project-management">
+                                                    id="member-printprojects">
                                                     <li class="collapsed-nav-item-title d-none">Printprojecten
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
@@ -248,7 +245,6 @@
                                                                 class="nav-link-text">Alle projecten</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'printproject_dashboard' 1 %}"
@@ -257,7 +253,6 @@
                                                                 class="nav-link-text">Open</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'printproject_dashboard' 2 %}"
@@ -266,7 +261,6 @@
                                                                 class="nav-link-text">Aangevraagd</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'printproject_dashboard' 3 %}"
@@ -275,7 +269,6 @@
                                                                 class="nav-link-text">In productie</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'printproject_dashboard' 4 %}"
@@ -284,23 +277,19 @@
                                                                 class="nav-link-text">Gesloten</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     {% endif %}
-
-
-                                    <!-- Exclusive members offers-->
+                                    <!-- Members offers-->
                                     {% if user.member_plan_id in open_memberplans %}
-
                                         <hr class="navbar-vertical-line"/>
                                         <!-- Printprojects-->
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                                                         href="#project-management" role="button"
+                                                                         href="#member-offers" role="button"
                                                                          data-bs-toggle="collapse" aria-expanded="false"
-                                                                         aria-controls="project-management">
+                                                                         aria-controls="member_offers">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
@@ -311,7 +300,7 @@
                                         </a>
                                             <div class="parent-wrapper label-1">
                                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                                    id="project-management">
+                                                    id="member-offers">
                                                     <li class="collapsed-nav-item-title d-none">Aanbiedingen
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
@@ -321,7 +310,6 @@
                                                                 class="nav-link-text">Alle aanbiedingen</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'offer_dashboard' 1 %}"
@@ -330,7 +318,6 @@
                                                                 class="nav-link-text">Open</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'offer_dashboard' 2 %}"
@@ -339,7 +326,6 @@
                                                                 class="nav-link-text">Aangeboden</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'offer_dashboard' 3 %}"
@@ -348,7 +334,6 @@
                                                                 class="nav-link-text">In productie</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'offer_dashboard' 4 %}"
@@ -357,7 +342,6 @@
                                                                 class="nav-link-text">Gesloten</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
                                                                             href="{% url 'offer_dashboard' 5 %}"
@@ -366,19 +350,16 @@
                                                                 class="nav-link-text">Geweigerd</span>
                                                         </div>
                                                     </a>
-                                                        <!-- more inner pages-->
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        {# {% endif %}#}
 
-                                        <!-- Orders outsourced-->
-
+                                        <!-- Member Orders outsourced-->
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                                                         href="#order-management" role="button"
+                                                                         href="#member-orders" role="button"
                                                                          data-bs-toggle="collapse" aria-expanded="false"
-                                                                         aria-controls="project-management">
+                                                                         aria-controls="member-printprojects">
                                             <div class="d-flex align-items-center">
                                                 <div class="dropdown-indicator-icon"><span
                                                         class="fas fa-caret-right fs-3"></span></div>
@@ -389,7 +370,7 @@
                                         </a>
                                             <div class="parent-wrapper label-1">
                                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                                    id="order-management">
+                                                    id="member-orders">
                                                     <li class="collapsed-nav-item-title d-none">Orders
                                                     </li>
                                                     <li class="nav-item"><a class="nav-link"
@@ -671,7 +652,7 @@
                                             Goedemiddag,
                                         {% else %}
                                             Goedenavond,
-                                        {% endif %} {{ user.first_name }} {{ user.last_name }} </small></p>
+                                        {% endif %} {{ user.first_name }} {{ user.last_name }} </small>
                                 </div>
                             </div>
                         </a>

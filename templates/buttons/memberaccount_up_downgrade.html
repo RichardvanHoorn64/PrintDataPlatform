@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memberaccount upgrade</title>
+</head>
+<body>
+<a type="button" href="{% url 'memberplan_up_downgrade' member.member_id %}"
+   {% if member_plan_id in starter_memberplans %}
+   class="btn btn-success me- mb-1">Upgrade
+    {% else %}
+    class="btn btn-warning me- mb-1">Downgrade
+    {% endif %}
+</a>
+</body>
+</html>

@@ -127,7 +127,7 @@ urlpatterns = [
     # path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
     # name='update_co_worker'),
     path('activate_co_worker/<int:id>', ActivateCoWorker.as_view(), name='activate_co_worker'),
-    path('memberplan_upgrade/<int:member_id>', MemberplanUpgradeView.as_view(), name='memberplan_upgrade'),
+    path('memberplan_up_downgrade/<int:member_id>', MemberplanUpDowngradeView.as_view(), name='memberplan_up_downgrade'),
 
     # clients
     path('client_dashboard/', ClientDashboard.as_view(), name='client_dashboard'),

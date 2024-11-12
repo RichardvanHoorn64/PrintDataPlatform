@@ -78,9 +78,12 @@ paperWeightInput.addEventListener('change', e => {
         success: function (response) {
             console.log(response.data)
             data = response.data
+            let number_of_colors = data.length
 
             let html_data = null
-                 // '<option value="">Kies kleur</option>'
+            if (number_of_colors > 1)
+                html_data += '<option value="">Kies papierkleur</option>'
+
             data.forEach(function (data) {
                 html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
 
@@ -114,7 +117,7 @@ paperCategoryInputCover.addEventListener('change', e => {
             console.log(response.data)
             data = response.data
 
-            let html_data = '<option value="">Geen merkvoorkeur</option>'
+            let html_data = '<option value="">Kies papiermerk omslag</option>'
             data.forEach(function (data) {
                 html_data += `<option value="${data.paperbrand}">${data.paperbrand}</option>`
 
@@ -178,8 +181,12 @@ paperWeightCoverInput.addEventListener('change', e => {
             console.log(response.data)
             data = response.data
 
+            let number_of_colors = data.length
+            console.log('aantal kleuren: ', number_of_colors)
+
             let html_data = null
-                // '<option value="">Kies kleur</option>'
+            if (number_of_colors > 1)
+                html_data += '<option value="">Kies papierkleur omslag</option>'
             data.forEach(function (data) {
                 html_data += `<option value="${data.papercolor}">${data.papercolor}</option>`
             })
