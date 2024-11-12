@@ -251,7 +251,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
         return context
 
 
-class PreferredSuppliers(LoginRequiredMixin, TemplateView):
+class MySuppliers(LoginRequiredMixin, TemplateView):
     template_name = "producers/producers_dashboard.html"
 
     def dispatch(self, request, *args, **kwargs):
@@ -266,46 +266,19 @@ class PreferredSuppliers(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         user = self.request.user
-        context = super(PreferredSuppliers, self).get_context_data(**kwargs)
+        context = super(MySuppliers, self).get_context_data(**kwargs)
         member_id = user.member_id
-        producers = MemberProducerMatch.objects.filter(member_id=member_id, memberproducerstatus_id=1).order_by(
+        producers = MemberProducerMatch.objects.filter(member_id=member_id).order_by(
             'memberproducerstatus')
         context = creatememberplan_context(context, user)
         context['user'] = user
         # dashboard lists
-        context['producers_list'] = producers  # .filter(printprojectstatus=1).order_by('-rfq_date')
+        context['preferred_suppliers'] = producers.filter(memberproducerstatus_id=1)
+        context['available_suppliers'] = producers.exclude(memberproducerstatus_id=1)
 
         # counts
         context['suppliers_projects'] = 1  # producers.count()
-
-        return context
-
-
-class AvailaleSuppliers(LoginRequiredMixin, TemplateView):
-    template_name = "producers/producers_dashboard.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        update_producersmatch(self.request)
-        user = self.request.user
-        if not user.is_authenticated:
-            return redirect('/home/')
-        elif not user.member.active:
-            return redirect('/wait_for_approval/')
-        else:
-            return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        user = self.request.user
-        context = super(AvailaleSuppliers, self).get_context_data(**kwargs)
-        member_id = user.member_id
-        producers = MemberProducerMatch.objects.filter(member_id=member_id).order_by('memberproducerstatus').exclude(memberproducerstatus_id=1)
-        context = creatememberplan_context(context, user)
-        context['user'] = user
-        # dashboard lists
-        context['producers_list'] = producers  # .filter(printprojectstatus=1).order_by('-rfq_date')
-
-        # counts
-        context['suppliers_projects'] = 1  # producers.count()
+        context['page_title'] = 'Producenten ' + str(user.company)
 
         return context
 
