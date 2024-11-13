@@ -1,4 +1,44 @@
 from methods.models import *
+from index.categories_groups import *
+
+
+def define_enhance_sided(enhance_front, enhance_back):
+    enhance_sided = 0
+    if enhance_front == "":
+        enhance_front = 0
+    if enhance_back == "":
+        enhance_back = 0
+
+    if enhance_front > 0 and enhance_back == 0:
+        enhance_sided = 1
+
+    if enhance_front == enhance_back:
+        enhance_sided = 2
+
+    if enhance_back > 0 and enhance_front == 0:
+        enhance_sided = 3
+
+    if enhance_front > 0 and enhance_back > 0:
+        if enhance_front == enhance_back:
+            enhance_sided = 2
+        else:
+            enhance_sided = 4
+    return enhance_sided
+
+
+def define_print_sided(print_front, print_back, number_pms_colors_front, number_pms_colors_back):
+    printsided = 3
+    if print_front in print_choices:
+        if print_back == 0 and number_pms_colors_back == 0:
+            printsided = 1
+        if print_back == print_front and number_pms_colors_back == number_pms_colors_front:
+            printsided = 2
+
+    if print_back in print_choices:
+        if print_front == 0 and number_pms_colors_front == 0:
+            printsided = 1
+
+    return printsided
 
 
 def find_host(self):
@@ -10,6 +50,8 @@ def write_print_text(print_input):
     print_text = ''
     if print_input == 1:
         print_text = "zwart"
+    if print_input == 2:
+        print_text = "alleen pms kleuren"
     if print_input == 4:
         print_text = "full colour"
     return print_text

@@ -66,7 +66,7 @@
 
                     <!-- ===============================================-->
                     {% if productcategory_id in categories_folders %}
-                    {% include 'printprojects/new_project_includes/folder_general.html' %}
+                    {% include 'printprojects/new_project_includes/folders.html' %}
                     {% endif %}
                     <!-- ===============================================-->
 
@@ -101,8 +101,8 @@
 
                     <!-- ===============================================-->
                     <!--   include enhance generaL -->
-                     {% if productcategory_id in categories_plano %}
-                    {% include 'printprojects/new_project_includes/enhance_general.html' %}
+                     {% if productcategory_id in categories_plano or productcategory_id in categories_brochures_cover %}
+                    {% include 'printprojects/new_project_includes/enhance.html' %}
                     {% endif %}
                     <!-- ===============================================-->
 

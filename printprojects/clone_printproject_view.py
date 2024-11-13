@@ -2,11 +2,11 @@ from django.shortcuts import redirect
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from assets.models import Bindingmachines
-from index.categories_groups import *
 from index.exclusive_functions import define_exclusive_producer_id
 from index.forms.form_invalids import form_invalid_message_quotes
 from index.models import DropdownChoices, BrandPortalData
 from index.translate_functions import find_packaging_id
+from index.convert_functions import *
 from materials.models import PaperCatalog
 from methods.models import *
 from printprojects.forms.NewPrintProject import PrintProjectsForm
@@ -103,6 +103,30 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         else:
             packaging = find_packaging_id(packaging)
         form.instance.packaging = packaging
+
+        # print sided
+        if productcategory_id in categories_brochures_all:
+            form.instance.printsided = 2
+        else:
+            print_front = int(form.cleaned_data['print_front'])
+            print_back = int(form.cleaned_data['print_back'])
+            number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
+            number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
+            update_printsided = define_print_sided(print_front, print_back, number_pms_colors_front, number_pms_colors_back)
+            if item.printsided != update_printsided:
+                form.instance.printsided = update_printsided
+
+        # enhance sided
+        if productcategory_id in categories_brochures_all:
+            form.instance.enhance_sided = 1
+            form.instance.enhance_back = 0
+        else:
+            enhance_front = int(form.cleaned_data['enhance_front'])
+            enhance_back = int(form.cleaned_data['enhance_back'])
+            update_enhance_sided = define_enhance_sided(enhance_front, enhance_back)
+            if item.enhance_sided != update_enhance_sided:
+                form.instance.enhance_sided = update_enhance_sided
+
 
         # portrait_landscape
         if form.cleaned_data['portrait_landscape'] == "0":

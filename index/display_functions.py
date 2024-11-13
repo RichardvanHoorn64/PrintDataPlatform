@@ -74,7 +74,7 @@ def printproject_invoiceturnover(printproject):
 
 def printproject_size(printproject):
     text = str(printproject.width_mm_product) + " x " + str(
-        printproject.height_mm_product) + "mm, " + write_orientation_text(printproject.portrait_landscape)
+        printproject.height_mm_product) + " mm, " + write_orientation_text(printproject.portrait_landscape)
     return text
 
 
@@ -142,26 +142,24 @@ def printproject_varnish(printsided, pressvarnish_front, pressvarnish_back, ):
 def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_back):
     enhance_front_text = write_enhance_text(enhance_front)
     enhance_back_text = write_enhance_text(enhance_back)
-
     enhance_description = 'Geen opgave'
 
-    if productcategory in [4, 5]:
+    if productcategory in categories_brochures_all:
         enhance_description = enhance_front_text + " op omslag buitenzijde"
 
-    if productcategory == 3:
+    if productcategory == categories_selfcovers:
         enhance_description = enhance_front_text
 
-    if productcategory in [1, 2]:
+    if productcategory in categories_plano:
         enhance_description = "Geen opgave"
+        if enhance_sided == 1:  # 'Alleen voorzijde':
+            enhance_description = "Alleen op voorzijde " + enhance_front_text + ", achterzijde geen veredeling "
         if enhance_sided == 2:  # 'Tweezijdig gelijk':
             enhance_description = "Tweezijdig " + enhance_front_text
-        if enhance_sided == 3:  # 'Tweezijdig verschillend':
-            enhance_description = "Voorzijde " + enhance_front_text + "en achterzijde " + enhance_back_text
-        if enhance_sided == 4:  # 'Alleen voorzijde':
-            enhance_description = "Voorzijde " + enhance_front_text + ", achterzijde geen veredeling "
-        if enhance_sided == 5:  # 'Alleen achterzijde':
+        if enhance_sided == 3:  # 'Alleen achterzijde':
             enhance_description = "Achterzijde " + enhance_back_text + ", voorzijde geen veredeling "
-
+        if enhance_sided == 4:  # 'Tweezijdig verschillend':
+            enhance_description = "Voorzijde " + enhance_front_text + "en achterzijde " + enhance_back_text
     return enhance_description
 
 
@@ -201,11 +199,11 @@ def printproject_number_of_pages(printproject):
 def printproject_finishing(printproject):
     productcategory_id = printproject.productcategory_id
     finishing_text = ""
-    if productcategory_id in categories_plano:
+    if productcategory_id in categories_plano_no_folder:
         finishing_text = 'Gesneden tot afgewerkt formaat'
-    elif productcategory_id == categories_folders:
+    if productcategory_id in categories_folders:
         finishing_text = write_foldingmethod_text(printproject.folding)
-    else:
+    if productcategory_id in categories_brochures_all:
         finishing_text = write_brochurefinishing_text(printproject.finishing_brochures)
 
     return finishing_text

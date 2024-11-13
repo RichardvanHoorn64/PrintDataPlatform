@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enhance and packaging general</title>
+    <title>Enhance</title>
 </head>
 <body>
 <div class="container" id="enhance_general">
@@ -11,9 +11,9 @@
     <!-- ===============================================-->
     <div class="row">
         <div class="col-sm-6 col-md-12">
-            <h4 class="mb-3 text-info">Veredeling</h4>
+            <h4 class="mb-2 text-info">Veredeling {{ print_type }}</h4>
             {% if update %}
-        <h6 class="mb-3">{{ printproject_enhance }}</h6>
+        <h6 class="mb-2">{{ printproject_enhance }}</h6>
         {% endif %}
         </div>
     </div>
@@ -21,16 +21,8 @@
     <!--   Row Enhance choices -->
     <!-- ===============================================-->
     <div class="row">
-            <div class="col-sm-6 col-md-3">
-            <label class="form-label" for="enhance_sided">Veredeling</label>
-            <select class="form-select" id="enhance_sided" name="enhance_sided">
-                {% for i in enhance_sided_choices %}
-                    <option value="{{ i.value }}">{{ i.text }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-sm-6 col-md-3" id="field_enhance_front" style="display : none">
-            <label class="form-label" id="field_enhance_front_label"  for="enhance_front">Veredeling</label>
+        <div class="col-sm-6 col-md-3" id="field_enhance_front">
+            <label class="form-label" id="field_enhance_front_label"  for="enhance_front">Veredeling voorzijde</label>
             <select class="form-select" id="enhance_front" name="enhance_front">
                 <option value=0>{{ no_enhancement }}</option>
                 {% for i in enhance_choices %}
@@ -38,7 +30,8 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="col-sm-6 col-md-3" id="field_enhance_back" style="display : none">
+        {% if productcategory_id in categories_plano %}
+        <div class="col-sm-6 col-md-3" id="field_enhance_back">
             <label class="form-label" id="field_enhance_back_label" for="enhance_back">Veredeling achterzijde</label>
             <select class="form-select" id="enhance_back" name="enhance_back">
             <option value=0>{{ no_enhancement }}</option>
@@ -47,6 +40,7 @@
                 {% endfor %}
             </select>
         </div>
+   {% endif %}
     </div>
     <br>
 </div>

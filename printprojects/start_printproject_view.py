@@ -5,6 +5,7 @@ from index.create_context import creatememberplan_context
 from index.forms.form_invalids import form_invalid_message_quotes
 from index.translate_functions import *
 from index.exclusive_functions import define_exclusive_producer_id
+from index.convert_functions import *
 from index.models import BrandPortalData
 from members.crm_functions import update_producersmatch
 from django.views.generic import CreateView
@@ -72,40 +73,50 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         form.instance.productcategory_id = productcategory_id
         form.instance.user_id = user.id
         form.instance.member_id = user.member_id
-
         form.instance.portrait_landscape = find_orientation(form.cleaned_data['portrait_landscape'])
-
         form.instance.packaging = find_packaging_id(form.cleaned_data['packaging'])
+
+        # fill printsided
+        print_front = form.cleaned_data['print_front']
+        print_back = form.cleaned_data['print_back']
+        number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
+        number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
+
+        if number_pms_colors_front == "":
+            number_pms_colors_front = 0
+        if number_pms_colors_back == "":
+            number_pms_colors_back = 0
+
+        if productcategory_id in categories_brochures_all:
+            printsided = 2
+        else:
+            printsided = define_print_sided(print_front, print_back, number_pms_colors_front, number_pms_colors_back)
 
         # fill print back
         if productcategory_id in categories_selfcovers:
             print_front = 0
             print_back = 0
-            printsided = 0
+            printsided = 2
             pressvarnish_front = 0
             pressvarnish_back = 0
 
         else:
-            printsided = form.cleaned_data['printsided']
-            print_front = form.cleaned_data['print_front']
-            print_back = form.cleaned_data['print_back']
             pressvarnish_front = form.cleaned_data['pressvarnish_front']
             pressvarnish_back = form.cleaned_data['pressvarnish_back']
-            form.instance.printsided = printsided
 
         if printsided == 2:
-            form.instance.print_back = print_front
-            form.instance.pressvarnish_back = pressvarnish_front
+            print_back = print_front
+            pressvarnish_back = pressvarnish_front
         if printsided == 1:
-            form.instance.print_back = 0
+            print_back = 0
             form.instance.number_pms_colors_back = 0
             form.instance.pressvarnish_back = 0
-        else:
-            form.instance.print_front = print_front
-            form.instance.print_back = print_back
-            form.instance.pressvarnish_front = pressvarnish_front
-            form.instance.pressvarnish_back = pressvarnish_back
-            form.instance.printsided = printsided
+
+        form.instance.printsided = printsided
+        form.instance.print_front = print_front
+        form.instance.print_back = print_back
+        form.instance.pressvarnish_front = pressvarnish_front
+        form.instance.pressvarnish_back = pressvarnish_back
 
         # handling pms data
         if not brandportal.brandportal_show_pms_input:
@@ -151,8 +162,9 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.portrait_landscape = 1  # staand
 
         if productcategory_id in categories_folders:
-            folding_id = find_foldingspecs(form.cleaned_data['folding'])
-            form.instance.folding = find_foldingspecs(folding_id)
+            folding_id = int(form.cleaned_data['folding'])
+            # folding_id = find_foldingspecs(folding)
+            form.instance.folding = folding_id
             form.instance.number_of_pages = find_folding_number_of_pages(folding_id)
         else:
             form.instance.folding = 0
@@ -163,16 +175,14 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             number_of_pages = form.cleaned_data['number_of_pages']
             form.instance.number_of_pages = 4 * math.ceil(number_of_pages) / 4
 
-        # enhance
-        # if productcategory_id in categories_selfcovers:
-        #     form.instance.enhance_front = 0
-        #     form.instance.enhance_back = 0
-
+        # fill enhance sided
         if productcategory_id in categories_brochures_all:
             form.instance.enhance_sided = 1
             form.instance.enhance_back = 0
         else:
-            form.instance.enhance_sided = form.cleaned_data['enhance_sided']
+            enhance_front = int(form.cleaned_data['enhance_front'])
+            enhance_back = int(form.cleaned_data['enhance_back'])
+            form.instance.enhance_sided = define_enhance_sided(enhance_front, enhance_back)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -298,17 +308,30 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
                 else:
                     brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=5)
 
-        print_type = ""
         if productcategory_id in categories_brochures_cover:
             print_type = " omslag"
+            print_front = "buitenzijde omslag"
+            print_back = "binnenzijde omslag"
+            enhance_front = "buitenzijde omslag"
+            enhance_back = ""
+
+        else:
+            print_type = ""
+            print_front = "voorzijde"
+            print_back = "achterzijde"
+            enhance_front = "voorzijde"
+            enhance_back = "achterzijde"
 
         context['packaging_choices'] = packaging_choices
-        context['no_enhancement'] = 'Kies verdeling'
+        context['no_enhancement'] = 'Geen verdeling'
         context['enhance_choices'] = enhance_choices.order_by('enhancement_id')
         context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = show_papercolor
         context['print_type'] = print_type
-
+        context['print_front'] = print_front
+        context['print_back'] = print_back
+        context['print_front'] = enhance_front
+        context['nhance_back'] = enhance_back
 
         return context

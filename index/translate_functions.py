@@ -34,21 +34,17 @@ def find_brochure_finishingmethod_id(rfq_input):
     return brochure_finishingmethod_id
 
 
-def find_foldingspecs(rfq_input):
+def find_foldingmethod(rfq_input):
     try:
-        folding = FoldingMethods.objects.get(foldingmethod=rfq_input)
-        foldingmethod_id = folding.foldingmethod_id
-
+        foldingmethod = FoldingMethods.objects.get(foldingmethod_id=rfq_input).foldingmethod
     except FoldingMethods.DoesNotExist:
-        foldingmethod_id = 0
-    return foldingmethod_id
+        foldingmethod = "Foldingmethod onbekend "
+    return foldingmethod
 
 
 def find_folding_number_of_pages(rfq_input):
     try:
-        folding = FoldingMethods.objects.get(foldingmethod=rfq_input).number_of_pages
-        number_of_pages = folding.foldingmethod_id
-
+        number_of_pages = FoldingMethods.objects.get(foldingmethod_id=rfq_input).number_of_pages
     except FoldingMethods.DoesNotExist:
         number_of_pages = 0
     return number_of_pages

@@ -1,5 +1,6 @@
 # product_categories
 categories_all = [1, 2, 3, 4, 5]
+categories_plano_no_folder = [1]
 categories_plano = [1, 2]
 categories_folders = [2]
 categories_selfcovers = [3]
@@ -20,3 +21,4 @@ producer_starter_memberplans = [5]
 
 # offers
 offer_availeble = [2, 3]
+print_choices = [1, 2, 4]
