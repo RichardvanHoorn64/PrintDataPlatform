@@ -209,7 +209,7 @@ class CreateNewProducer(CreateView, LoginRequiredMixin):
     profile = Producers
     form_class = NewProducerForm
     template_name = 'producers/new_producer.html'
-    success_url = '/producer_dashboard/'
+    success_url = '/my_suppliers/'
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
