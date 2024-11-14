@@ -273,8 +273,13 @@ class MySuppliers(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
         context['user'] = user
         # dashboard lists
+        preferred_suppliers_instruction = 'Deze groep preferred suppliers heb je gekozen voor offerteaanvragen'
+        available_suppliers_instruction = 'Kies hier je preferred suppliers door de status te wijzigen'
+
         context['preferred_suppliers'] = producers.filter(memberproducerstatus_id=1)
         context['available_suppliers'] = producers.exclude(memberproducerstatus_id=1)
+        context['preferred_suppliers_instruction'] = preferred_suppliers_instruction
+        context['available_suppliers_instruction'] = available_suppliers_instruction
 
         # counts
         context['suppliers_projects'] = 1  # producers.count()

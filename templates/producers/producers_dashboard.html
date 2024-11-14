@@ -75,7 +75,7 @@
                         <div class="card-body">
                             <div class="table-responsive scrollbar mx-n1 px-1">
                                 <h3 class="mb-0 text-info"> Preferred suppliers van {{ user.company }}</h3> <br>
-                                <h5 class="mb-0 text-black-50">Deze groep preferred suppliers heb je gekozen voor offerteaanvragen
+                                <h5 class="mb-0 text-black-50">{{ preferred_suppliers_instruction }}
                                     </h5>
                                 <hr class="text-info">
                                 <table class="table table-sm fs--1 mb-0">
@@ -197,7 +197,7 @@
                         <div class="card-body">
                             <div class="table-responsive scrollbar mx-n1 px-1">
                                 <h3 class="mb-0 text-info">Overige, beschikbare producenten</h3> <br>
-                                <h5 class="mb-0 text-black-50">Kies hier je preferred suppliers door de statuste wijzigen
+                                <h5 class="mb-0 text-black-50">{{ available_suppliers_instruction }}
                                     </h5>
                                 <hr class="text-info">
                                 <table class="table table-sm fs--1 mb-0">
