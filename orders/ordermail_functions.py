@@ -9,6 +9,7 @@ from printdataplatform.settings import EMAIL_HOST_USER
 from orders.models import Orders
 from profileuseraccount.models import *
 from index.categories_groups import *
+from index.mail.email_function import send_printdataplatform_mail
 
 
 # send orderdetails to producer
@@ -127,8 +128,10 @@ def send_ordermail_producer(order_id):
         email_template = 'orders/ordermail_includes/email_order_notice.html'
         subject = render_to_string("orders/ordermail_includes/order_notice_subject.txt", merge_data)
         html_body = render_to_string(email_template, merge_data)
-        adress = recepients = producer.e_mail_orders
+        address = producer.e_mail_orders
         send_printdataplatform_mail(subject, address, html_body)
+        print('ordermail send for order: ' ,str(order_id))
     except Exception as e:
         error_mail_admin('order_mail.send() error: ', e)
+        print('ordermail not send for order/ error: ', str(order_id), " ", str(e))
 

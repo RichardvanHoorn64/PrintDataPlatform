@@ -5,7 +5,7 @@ from members.crm_functions import update_producersmatch, update_printprojectsmat
 from methods.models import *
 from printprojects.forms.ProducerMemberSalesPrice import PrintProjectPriceUpdateForm
 from printprojects.models import MemberProducerMatch
-
+from django.http import HttpResponseRedirect
 from printprojects.workflow_functions import *
 
 
@@ -31,7 +31,6 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         # retrieve printproject plus check ownership
         try:
             member_plan_id = user.member_plan_id
-            rfq = PrintProjects.objects.get(printproject_id=printproject_id, member_id=user.member_id)
         except PrintProjects.DoesNotExist:
             return redirect('home')
 
@@ -81,7 +80,7 @@ class SendRFQView(LoginRequiredMixin, View):
                         # Send calculation update mail
                         calculation = Calculations.objects.get(producer_id, new_offer.printproject_id)
                         send_calculationupdate_mail(producer, member_company, new_offer, calculation)
-                    except Exception as e: # Send rfq's
+                    except Exception as e:  # Send rfq's
                         print('auto_calculate_offer failed: (rfq, producer_id)', e)
                         send_rfq_mail(producer, member_company, new_offer, printproject)
                 else:  # Send rfq's
@@ -103,3 +102,26 @@ class SendRFQView(LoginRequiredMixin, View):
             completed_rfq.delete()
 
         return redirect('/printproject_details/' + str(printproject_id))
+
+
+class ChangePrintProjectMatch(LoginRequiredMixin, View):
+    pk_url_kwarg = 'printprojectmatch_id'
+    context_object_name = 'printproject_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        member_id = self.request.user.member_id
+        printprojectmatch_id = self.kwargs['printprojectmatch_id']
+        if not self.request.user.member.active:
+            return redirect('/wait_for_approval/')
+        else:
+            try:
+                printprojectmatch = PrintProjectMatch.objects.get(printprojectmatch_id=printprojectmatch_id,
+                                                                  member_id=member_id)
+                if printprojectmatch.matchprintproject:
+                    printprojectmatch.matchprintproject = False
+                else:
+                    printprojectmatch.matchprintproject = True
+                printprojectmatch.save()
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            except PrintProjects.DoesNotExist:
+                return redirect('/no_access/')

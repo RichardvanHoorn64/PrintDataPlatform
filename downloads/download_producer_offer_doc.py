@@ -23,7 +23,6 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         offer = Offers.objects.get(offer_id=offer_id)
         printproject_id = offer.printproject_id
         producer = Producers.objects.get(producer_id=offer.producer_id)
-        producer_id = producer.producer_id
         producer_company = producer.company
         printproject = PrintProjects.objects.get(printproject_id=printproject_id)
 

@@ -28,7 +28,7 @@ from orders.order_views import *
 from printprojects.clone_printproject_view import *
 from printprojects.detail_views import *
 from printprojects.start_printproject_view import *
-from printprojects.start_workflow_view import PrintProjectStartWorkflowView, SendRFQView
+from printprojects.start_workflow_view import PrintProjectStartWorkflowView, SendRFQView, ChangePrintProjectMatch
 from producers.contact_views import *
 from producers.offer_views import *
 from producers.producer_views import *
@@ -67,6 +67,9 @@ urlpatterns = [
     path('events/', EventsView.as_view(), name='events'),
 
     # printprojects
+    path('change_printproject_match/<int:printprojectmatch_id>', ChangePrintProjectMatch.as_view(),
+         name='change_printproject_match'),
+
     path('new_printproject/<int:productcategory_id>', CreateNewPrintProjectView.as_view(), name='new_printproject'),
 
     path('start_printproject_workflow/<int:printproject_id>', PrintProjectStartWorkflowView.as_view(),
