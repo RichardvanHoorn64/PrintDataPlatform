@@ -35,24 +35,6 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         except PrintProjects.DoesNotExist:
             return redirect('home')
 
-        # start exclusive member workflow
-        if member_plan_id in exclusive_memberplans:
-            producer_id = user.member.exclusive_producer_id
-            calculation_module = Producers.objects.get(producer_id=producer_id).calculation_module
-            # create open calculations
-            create_open_calculation_offer(rfq, producer_id, True)
-
-            # make calculations
-            if calculation_module:
-                try:
-                    auto_calculate_offer(rfq, producer_id)
-                except Exception as e:
-                    print('auto_calculate_offer failed: (rfq, producer_id)', e)
-
-            offer_id = Offers.objects.get(printproject_id=printproject_id,
-                                          producer_id=producer_id).offer_id
-            return redirect('/offer_details/' + str(offer_id))
-
         # start open workflow: step 1. workflow select suppliers
         if member_plan_id in open_memberplans:
             update_producersmatch(self.request)
@@ -61,7 +43,7 @@ class PrintProjectStartWorkflowView(LoginRequiredMixin, View):
         return redirect('/printproject_details/' + str(printproject_id))
 
 
-# Open workflow step 2: send rfq after select suppliers for open calculations
+# Workflow step 2: send rfq after select suppliers for open calculations
 class SendRFQView(LoginRequiredMixin, View):
     pk_url_kwarg = 'printproject_id'
 

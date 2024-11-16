@@ -48,23 +48,23 @@ def send_ordermail_producer(order_id):
         printproject.pressvarnish_booklet)
 
     printing_cover = printproject_printing(printproject.printsided, printproject.print_front,
-                                           printproject.print_rear,
+                                           printproject.print_back,
                                            printproject.number_pms_colors_front,
-                                           printproject.number_pms_colors_rear)
+                                           printproject.number_pms_colors_back)
 
     paper_cover = printproject_paper(printproject.papercategory_cover,
                                      printproject.paperbrand_cover,
                                      printproject.paperweight_cover,
                                      printproject.papercolor_cover)
     printing = printproject_printing(printproject.printsided, printproject.print_front,
-                                     printproject.print_rear,
+                                     printproject.print_back,
                                      printproject.number_pms_colors_front,
-                                     printproject.number_pms_colors_rear)
+                                     printproject.number_pms_colors_back)
     varnish = printproject_varnish(printproject.printsided, printproject.pressvarnish_front,
-                                   printproject.pressvarnish_rear)
+                                   printproject.pressvarnish_back)
     enhance = printproject_enhance(printproject.productcategory_id,
                                    printproject.enhance_sided, printproject.enhance_front,
-                                   printproject.enhance_rear, )
+                                   printproject.enhance_back, )
     finishing = printproject_finishing(printproject)
 
     packaging = printproject_packaging(printproject.packaging)
