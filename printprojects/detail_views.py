@@ -56,12 +56,6 @@ class PrintProjectDetailsView(LoginRequiredMixin, UpdateView):
         if printproject.printprojectstatus_id == 2:
             printproject_subtitle = 'Beoordeel aanbiedingen, plaats opdracht'
 
-        if member_plan_id in exclusive_memberplans:
-            exclusive_producer = Producers.objects.get(producer_id=user.member.exclusive_producer_id)
-            context['exclusive_producer'] = exclusive_producer.company
-            printproject_subtitle = 'Aanbieding van: ' + str(exclusive_producer.company)
-            context['offer'] = Offers.objects.get(printproject_id=printproject_id)
-
         context['printproject_subtitle'] = printproject_subtitle
         context['member_plan_id'] = member_plan_id
 

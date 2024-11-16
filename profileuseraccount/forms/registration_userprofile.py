@@ -1,6 +1,6 @@
 from index.forms.form_fieldtypes import *
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from profileuseraccount.models import UserProfile
 
 
@@ -33,7 +33,7 @@ class UserProfileCreationForm(UserCreationForm):
         max_length=254)
     tel_general = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Algemeen telefoonnummer'}),
-        max_length=30)
+        max_length=30, required=False)
 
     e_mail_general = forms.CharField(
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Algemeen emailadres'}),
@@ -44,11 +44,16 @@ class UserProfileCreationForm(UserCreationForm):
     city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Plaats'}),
                            max_length=30)
 
+    conditions_approved = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'class': 'kt-checkbox', 'type': 'checkbox'}),
+        required=True,
+        error_messages={
+            'required': 'Vink dit vakje aan. Om deel te nemen aan het PrintDataPlatform moet u akkoord zijn met onze '
+                        'spelregels'}, )
     gender = char_field_100_false
     linkedin_url = url_field_false
     company_url = url_field_false
     country_code = char_field_100_false
-    conditions_approved = boolean_field
     producer_application = boolean_field
 
     class Meta:

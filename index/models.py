@@ -141,56 +141,6 @@ class Texts(models.Model):
         verbose_name_plural = 'text'
 
 
-class BrandPortalData(models.Model):
-    producer = models.ForeignKey(Producers, on_delete=models.CASCADE)
-    brandportal = models.CharField(max_length=200, blank=True, null=True)
-    host = models.CharField(max_length=200, blank=True, null=True)
-    brand_name = models.CharField(max_length=200, blank=True, null=True)
-    brand_payoff = models.CharField(max_length=300, blank=True, null=True)
-
-    contact_email = models.CharField(max_length=400, blank=True, null=True)
-    contact_name = models.CharField(max_length=400, blank=True, null=True)
-    loc_order_supply = models.CharField(max_length=400, blank=True, null=True)
-
-    doc_loc_offer_1 = models.CharField(max_length=400, blank=True, null=True)
-    doc_loc_offer_2 = models.CharField(max_length=400, blank=True, null=True)
-    doc_loc_offer_3 = models.CharField(max_length=400, blank=True, null=True)
-    doc_loc_offer_4 = models.CharField(max_length=400, blank=True, null=True)
-    doc_loc_offer_5 = models.CharField(max_length=400, blank=True, null=True)
-    doc_loc_offer_6 = models.CharField(max_length=400, blank=True, null=True)
-
-    img_bg_loc_inlog = models.CharField(max_length=400, blank=True, null=True)
-
-    img_loc_logo = models.CharField(max_length=400, blank=True, null=True)
-    img_loc_logo_lg = models.CharField(max_length=400, blank=True, null=True)
-    img_loc_logo_sm = models.CharField(max_length=400, blank=True, null=True)
-    img_loc_sheets = models.CharField(max_length=400, blank=True, null=True)
-    img_loc_plano = models.PositiveIntegerField(default=1)
-    img_loc_folders = models.PositiveIntegerField(default=2)
-    img_loc_selfcovers = models.PositiveIntegerField(default=3)
-    img_loc_brochures = models.PositiveIntegerField(default=4)
-    img_loc_books = models.PositiveIntegerField(default=5)
-
-    brandcolor_bg = models.CharField(max_length=50, blank=True, null=True)
-    brandcolor_font = models.CharField(max_length=50, blank=True, null=True)
-    brandcolor_header = models.CharField(max_length=50, blank=True, null=True)
-
-    brandportal_exclusive = models.BooleanField(default=True)
-    brandportal_exclusive_open = models.BooleanField(default=True)
-
-    brandportal_show_papercategoy = models.BooleanField(default=True)
-    brandportal_show_papercolor = models.BooleanField(default=True)
-    brandportal_show_pms_input = models.BooleanField(default=True)
-    brandportal_show_orders = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.brand_name
-
-    class Meta:
-        verbose_name = 'Brandportal'
-        verbose_name_plural = 'Brandportals'
-
-
 class Blacklist(models.Model):
     blacklist_id = models.AutoField(primary_key=True)
     blacklist_text = models.CharField(max_length=1000, null=True, blank=True)

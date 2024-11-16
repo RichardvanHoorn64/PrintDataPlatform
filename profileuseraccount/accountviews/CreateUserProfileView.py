@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.edit import FormView
-from index.exclusive_functions import define_site_name
+from index.site_startfunctions import define_site_name
 from index.models import *
 from index.translate_functions import find_gendercode
 from profileuseraccount.form_invalids import form_invalid_message

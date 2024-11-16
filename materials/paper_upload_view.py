@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from index.create_context import creatememberplan_context
-from index.exclusive_functions import define_site_name
+from index.site_startfunctions import define_site_name
 from materials.models import PaperBrandReference, PaperCatalog
 from materials.papercatalog_uploadform import UploadProducerPaperCatalogCSVForm
 from profileuseraccount.models import Producers

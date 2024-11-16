@@ -4,9 +4,7 @@ from assets.models import Bindingmachines
 from index.create_context import creatememberplan_context
 from index.forms.form_invalids import form_invalid_message_quotes
 from index.translate_functions import *
-from index.exclusive_functions import define_exclusive_producer_id
 from index.convert_functions import *
-from index.models import BrandPortalData
 from members.crm_functions import update_producersmatch
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -27,10 +25,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
     pk_url_kwarg = 'productcategory_id'
     context_object_name = 'productcategory_id'
 
-    def exclusive_producer(self):
-        exclusive_producer_id = define_exclusive_producer_id(self.request.user)
-        return exclusive_producer_id
-
     def get_success_url(self):
         printproject_id = self.object.printproject_id
         return '/start_printproject_workflow/' + str(printproject_id)
@@ -48,23 +42,20 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         productcategory_id = self.kwargs['productcategory_id']
         update_producersmatch(self.request)
         user = self.request.user
-        exclusive_producer_id = self.exclusive_producer()
-        brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
 
         print('form: ', form.cleaned_data)
 
-        if not brandportal.brandportal_show_papercolor:
-            paperbrand = form.cleaned_data['paperbrand']
-            paperweight = form.cleaned_data['paperweight']
-            paperbrand_cover = form.cleaned_data['paperbrand_cover']
-            paperweight_cover = form.cleaned_data['paperweight_cover']
-            form.instance.papercolor = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
+        paperbrand = form.cleaned_data['paperbrand']
+        paperweight = form.cleaned_data['paperweight']
+        paperbrand_cover = form.cleaned_data['paperbrand_cover']
+        paperweight_cover = form.cleaned_data['paperweight_cover']
+        form.instance.papercolor = PaperCatalog.objects.filter(producer_id=1,
                                                                    paperbrand=paperbrand,
                                                                    paperweight_m2=paperweight).values_list('papercolor',
                                                                                                            flat=True).first()
 
-            if productcategory_id in categories_brochures_cover:
-                form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=exclusive_producer_id,
+        if productcategory_id in categories_brochures_cover:
+           form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=1,
                                                                              paperbrand=paperbrand_cover,
                                                                              paperweight_m2=paperweight_cover).values_list(
                     'papercolor', flat=True).first()
@@ -119,21 +110,17 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         form.instance.pressvarnish_back = pressvarnish_back
 
         # handling pms data
-        if not brandportal.brandportal_show_pms_input:
-            form.instance.number_pms_colors_front = 0
-            form.instance.number_pms_colors_back = 0
-        else:
-            number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
-            number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
+        number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
+        number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
 
-            if number_pms_colors_front is None:
-                number_pms_colors_front = 0
-            if number_pms_colors_back is None:
-                number_pms_colors_back = 0
-            if printsided == 2:
-                number_pms_colors_back = number_pms_colors_front
-            form.instance.number_pms_colors_front = number_pms_colors_front
-            form.instance.number_pms_colors_back = number_pms_colors_back
+        if number_pms_colors_front is None:
+            number_pms_colors_front = 0
+        if number_pms_colors_back is None:
+            number_pms_colors_back = 0
+        if printsided == 2:
+            number_pms_colors_back = number_pms_colors_front
+        form.instance.number_pms_colors_front = number_pms_colors_front
+        form.instance.number_pms_colors_back = number_pms_colors_back
 
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
@@ -201,9 +188,6 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['update'] = False
 
         creatememberplan_context(context, user)
-        exclusive_producer_id = self.exclusive_producer()
-        brandportal = BrandPortalData.objects.get(producer_id=exclusive_producer_id)
-
         language_id = user.language_id
         dropdowns = DropdownChoices.objects.filter(language_id=user.language_id)
 
@@ -219,7 +203,7 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['standardsizes'] = standardsizes
 
         # papercatalog producer
-        papercatalog = PaperCatalog.objects.filter(producer_id=exclusive_producer_id)
+        papercatalog = PaperCatalog.objects.filter(producer_id=1)
 
         # papercategories general
         papercategories = papercatalog.values()
@@ -263,50 +247,16 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if productcategory_id in categories_brochures_cover:
             context['type_booklet'] = ' binnenwerk'
 
-        # exclusive producer dropdowns
-        if member_plan_id in exclusive_memberplans:
-            show_papercolor = brandportal.brandportal_show_papercolor
+        enhance_choices = EnhancementOptions.objects.filter(language_id=language_id)
+        packaging_choices = PackagingOptions.objects.filter(language_id=language_id).order_by('packagingoption_id')
 
-            if not brandportal.brandportal_show_pms_input:
-                context['print_choices'] = dropdowns.filter(dropdown='print_choices').order_by('-value').exclude(
-                    value=0)
-
-            enhance_options_producer = EnhancementTariffs.objects.filter(producer_id=exclusive_producer_id,
-                                                                         availeble=True).values_list(
-                'enhancement_id', flat=True)
-            enhance_choices = EnhancementOptions.objects.filter(language_id=language_id,
-                                                                enhancement_id__in=enhance_options_producer)
-
-            packagingoptions_producer = PackagingTariffs.objects.filter(producer_id=exclusive_producer_id,
-                                                                        availeble=True).values_list(
-                'packagingoption_id', flat=True)
-            packaging_choices = PackagingOptions.objects.filter(language_id=language_id,
-                                                                packagingoption_id__in=packagingoptions_producer).order_by(
-                'packagingoption_id')
-
-            # Brochures finishingmethods exclusive producer
-            bindingoptions_producer = Bindingmachines.objects.filter(producer_id=exclusive_producer_id).values_list(
-                'finishingmethod_id', flat=True)
-            brochure_finishingmethods = []
-            if productcategory_id in categories_brochures_all:
-                if productcategory_id in categories_stapled:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(
-                        finishingmethod_id__in=bindingoptions_producer, productcategory_id=3)
-                else:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(
-                        finishingmethod_id__in=bindingoptions_producer, productcategory_id=5)
-
-        else:
-            enhance_choices = EnhancementOptions.objects.filter(language_id=language_id)
-            packaging_choices = PackagingOptions.objects.filter(language_id=language_id).order_by('packagingoption_id')
-
-            # Brochures finishingmethods
-            brochure_finishingmethods = []
-            if productcategory_id in categories_brochures_all:
-                if productcategory_id in categories_stapled:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=3)
-                else:
-                    brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=5)
+        # Brochures finishingmethods
+        brochure_finishingmethods = []
+        if productcategory_id in categories_brochures_all:
+            if productcategory_id in categories_stapled:
+                brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=3)
+            else:
+                brochure_finishingmethods = BrochureFinishingMethods.objects.filter(productcategory_id=5)
 
         if productcategory_id in categories_brochures_cover:
             print_type = " omslag"
@@ -325,13 +275,11 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         context['packaging_choices'] = packaging_choices
         context['no_enhancement'] = 'Geen verdeling'
         context['enhance_choices'] = enhance_choices.order_by('enhancement_id')
-        context['brandportal'] = brandportal
         context['brochure_finishingmethods'] = brochure_finishingmethods
         context['show_papercolor'] = show_papercolor
         context['print_type'] = print_type
         context['print_front'] = print_front
         context['print_back'] = print_back
         context['print_front'] = enhance_front
-        context['nhance_back'] = enhance_back
-
+        context['enhance_back'] = enhance_back
         return context

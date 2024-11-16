@@ -40,37 +40,11 @@
             <div class="d-flex align-items-start mb-1"><span class="me-2"  
                                                              style="stroke-width:2.5;"></span>
                 <p class="icon fas fa-exchange-alt"> 
-                <h5 class="mb-0">&nbsp; Autocalculatie module:</h5>
+                <h5 class="mb-0">&nbsp; API module:</h5>
             </div>
         
             <a class="fs-9 ms-4">
                 {% if producer.api_module == True %}
-                Aan {% else %}Uit{% endif %} </a>
-        </div>
-        {# calculation module#}
-        <div class="col-6 col-sm-12">
-        
-            <div class="d-flex align-items-start mb-1"><span class="me-2"  
-                                                             style="stroke-width:2.5;"></span>
-                <p class="icon fas fa-laptop-code"> 
-                <h5 class="mb-0">&nbsp; Brandportal module:</h5>
-            </div>
-        
-            <a class="fs-9 ms-4">
-                {% if producer.calculation_module == True %}
-                Aan {% else %}Uit{% endif %} </a>
-        </div>
-        {# Exclusive module#}
-        <div class="col-6 col-sm-12">
-        
-            <div class="d-flex align-items-start mb-1"><span class="me-2"  
-                                                             style="stroke-width:2.5;"></span>
-                <p class="icon fas fa-users"> 
-                <h5 class="mb-0">&nbsp; Exclusive module:</h5>
-            </div>
-        
-            <a class="fs-9 ms-4">
-                {% if producer.exclusive_module == True %}
                 Aan {% else %}Uit{% endif %} </a>
         </div>
     
@@ -87,10 +61,6 @@
                 {% if producer.powerplatform_module == True %}
                 Aan {% else %}Uit{% endif %} </a>
         </div>
-        
-        
-
-        
     </div>
 </div>
 </body>

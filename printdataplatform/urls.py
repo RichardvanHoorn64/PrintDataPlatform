@@ -31,7 +31,6 @@ from printprojects.start_printproject_view import *
 from printprojects.start_workflow_view import PrintProjectStartWorkflowView, SendRFQView
 from producers.contact_views import *
 from producers.offer_views import *
-from producers.producer_exclusive_views import *
 from producers.producer_views import *
 from producers.tariff_views import *
 from profileuseraccount.accountviews.CreateUserProfileView import *
@@ -150,10 +149,6 @@ urlpatterns = [
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
 
-    # producer exclusive members
-    path('create_producer_exclusive_member', CreateProducerExclusiveMember.as_view(),
-         name='create_producer_exclusive_member'),
-
     # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
          name='create_producercontact'),
@@ -182,7 +177,6 @@ urlpatterns = [
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
 
     # producers member dashboard
-    path('producer_exlusive_members/', ProducerExclusiveMembers.as_view(), name='producer_exlusive_members'),
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
 
     path('member_details/<int:pk>/', ProducerMemberDetails.as_view(), name='member_details'),

@@ -70,17 +70,13 @@
                 {% if member_plan_id in pro_memberplans %}
                     {% include 'members/includes/printmanager_pro_accountdetails.html' %}
                 {% endif %}
-                {% if member_plan_id in exclusive_memberplans %}
-                    {% include 'members/includes/exclusive_accountdetails.html' %}
-                    
-                    {% if member_plan_id in starter_memberplans %}
-                         {% include 'members/includes/up_downgrade_accountplan.html' %}
-                    {% endif %}
+
+                {% if member_plan_id in starter_memberplans %}
+                    {% include 'members/includes/up_downgrade_accountplan.html' %}
+  
                 {% endif %}
                 {% if member_plan_id in producer_memberplans %}
                     {% include 'members/includes/producer_communications.html' %}
-                {% endif %}
-                {% if member_plan_id in producer_memberplans %}
                     {% include 'members/includes/producer_modules.html' %}
                 {% endif %}
             </div>

@@ -83,10 +83,7 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
 
         printproject_packaging_description = printproject_packaging(printproject.packaging)
 
-        if producer.brandportal_module:
-            producer_id = producer_id
-        else:
-            producer_id = 1
+        producer_id = 1
 
         doc_template = []
         if productcategory_id in categories_plano:

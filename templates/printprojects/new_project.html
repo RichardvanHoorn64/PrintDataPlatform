@@ -39,8 +39,7 @@
         <!-- ===============================================-->
         <form id="printproject_form" name="printproject_form" method="post" 
                {% if not update %}
-              onsubmit="return validateFormPrintProjects()" 
-              
+              onsubmit="return validateFormPrintProjects()"
               {% endif %}
               method="post">
             {% csrf_token %}

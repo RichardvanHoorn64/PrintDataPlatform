@@ -180,30 +180,14 @@
                                                 </div>
                                             </a>
                                             </div>
-
-
+                                            
                                             <!-- Account-->
                                         <li class="nav-item">
                                         <!-- label-->
-                                        <p class="navbar-vertical-label fs-8">Opdrachtgevers</p>
+                                        <p class="navbar-vertical-label fs-8">Printmanagers</p>
 
 
-                                        <!-- producer clients-->
-                                        {% if producer.exclusive_module %}
-                                            <div class="nav-item-wrapper"><a class="nav-link label-1"
-                                                                             href="{% url 'producer_exlusive_members' %}"
-                                                                             role="button" data-bs-toggle=""
-                                                                             aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                                        class="fas fa-users fs-3"></span></span><span
-                                                        class="nav-link-text-wrapper"><span
-                                                        class="nav-link-text fs-8">{{ producer.company }}</span></span>
-                                                </div>
-                                            </a>
-                                            </div>
-                                        {% endif %}
-                                        {% if not producer.only_exclusive %}
-                                        
+                                        <!-- producer members-->
                                         <div class="nav-item-wrapper"><a class="nav-link label-1"
                                                                          href="{% url 'producer_open_members' %}"
                                                                          role="button" data-bs-toggle=""
@@ -214,7 +198,7 @@
                                             </div>
                                         </a>
                                         </div>
-                                        {% endif %}
+                             
                                     {% endif %}
 
                                     <!-- Open members printprojects-->

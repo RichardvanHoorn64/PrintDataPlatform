@@ -53,9 +53,7 @@ class Producers(models.Model):
     company_url = models.URLField(null=True, blank=True, max_length=200)
 
     # modules
-    exclusive_module = models.BooleanField(default=False)
     calculation_module = models.BooleanField(default=False)
-    brandportal_module = models.BooleanField(default=False)
     powerplatform_module = models.BooleanField(default=False)
     api_module = models.BooleanField(default=False)
 

@@ -7,7 +7,6 @@ from django.views.generic import TemplateView
 from django.utils import timezone
 from django.http import HttpResponse
 from index.create_context import creatememberplan_context
-from index.exclusive_functions import define_exclusive_producer_id
 from materials.models import *
 
 
@@ -20,7 +19,7 @@ class PaperBrandsDisplay(LoginRequiredMixin, TemplateView):
         context = super(PaperBrandsDisplay, self).get_context_data(**kwargs)
         context = creatememberplan_context(context, user)
         papercategory = self.kwargs['papercategory']
-        exclusive_producer_id = define_exclusive_producer_id(user)
+        exclusive_producer_id = 1
 
         paperbrand_references = PaperBrandReference.objects.filter(producer_id=exclusive_producer_id)
         if exclusive_producer_id == 1:

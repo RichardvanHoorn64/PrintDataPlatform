@@ -1,5 +1,5 @@
 from index.display_functions import *
-from index.exclusive_functions import define_site_name, img_loc_logo
+from index.site_startfunctions import define_site_name, img_loc_logo
 from printprojects.models import ProductCategory
 
 
@@ -10,7 +10,6 @@ def creatememberplan_context(context, user):
     context['free_memberplans'] = free_memberplans
     context['open_memberplans'] = open_memberplans
     context['pro_memberplans'] = pro_memberplans
-    context['exclusive_memberplans'] = exclusive_memberplans
     context['non_exclusive_memberplans'] = non_exclusive_memberplans
     context['producer_memberplans'] = producer_memberplans
     context['offer_availeble'] = offer_availeble

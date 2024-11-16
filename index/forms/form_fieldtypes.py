@@ -22,6 +22,10 @@ boolean_field = forms.BooleanField(
     widget=forms.CheckboxInput(attrs={'class': 'kt-checkbox', 'type': 'checkbox'}),
     required=False)
 
+boolean_field_check_req = forms.BooleanField(
+    widget=forms.CheckboxInput(attrs={'class': 'kt-checkbox', 'type': 'checkbox'}),
+    required=True)
+
 char_field_100_true = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '  '}),
                                       max_length=100, required=True)
 

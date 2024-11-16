@@ -1,19 +1,14 @@
 from django.shortcuts import redirect
 from index.create_context import creatememberplan_context
 from index.dq_functions import producer_dq_functions
-from index.exclusive_functions import define_exclusive_producer_id
 from members.crm_functions import update_number_of_open_offers, update_producersmatch
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from offers.models import *
 from orders.models import Orders
-from producers.models import ProducerProductOfferings
 from printprojects.models import *
 from index.categories_groups import *
 from producers.producer_functions import get_offercontext, get_ordercontext
-
-
-# https://stackoverflow.com/questions/2605384/how-to-explicitly-set-django-language-in-django-session
 
 
 class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
@@ -53,40 +48,17 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
-
         # store
-        exclusive_producer_id = define_exclusive_producer_id(user)
-
-        if user.member_plan_id in exclusive_memberplans:
-            exclusive_producer = Producers.objects.get(producer_id=exclusive_producer_id)
-
-            offers = offers.filter(producer_id=exclusive_producer_id)
-            orders = orders.filter(producer_id=exclusive_producer_id)
-
-            categories_available = ProducerProductOfferings.objects.filter(producer_id=exclusive_producer_id,
-                                                                           availeble=True).values_list(
-                'productcategory_id', flat=True)
-            context['categories_available'] = categories_available
-
-            # text
-            printproject_table_title = 'Laatste 10 printprojecten'
-            offer_table_title = 'Laatste 10 aanbiedingen van ' + str(exclusive_producer.company)
-            order_table_title = 'Laatste 10 orders geplaatst bij ' + str(exclusive_producer.company)
-
-            dashboard_title = "Welkom bij " + str(exclusive_producer.company)
-            start_printproject = 'Start nieuwe aanvraag'
-            start_project_buttontext = 'Start aanvraag'
-        else:
-            categories_available = categories_all
+        categories_available = categories_all
 
         # store image location on Azure
         blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
         store = "/store/"
-        context['img_1'] = blob_loc + str(exclusive_producer_id) + store + 'plano.png'
-        context['img_2'] = blob_loc + str(exclusive_producer_id) + store + 'folders.png'
-        context['img_3'] = blob_loc + str(exclusive_producer_id) + store + 'selfcovers.png'
-        context['img_4'] = blob_loc + str(exclusive_producer_id) + store + 'geniet_met_omslag.png'
-        context['img_5'] = blob_loc + str(exclusive_producer_id) + store + 'brochures.png'
+        context['img_1'] = blob_loc + str(1) + store + 'plano.png'
+        context['img_2'] = blob_loc + str(1) + store + 'folders.png'
+        context['img_3'] = blob_loc + str(1) + store + 'selfcovers.png'
+        context['img_4'] = blob_loc + str(1) + store + 'geniet_met_omslag.png'
+        context['img_5'] = blob_loc + str(1) + store + 'brochures.png'
 
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title

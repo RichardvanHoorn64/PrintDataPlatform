@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from index.categories_groups import *
 from index.create_context import creatememberplan_context
-from index.exclusive_functions import img_loc_logo
+from index.site_startfunctions import img_loc_logo
 from index.models import *
 from profileuseraccount.models import UserProfile, Members
 

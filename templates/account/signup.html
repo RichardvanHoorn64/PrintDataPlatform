@@ -38,7 +38,8 @@
             <!--    Main Content signup form-->
             <!-- ===============================================-->
 
-            <form method="post">  {% csrf_token %}
+            <form id="signup_form" name="signup_form" method="post">  
+                {% csrf_token %}
 
                 <!-- ===============================================-->
                 <!--   Row username / email -->
@@ -51,6 +52,8 @@
                     <div class="col-md-4">
                         <label class="form-label" for="username">Gebruikersnaam:</label>
                         <p>{{ form.username }}</p>
+                        
+                         <p>{{ form.username.error }}</p>
                         <span class="form-text text-muted">{{ form.username.help_text }}</span>
                     </div>
 

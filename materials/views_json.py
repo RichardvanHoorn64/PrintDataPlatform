@@ -1,12 +1,11 @@
 from django.http import JsonResponse
-from index.exclusive_functions import define_exclusive_producer_id
 from materials.models import *
 
 
 # dropdown paperbrand
 def get_json_paperbrand(request, **kwargs):
     user = request.user
-    exclusive_producer_id = define_exclusive_producer_id(user)
+    exclusive_producer_id = 1
     papercategory = kwargs.get('papercategory')
     paperbrands = list(
         PaperCatalog.objects.filter(papercategory=papercategory, producer_id=exclusive_producer_id).values().distinct(
@@ -17,7 +16,7 @@ def get_json_paperbrand(request, **kwargs):
 # dro pdown paperweight
 def get_json_paperweight(request, **kwargs):
     paperbrand = kwargs.get('paperbrand')
-    exclusive_producer_id = define_exclusive_producer_id(request.user)
+    exclusive_producer_id = 1
     paperweights = list(
         PaperCatalog.objects.filter(paperbrand=paperbrand, producer_id=exclusive_producer_id).values().distinct(
             'paperweight_m2').order_by('paperweight_m2'))
@@ -26,7 +25,7 @@ def get_json_paperweight(request, **kwargs):
 
 # dropdown papercolor
 def get_json_papercolor(request, **kwargs):
-    exclusive_producer_id = define_exclusive_producer_id(request.user)
+    exclusive_producer_id = 1
     paperbrand = kwargs.get('paperbrand')
     paperweight = kwargs.get('paperweight')
     papercolors = list(
@@ -36,11 +35,10 @@ def get_json_papercolor(request, **kwargs):
     return JsonResponse({'data': papercolors})
 
 
-
 # For brochures covers
 def get_json_cover_paperbrand(request, **kwargs):
     user = request.user
-    exclusive_producer_id = define_exclusive_producer_id(user)
+    exclusive_producer_id = 1
     papercategory = kwargs.get('papercategory')
     paperbrands_cover = list(
         PaperCatalog.objects.filter(papercategory=papercategory, producer_id=exclusive_producer_id).values().distinct(
@@ -50,7 +48,7 @@ def get_json_cover_paperbrand(request, **kwargs):
 
 def get_json_cover_paperweight(request, **kwargs):
     paperbrand = kwargs.get('paperbrand')
-    exclusive_producer_id = define_exclusive_producer_id(request.user)
+    exclusive_producer_id = 1
     paperweights_cover = list(
         PaperCatalog.objects.filter(paperbrand=paperbrand, producer_id=exclusive_producer_id).values().distinct(
             'paperweight_m2').order_by('paperweight_m2'))
@@ -59,7 +57,7 @@ def get_json_cover_paperweight(request, **kwargs):
 
 # dropdown papercolor fill cover
 def get_json_cover_papercolor(request, **kwargs):
-    exclusive_producer_id = define_exclusive_producer_id(request.user)
+    exclusive_producer_id = 1
     paperbrand = kwargs.get('paperbrand')
     paperweight = kwargs.get('paperweight')
     papercolors_cover = list(
