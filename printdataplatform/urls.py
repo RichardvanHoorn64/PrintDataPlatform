@@ -92,13 +92,17 @@ urlpatterns = [
          name='offer_dashboard'),
     path('offer_details/<int:pk>', OfferDetailsMembersView.as_view(),
          name='offer_details'),
+    path('offer_members_update/<int:pk>', OfferMembersUpdate.as_view(),
+         name='offer_members_update'),
 
     path('offer_producers_form/<int:pk>', OfferProducersFormCheckView.as_view(),
          name='offer_producers_form'),
-    path('offer_producers_update/<int:pk>', OfferProducersUpdateView.as_view(),
+    path('offer_producers_update/<int:pk>', OfferProducersUpdate.as_view(),
          name='offer_producers_update'),
-    path('offer_producers_update_form/<int:pk>/<int:reference_key>', OfferProducersOpenUpdateView.as_view(),
+    path('offer_producers_update_form/<int:pk>/<int:reference_key>', OfferProducersOpenUpdate.as_view(),
          name='offer_producers_update_form'),
+
+
     path('deny_offer/<int:pk>', DenyOfferView.as_view(), name='deny_offer'),
     path('close_offer/<int:pk>/', CloseOfferView.as_view(), name='close_offer'),
 

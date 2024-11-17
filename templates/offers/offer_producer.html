@@ -4,7 +4,7 @@
 <html lang="nl" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>offer producers details</title>
+    <title>offer producer update</title>
 </head>
 <!-- ===============================================-->
 <!--    Main Content-->
@@ -136,17 +136,14 @@
             {% csrf_token %}
             <div id="offer_producer_submit_offer" class="col-12 rounded-2 border-info">
             </div>
-            <div class="card-body">
+            <div class="card-body mt-6">
                 <!-- ===============================================-->
-                <!--   General intro title -->
+                <!--   Offer Update form -->
                 <!-- ===============================================-->
                 <div class="row">
                     <h4 class="mb-3 text-info">Offerte uitbrengen, {{ offer.producer }}</h4>
                 </div>
-
-                <!-- ===============================================-->
-                <!--   Row productcategory and project title -->
-                <!-- ===============================================-->
+                
                 <div class="row">
                     <div class="col-sm-6 col-md-3">
                         <label class="form-label" for="offer">Offerte uitbrengen</label>
@@ -177,12 +174,7 @@
                 </div>
                 <br>
                 <!-- ===============================================-->
-                <!--   Row volume, ordernumber and planning -->
-                <!-- ===============================================-->
-
-
-                <!-- ===============================================-->
-                <!--   Row producer note -->
+                <!--   END Offer Update form -->
                 <!-- ===============================================-->
                 <div class="row">
                     <div class="col-9">
@@ -194,11 +186,6 @@
                 </div>
                 <hr class="text-info">
                 <!-- ===============================================-->
-                <!--   END Row producer note -->
-                <!-- ===============================================-->
-
-
-                <!-- ===============================================-->
                 <!--   Row submit buttons -->
                 <!-- ===============================================-->
                 <div class="container" id="submit_general">
@@ -206,10 +193,6 @@
                         <h4 class="mb-1 text-info">Offerte versturen</h4>
                         <div class="col-12 gy-3 ">
                             <div class="row g-3 justify-content-start">
-{#                                <div id="testveld" class="col-auto">#}
-{#                                    <a type="button" href="{% url 'home' %}"#}
-{#                                       class="btn btn-info px-5 px-sm-5">Upload offerte (pdf)</a>#}
-{#                                </div>#}
                                 <div class="col-auto">
                                     <button class="btn btn-success px-5 px-sm-5" type="submit">
                                         Offerte indienen

@@ -171,8 +171,8 @@ class MemberProducerMatch(models.Model):
 
 class PrintProjectMatch(models.Model):
     printprojectmatch_id: int = models.AutoField(primary_key=True)
-    printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.SET_NULL)
-    user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.SET_NULL)
+    printproject = models.ForeignKey(PrintProjects, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.CASCADE)
     member = models.ForeignKey(Members, null=True, on_delete=models.CASCADE)
     producer = models.ForeignKey(Producers, null=True, on_delete=models.CASCADE)
     memberproducermatch = models.ForeignKey(MemberProducerMatch, null=True, default=2, on_delete=models.CASCADE)

@@ -1,7 +1,7 @@
 from calculations.models import Calculations
 from profileuseraccount.models import *
 from printprojects.models import *
-
+from profileuseraccount.models import *
 
 class Offerstatus(models.Model):
     offerstatus_id = models.AutoField(primary_key=True)
@@ -44,6 +44,10 @@ class Offers(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
+
+    # offer submit data
+    submit_date = models.DateTimeField(null=True, blank=True)
+    submit_by = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.description

@@ -35,11 +35,32 @@
                     <tr>
                         <td class="border-0"></td>
                         <td class="align-middle">
-                            <p class="line-clamp-1 mb-0 fw-semi-bold">Aangeboden door</p>
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Producent</p>
                         </td>
                         <td class="align-middle">
-                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }}
-                                op {{ offer.offer_date |date:'d-m-Y ' }}</p>
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ offer.producer.company }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    
+                        <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Ingevoerd door</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">{{ submit_by }}</p>
+                        </td>
+                        <td class="border-0"></td>
+                    </tr>
+                    <tr>
+                        <td class="border-0"></td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">Datum</p>
+                        </td>
+                        <td class="align-middle">
+                            <p class="line-clamp-1 mb-0 fw-semi-bold">
+                              {{ offer.offer_date |date:'d-m-Y ' }}</p>
                         </td>
                         <td class="border-0"></td>
                     </tr>

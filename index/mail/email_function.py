@@ -1,9 +1,4 @@
 # This is a sample email Python script for PrintDataPlatform.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 from azure.communication.email import EmailClient
 
 
@@ -28,10 +23,3 @@ def send_printdataplatform_mail(subject, address, body):
     except Exception as e:
         print('mail error: ', str(subject), str(address), str(e))
 
-# def main():
-#     subject = 'PrintDataPlatform offerteaanvraag'
-#     address = 'info@richardvanhoorn.nl'
-#     send_printdataplatform_mail(subject, address, body)
-#
-#
-# main()

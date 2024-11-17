@@ -19,6 +19,7 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
     template_name = 'offers/member_offerdetails.html'
     model = Offers
     profile = Offers
+    success_url = reverse_lazy('offers:member_offerdetails')
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -50,10 +51,18 @@ class OfferDetailsMembersView(LoginRequiredMixin, DetailView):
             calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=printproject_id)
         except Calculations.DoesNotExist:
             calculation = []
+
+        try:
+            submit_user = UserProfile.objects.get(id=offer.submit_by_id)
+            submit_by = submit_user.first_name + " " + submit_user.last_name + ", " + str(submit_user.member.company)
+        except UserProfile.DoesNotExist:
+            submit_by = str(offer.producer.company)
+
         createprintproject_context(context, user, printproject)
         context['calculation'] = calculation
         context['offer'] = offer
         context['printproject'] = printproject
+        context['submit_by'] = submit_by
         return context
 
 
@@ -62,6 +71,7 @@ class OfferProducersFormCheckView(UpdateView):
     model = Offers
     profile = Offers
     form_class = OfferProducerFormAccess
+
 
     def get_success_url(self):
         offer_id = self.kwargs['pk']
@@ -78,7 +88,6 @@ class OfferProducersFormCheckView(UpdateView):
             return super().dispatch(request, *args, **kwargs)
         except Offers.DoesNotExist:
             return redirect('/no_access/')
-
 
     def form_valid(self, form):
         form.instance.reference_key = random.randint(10000, 99999)
@@ -110,37 +119,41 @@ class OfferProducersFormCheckView(UpdateView):
         return context
 
 
-class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'offers/offer_producer.html'
+class OfferMembersUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'offers/offer_member_update.html'
     model = Offers
     profile = Offers
     form_class = OfferProducerForm
 
     def get_success_url(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return reverse_lazy('home')
-        else:
-            return reverse_lazy('thanks_submit_offer')
+        offer_id = self.kwargs['pk']
+        offer = Offers.objects.get(offer_id=offer_id)
+        printproject_id = PrintProjects.objects.get(printproject_id=offer.printproject_id).printproject_id
+        return '/printproject_details/' + str(printproject_id)
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
+        offer_id = self.kwargs['pk']
+
         if not user.is_authenticated:
             return redirect('/home/')
         elif not user.member.active:
             return redirect('/wait_for_approval/')
+        elif not Offers.objects.filter(member_id=user.member_id, offer_id=offer_id).exists():
+            return redirect('/no_access/')
         else:
             return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.offerstatus_id = 2
-        form.instance.offer_date = datetime.now()
+        form.instance.submit_date = datetime.now()
+        form.instance.submit_by = self.request.user
         return super().form_valid(form)
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
         form_invalid_message_quotes(form, response)
-        print("form_invalid_message:", response)
+        print("member offer update form_invalid_message:", response)
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
@@ -149,19 +162,25 @@ class OfferProducersUpdateView(LoginRequiredMixin, UpdateView):
         context = creatememberplan_context(context, user)
         user = self.request.user
         offer_id = self.kwargs['pk']
+        offer = Offers.objects.get(offer_id=offer_id)
+
+        try:
+            submit_user = UserProfile.objects.get(id=offer.submit_by_id)
+            submit_by = submit_user.first_name + " " + submit_user.last_name + ", " + str(submit_user.member.company)
+        except UserProfile.DoesNotExist:
+            submit_by = str(offer.producer.company)
 
         offer = Offers.objects.get(producer_id=user.producer_id, offer_id=offer_id)
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         context = createprintproject_context(context, user, printproject)
-        context['key'] = False
+        context['title'] = "Invoer / update aanbieding van: " + str(offer.producer.company)
         context['offer'] = offer
         context['printproject'] = printproject
-        context['display_printdetails'] = 1
-
+        context['submit_by'] = submit_by
         return context
 
 
-class OfferProducersOpenUpdateView(UpdateView):
+class OfferProducersOpenUpdate(UpdateView):
     template_name = 'offers/offer_producer.html'
     model = Offers
     profile = Offers
@@ -201,10 +220,71 @@ class OfferProducersOpenUpdateView(UpdateView):
         printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
         user = UserProfile.objects.get(id=printproject.user.id)
         context = createprintproject_context(context, user, printproject)
+        context['title'] = "Invoer / update aanbieding aan: " + str(offer.member.company)
         context['key'] = True
         context['offer'] = offer
         context['printproject'] = printproject
         return context
+
+
+class OfferProducersUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'offers/offer_producer.html'
+    model = Offers
+    profile = Offers
+    form_class = OfferProducerForm
+
+    def get_success_url(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return reverse_lazy('home')
+        else:
+            return reverse_lazy('thanks_submit_offer')
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        offer_id = self.kwargs['pk']
+
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        # check access
+        elif not Offers.objects.filter(producer_id=user.producer_id, offer_id=offer_id).exists():
+            return redirect('/no_access/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.offerstatus_id = 2
+        form.instance.submit_date = datetime.now()
+        form.instance.submit_by = self.request.user.id
+        form.instance.offer_date = datetime.now()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message_quotes(form, response)
+        print("form_invalid_message:", response)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        user = self.request.user
+        offer_id = self.kwargs['pk']
+
+        offer = Offers.objects.get(producer_id=user.producer_id, offer_id=offer_id)
+        printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
+        context = createprintproject_context(context, user, printproject)
+        context['title'] = "Invoer / update aanbieding aan: " + str(offer.member.company)
+        context['key'] = False
+        context['offer'] = offer
+        context['printproject'] = printproject
+        context['display_printdetails'] = 1
+
+        return context
+
 
 
 class DenyOfferView(View):
