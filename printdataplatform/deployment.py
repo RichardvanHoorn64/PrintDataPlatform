@@ -44,6 +44,7 @@ DATABASES = {
     }
 }
 
+
 # Email settings
 EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_PORT = os.environ['EMAIL_PORT']
@@ -53,4 +54,6 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 EMAIL_TO_ADMIN = os.environ['EMAIL_TO_ADMIN']
+
+# Azure storage settings
 AZURE_STORAGE_ACCOUNT_KEY = os.environ['AZURE_STORAGE_ACCOUNT_KEY']

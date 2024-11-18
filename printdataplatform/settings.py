@@ -237,10 +237,9 @@ STORAGES = {
 }
 
 
-
 # Azure Blob Storage configuratie
 AZURE_STORAGE_ACCOUNT_NAME = 'printdatastorage'
-
+AZURE_STORAGE_ACCOUNT_KEY = ''
 
 # Use Azure Blob Storage as backend
 DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
