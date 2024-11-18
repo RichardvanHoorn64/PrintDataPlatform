@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     'orders',
     'printprojects',
     'producers',
+    'storages',
+    "fileupload.apps.FileuploadConfig"
 ]
 
 MIDDLEWARE = [
@@ -95,7 +97,6 @@ WSGI_APPLICATION = 'printdataplatform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# Azure DB for production
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -222,10 +223,7 @@ SITE_ID = 1
 
 # Use WhiteNoise for serving static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
 STATIC_ROOT = BASE_DIR / "productionfiles"  # new
 STATIC_URL = 'static/'
 
@@ -237,3 +235,13 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+
+
+# Azure Blob Storage configuratie
+AZURE_STORAGE_ACCOUNT_NAME = 'printdatastorage'
+
+
+# Use Azure Blob Storage as backend
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+AZURE_URL_EXPIRATION = 3600

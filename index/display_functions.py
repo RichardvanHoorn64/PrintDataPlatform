@@ -79,7 +79,7 @@ def printproject_size(printproject):
 
 
 def printproject_paper(papercategory, paperbrand, paperweight, papercolor):
-    printprojectpaper = str(paperbrand) + ", " + str(paperweight) + " g/m2 ," + str(papercolor)
+    printprojectpaper = str(paperbrand) + ", " + str(paperweight) + " g/m2, " + str(papercolor)
     return printprojectpaper
 
 

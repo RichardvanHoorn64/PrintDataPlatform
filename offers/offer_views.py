@@ -354,20 +354,3 @@ class HandleOfferView(LoginRequiredMixin, View):
 class ThanksSubmitOffer(TemplateView):
     template_name = 'thanks_submit_offer.html'
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     user = self.request.user
-    #
-    #     if not self.request.user.member.active:
-    #         return redirect('/wait_for_approval/')
-    #
-    #     if user.is_authenticated and not user.member.active:
-    #         return redirect('/wait_for_approval/')
-    #
-    #     if user.is_authenticated and user.member.active and user.member.producerplan:
-    #         return redirect('/producer_sales_dashboard/0')
-    #
-    #     if user.is_authenticated and user.member.active and not user.member.producerplan:
-    #         return redirect('/printdataplatform_dashboard/')
-    #
-    #     if user.is_authenticated and user.member.active and not user.member.producerplan:
-    #         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))

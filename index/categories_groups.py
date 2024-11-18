@@ -9,7 +9,7 @@ categories_brochures_all = [3, 4, 5]
 categories_brochures_cover = [4, 5]
 
 # memberplan_categories
-starter_memberplans = [1, 2]  # [1]
+starter_memberplans = [1]
 pro_memberplans = [2]
 free_memberplans = [1, 3]
 non_exclusive_memberplans = [1, 2]

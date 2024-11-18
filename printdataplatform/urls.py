@@ -8,6 +8,7 @@ from downloads.download_paperspecs import *
 from downloads.download_producer_offer_doc import *
 from downloads.member_downloads import *
 from downloads.producer_downloads import *
+from fileupload.upload_producer_offerview import UploadProducerOffer
 # from downloads.download_client_docs import *
 from index.dashboard_views import *
 from index.drukwerkmaatwerk_etl import LoadVeldhuisDataView
@@ -182,6 +183,9 @@ urlpatterns = [
     path('select_supplier_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
          name='select_supplier_productoffering_switch'),
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
+
+    # upload producer offer
+    path('upload_producer_offerfile/<int:offer_id>', UploadProducerOffer.as_view(), name='upload_producer_offerfile'),
 
     # producers member dashboard
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),

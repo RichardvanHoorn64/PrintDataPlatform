@@ -238,7 +238,7 @@ class UploadAssortimentCSV(LoginRequiredMixin, TemplateView):
                         enhance_front=find_enhancement_id(row['enhance_front']),
                         enhance_back=find_enhancement_id(row['enhance_back']),
                         packaging=find_packaging_id(row['packaging']),
-                        folding=find_foldingspecs(row['folding']),
+                        folding=find_foldingmethod(row['folding']),
                         number_of_pages=row['number_of_pages'],
                         portrait_landscape=find_orientation(row['portrait_landscape']),
                         finishing_brochures=find_brochure_finishingmethod_id(row['finishing_brochures']),
