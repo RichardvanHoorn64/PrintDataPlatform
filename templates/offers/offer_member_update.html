@@ -32,7 +32,7 @@
             </div>
             <hr class="text-info">
 
-            
+
             <!-- ===============================================-->
             <!--  END RFQ Access -->
             <!-- ===============================================-->
@@ -40,91 +40,80 @@
             <!-- ===============================================-->
             <!--    Printproject Detail table -->
             <!-- ===============================================-->
-               
 
-        <form method="post">
-            {% csrf_token %}
-            <div id="offer_producer_submit_offer" class="col-12 rounded-2 border-info">
-            </div>
-            <div class="card-body mt-6">
-                <!-- ===============================================-->
-                <!--   Offer Update form -->
-                <!-- ===============================================-->
-                <div class="row">
-                    <h4 class="mb-3 text-info">Aanbieding van: {{ offer.producer }}</h4>
-                     <h4 class="mb-3">Aanvraag: {{ printproject_title }}</h4>
-                </div>
-                
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="offer">Producent aanbieding</label>
-                        <p>{{ form.offer }}</p>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="offer1000extra">1.000ex meer</label>
-                        <p>{{ form.offer1000extra }}</p>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="producer_quote">Offertenummer producent</label>
-                        <p>{{ form.producer_quote }}</p>
-                    </div>
-
-                    <div class="col-sm-6 col-md-3">
-                        <label class="form-label" for="producer_contact">Account manager/calculator</label>
-                        <p>{{ form.producer_contact }}</p>
-                    </div>
+            <form method="post">
+                {% csrf_token %}
+                <div id="offer_producer_submit_offer" class="col-12 rounded-2 border-info">
                 </div>
-                <br>
-                <!-- ===============================================-->
-                <!--   END Offer Update form -->
-                <!-- ===============================================-->
-            {% if offer.producer_notes %}
-                <div class="row">
-                    <div class="col-9">
-                        <h5>Toelichting van producent: 
-                       
-                          {{ offer.producer_notes }}                           
-                        </h5>
-                 
-                    </div>
-                    {% endif %}
-                </div>
-                <hr class="text-info">
-                <!-- ===============================================-->
-                <!--   Row submit buttons -->
-                <!-- ===============================================-->
-                <div class="container" id="submit_general">
+                <div class="card-body mt-6">
+                    <!-- ===============================================-->
+                    <!--   Offer Update form -->
+                    <!-- ===============================================-->
                     <div class="row">
-                        <h4 class="mb-1 text-info">Aanbieding invoeren</h4>
-                        <div class="col-12 gy-3 ">
-                            <div class="row g-3 justify-content-start">
-                                <div class="col-auto">
-                                    <button class="btn btn-success px-5 px-sm-5" type="submit">
-                                       Aanbieding invoeren
-                                    </button>
-                                </div>
+                        <h4 class="mb-3 text-info">Aanbieding van: {{ offer.producer }}</h4>
+                        <h4 class="mb-3">Aanvraag: {{ printproject_title }}</h4>
+                    </div>
 
-                                <div id="testveld" class="col-auto">
-                                    <a type="button" href="{% url 'upload_producer_offerfile' offer.offer_id %}"
-                                       class="btn btn-info px-5 px-sm-5">Upload aanbieding</a>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="offer">Producent aanbieding</label>
+                            <p>{{ form.offer }}</p>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="offer1000extra">1.000ex meer</label>
+                            <p>{{ form.offer1000extra }}</p>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="producer_quote">Offertenummer producent</label>
+                            <p>{{ form.producer_quote }}</p>
+                        </div>
+
+                        <div class="col-sm-6 col-md-3">
+                            <label class="form-label" for="producer_contact">Account manager/calculator</label>
+                            <p>{{ form.producer_contact }}</p>
+                        </div>
+                    </div>
+                    <br>
+                    <!-- ===============================================-->
+                    <!--   END Offer Update form -->
+                    <!-- ===============================================-->
+                    {% if offer.producer_notes %}
+                        <div class="row">
+                        <div class="col-9">
+                            <h5>Toelichting van producent:
+                                {{ offer.producer_notes }}
+                            </h5>
+
+                        </div>
+                    {% endif %}
+                    </div>
+                    <hr class="text-info">
+                    <!-- ===============================================-->
+                    <!--   Row submit buttons -->
+                    <!-- ===============================================-->
+                    <div class="container" id="submit_general">
+                            <h4 class="text-info mb-3">Aanbieding invoeren/update</h4>
+                            <div class="col-12 gy-1">
+                                        <button class="btn btn-success px-5 px-sm-5" type="submit">
+                                            Versturen
+                                        </button>
+                                        </div>
+                                        {% include 'buttons/group_producer_offer_pdf.html' %}
+                                        </div>
+                    <hr class="text-info">
+                    <!-- ===============================================-->
+                    <!--  END Row submit buttons -->
+                    <!-- ===============================================-->
+                    {% include 'printprojects/tables/printproject_detailtable.html' %}
                 </div>
-                 <hr class="text-info">
-                <!-- ===============================================-->
-                <!--  END Row submit buttons -->
-                <!-- ===============================================-->
-                 {% include 'printprojects/tables/printproject_detailtable.html' %}
-            </div>
-        </form>
-        <!-- end of .container-->
-        <!-- <section> close ============================-->
-    </div>
+            </form>
+            <!-- end of .container-->
+            <!-- <section> close ============================-->
+        </div>
     </div>
     </body>
 {% endblock %}

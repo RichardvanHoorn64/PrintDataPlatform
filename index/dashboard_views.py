@@ -209,7 +209,7 @@ class OfferDashboard(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
         member_id = user.member_id
 
-        offers = Offers.objects.filter(member_id=member_id, active=True)
+        offers = Offers.objects.filter(member_id=member_id, active=True).order_by('-offer_id')
         if offerstatus_id == 0:
             offer_table_title = 'Alle aanbiedingen'
         else:

@@ -247,7 +247,10 @@ urlpatterns = [
          name='member_download_clients'),
 
     path('producer_download_offer/<int:offer_id>', DownloadProducerOffer.as_view(),
-         name='producer_download_offer'),  # doc_id 1= offer, 2 =invoice
+         name='producer_download_offer'),
+
+    path('producer_download_offer_pdf/<int:offer_id>', DownloadProducerOfferPDF.as_view(),
+         name='producer_download_offer_pdf'),
 
     path('producer_download_offers/', ProducerDownloadOffers.as_view(),
          name='producer_download_offers'),

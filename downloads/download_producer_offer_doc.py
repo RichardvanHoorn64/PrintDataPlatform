@@ -3,7 +3,6 @@
 
 # https://pbpython.com/python-word-template.html
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.views import View
 from io import BytesIO
 from datetime import date
@@ -13,6 +12,37 @@ from printprojects.models import *
 from django.shortcuts import redirect
 import requests
 from mailmerge import MailMerge
+from django.conf import settings
+from django.http import HttpResponse
+from azure.storage.blob import BlobServiceClient
+
+
+class DownloadProducerOfferPDF(LoginRequiredMixin, View):
+    from django.conf import settings
+    def dispatch(self, request, *args, **kwargs):
+        offer_id = self.kwargs['offer_id']
+        offer = Offers.objects.get(offer_id=offer_id)
+        blob_name = offer.doc_name
+        account_name = settings.AZURE_STORAGE_ACCOUNT_NAME
+        account_key = settings.AZURE_STORAGE_ACCOUNT_KEY
+        container_name = "produceroffers"
+
+        # Maak een BlobServiceClient aan
+        connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net"
+        blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+        # Haal de blob-client op
+        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+
+        # Download de PDF-inhoud
+        stream = blob_client.download_blob()
+        pdf_content = stream.readall()
+
+        # Maak een HTTP-response met de PDF-inhoud
+        response = HttpResponse(pdf_content, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{blob_name}"'
+
+        return response
 
 
 class DownloadProducerOffer(LoginRequiredMixin, View):

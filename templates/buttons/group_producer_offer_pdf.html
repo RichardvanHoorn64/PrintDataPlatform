@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group producer PDF</title>
+</head>
+<body>
+
+<br>
+<hr class="text-secondary">
+<p>
+<h4 class="text-info mb-3">PDF Offerte van {{ offer.producer.company }}</h4></div>
+<div class="fc-button-group mb-0">
+    {% include 'buttons/upload_producer_offer_pdf.html' %}
+    {% if offer.doc_uploaded %}
+        {% include 'buttons/download_producer_offer_pdf.html' %}
+    {% endif %}
+</div>
+</body>
+</html>

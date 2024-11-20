@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'printprojects',
     'producers',
     'storages',
+    'identity',
     "fileupload.apps.FileuploadConfig"
 ]
 
@@ -107,7 +108,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -236,11 +236,34 @@ STORAGES = {
     },
 }
 
-
 # Azure Blob Storage configuratie
 AZURE_STORAGE_ACCOUNT_NAME = 'printdatastorage'
-AZURE_STORAGE_ACCOUNT_KEY = ''
 
 # Use Azure Blob Storage as backend
 DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 AZURE_URL_EXPIRATION = 3600
+
+# local AZURE_STORAGE_ACCOUNT_KEY
+if DEBUG:
+    import json
+
+    # path to local JSON-azure_keys
+    local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
+
+    # Open JSON-azure_keys
+    try:
+        with open(local_keys, "r", encoding="utf-8") as azure_keys:
+            keys = json.load(azure_keys)
+            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
+            EMAIL_HOST = keys.get('EMAIL_HOST')
+            EMAIL_PORT = keys.get('EMAIL_PORT')
+            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
+            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
+            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
+            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
+            SERVER_EMAIL = keys.get('SERVER_EMAIL')
+            EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
+    except FileNotFoundError:
+        print(f"Het azure_keys '{local_keys}' is niet gevonden.")
+    except json.JSONDecodeError:
+        print(f"Fout bij het decoderen van het JSON-azure_keys '{local_keys}'.")

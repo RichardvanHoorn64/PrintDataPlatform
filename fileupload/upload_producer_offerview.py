@@ -113,7 +113,6 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 # Azure Blob Storage configuraties instellen
                 account_name = AZURE_STORAGE_ACCOUNT_NAME
                 account_key = AZURE_STORAGE_ACCOUNT_KEY
-                # container_name = "produceroffers/"+'producer_'+str(offer.producer_id) + "/member_" + str(offer.member_id)
                 container_name = "produceroffers"
                 # Verbinden met de Azure Blob Storage service
                 blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net",

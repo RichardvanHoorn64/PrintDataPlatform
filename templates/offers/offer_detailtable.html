@@ -127,9 +127,14 @@
             </div>
             <hr class="text-info">
             {% if offer.offerstatus_id in offer_availeble %}
+                   <div class="fc-button-group">
                 {% include 'buttons/submit_order.html' %}
                 {% include 'buttons/deniel_offer.html' %}
                 {% include 'buttons/download_member_offer.html' %}
+                {% include 'buttons/update_member_offer.html' %}
+                   {% include 'buttons/group_producer_offer_pdf.html' %}
+                </div>
+                
             {% else %}
                 <div class="align-left">
                     <p class="line-clamp-1 mb-0 fw-semi-bold">&nbsp;Status: Nog niet aangeboden</p>
