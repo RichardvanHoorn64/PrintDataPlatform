@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     'printprojects',
     'producers',
     'storages',
-    'identity',
     "fileupload.apps.FileuploadConfig"
 ]
 
