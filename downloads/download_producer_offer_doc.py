@@ -15,32 +15,43 @@ from mailmerge import MailMerge
 from django.conf import settings
 from django.http import HttpResponse
 from azure.storage.blob import BlobServiceClient
+from azure.identity import ManagedIdentityCredential
+from azure.storage.blob import BlobClient
+from printdataplatform.settings import *
 
 
 class DownloadProducerOfferPDF(LoginRequiredMixin, View):
     from django.conf import settings
+
     def dispatch(self, request, *args, **kwargs):
+        STORAGE_ACCOUNT_NAME = AZURE_STORAGE_ACCOUNT_NAME
+        CONTAINER_NAME = "produceroffers"
+
         offer_id = self.kwargs['offer_id']
         offer = Offers.objects.get(offer_id=offer_id)
-        blob_name = offer.doc_name
-        account_name = settings.AZURE_STORAGE_ACCOUNT_NAME
-        account_key = settings.AZURE_STORAGE_ACCOUNT_KEY
-        container_name = "produceroffers"
+        FILE_NAME = offer.doc_name
+        BLOB_NAME = str(offer_id) + '_' + FILE_NAME
 
-        # Maak een BlobServiceClient aan
-        connection_string = f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net"
-        blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+        if DEBUG:  # Download the blob in development
+            ACCOUNT_KEY = settings.AZURE_STORAGE_ACCOUNT_KEY
 
-        # Haal de blob-client op
-        blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+            # Maak een BlobServiceClient aan
+            connection_string = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"
+            blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+            blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=BLOB_NAME)
 
-        # Download de PDF-inhoud
-        stream = blob_client.download_blob()
-        pdf_content = stream.readall()
+        else:  # Download the blob in production
+            blob_url = f"https://{STORAGE_ACCOUNT_NAME}.blob.core.windows.net/{CONTAINER_NAME}/{BLOB_NAME}"
+            credential = ManagedIdentityCredential()
+            blob_client = BlobClient(blob_url, credential=credential, container_name=CONTAINER_NAME,
+                                     blob_name=BLOB_NAME)
 
-        # Maak een HTTP-response met de PDF-inhoud
+        # Download the blob
+        download_stream = blob_client.download_blob()
+        pdf_content = download_stream.readall()
         response = HttpResponse(pdf_content, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{blob_name}"'
+        response['Content-Disposition'] = f'attachment; filename="{FILE_NAME}"'
+        print(f"Blob '{BLOB_NAME}' downloaded successfully downloaded.")
 
         return response
 

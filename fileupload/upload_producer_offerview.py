@@ -1,6 +1,5 @@
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.generic import TemplateView
 from index.create_context import creatememberplan_context
@@ -13,10 +12,10 @@ from offers.models import Offers
 from .forms import UploadFileForm
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from printdataplatform.settings import *
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from django.shortcuts import redirect
-from django.http import QueryDict
+from printdataplatform.settings import *
+from azure.identity import ManagedIdentityCredential
+from azure.storage.blob import BlobClient
 
 
 def validate_pdf(file):
@@ -68,7 +67,6 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         error = []
         pdf_file = []
-
         offer_id = self.kwargs['offer_id']
         offer = Offers.objects.get(offer_id=offer_id)
 
@@ -110,33 +108,56 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
 
         if not error:
             try:
-                # Azure Blob Storage configuraties instellen
+                # Replace with your Blob Storage details
+                file_name = pdf_file.name
+                blob_name = str(offer_id) + '_' + file_name
                 account_name = AZURE_STORAGE_ACCOUNT_NAME
                 account_key = AZURE_STORAGE_ACCOUNT_KEY
                 container_name = "produceroffers"
-                # Verbinden met de Azure Blob Storage service
-                blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net",
-                                                        credential=account_key)
 
-                # Maak de container als die nog niet bestaat
-                container_client = blob_service_client.get_container_client(container_name)
-                if not container_client.exists():
-                    container_client.create_container()
+                # Construct the Blob URL
 
-                # De 'locatie' in de blob storage (inclusief de naam van het bestand)
-                blob_name = pdf_file.name
+                if DEBUG:
+                    # Azure Blob Storage configuraties instellen
+                    # Verbinden met de Azure Blob Storage service
+                    blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net",
+                                                            credential=account_key)
 
-                # Upload het bestand naar de container
-                blob_client = container_client.get_blob_client(blob_name)
-                blob_client.upload_blob(pdf_file, overwrite=True)  # Overwrite als het bestand al bestaat
+                    # Maak de container als die nog niet bestaat
+                    container_client = blob_service_client.get_container_client(container_name)
+                    if not container_client.exists():
+                        container_client.create_container()
 
-                offer.doc_name = blob_name
+                    # De 'locatie' in de blob storage (inclusief de naam van het bestand)
+                    blob_name = pdf_file.name
+
+                    # Upload het bestand naar de container
+                    blob_client = container_client.get_blob_client(blob_name)
+                    blob_client.upload_blob(pdf_file, overwrite=True)  # Overwrite als het bestand al bestaat
+
+                    print('message: Bestand succesvol geüpload naar Azure Blob Storage: {blob_name}')
+
+                else:
+                    # Construct the Blob URL
+                    blob_url = f"https://{account_name}.blob.core.windows.net/{container_name}/{blob_name}"
+                    # Use Managed Identity Credential
+                    credential = ManagedIdentityCredential()
+                    # Create BlobClient
+                    blob_client = BlobClient(blob_url, credential=credential, blob_name=blob_name,
+                                             container_name=container_name)
+
+                    # upload blob
+                    blob_client.upload_blob(pdf_file, overwrite=True)
+
+                # save metadata
+                offer.doc_name = file_name
                 offer.doc_uploaded = True
                 offer.save()
 
                 print('message: Bestand succesvol geüpload naar Azure Blob Storage: {blob_name}')
             except Exception as e:
                 print('error:, status=500, ' + str(e))
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + str(e))
         else:
             print('producer offer upload error: ', error)
             return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + str(error))
@@ -149,8 +170,6 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
         context = creatememberplan_context(context, user)
 
         error = self.kwargs['error']
-        print('test: 20-11 ', error)
-
         if error == 'None':
             error_message = False
         else:
