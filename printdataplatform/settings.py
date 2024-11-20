@@ -90,7 +90,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'printdataplatform.urls'
 
 WSGI_APPLICATION = 'printdataplatform.wsgi.application'
