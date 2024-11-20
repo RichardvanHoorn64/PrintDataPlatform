@@ -90,3 +90,4 @@ whitenoise==6.7.0
 
 # for storage
 azure-storage-blob==12.14.1
+azure-identity==1.19.0
