@@ -286,7 +286,6 @@ class OfferProducersUpdate(LoginRequiredMixin, UpdateView):
         return context
 
 
-
 class DenyOfferView(View):
     model = Offers
     profile = Offers

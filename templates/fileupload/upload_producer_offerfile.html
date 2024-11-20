@@ -69,15 +69,15 @@
 
                         <div class="container" id="submit_general">
                         <div class="row">
-                            <h4 class="mb-1 text-info">Upload</h4>
-                        
-                        <h4 class="mb-1 text-danger">{{ message }}</h4>
-                           <h4 class="mb-1 text-success">{{ instruction }}</h4>
+                            <h4 class="mb-1 text-info">Upload file</h4>
+                            {% if error_message %}
+                        <h4 class="mb-1 text-danger">{{ error_text }}</h4>
+                            {% endif %}
                             <div class="col-12 gy-3 ">
                                 <div class="row g-3 justify-content-start">
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-info px-5 px-sm-5">
-                                           <i class="fa fa-upload"></i>&nbsp;Upload offerte</button>
+                                           <i class="fa fa-upload"></i>&nbsp;Versturen</button>
                                     </div>
                                 </div>
                             </div>

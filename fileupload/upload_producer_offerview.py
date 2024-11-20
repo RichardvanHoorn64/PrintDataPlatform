@@ -15,7 +15,8 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from printdataplatform.settings import *
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.http import QueryDict
 
 
 def validate_pdf(file):
@@ -49,7 +50,6 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
     success_url = '/producer_assortiment/'
     instruction = 'Upload de pdf file met offerte van de aanbieder voor dit project ;'
     upload_date = timezone.now().today().date()
-
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
@@ -102,10 +102,10 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
             if not error:
                 try:
                     if pdf_file.multiple_chunks():
-                        error = "Your uploaded file is too big (%.10f MB), please refresh page and try again"
+                        error = "Your uploaded file is too big, please refresh page and try again"
 
                 except Exception as e:
-                    error = 'Your uploaded file is too big (%.10f MB), please refresh page and try again: ' + str(e)
+                    error = 'Error: Your uploaded file is too big, please refresh page and try again: ' + str(e)
                     print("error: ", error)
 
         if not error:
@@ -124,34 +124,46 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                     container_client.create_container()
 
                 # De 'locatie' in de blob storage (inclusief de naam van het bestand)
-                blob_name = 'producer_'+str(offer.producer_id) + "/member_" + str(offer.member_id) + "/" + str(offer_id) + pdf_file.name
-
+                blob_name = pdf_file.name
 
                 # Upload het bestand naar de container
                 blob_client = container_client.get_blob_client(blob_name)
                 blob_client.upload_blob(pdf_file, overwrite=True)  # Overwrite als het bestand al bestaat
 
+                offer.doc_name = blob_name
+                offer.doc_uploaded = True
+                offer.save()
+
                 print('message: Bestand succesvol geüpload naar Azure Blob Storage: {blob_name}')
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
             except Exception as e:
-                print('error:, status=500, '+str(e))
+                print('error:, status=500, ' + str(e))
+        else:
+            print('producer offer upload error: ', error)
+            return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + str(error))
 
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect('/offer_details/' + str(offer.offer_id))
 
     def get_context_data(self, **kwargs):
         context = super(UploadProducerOffer, self).get_context_data(**kwargs)
         user = self.request.user
         context = creatememberplan_context(context, user)
 
+        error = self.kwargs['error']
+        print('test: 20-11 ', error)
+
+        if error == 'None':
+            error_message = False
+        else:
+            error_message = True
+
         offer_id = self.kwargs['offer_id']
         offer = Offers.objects.get(offer_id=offer_id)
         producer = Producers.objects.get(producer_id=offer.producer_id)
         member = Members.objects.get(member_id=offer.member_id)
-
         context['offer'] = offer
         context['producer'] = producer
         context['member'] = member
         context['messages'] = messages
-
+        context['error_text'] = error
+        context['error_message'] = error_message
         return context

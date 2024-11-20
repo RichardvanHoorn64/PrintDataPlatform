@@ -185,7 +185,7 @@ urlpatterns = [
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
 
     # upload producer offer
-    path('upload_producer_offerfile/<int:offer_id>', UploadProducerOffer.as_view(), name='upload_producer_offerfile'),
+    path('upload_producer_offerfile/<int:offer_id>/<str:error>', UploadProducerOffer.as_view(), name='upload_producer_offerfile'),
 
     # producers member dashboard
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
