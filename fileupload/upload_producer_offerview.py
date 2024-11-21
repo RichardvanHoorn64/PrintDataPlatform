@@ -112,7 +112,6 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 file_name = pdf_file.name
                 blob_name = str(offer_id) + '_' + file_name
                 account_name = AZURE_STORAGE_ACCOUNT_NAME
-                account_key = AZURE_STORAGE_ACCOUNT_KEY
                 container_name = "produceroffers"
 
                 # Construct the Blob URL
@@ -120,6 +119,7 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 if DEBUG:
                     # Azure Blob Storage configuraties instellen
                     # Verbinden met de Azure Blob Storage service
+                    account_key = AZURE_STORAGE_ACCOUNT_KEY
                     blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net",
                                                             credential=account_key)
 
