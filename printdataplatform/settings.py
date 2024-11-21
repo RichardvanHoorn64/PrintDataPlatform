@@ -263,6 +263,9 @@ if DEBUG:
             EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
             SERVER_EMAIL = keys.get('SERVER_EMAIL')
             EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
+            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
+            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
+            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
 
     except FileNotFoundError:
         print(f"Het azure_keys '{local_keys}' is niet gevonden.")
