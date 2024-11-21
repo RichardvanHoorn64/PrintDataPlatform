@@ -254,7 +254,6 @@ if DEBUG:
     try:
         with open(local_keys, "r", encoding="utf-8") as azure_keys:
             keys = json.load(azure_keys)
-            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
             EMAIL_HOST = keys.get('EMAIL_HOST')
             EMAIL_PORT = keys.get('EMAIL_PORT')
             EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
@@ -266,6 +265,7 @@ if DEBUG:
             AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
             AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
             AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
+            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
 
     except FileNotFoundError:
         print(f"Het azure_keys '{local_keys}' is niet gevonden.")
