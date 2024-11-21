@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Store</title>
@@ -12,13 +13,12 @@
 </div>
 <div class="d-flex justify-content-left">
 
-    {% if 1 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             {# Card Plano products #}
 
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src="{{ img_1 }}" alt="plano">
+                     src="{% static img_1 %}" alt="plano">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Plano producten</h5>
@@ -27,14 +27,12 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
-    {% endif %}
 
     {# Card Folders #}
-    {% if 2 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src="{{ img_2 }}" alt="folders">
+                     src="{% static img_2 %}" alt="folders">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Folders</h5>
@@ -43,13 +41,12 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
-    {% endif %}
+
     {# Card Selfcovers #}
-    {% if 3 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                 <img class="card-img-top"
-                     src="{{ img_3 }}" alt="selfcovers">
+                     src="{% static img_3 %}" alt="selfcovers">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Selfcovers</h5>
@@ -58,13 +55,12 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
-    {% endif %}
+
     {# Card Folders #}
-    {% if 4 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                      <img class="card-img-top"
-                     src="{{ img_4 }}" alt="geniet in omslag">
+                     src="{% static img_4 %}" alt="geniet in omslag">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Brochures</h5>
@@ -73,13 +69,12 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
-    {% endif %}
+
     {# Card Folders #}
-    {% if 5 in categories_available %}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                <img class="card-img-top"
-                     src="{{ img_5 }}" alt="Brochures met omslag">
+                     src="{% static img_5 %}" alt="Brochures met omslag">
             </div>
             <div class="card-body">
                 <h5 class="card-title">Brochures</h5>
@@ -88,7 +83,6 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
-    {% endif %}
 </div>
 <hr class="text-info">
 <br>

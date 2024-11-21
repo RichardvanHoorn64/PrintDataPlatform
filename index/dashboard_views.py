@@ -48,22 +48,17 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['member_plan_id'] = member_plan_id
 
-        # store
-        categories_available = categories_all
-
         # store image location on Azure
-        blob_loc = 'https://printdatastorage.blob.core.windows.net/media/'
-        store = "/store/"
-        context['img_1'] = blob_loc + str(1) + store + 'plano.png'
-        context['img_2'] = blob_loc + str(1) + store + 'folders.png'
-        context['img_3'] = blob_loc + str(1) + store + 'selfcovers.png'
-        context['img_4'] = blob_loc + str(1) + store + 'geniet_met_omslag.png'
-        context['img_5'] = blob_loc + str(1) + store + 'brochures.png'
+        static_loc = 'assets/img/store/'
+        context['img_1'] = static_loc + 'plano.png'
+        context['img_2'] = static_loc + 'folders.png'
+        context['img_3'] = static_loc + 'selfcovers.png'
+        context['img_4'] = static_loc + 'geniet_met_omslag.png'
+        context['img_5'] = static_loc + 'brochures.png'
 
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title
         context['offer_table_title'] = offer_table_title
-        context['categories_available'] = categories_available
         context['start_printproject'] = start_printproject
         context['start_project_buttontext'] = start_project_buttontext
         context['printproject_list'] = printprojects.order_by('-rfq_date')[:10]
