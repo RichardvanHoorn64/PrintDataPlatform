@@ -250,6 +250,7 @@ if DEBUG:
     local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 
     # Open JSON-azure_keys
+    AZURE_STORAGE_ACCOUNT_KEY = []
     try:
         with open(local_keys, "r", encoding="utf-8") as azure_keys:
             keys = json.load(azure_keys)
@@ -262,9 +263,6 @@ if DEBUG:
             EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
             SERVER_EMAIL = keys.get('SERVER_EMAIL')
             EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
-            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
-            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
-            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
 
     except FileNotFoundError:
         print(f"Het azure_keys '{local_keys}' is niet gevonden.")

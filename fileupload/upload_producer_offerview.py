@@ -15,7 +15,6 @@ from django.core.files.base import ContentFile
 from django.shortcuts import redirect
 from printdataplatform.settings import *
 from azure.identity import ManagedIdentityCredential
-from azure.storage.blob import BlobClient
 
 
 def validate_pdf(file):
