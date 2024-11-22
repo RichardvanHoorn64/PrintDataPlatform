@@ -1,6 +1,6 @@
 from printdataplatform.settings import *
 from azure.storage.blob import BlobServiceClient
-from azure.identity import DefaultAzureCredential
+from azure.identity import ManagedIdentityCredential
 from django.core.exceptions import ValidationError
 
 
@@ -12,29 +12,31 @@ def validate_pdf(file):
 def get_blob_service_client_azure():
     try:
         account_url = "https://printdatastorage.blob.core.windows.net"
-        credential = DefaultAzureCredential()
+        credential = ManagedIdentityCredential
         return BlobServiceClient(account_url=account_url, credential=credential)
     except Exception as e:
         print('Can not connect to Blob Storage production error: ', str(e))
-        raise RuntimeError(f"Can not connect to Blob Storage: {e}")
+        raise RuntimeError(f"Can not connect to Blob Storage with ManagedIdentityCredential: {e}")
+
 
 def get_blob_service_client_local():
     try:
         return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
     except Exception as e:
         print('Can not connect to Blob Storage production error: ', str(e))
-        raise RuntimeError(f"Can not connect to Blob Storage: {e}")
+        raise RuntimeError(f"Can not connect to Blob Storage Local: {e}")
+
 
 def upload_pdf_to_azure(file, blob_name, container_name):
     # Maak een verbinding met de blob-service
     try:
-        if DEBUG:
-            blob_service_client = get_blob_service_client_local()
-        else:
-            blob_service_client = get_blob_service_client_azure()
+        # if DEBUG:
+        #     blob_service_client = get_blob_service_client_local()
+        # else:
+        blob_service_client = get_blob_service_client_azure()
     except Exception as e:
-        print('Can not upload using blob_service_client error: ', str(e))
-        raise RuntimeError(f"Can not upload to Blob Storage: {e}")
+        print('Can not get blob_service_client error: ', str(e))
+        raise RuntimeError(f"Can not upload pdf to Blob Storage: {e}")
 
     # Krijg een referentie naar de container
     try:

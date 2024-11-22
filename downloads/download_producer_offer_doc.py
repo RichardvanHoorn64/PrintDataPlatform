@@ -30,10 +30,10 @@ class DownloadProducerOfferPDF(LoginRequiredMixin, View):
         BLOB_NAME = str(offer_id) + '_' + FILE_NAME
 
         # Create BlobServiceClient
-        if DEBUG:
-            blob_service_client = get_blob_service_client_local()
-        else:
-            blob_service_client = get_blob_service_client_azure()
+        # if DEBUG:
+        #     blob_service_client = get_blob_service_client_local()
+        # else:
+        blob_service_client = get_blob_service_client_azure()
         blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=BLOB_NAME)
 
         # Download the blob
