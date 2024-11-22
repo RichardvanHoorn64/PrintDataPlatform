@@ -33,7 +33,7 @@ def upload_pdf_to_azure(file, blob_name, container_name):
         credential = ManagedIdentityCredential(account_url=account_url)
         blob_service_client = BlobServiceClient(account_url=account_url, credential=credential)
         container_client = blob_service_client.get_container_client(container_name)
-        container_client.upload_blob(name=blob_name, data=file, overwrite=True, credential=credential)
+        container_client.upload_blob(name=blob_name, data=file, overwrite=True)
         print(f"Bestand {blob_name} succesvol geüpload naar container {container_name}.")
     except Exception as e:
         print('Can not get blob_service_client error: ', str(e))
