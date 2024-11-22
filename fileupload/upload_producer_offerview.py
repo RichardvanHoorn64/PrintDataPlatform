@@ -107,66 +107,56 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
 
         if not error:
 
-            # Replace with your Blob Storage details
+            # Blob Storage details
             file_name = pdf_file.name
             blob_name = str(offer_id) + '_' + file_name
             account_name = AZURE_STORAGE_ACCOUNT_NAME
             container_name = "produceroffers"
 
-            if DEBUG:
-                # Azure Blob Storage configuraties instellen
-                # Verbinden met de Azure Blob Storage service
-                account_key = AZURE_STORAGE_ACCOUNT_KEY
-                blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net",
-                                                        credential=account_key)
+            # Create credential
+            try:
+                if DEBUG:
+                    credential = AZURE_STORAGE_ACCOUNT_KEY
+                else:
+                    credential = ManagedIdentityCredential(client_id=AZURE_CLIENT_ID)
+            except Exception as e:
+                error = 'Credential error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
-                # Maak de container als die nog niet bestaat
+            try:
+                blob_service_client = BlobServiceClient(
+                    account_url=f"https://{account_name}.blob.core.windows.net",
+                    credential=credential
+                )
+            except Exception as e:
+                error = 'Blob_service_client error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+
+            # Create container_client
+            try:
                 container_client = blob_service_client.get_container_client(container_name)
+                # Create container if not exist
                 if not container_client.exists():
                     container_client.create_container()
+            except Exception as e:
+                error = 'Container client error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
-                # Upload het bestand naar de container
+            # Upload file to container
+            try:
                 blob_client = container_client.get_blob_client(blob_name)
                 blob_client.upload_blob(pdf_file, overwrite=True)
-                print('message: Bestand succesvol geüpload naar Azure Blob Storage:', str(blob_name))
+            except Exception as e:
+                error = 'Blob upload error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
-            else:
-                # 1. Initialiseer ManagedIdentityCredential
-                try:
-                    credential = ManagedIdentityCredential()
-                except Exception as e:
-                    error = 'ManagedIdentity credential error: ' + str(e)
-                    return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-                # 2. Verbinden met het Storage-account
-                try:
-                    storage_account_name = account_name
-                    blob_service_client = BlobServiceClient(
-                        account_url=f"https://{storage_account_name}.blob.core.windows.net",
-                        credential=credential
-                    )
-                except Exception as e:
-                    error = 'Blob_service_client error: ' + str(e)
-                    return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+            print('File uploaded to Azure Blob Storage:', str(blob_name))
 
-                # 3. Selecteer een container
-                try:
-                    container_client = blob_service_client.get_container_client(container_name)
+            # save metadata
+            offer.doc_name = file_name
+            offer.doc_uploaded = True
+            offer.save()
 
-                    if not container_client.exists():
-                        container_client.create_container()
-                except Exception as e:
-                    error = 'Container client error: ' + str(e)
-                    return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-                # Upload het bestand naar de container
-                try:
-                    blob_client = container_client.get_blob_client(blob_name)
-                    blob_client.upload_blob(pdf_file, overwrite=True)
-                except Exception as e:
-                    error = 'Blob upload error: ' + str(e)
-                    return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-                print('message: Bestand succesvol geüpload naar Azure Blob Storage:', str(blob_name))
             return redirect('/offer_details/' + str(offer.offer_id))
 
     def get_context_data(self, **kwargs):

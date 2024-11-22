@@ -33,16 +33,14 @@ class DownloadProducerOfferPDF(LoginRequiredMixin, View):
         BLOB_NAME = str(offer_id) + '_' + FILE_NAME
 
         if DEBUG:  # Download the blob in development
-            ACCOUNT_KEY = settings.AZURE_STORAGE_ACCOUNT_KEY
-
-            # Maak een BlobServiceClient aan
-            connection_string = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={ACCOUNT_KEY};EndpointSuffix=core.windows.net"
+            # Create BlobServiceClient
+            connection_string = f"DefaultEndpointsProtocol=https;AccountName={STORAGE_ACCOUNT_NAME};AccountKey={AZURE_STORAGE_ACCOUNT_KEY};EndpointSuffix=core.windows.net"
             blob_service_client = BlobServiceClient.from_connection_string(connection_string)
             blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=BLOB_NAME)
 
         else:  # Download the blob in production
             blob_url = f"https://{STORAGE_ACCOUNT_NAME}.blob.core.windows.net/{CONTAINER_NAME}/{BLOB_NAME}"
-            credential = ManagedIdentityCredential()
+            credential = ManagedIdentityCredential(client_id=AZURE_CLIENT_ID)
             blob_client = BlobClient(blob_url, credential=credential, container_name=CONTAINER_NAME,
                                      blob_name=BLOB_NAME)
 

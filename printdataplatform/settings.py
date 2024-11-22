@@ -268,6 +268,6 @@ if DEBUG:
             AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
 
     except FileNotFoundError:
-        print(f"Het azure_keys '{local_keys}' is niet gevonden.")
+        print(f"Het azure_keys '{local_keys}' is not found.")
     except json.JSONDecodeError:
-        print(f"Fout bij het decoderen van het JSON-azure_keys '{local_keys}'.")
+        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
