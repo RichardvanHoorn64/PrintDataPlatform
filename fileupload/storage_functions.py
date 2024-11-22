@@ -11,19 +11,24 @@ def validate_pdf(file):
 
 def get_blob_service_client():
     try:
-        # Probeer verbinding met connection string
-        if AZURE_STORAGE_CONNECTION_STRING:
+        if DEBUG:
             try:
                 return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
-
-            # Gebruik DefaultAzureCredential (voor Managed Identity)
             except Exception as e:
+                print('Can not connect using connection string debug error: ', str(e))
+                raise RuntimeError(f"Can not connect to Blob Storage, connection string: {e}")
+        else:
+            try:
                 account_url = "https://printdatastorage.blob.core.windows.net"
                 credential = DefaultAzureCredential()
                 return BlobServiceClient(account_url=account_url, credential=credential)
+            except Exception as e:
+                print('Can not connect to Blob Storage production error: ', str(e))
+                raise RuntimeError(f"Can not connect to Blob Storage,  DefaultAzureCredential: {e}")
     except Exception as e:
-        print('Can not connect to Blob Storage error: ', str(e))
+        print('Can not connect to Blob Storage production error: ', str(e))
         raise RuntimeError(f"Can not connect to Blob Storage: {e}")
+
 
 
 def upload_pdf_to_azure(file, blob_name, container_name):
