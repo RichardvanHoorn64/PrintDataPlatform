@@ -261,12 +261,12 @@ try:  # for production
     AZURE_CLIENT_ID = os.environ['AZURE_CLIENT_ID']
     AZURE_TENANT_ID = os.environ['AZURE_TENANT_ID']
     AZURE_CLIENT_SECRET = os.environ['AZURE_CLIENT_SECRET']
-    AZURE_STORAGE_CONNECTION_STRING = os.environ['AZURE_STORAGE_CONNECTION_STRING']
+    # AZURE_STORAGE_CONNECTION_STRING = os.environ['AZURE_STORAGE_CONNECTION_STRING']
     print(f"Azure secret keys for production used.")
-except KeyError:
+except Exception as e:
+    print(f"Azure secret keys production error: '{e}")
     try:
         import json
-
         with open(local_keys, "r", encoding="utf-8") as azure_keys:
             keys = json.load(azure_keys)
             EMAIL_HOST = keys.get('EMAIL_HOST')
