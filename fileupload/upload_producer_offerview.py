@@ -28,17 +28,21 @@ def handle_uploaded_file(f):
     return path
 
 
-def upload_producer_offerfile(request):
-    if request.method == 'POST' and request.FILES['file']:
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_file = request.FILES['file']
-            handle_uploaded_file(uploaded_file)
-            return HttpResponse('Bestand succesvol geüpload!')
-    else:
-        form = UploadFileForm()
+def upload_pdf_to_azure(file, blob_name, container_name):
+    """
+    Upload een PDF-bestand naar Azure Blob Storage.
 
-    return render(request, 'fileupload/upload_producer_offerfile.html', {'form': form})
+    :param file: Bestand (InMemoryUploadedFile of bestandspad)
+    :param blob_name: De naam waarmee het bestand wordt opgeslagen in de container
+    """
+    # Maak een verbinding met de blob-service
+    blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+
+    # Krijg een referentie naar de container
+    container_client = blob_service_client.get_container_client(container_name)
+
+    # Upload het bestand
+    container_client.upload_blob(name=blob_name, data=file, overwrite=True)
 
 
 class UploadProducerOffer(LoginRequiredMixin, TemplateView):
@@ -105,52 +109,66 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                     error = 'Error: Your uploaded file is too big, please refresh page and try again: ' + str(e)
                     print("error: ", error)
 
-        if not error:
 
-            # Blob Storage details
+
+                """
+                Upload een PDF-bestand naar Azure Blob Storage.
+
+                :param file: Bestand (InMemoryUploadedFile of bestandspad)
+                :param blob_name: De naam waarmee het bestand wordt opgeslagen in de container
+                """
+                # Maak een verbinding met de blob-service
+            #     # Blob Storage details
             file_name = pdf_file.name
             blob_name = str(offer_id) + '_' + file_name
-            account_name = AZURE_STORAGE_ACCOUNT_NAME
-            container_name = "produceroffers"
+            AZURE_CONTAINER_NAME = "produceroffers"
+            upload_pdf_to_azure(pdf_file, blob_name, AZURE_CONTAINER_NAME)
 
-            # Create credential
-            try:
-                if DEBUG:
-                    credential = AZURE_STORAGE_ACCOUNT_KEY
-                else:
-                    credential = ManagedIdentityCredential(client_id=AZURE_CLIENT_ID)
-            except Exception as e:
-                error = 'Credential error: ' + str(e)
-                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-            try:
-                blob_service_client = BlobServiceClient(
-                    account_url=f"https://{account_name}.blob.core.windows.net",
-                    credential=credential
-                )
-            except Exception as e:
-                error = 'Blob_service_client error: ' + str(e)
-                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-            # Create container_client
-            try:
-                container_client = blob_service_client.get_container_client(container_name)
-                # Create container if not exist
-                if not container_client.exists():
-                    container_client.create_container()
-            except Exception as e:
-                error = 'Container client error: ' + str(e)
-                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-            # Upload file to container
-            try:
-                blob_client = container_client.get_blob_client(blob_name)
-                blob_client.upload_blob(pdf_file, overwrite=True)
-            except Exception as e:
-                error = 'Blob upload error: ' + str(e)
-                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-            print('File uploaded to Azure Blob Storage:', str(blob_name))
+            # if not error:
+        #     # Blob Storage details
+        #     file_name = pdf_file.name
+        #     blob_name = str(offer_id) + '_' + file_name
+        #     account_name = AZURE_STORAGE_ACCOUNT_NAME
+        #     container_name = "produceroffers"
+        #
+        #     # Create credential
+        #     try:
+        #         if DEBUG:
+        #             credential = AZURE_STORAGE_ACCOUNT_KEY
+        #         else:
+        #             credential = ManagedIdentityCredential(client_id=AZURE_CLIENT_ID)
+        #     except Exception as e:
+        #         error = 'Credential error: ' + str(e)
+        #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+        #
+        #     try:
+        #         blob_service_client = BlobServiceClient(
+        #             account_url=f"https://{account_name}.blob.core.windows.net",
+        #             credential=credential
+        #         )
+        #     except Exception as e:
+        #         error = 'Blob_service_client error: ' + str(e)
+        #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+        #
+        #     # Create container_client
+        #     try:
+        #         container_client = blob_service_client.get_container_client(container_name)
+        #         # Create container if not exist
+        #         if not container_client.exists():
+        #             container_client.create_container()
+        #     except Exception as e:
+        #         error = 'Container client error: ' + str(e)
+        #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+        #
+        #     # Upload file to container
+        #     try:
+        #         blob_client = container_client.get_blob_client(blob_name)
+        #         blob_client.upload_blob(pdf_file, overwrite=True)
+        #     except Exception as e:
+        #         error = 'Blob upload error: ' + str(e)
+        #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+        #
+        #     print('File uploaded to Azure Blob Storage:', str(blob_name))
 
             # save metadata
             offer.doc_name = file_name
