@@ -243,14 +243,30 @@ DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 AZURE_URL_EXPIRATION = 3600
 
 # local AZURE_STORAGE_ACCOUNT_KEY
-if DEBUG:
-    import json
 
-    # path to local JSON-azure_keys
-    local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 
-    # Open JSON-azure_keys
+# path to local JSON-azure_keys
+local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
+
+# Open JSON-azure_keys
+try:  # for production
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
+    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+    DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    EMAIL_USE_TLS = True
+    SERVER_EMAIL = os.environ['SERVER_EMAIL']
+    EMAIL_TO_ADMIN = os.environ['EMAIL_TO_ADMIN']
+    AZURE_CLIENT_ID = os.environ['AZURE_CLIENT_ID']
+    AZURE_TENANT_ID = os.environ['AZURE_TENANT_ID']
+    AZURE_CLIENT_SECRET = os.environ['AZURE_CLIENT_SECRET']
+    AZURE_STORAGE_CONNECTION_STRING = os.environ['AZURE_STORAGE_CONNECTION_STRING']
+    print(f"Azure secret keys for production used.")
+except KeyError:
     try:
+        import json
+
         with open(local_keys, "r", encoding="utf-8") as azure_keys:
             keys = json.load(azure_keys)
             EMAIL_HOST = keys.get('EMAIL_HOST')
@@ -266,10 +282,13 @@ if DEBUG:
             AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
             AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
             AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-
-    except FileNotFoundError:
-        print(f"Het azure_keys '{local_keys}' is not found.")
+            print(f"Azure secret keys '{local_keys}' used.")
     except json.JSONDecodeError:
         print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 
+    except FileNotFoundError:
+        print(f"FileNotFoundError '{local_keys}'.")
 
+except Exception as e:
+    error = str(e)
+    print(f"Environment Error '{error}'.")
