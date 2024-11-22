@@ -11,26 +11,20 @@ def validate_pdf(file):
 
 def get_blob_service_client():
     try:
-        try:
-            account_url = "https://printdatastorage.blob.core.windows.net"
-            credential = DefaultAzureCredential()
-            return BlobServiceClient(account_url=account_url, credential=credential)
-        except Exception as e:
-            print('Can not connect to Blob Storage production error: ', str(e))
-            raise RuntimeError(f"Can not connect to production Blob Storage,  DefaultAzureCredential: {e}")
-
-        #         return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
-        #     except Exception as e:
-        #         print('Can not connect using connection string debug error: ', str(e))
-        #         raise RuntimeError(f"Can not connect to lokal Blob Storage, connection string: {e}")
-        # else:
-        #     try:
-        #         account_url = "https://printdatastorage.blob.core.windows.net"
-        #         credential = DefaultAzureCredential()
-        #         return BlobServiceClient(account_url=account_url, credential=credential)
-        #     except Exception as e:
-        #         print('Can not connect to Blob Storage production error: ', str(e))
-        #         raise RuntimeError(f"Can not connect to production Blob Storage,  DefaultAzureCredential: {e}")
+        if DEBUG:
+            try:
+                return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+            except Exception as e:
+                print('Can not connect using connection string debug error: ', str(e))
+                raise RuntimeError(f"Can not connect to lokal Blob Storage, connection string: {e}")
+        else:
+            try:
+                account_url = "https://printdatastorage.blob.core.windows.net"
+                credential = DefaultAzureCredential()
+                return BlobServiceClient(account_url=account_url, credential=credential)
+            except Exception as e:
+                print('Can not connect to Blob Storage production error: ', str(e))
+                raise RuntimeError(f"Can not connect to production Blob Storage,  DefaultAzureCredential: {e}")
     except Exception as e:
         print('Can not connect to Blob Storage production error: ', str(e))
         raise RuntimeError(f"Can not connect to Blob Storage: {e}")

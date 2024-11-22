@@ -1,16 +1,43 @@
+from azure.storage.blob import BlobServiceClient
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.views.generic import TemplateView
 from index.create_context import creatememberplan_context
 from index.translate_functions import *
 from django.contrib import messages
+from django.shortcuts import render
+from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from offers.models import Offers
 from .forms import UploadFileForm
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from django.shortcuts import redirect
-from fileupload.storage_functions import *
+from .storage_functions import upload_pdf_to_azure
 
 
+def validate_pdf(file):
+    if not file.name.endswith('.pdf'):
+        raise ValidationError('Het bestand moet een PDF zijn.')
+
+
+def handle_uploaded_file(f):
+    # Hier wordt het bestand opgeslagen naar Azure Blob Storage via de default_storage
+    path = default_storage.save(f.name, ContentFile(f.read()))
+    return path
+
+
+def upload_producer_offerfile(request):
+    if request.method == 'POST' and request.FILES['file']:
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = request.FILES['file']
+            handle_uploaded_file(uploaded_file)
+            return HttpResponse('Bestand succesvol geüpload!')
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'fileupload/upload_producer_offerfile.html', {'form': form})
 
 
 
@@ -47,15 +74,17 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 pdf_file = self.request.FILES['file']
 
             except Exception as e:
-
                 error = 'Laad een PDF file : ' + str(e)
                 print("error: ", error)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
+
 
         # Valideer of het bestand een PDF is
         try:
             validate_pdf(pdf_file)
         except ValidationError as e:
             error = 'pdf validation error: ' + str(e)
+            return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
         if not error:
             try:
@@ -66,7 +95,8 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                     error = []
             except Exception as e:
                 error = 'File load error: ' + str(e)
-                print("error: ", error)
+                print("pdf check error: ", error)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
             # if file is too large, return
             if not error:
@@ -76,7 +106,8 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
 
                 except Exception as e:
                     error = 'Error: Your uploaded file is too big, please refresh page and try again: ' + str(e)
-                    print("error: ", error)
+                    print("File to big error: ", error)
+                    return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
                 """
                 Upload een PDF-bestand naar Azure Blob Storage.
@@ -85,11 +116,16 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 :param blob_name: De naam waarmee het bestand wordt opgeslagen in de container
                 """
                 # Maak een verbinding met de blob-service
+        if not error:
             #     # Blob Storage details
-            file_name = pdf_file.name
-            blob_name = str(offer_id) + '_' + file_name
-            AZURE_CONTAINER_NAME = "produceroffers"
-            upload_pdf_to_azure(pdf_file, blob_name, AZURE_CONTAINER_NAME)
+            try:
+                file_name = pdf_file.name
+                blob_name = str(offer_id) + '_' + file_name
+                AZURE_CONTAINER_NAME = "produceroffers"
+                upload_pdf_to_azure(pdf_file, blob_name, AZURE_CONTAINER_NAME)
+            except Exception as e:
+                error = 'Upload pdf to Azure error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
             # if not error:
             #     # Blob Storage details
@@ -138,31 +174,12 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
             #     print('File uploaded to Azure Blob Storage:', str(blob_name))
 
             # save metadata
-            offer.doc_name = file_name
-            offer.doc_uploaded = True
-            offer.save()
+            try:
+                offer.doc_name = file_name
+                offer.doc_uploaded = True
+                offer.save()
+            except Exception as e:
+                error = 'Metadata error: ' + str(e)
+                return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
             return redirect('/offer_details/' + str(offer.offer_id))
-
-    def get_context_data(self, **kwargs):
-        context = super(UploadProducerOffer, self).get_context_data(**kwargs)
-        user = self.request.user
-        context = creatememberplan_context(context, user)
-
-        error = self.kwargs['error']
-        if error == 'None':
-            error_message = False
-        else:
-            error_message = True
-
-        offer_id = self.kwargs['offer_id']
-        offer = Offers.objects.get(offer_id=offer_id)
-        producer = Producers.objects.get(producer_id=offer.producer_id)
-        member = Members.objects.get(member_id=offer.member_id)
-        context['offer'] = offer
-        context['producer'] = producer
-        context['member'] = member
-        context['messages'] = messages
-        context['error_text'] = error
-        context['error_message'] = error_message
-        return context
