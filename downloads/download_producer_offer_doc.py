@@ -6,18 +6,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from io import BytesIO
 from datetime import date
+
 from index.display_functions import *
 from offers.models import Offers
 from printprojects.models import *
 from django.shortcuts import redirect
 import requests
 from mailmerge import MailMerge
-from django.conf import settings
 from django.http import HttpResponse
-from azure.storage.blob import BlobServiceClient
-from azure.identity import ManagedIdentityCredential
-from azure.storage.blob import BlobClient
-from printdataplatform.settings import *
+from fileupload.storage_functions import *
 
 
 class DownloadProducerOfferPDF(LoginRequiredMixin, View):
@@ -33,7 +30,7 @@ class DownloadProducerOfferPDF(LoginRequiredMixin, View):
         BLOB_NAME = str(offer_id) + '_' + FILE_NAME
 
         # Create BlobServiceClient
-        blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+        blob_service_client = get_blob_service_client()
         blob_client = blob_service_client.get_blob_client(container=CONTAINER_NAME, blob=BLOB_NAME)
 
         # Download the blob
