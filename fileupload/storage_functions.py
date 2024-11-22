@@ -9,41 +9,45 @@ def validate_pdf(file):
         raise ValidationError('Het bestand moet een PDF zijn.')
 
 
-def get_blob_service_client():
+def get_blob_service_client_azure():
     try:
-        if DEBUG:
-            try:
-                return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
-            except Exception as e:
-                print('Can not connect using connection string debug error: ', str(e))
-                raise RuntimeError(f"Can not connect to lokal Blob Storage, connection string: {e}")
-        else:
-            try:
-                account_url = "https://printdatastorage.blob.core.windows.net"
-                credential = DefaultAzureCredential()
-                return BlobServiceClient(account_url=account_url, credential=credential)
-            except Exception as e:
-                print('Can not connect to Blob Storage production error: ', str(e))
-                raise RuntimeError(f"Can not connect to production Blob Storage,  DefaultAzureCredential: {e}")
+        account_url = "https://printdatastorage.blob.core.windows.net"
+        credential = DefaultAzureCredential()
+        return BlobServiceClient(account_url=account_url, credential=credential)
     except Exception as e:
         print('Can not connect to Blob Storage production error: ', str(e))
         raise RuntimeError(f"Can not connect to Blob Storage: {e}")
 
+def get_blob_service_client_local():
+    try:
+        return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+    except Exception as e:
+        print('Can not connect to Blob Storage production error: ', str(e))
+        raise RuntimeError(f"Can not connect to Blob Storage: {e}")
 
 def upload_pdf_to_azure(file, blob_name, container_name):
-    """
-    Upload een PDF-bestand naar Azure Blob Storage.
-
-    :param container_name:
-    :param file: Bestand (InMemoryUploadedFile of bestandspad)
-    :param blob_name: De naam waarmee het bestand wordt opgeslagen in de container
-    """
     # Maak een verbinding met de blob-service
-    blob_service_client = get_blob_service_client()
-    print("Verbinding gemaakt met Blob Storage!")
+    try:
+        if DEBUG:
+            blob_service_client = get_blob_service_client_local()
+        else:
+            blob_service_client = get_blob_service_client_azure()
+    except Exception as e:
+        print('Can not upload using blob_service_client error: ', str(e))
+        raise RuntimeError(f"Can not upload to Blob Storage: {e}")
 
     # Krijg een referentie naar de container
-    container_client = blob_service_client.get_container_client(container_name)
+    try:
+        container_client = blob_service_client.get_container_client(container_name)
+    except Exception as e:
+        print('container_client error: ', str(e))
+        raise RuntimeError(f"container_client error: {e}")
 
     # Upload het bestand
-    container_client.upload_blob(name=blob_name, data=file, overwrite=True)
+    try:
+        container_client.upload_blob(name=blob_name, data=file, overwrite=True)
+    except Exception as e:
+        print('Upload blob error: ', str(e))
+        raise RuntimeError(f"Upload blob error: {e}")
+
+
