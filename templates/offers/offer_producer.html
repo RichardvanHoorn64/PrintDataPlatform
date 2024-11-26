@@ -198,11 +198,28 @@
                                         Offerte indienen
                                     </button>
                                 </div>
-
-                                <div id="testveld" class="col-auto">
+                                <div class="col-auto">
                                     <a type="button" href="{% url 'deny_offer' offer.offer_id %}"
                                        class="btn btn-danger px-5 px-sm-5">Weigeren</a>
                                 </div>
+                            </div>
+                        </div>
+                    <div class="mb-5"></div>
+                 
+                    <hr class="text-info">
+                        <div class="row">
+                     
+                        <h4 class="mb-1 text-info">PDF Offerte {{ offer.producer.company }}</h4>
+                        <div class="col-12 gy-3 ">
+                            <div class="row g-3 justify-content-start">
+                                <div class="col-auto">
+                                    {% include 'buttons/upload_producer_offer_pdf.html' %}
+                                </div>
+                                 {% if offer.doc_uploaded %}
+                                <div class="col-auto">
+                                    {% include 'buttons/download_producer_offer_pdf.html' %}
+                                </div>
+                                     {% endif %}
                             </div>
                         </div>
                     </div>

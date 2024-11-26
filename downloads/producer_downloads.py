@@ -81,7 +81,7 @@ class ProducerDownloadOffers(LoginRequiredMixin, View):
         buffer.seek(0)
 
         return FileResponse(buffer, as_attachment=True,
-                            filename='PrintDataPlatform ' + producer_company + " " + str(export_datum) + '.xlsx')
+                            filename='PrintDataPlatform ofertes ' + producer_company + " " + str(export_datum) + '.xlsx')
 
 
 class ProducerDownloadOrders(LoginRequiredMixin, View):
@@ -137,8 +137,6 @@ class ProducerDownloadOrders(LoginRequiredMixin, View):
                  'afleverer bij:', 'contactpersoon aflevering', 'aflevering telefoonnummer', 'orderdatum',
                  'productcategorie', 'rfq_company', 'producent', 'order status']]
 
-        orders_columns = df_orders.columns.values.tolist()
-        excel_filf_worksheet(worksheet_orders, df_orders, orders_columns, bold)
 
         orders_columns = df_orders.columns.values.tolist()
         excel_fill_worksheet(worksheet_orders, df_orders, orders_columns, bold)
@@ -148,4 +146,4 @@ class ProducerDownloadOrders(LoginRequiredMixin, View):
         buffer.seek(0)
 
         return FileResponse(buffer, as_attachment=True,
-                            filename='PrintDataPlatform ' + producer_company + " " + str(export_datum) + '.xlsx')
+                            filename='PrintDataPlatform orders ' + producer_company + " " + str(export_datum) + '.xlsx')

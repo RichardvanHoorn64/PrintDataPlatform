@@ -40,7 +40,6 @@ def upload_producer_offerfile(request):
     return render(request, 'fileupload/upload_producer_offerfile.html', {'form': form})
 
 
-
 class UploadProducerOffer(LoginRequiredMixin, TemplateView):
     template = 'producers/assortiment_upload.html'
     template_name = 'fileupload/upload_producer_offerfile.html'
@@ -117,7 +116,7 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 """
                 # Maak een verbinding met de blob-service
         if not error:
-            #     # Blob Storage details
+            # Upload PDF to AzureBlob Storage
             try:
                 file_name = pdf_file.name
                 blob_name = str(offer_id) + '_' + file_name
@@ -126,54 +125,7 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
             except Exception as e:
                 error = 'Upload pdf to Azure error: ' + str(e)
                 return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-
-            # if not error:
-            #     # Blob Storage details
-            #     file_name = pdf_file.name
-            #     blob_name = str(offer_id) + '_' + file_name
-            #     account_name = AZURE_STORAGE_ACCOUNT_NAME
-            #     container_name = "produceroffers"
-            #
-            #     # Create credential
-            #     try:
-            #         if DEBUG:
-            #             credential = AZURE_STORAGE_ACCOUNT_KEY
-            #         else:
-            #             credential = ManagedIdentityCredential(client_id=AZURE_CLIENT_ID)
-            #     except Exception as e:
-            #         error = 'Credential error: ' + str(e)
-            #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-            #
-            #     try:
-            #         blob_service_client = BlobServiceClient(
-            #             account_url=f"https://{account_name}.blob.core.windows.net",
-            #             credential=credential
-            #         )
-            #     except Exception as e:
-            #         error = 'Blob_service_client error: ' + str(e)
-            #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-            #
-            #     # Create container_client
-            #     try:
-            #         container_client = blob_service_client.get_container_client(container_name)
-            #         # Create container if not exist
-            #         if not container_client.exists():
-            #             container_client.create_container()
-            #     except Exception as e:
-            #         error = 'Container client error: ' + str(e)
-            #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-            #
-            #     # Upload file to container
-            #     try:
-            #         blob_client = container_client.get_blob_client(blob_name)
-            #         blob_client.upload_blob(pdf_file, overwrite=True)
-            #     except Exception as e:
-            #         error = 'Blob upload error: ' + str(e)
-            #         return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
-            #
-            #     print('File uploaded to Azure Blob Storage:', str(blob_name))
-
-            # save metadata
+            # Store metadata
             try:
                 offer.doc_name = file_name
                 offer.doc_uploaded = True
@@ -182,4 +134,13 @@ class UploadProducerOffer(LoginRequiredMixin, TemplateView):
                 error = 'Metadata error: ' + str(e)
                 return redirect("/upload_producer_offerfile/" + str(offer.offer_id) + '/' + error)
 
-            return redirect('/offer_details/' + str(offer.offer_id))
+            if self.request.user.member_plan_id in open_memberplans:
+                return redirect('/offer_details/' + str(offer.offer_id))
+            elif self.request.user.member_plan_id in producer_memberplans:
+                return redirect('/producer_offer_details/' + str(offer.offer_id))
+            else:
+                return redirect('/home/')
+
+
+
+
