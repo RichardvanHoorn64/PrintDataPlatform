@@ -1,0 +1,29 @@
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="nl">
+<head><title>rfq email to producer pro</title></head>
+{% include 'emails/email_style.html' %}
+
+</html>
+<body>
+<h4>
+    Hallo {{ producer.company }},<br><br>
+    Op het PrintDataPlatform heeft {{ member_requester }} namens {{ member_company }}
+    op {{ offer.created |date:'d-m-Y ' }} voor {{ producer.company }} een offerteaanvraag voor {{ printproject.volume }}
+    ex. {{ printproject.project_title }} gedaan.<br><br>
+    Log in op <a href="https://printdataplatform.com/">het PrintDataPlatform</a> en bekijk en beantwoord de offerteaanvraag op: <a
+        href="https://printdataplatform.com/{% url 'offer_producers_details' offer.offer_id %}">PrintDataPlatform.com/offer_producers_form</a>,
+    <br>
+    Hier kunt u ook een PDF van uw offertedocument uploaden.
+    <br><br>
+    Hartelijke groet,<br>
+    Richard van Hoorn
+    <br>
+    <a href="https://printdataplatform.nl/">PrintDataPlatform BV</a>
+    <br>
+    mail: contact@printdataplatform.nl
+    <br>
+    tel: 06-55962062
+</h4>
+<br><br>
+</body>

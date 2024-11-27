@@ -128,8 +128,12 @@ def send_rfq_mail(producer, member_company, offer, printproject):
     }
 
     # select email template
-    email_template = 'emails/rfq_mailbody.html'
+    if producer.member_plan_id in producer_memberplans:
+        email_template = 'emails/rfq_mailbody_pro.html'
+    else:
+        email_template = 'emails/rfq_mailbody_open.html'
     subject = render_to_string("emails/rfq_subject.txt", merge_data)
+
     html_body = render_to_string(email_template, merge_data)
     address = producer.e_mail_rfq
 

@@ -1,7 +1,7 @@
 {% load l10n %}
 <!DOCTYPE html>
 <html lang="nl">
-<head><title>rfq email</title></head>
+<head><title>rfq email to open producer</title></head>
 {% include 'emails/email_style.html' %}
 
 </html>
@@ -14,14 +14,12 @@
     Bekijk en beantwoord de offerteaanvraag op: <a
         href="https://printdataplatform.com/{% url 'offer_producers_form' offer.offer_id %}">PrintDataPlatform.com/offer_producers_form</a>,
     <br>
-    Hier kunt u ook uw offertedocument uploaden.
-    <br>
     Open de aanvraag met deze unieke toegangscode: {{ offer_key }}
     <br><br>
     Hartelijke groet,<br>
     Richard van Hoorn
     <br>
-    <a href="https://printdataplatform.com/">PrintDataPlatform BV</a>
+    <a href="https://printdataplatform.nl/">PrintDataPlatform BV</a>
     <br>
     mail: contact@printdataplatform.nl
     <br>
