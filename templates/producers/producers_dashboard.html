@@ -45,7 +45,7 @@
             <br>
 
             <div id="producerTable"
-                 data-list='{"valueNames":["producer","city","country_code", "status", "manager"],"page":10,"pagination":true}'>
+                 data-list='{"valueNames":["producer","city", "status", "manager"],"page":10,"pagination":true}'>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
@@ -82,15 +82,15 @@
                                     <thead>
                                     <tr>
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
+                                        <th class="sort align-middle text-start pe-3" scope="col"
+                                            style="width:10%; min-width: 100px;">Website</th>
+                                        
+                                        
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="producer"
                                             style="width:20%;">Producent
                                         </th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
                                             style="width:10%; min-width: 100px;">Plaats
-                                        </th>
-                                        <th class="sort align-middle text-start pe-3" scope="col"
-                                            data-sort="country_code"
-                                            style="width:10%; min-width: 100px;">Land
                                         </th>
                                         <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
                                             Account manager
@@ -117,9 +117,18 @@
                                                     class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
                                                     aria-pressed="true"><i class="fas fa-info text-info fs-1"></i></a>
                                             </td>
+                                             <td class="align-middle white-space-nowrap task text-info ps-0 py-0"
+                                              {% if producer.producer.company_url %}
+                                             ><a href="{{ producer.producer.company_url }}"
+                                                 class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                                 aria-pressed="true"><i class="fas fa-external-link-alt text-info fs-1"></i></a>
+                                                 {% endif %}
+                                            </td>
+                                        
                                             <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
-                                            <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
-                                            <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.country_code }}</td>
+                                            <td class="city align-middle fw-semi-bold text-1000">
+                                                {{ producer.producer.city }}, {{ producer.producer.country_code }}</td>
+                                        
                                             <td class="manager align-middle fw-semi-bold text-1000">{{ producer.producer.manager }}</td>
                                             <td class="align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
                                         
@@ -174,7 +183,7 @@
             
             
             <div id="producerTable"
-                 data-list='{"valueNames":["producer","city","country_code", "status", "manager"],"page":10,"pagination":true}'>
+                 data-list='{"valueNames":["producer","city", "status", "manager"],"page":10,"pagination":true}'>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
@@ -204,15 +213,13 @@
                                     <thead>
                                     <tr>
                                         <th class="align-middle text-start" scope="col" style="width:5%;">Info</th>
+                                        <th class="sort align-middle text-start pe-3" scope="col"
+                                            style="width:10%; min-width: 100px;">Website</th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="producer"
                                             style="width:20%;">Producent
                                         </th>
                                         <th class="sort align-middle text-start pe-3" scope="col" data-sort="city"
                                             style="width:10%; min-width: 100px;">Plaats
-                                        </th>
-                                        <th class="sort align-middle text-start pe-3" scope="col"
-                                            data-sort="country_code"
-                                            style="width:10%; min-width: 100px;">Land
                                         </th>
                                         <th class="align-middle text-start pe-0" scope="col" style="width:20%;">
                                             Account manager
@@ -239,9 +246,16 @@
                                                     class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
                                                     aria-pressed="true"><i class="fas fa-info text-info fs-1"></i></a>
                                             </td>
+                                                                                     <td class="align-middle white-space-nowrap task text-info ps-0 py-0"
+                                              {% if producer.producer.company_url %}
+                                             ><a href="{{ producer.producer.company_url }}"
+                                                 class="btn btn-outline-info btn-sm me-1 mb-1" role="button"
+                                                 aria-pressed="true"><i class="fas fa-external-link-alt text-info fs-1"></i></a>
+                                                 {% endif %}
+                                            </td>
                                             <td class="producer align-middle fw-semi-bold text-1000">{{ producer.producer.company }}</td>
-                                            <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}</td>
-                                            <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.country_code }}</td>
+                                            <td class="city align-middle fw-semi-bold text-1000">{{ producer.producer.city }}, {{ producer.producer.country_code }}</td>
+                                            <td class="country_code align-middle fw-semi-bold text-1000">{{ producer.producer.company_url }}</td>
                                             <td class="manager align-middle fw-semi-bold text-1000">{{ producer.producer.manager }}</td>
                                             <td class="align-middle fw-semi-bold text-1000">{{ producer.producer.tel_general }}</td>
                                         
