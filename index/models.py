@@ -2,18 +2,10 @@ from django.db import models
 from profileuseraccount.models import Languages, Producers
 
 
-class CheckDomains(models.Model):
-    domain_id = models.AutoField(primary_key=True)
-    domain = models.CharField(max_length=200, null=True, blank=True)
-    excluded = models.BooleanField(default=False)
-    update_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.domain
-
-    class Meta:
-        verbose_name = 'domains'
-        verbose_name_plural = 'domain'
+class MemberToProducerList(models.Model):
+    convert_id = models.IntegerField(primary_key=True)
+    member_id = models.IntegerField()
+    to_convert = models.BooleanField(default=True)
 
 
 class DropdownCountries(models.Model):
@@ -74,20 +66,21 @@ class Faqs(models.Model):
         verbose_name = 'questions'
         verbose_name_plural = 'question'
 
-    class Messages(models.Model):
-        message_id = models.AutoField(primary_key=True)
-        name = models.CharField(max_length=1000, null=True, blank=True)
-        email = models.CharField(max_length=1000, null=True, blank=True)
-        message = models.CharField(max_length=10000, null=True, blank=True)
-        language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
-        submit_date = models.DateTimeField(auto_now_add=True)
 
-        def __str__(self):
-            return self.message
+class Messages(models.Model):
+    message_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=1000, null=True, blank=True)
+    email = models.CharField(max_length=1000, null=True, blank=True)
+    message = models.CharField(max_length=10000, null=True, blank=True)
+    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+    submit_date = models.DateTimeField(auto_now_add=True)
 
-        class Meta:
-            verbose_name = 'messages'
-            verbose_name_plural = 'message'
+    def __str__(self):
+        return self.message
+
+    class Meta:
+        verbose_name = 'messages'
+        verbose_name_plural = 'message'
 
 
 class Conditions(models.Model):
@@ -141,31 +134,40 @@ class Texts(models.Model):
         verbose_name_plural = 'text'
 
 
-class Blacklist(models.Model):
+class BlacklistEmail(models.Model):
     blacklist_id = models.AutoField(primary_key=True)
-    blacklist_text = models.CharField(max_length=1000, null=True, blank=True)
-    type = models.CharField(max_length=100, null=True, blank=True)
-    subject = models.CharField(max_length=1000, null=True, blank=True)
-    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+    email = models.CharField(max_length=1000, null=True, blank=True)
+    excluded = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.blacklist_text
+        return self.email
 
     class Meta:
-        verbose_name = 'blacklist_texts'
-        verbose_name_plural = 'blacklist_text'
+        verbose_name = 'BlacklistsEmails'
+        verbose_name_plural = 'BlacklistEmail'
 
 
-class Whitelist(models.Model):
+class WhitelistEmail(models.Model):
     whitelist_id = models.AutoField(primary_key=True)
-    whitelist_text = models.CharField(max_length=1000, null=True, blank=True)
-    type = models.CharField(max_length=100, null=True, blank=True)
-    subject = models.CharField(max_length=1000, null=True, blank=True)
-    language = models.ForeignKey(Languages, null=True, blank=True, default=1, on_delete=models.SET_NULL)
+    email = models.CharField(max_length=1000, null=True, blank=True)
+    excluded = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.whitelist_text
+        return self.email
 
     class Meta:
-        verbose_name = 'whitelist_texts'
-        verbose_name_plural = 'whitelist_text'
+        verbose_name = 'WhitelistEmails'
+        verbose_name_plural = 'WhitelistEmail'
+
+
+class BlacklistDomains(models.Model):
+    domain_id = models.AutoField(primary_key=True)
+    domain = models.CharField(max_length=200, null=True, blank=True)
+    excluded = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.domain
+
+    class Meta:
+        verbose_name = 'Blacklistdomains'
+        verbose_name_plural = 'Blacklistdomain'

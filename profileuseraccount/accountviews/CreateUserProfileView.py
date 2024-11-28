@@ -1,6 +1,7 @@
 from allauth.account.views import RedirectAuthenticatedUserMixin, CloseableSignupMixin, AjaxCapableProcessFormViewMixin
 from django.db.models import Max
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.edit import FormView
@@ -38,6 +39,17 @@ class UserProfileCreateView(RedirectAuthenticatedUserMixin, CloseableSignupMixin
 
     def form_valid(self, form):
         # By assigning the User to a property on the view, we allow subclasses
+        email = form.cleaned_data['email']
+
+        email_blacklist = BlacklistEmail.objects.filter(excluded=True).values_list('email', flat=True)
+        if email in email_blacklist:
+            return redirect('/no_access/')
+
+        domain_blacklist = BlacklistDomains.objects.filter(excluded=True).values_list('domain', flat=True)
+        domain = email.split(sep="@")[1]
+        if domain in domain_blacklist:
+            return redirect('/no_access/')
+
         # of SignupView to access the newly created User instance
         new_id = UserProfile.objects.aggregate(Max('id')).get('id__max') + 1
         gender = form.cleaned_data['gender']
@@ -95,6 +107,3 @@ signup = UserProfileCreateView.as_view()
 
 class UMemberUpdateForm:
     pass
-
-
-

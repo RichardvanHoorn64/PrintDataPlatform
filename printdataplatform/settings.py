@@ -267,7 +267,6 @@ try:
         AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
         AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
         AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-        print(f"Azure secret keys '{local_keys}' used.")
 except json.JSONDecodeError:
     print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 

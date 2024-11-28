@@ -22,7 +22,7 @@ class WelcomeView(TemplateView):
             return redirect('/signup_landing/')
 
         elif user.is_authenticated and not user.member.active:
-            in_whitelist = Whitelist.objects.filter(type='email',
+            in_whitelist = WhitelistEmail.objects.filter(type='email',
                                                     whitelist_text='demodrukker@printdataplatform.nl').exists()
 
             if in_whitelist:
@@ -44,14 +44,17 @@ class WelcomeView(TemplateView):
                 return redirect('/wait_for_approval/')
 
         # set as producer
-        is_producer = Whitelist.objects.filter(type='producer', whitelist_text=str(user.member_id)).exists()
-        if is_producer and user.member_plan_id == 1:
-            try:
-                user = UserProfile.objects.get(pk=user.id)
-                user.member_plan_id = 4
-                user.save()
-            except UserProfile.DoesNotExist:
-                pass
+
+        is_producer = MemberToProducerList.objects.filter(to_convert=True,member_id=str(user.member_id)).exists()
+        if is_producer and user.member_plan_id in open_memberplans:
+            users = UserProfile.objects.filter(member_plan_id=user.member_plan_id)
+            for user in users:
+                try:
+                    user = UserProfile.objects.get(id=user.id)
+                    user.member_plan_id = 4
+                    user.save()
+                except UserProfile.DoesNotExist:
+                    pass
 
             try:
                 member = Members.objects.get(member_id=user.member_id)

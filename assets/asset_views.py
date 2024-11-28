@@ -1,9 +1,8 @@
 # Create your views here.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
-
 from index.create_context import creatememberplan_context
 from profileuseraccount.form_invalids import form_invalid_message
 from assets.asset_forms import *
