@@ -107,13 +107,14 @@ def auto_calculate_offer(rfq, producer_id):
     calculation = Calculations.objects.get(producer_id=producer_id, printproject_id=rfq.printproject_id)
     if not calculation.error:
         offer = Offers.objects.get(producer_id=producer_id, printproject_id=rfq.printproject_id)
-        offer.offerstatus_id = 2
-        offer.calculation_id = calculation.calculation_id
-        offer.offer_date = calculation.offer_date
-        offer.modified = calculation.offer_date
-        offer.offer = calculation.offer_value
-        offer.offer1000extra = calculation.offer_value1000extra
-        offer.save()
+        if offer.offer > 0.0:
+            offer.offerstatus_id = 2
+            offer.calculation_id = calculation.calculation_id
+            offer.offer_date = calculation.offer_date
+            offer.modified = calculation.offer_date
+            offer.offer = calculation.offer_value
+            offer.offer1000extra = calculation.offer_value1000extra
+            offer.save()
 
 
 # send rfq to selected producers

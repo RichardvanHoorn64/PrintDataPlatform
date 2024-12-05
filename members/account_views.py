@@ -29,11 +29,19 @@ class MyAccountView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, *args, **kwargs):
         user = self.request.user
-        producer = []
+
         context = super(MyAccountView, self).get_context_data(**kwargs)
         member = Members.objects.get(member_id=user.member_id)
         member_plan_id = member.member_plan_id
         memberplan = MemberPlans.objects.get(member_plan_id=member_plan_id)
+
+        if member_plan_id in producer_memberplans:
+            producer_id = user.producer_id
+            producer = Producers.objects.get(producer_id=producer_id)
+            producer_productofferings = ProducerProductOfferings.objects.filter(producer_id=producer_id).order_by('productcategory_id')
+            context['producer'] = producer
+            context['producer_productofferings'] = producer_productofferings
+
         context = creatememberplan_context(context, user)
         context['memberplan'] = memberplan
         context['member'] = member
@@ -41,13 +49,9 @@ class MyAccountView(DetailView, LoginRequiredMixin):
         context['upgrade_member_plan'] = MemberPlans.objects.get(member_plan_id=2, language_id=user.language_id)
         context['member_plan_name'] = MemberPlans.objects.get(member_plan_id=member_plan_id,
                                                               language_id=user.language_id).plan_name
+        context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id)
         context['plan_name'] = memberplan.plan_name
         context['expire_date'] = member.created + timedelta(days=30)
-        context['memberaccount_list'] = UserProfile.objects.filter(member_id=user.member_id)
-
-        if member_plan_id in producer_memberplans:
-            producer = Producers.objects.get(producer_id=user.producer_id)
-        context['producer'] = producer
         return context
 
 

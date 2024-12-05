@@ -430,13 +430,23 @@
                                         </div>
                                     </a>
                                     </div>
-                                    {% if user.member.member_plan_id in producer_memberplans %}
+                                     {% if producer.calculation_module %}
                                         <div class="nav-item-wrapper"><a class="nav-link label-1"
                                                                          href="{% url 'paper_catalog' %}" role="button"
                                                                          data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                                     class="fas fa-database fs-3"></span></span><span
                                                     class="nav-link-text-wrapper"><span class="nav-link-text fs-8"> Papier prijscatalogus</span></span>
+                                            </div>
+                                        </a>
+                                        </div>
+                                        
+                                         <div class="nav-item-wrapper"><a class="nav-link label-1"
+                                                                         href="{% url 'envelopes_catalog' %}" role="button"
+                                                                         data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                    class="far fa-envelope-open fs-3"></span></span><span
+                                                    class="nav-link-text-wrapper"><span class="nav-link-text fs-8"> Envelop prijscatalogus</span></span>
                                             </div>
                                         </a>
                                         </div>
@@ -511,7 +521,7 @@
                                     {% endif %}
 
                                     <!-- Assets production calculation-->
-                                    {% if  producer.calculation_module %}
+                                    {% if producer.calculation_module %}
 
                                         <div class="nav-item-wrapper"><a class="nav-link label-1"
                                                                          href="{% url 'asset_dashboard' %}"

@@ -124,6 +124,8 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
             doc_template = 'selfcovers'
         if productcategory_id in categories_brochures_cover:
             doc_template = 'brochures'
+        if productcategory_id in categories_envelopes:
+            doc_template = 'envelopes'
 
         url = 'https://printdatastorage.blob.core.windows.net/media/' + str(
             producer_id) + '/docs/offers/' + doc_template + '.docx'
@@ -139,6 +141,31 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
         except Exception as e:
             print('offertemplate not availeble, error: ', str(e))
             return response
+
+        if printproject.productcategory_id in categories_envelopes:
+            printproject_env_size_close_cut = str(display_env_size_close_cut(printproject))
+            printproject_env_material_color = str(display_env_material_color(printproject))
+            printproject_env_window = str(display_env_window(printproject))
+        else:
+            printproject_env_size_close_cut = []
+            printproject_env_material_color = []
+            printproject_env_window = []
+
+        if productcategory_id in categories_brochures_all:
+            papier_bw = str(printproject_paper_description_booklet)
+            bedrukking_bw = str(printproject_printing_description)
+        else:
+            papier_bw = []
+            bedrukking_bw = []
+
+        if productcategory_id in categories_brochures_cover:
+            papier_omslag = str(printproject_paper_description_cover),
+            bedrukking_omslag = str(printproject_printing_cover) + " omslag",
+            persvernis_omslag = str(printproject_varnish_description) + " omslag",
+        else:
+            papier_omslag = []
+            bedrukking_omslag = []
+            persvernis_omslag = []
 
         document.merge(
             # general
@@ -169,11 +196,16 @@ class DownloadProducerOffer(LoginRequiredMixin, View):
             omvang=printproject_number_of_pages(printproject),
 
             #   Brochures
-            papier_omslag=str(printproject_paper_description_cover),
-            papier_bw=str(printproject_paper_description_booklet),
-            bedrukking_omslag=str(printproject_printing_cover),
-            bedrukking_bw=str(printproject_printing_description),
-            persvernis_omslag=str(printproject_varnish_description) + " omslag",
+            papier_omslag=papier_omslag,
+            papier_bw=papier_bw,
+            bedrukking_omslag=bedrukking_omslag,
+            bedrukking_bw=bedrukking_bw,
+            persvernis_omslag=persvernis_omslag,
+
+            # Envelopes
+            env_uitvoering=printproject_env_size_close_cut,
+            env_materiaaal=printproject_env_material_color,
+            env_venster=printproject_env_window,
 
             # finance
             aanbieding=str(offer_salesprice(offer)),

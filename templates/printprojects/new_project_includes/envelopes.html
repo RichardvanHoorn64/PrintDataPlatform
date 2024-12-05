@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print cover</title>
+</head>
+<body>
+<div class="container" id="envelopes">
+<div class="row">
+        <h4 id="envelope_general_header" class="mb-3 text-info">Envelop</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_envelope }}</h6>
+        {% endif %}
+    </div>
+    <!-- ===============================================-->
+    <!--   Envelope category  -->
+    <!-- ===============================================-->
+    <div id="default_envelope_input">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="env_category_id">Envelop categorie</label>
+                <select class="form-select" id="env_category_id" name="env_category_id" 
+                        {% if not update %} required {% endif %}>
+                    {% if update %}
+                        <option value="0">Wijzig Envelopcategorie</option>
+                    {%  for i in envelopecategories %}
+                        <option value="{{ i.envelope_category }}">{{ i.envelope_category }}</option>
+                    {% endfor %}
+                    {% else %}
+                        <option value="">Kies Envelopcategorie</option>
+                    {% for i in envelopecategories %}
+                        <option value="{{ i.env_category_id }}">{{ i.env_category_name }}</option>
+                    {% endfor %}
+                {% endif %}
+                </select>
+            </div>
+            <!-- ===============================================-->
+            <!--   Envelope size closure and cut -->
+            <!-- ===============================================-->
+        
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="env_size_close_cut">Envelop uitvoering</label>
+                <select class="form-select" id="env_size_close_cut" name="env_size_close_cut" onclick="popUpEmptyEnvCategory()"
+                         {% if not update %} required {% endif %}>
+                         {% if update %}
+                        <option value="0">Wijzig Envelop uitvoering</option>
+                                   {% else %} <option value="0">Kies Envelop uitvoering</option>{% endif %}
+                    {% for i in env_size_close_cuts %}
+                        <option value="{{ i.env_size_close_cut }}">{{ i.env_size_close_cut }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div><br>
+        <!-- ===============================================-->
+        <!--   envelope weight and color -->
+        <!-- ===============================================-->
+ <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="env_material_color">Envelop materiaal</label>
+                <select class="form-select" id="env_material_color" name="env_material_color" onclick="popUpEmptyEnvSizeCloseCut()"
+                        {% if not update %} required {% endif %}>
+                    {% if update %}
+                        <option value="0">Wijzig Envelop materiaal</option>
+                                   {% else %} <option value="0">Kies Envelop materiaal</option>{% endif %}
+                    {% for i in env_material_colors %}
+                        <option value="{{ i.env_material_color_m2 }}">{{ i.env_material_color_m2 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label" for="env_window">Envelop venster</label>
+                <select class="form-select" id="env_window" name="env_window" onclick="popUpEmptyEnvMaterialColor()"
+                        {% if not update %} required {% endif %}>
+                   {% if update %}<option value="0">Wijzig Envelop venster</option>
+                   {% else %} <option value="0">Kies Envelop venster</option>{% endif %}
+                    {% for i in env_windows %}
+                        <option value="{{ i.env_window }}">{{ i.env_window }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+<br>
+    <hr class="text-info">
+ <!-- ===============================================-->
+    <!--   Row print title -->
+    <!-- ===============================================-->
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h4 class="mb-3 text-info">Enveloppen bedrukking</h4>
+            {% if update %}
+        <h6 class="mb-3">{{ printproject_printing_envelopes }}</h6>
+        {% endif %}
+        </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row print front -->
+    <!-- ===============================================-->
+    <div class="row" id="print_front">
+        <!-- ===============================================-->
+        <!--   Print choice -->
+        <!-- ===============================================-->
+        <div class="col-sm-6 col-md-3">
+            <label class="form-label" id="print_front_label_cover" for="print_front">Bedrukking {{ print_front }}</label>
+            <select class="form-select" id="print_front" name="print_front">
+                {% for i in print_choices %}
+                      <option value="{{ i.value }}">{{ i.text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   PMS colors front envelope -->
+        <!-- ===============================================-->
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" id="number_pms_colors_cover_label" for="number_pms_colors_front">Aantal PMS kleuren
+                    {{ print_front }}</label>
+                <input type="text" class="form-control" id="number_pms_colors_front" name="number_pms_colors_front"
+                       placeholder=0 value=0>
+            </div>
+    </div>
+    <!-- ===============================================-->
+    <!--   Row print back cover -->
+    <!-- ===============================================-->
+<br>
+
+    <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" id="print_back_cover" for="print_back">Bedrukking {{ print_back }}</label>
+                <select class="form-select" id="print_back" name="print_back">
+                    {% for i in print_choices %}
+                          <option value="{{ i.value }}">{{ i.text }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+                <label class="form-label" id="number_pms_colors_back_cover" for="number_pms_colors_back">Aantal PMS kleuren
+                    {{ print_back}}</label>
+                <input type="text" class="form-control" id="number_pms_colors_back" name="number_pms_colors_back"
+                       placeholder=0 value=0>
+            </div>
+    
+        </div>
+    </div>
+    <hr class="text-info"><br>
+</body>
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="nl">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Eenvelopes</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<div class="bg-light">#}
+{#    <div class="container space-1">#}
+{#        <div class="card">#}
+{#            <div class="card-body p-4">#}
+{#                <!-- Portlet  envelopkeuze-->#}
+{#                <div class="mb-1">#}
+{#                    <h1 class="h3 text-black-50 font-weight-normal mb-0">Envelop {{ clonedata.categorie }}</h1>#}
+{#                    {% if clone_type == 'clone_envelope' %}{{ clonedata.Envelop materiaal_m2 }}#}
+{#                        gram/m2 {{ clonedata.envelopsoort }} kleur: {{ clonedata.envelopkleur }}#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <!-- Row Envelop uitvoeringkleurgewicht en envelopformaat-->#}
+{#                <div class="row">#}
+{#                    <!-- Input Envelop uitvoeringkleurgewicht-->#}
+{#                    <div class="form-group col-sm-4 mb-2" id="merkkleurgewicht">#}
+{#                        <label id="Envelop uitvoeringkleurgewicht" for="merkkleurgewicht" class="form-label">#}
+{#                            Stap 1: Kies het merk, kleur en gewicht#}
+{#                        </label>#}
+{#                        <select class="form-control dropdown-item-text" name="merkkleurgewicht" id="merkkleurgewicht"#}
+{#                                required>#}
+{#                            <option value=0">kies een envelopsoort</option>#}
+{#                            {% for envelopsoort in envelop_mkg %}#}
+{#                                <option value="{{ envelopsoort.Envelop uitvoeringkleurgewicht_id }}">{{ envelopsoort.Envelop uitvoeringkleurgewicht }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <!-- End: Input Envelop uitvoeringkleurgewicht-->#}
+{##}
+{#                    <!-- Input envelopformaat-->#}
+{#                    <div class="form-group col-sm-4 mb-2">#}
+{#                        <label for="formaat_mm" class="form-label">#}
+{#                            Stap 2: Kies formaat mm#}
+{#                        </label>#}
+{#                        <select class="form-control dropdown-item-text" name="formaat_mm" id="formaat_mm"#}
+{#                                required>#}
+{#                            {% for env_formaat in envelopformaten %}#}
+{#                                <option value="{{ env_formaat.formaat_id }}">{{ env_formaat.formaat_mm }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <!-- End: Input envelopformaat-->#}
+{#                    <!-- End: Row Envelop uitvoeringkleurgewicht en formaat-->#}
+{#                </div>#}
+{##}
+{#                <!-- Row envelop venster sluitingsnitbinnendruk-->#}
+{#                <div class="row">#}
+{#                    <!-- Input venster-->#}
+{#                    <div class="form-group col-sm-4 mb-2">#}
+{#                        <label for="envelopvenster" class="form-label">#}
+{#                            Stap 3: Kies het venster#}
+{#                        </label>#}
+{#                        <select class="form-control dropdown-item-text" name="envelopvenster" id="envelopvenster"#}
+{#                                required>#}
+{#                            {% for env_venster in envelopvensters %}#}
+{#                                <option value="{{ env_venster.envelopvenster_id }}">{{ env_venster.envelopvenster }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <!-- End: Input venster-->#}
+{##}
+{#                    <!-- Input sluitingsnitbinnendruk-->#}
+{#                    <div class="form-group col-sm-4 mb-2">#}
+{#                        <label for="sluitingsnitbinnendruk" class="form-label">#}
+{#                            Stap 4: Kies sluiting, snit en binnendruk#}
+{#                        </label>#}
+{#                        <select class="form-control dropdown-item-text" name="sluitingsnitbinnendruk"#}
+{#                                id="sluitingsnitbinnendruk"#}
+{#                                required>#}
+{#                            {% for env_ssbd in envelopssbd_soorten %}#}
+{#                                <option value="{{ env_ssbd.envelopsluitingsnitbd_id }}">{{ env_ssbd.envelopsluitingsnitbd }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <!-- End: Input sluitingsnitbinnendruk-->#}
+{#                    <!-- End: Row venster en sluitingsnitbinnendruk-->#}
+{#                </div>#}
+{##}
+{##}
+{#            </div>#}
+{#            <!-- Row Envelop materiaal gram/m2 en envelopkleur -->#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#</body>#}
+{#</html>#}

@@ -76,14 +76,12 @@
                     {% endfor %}
                 </select>
             </div>
-         {% if brandportal.brandportal_show_pms_input %}
             <div class="col-sm-6 col-md-3">
                 <label class="form-label" id="number_pms_colors_back_cover" for="number_pms_colors_back">Aantal PMS kleuren
                     {{ print_back}}</label>
                 <input type="text" class="form-control" id="number_pms_colors_back" name="number_pms_colors_back"
                        placeholder=0 value=0>
             </div>
-        {% endif %}
         <div class="col-sm-6 col-md-3">
             <label class="form-label" id="pressvarnish_back_cover" for="pressvarnish_back">Persvernis {{ print_back }}</label>
             <select class="form-select" id="pressvarnish_back" name="pressvarnish_back">

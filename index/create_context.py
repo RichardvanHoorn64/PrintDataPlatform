@@ -12,6 +12,7 @@ def creatememberplan_context(context, user):
     context['pro_memberplans'] = pro_memberplans
     context['non_exclusive_memberplans'] = non_exclusive_memberplans
     context['producer_memberplans'] = producer_memberplans
+    context['producer_pro_memberplans'] = producer_pro_memberplans
     context['offer_availeble'] = offer_availeble
     context['printdataplatform_url'] = 'https://www.printdataplatform.nl'
     context['categories_all'] = categories_all
@@ -20,6 +21,11 @@ def creatememberplan_context(context, user):
     context['categories_selfcovers'] = categories_selfcovers
     context['categories_brochures_all'] = categories_brochures_all
     context['categories_brochures_cover'] = categories_brochures_cover
+    context['categories_all_no_envelopes']  = categories_all_no_envelopes
+    context['categories_plano_no_folder']  = categories_plano_no_folder
+    context['categories_plano_envelopes'] = categories_plano_envelopes
+    context['categories_stapled'] = categories_stapled
+    context['categories_envelopes'] = categories_envelopes
 
     if user.member_plan_id in producer_memberplans:
         context['producer'] = Producers.objects.get(producer_id=user.producer_id)
@@ -81,5 +87,10 @@ def createprintproject_context(context, user, printproject):
     context['printproject_clientcontact'] = printproject_clientcontact(printproject.clientcontact_id)
     context['printproject_client_quotenumber'] = printproject_client_quotenumber(printproject.client_quotenumber)
     context['printproject_number_of_pages'] = printproject_number_of_pages(printproject)
+
+    if printproject.productcategory_id in categories_envelopes:
+        context['printproject_env_size_close_cut'] = display_env_size_close_cut(printproject)
+        context['printproject_env_material_color'] = display_env_material_color(printproject)
+        context['printproject_env_window'] = display_env_window(printproject)
 
     return context

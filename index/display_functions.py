@@ -11,6 +11,7 @@ def describe_requester(printproject):
     requester = user.first_name + " " + user.last_name + ", " + user.company
     return requester
 
+
 def printproject_client_quotenumber(client_quotenumber):
     if client_quotenumber:
         client_quotenumber = client_quotenumber
@@ -164,11 +165,12 @@ def printproject_enhance(productcategory, enhance_sided, enhance_front, enhance_
 
 
 def printproject_packaging(packaging):
-    packaging_description = "Packaging_description error: "
+    packaging = int(packaging)
+
     try:
         packaging_description = PackagingOptions.objects.get(packagingoption_id=packaging).packaging
-    except Exception as e:
-        print(packaging_description + str(e))
+    except PackagingOptions.DoesNotExist:
+        packaging_description = "Handzaam in dozen "
     return packaging_description
 
 
@@ -259,5 +261,25 @@ def display_producercategories(producer_id):
             product_category = ProductCategory.objects.get(productcategory_id=productcategory_id).productcategory
             available_producercategories = available_producercategories + str(product_category) + ", "
 
-    return available_producercategories[:-2]+'.'
+    return available_producercategories[:-2] + '.'
 
+
+# for envelopes
+def display_env_category_name(printproject):
+    printproject_env_category_name = printproject.env_category_name
+    return printproject_env_category_name
+
+
+def display_env_size_close_cut(printproject):
+    printproject_env_size_close_cut = printproject.env_size_close_cut
+    return printproject_env_size_close_cut
+
+
+def display_env_material_color(printproject):
+    printproject_env_material_color = printproject.env_material_color
+    return printproject_env_material_color
+
+
+def display_env_window(printproject):
+    printproject_env_window = printproject.env_window
+    return printproject_env_window

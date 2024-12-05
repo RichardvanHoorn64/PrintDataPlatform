@@ -49,16 +49,18 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         paperweight = form.cleaned_data['paperweight']
         paperbrand_cover = form.cleaned_data['paperbrand_cover']
         paperweight_cover = form.cleaned_data['paperweight_cover']
-        form.instance.papercolor = PaperCatalog.objects.filter(producer_id=1,
+
+        if productcategory_id not in categories_envelopes:
+            form.instance.papercolor = PaperCatalog.objects.filter(producer_id=1,
                                                                    paperbrand=paperbrand,
                                                                    paperweight_m2=paperweight).values_list('papercolor',
                                                                                                            flat=True).first()
 
         if productcategory_id in categories_brochures_cover:
-           form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=1,
-                                                                             paperbrand=paperbrand_cover,
-                                                                             paperweight_m2=paperweight_cover).values_list(
-                    'papercolor', flat=True).first()
+            form.instance.papercolor_cover = PaperCatalog.objects.filter(producer_id=1,
+                                                                         paperbrand=paperbrand_cover,
+                                                                         paperweight_m2=paperweight_cover).values_list(
+                'papercolor', flat=True).first()
 
         # fill general data
         form.instance.productcategory_id = productcategory_id
@@ -67,12 +69,13 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         form.instance.portrait_landscape = find_orientation(form.cleaned_data['portrait_landscape'])
         form.instance.packaging = find_packaging_id(form.cleaned_data['packaging'])
 
-        # fill printsided
-        print_front = form.cleaned_data['print_front']
-        print_back = form.cleaned_data['print_back']
+        # fill colors
+        print_front = int(form.cleaned_data['print_front'])
+        print_back = int(form.cleaned_data['print_back'])
         number_pms_colors_front = form.cleaned_data['number_pms_colors_front']
         number_pms_colors_back = form.cleaned_data['number_pms_colors_back']
 
+        # fill empty pms
         if number_pms_colors_front == "":
             number_pms_colors_front = 0
         if number_pms_colors_back == "":
@@ -103,6 +106,10 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
             form.instance.number_pms_colors_back = 0
             form.instance.pressvarnish_back = 0
 
+        if productcategory_id in categories_envelopes:
+            pressvarnish_front = 0
+            pressvarnish_back = 0
+
         form.instance.printsided = printsided
         form.instance.print_front = print_front
         form.instance.print_back = print_back
@@ -125,24 +132,43 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if not productcategory_id in categories_brochures_cover:
             form.instance.paperweight_cover = 0
 
-        if productcategory_id in categories_plano:
+        if productcategory_id in categories_plano_envelopes:
             form.instance.pressvarnish_booklet = 0
             form.instance.finishing_brochures = 0
+
+        if not productcategory_id in categories_envelopes:
+            form.instance.paperweight_cover = 0
+            form.instance.pressvarnish_booklet = 0
+            form.instance.finishing_brochures = 0
+            form.instance.folding = 0
 
         # Fill PrintProject-status
         form.instance.printprojectstatus_id = 1
 
-        # Fill size
-        standardsize_id = form.cleaned_data['standard_size']
-        try:
-            standard_size = StandardSize.objects.get(standardsize_id=standardsize_id)
-            form.instance.height_mm_product = standard_size.height_mm_product
-            form.instance.width_mm_product = standard_size.width_mm_product
-            form.instance.standard_size = standard_size
-        except StandardSize.DoesNotExist:
-            form.instance.height_mm_product = form.cleaned_data['height_mm_product']
-            form.instance.width_mm_product = form.cleaned_data['width_mm_product']
+        if productcategory_id in categories_envelopes:
+            env_category_id = form.cleaned_data['env_category_id']
+            env_size_close_cut = form.cleaned_data['env_size_close_cut']
+            env_material_color = form.cleaned_data['env_material_color']
+            env_window = form.cleaned_data['env_window']
+            env = EnvelopeCatalog.objects.filter(env_category_id=env_category_id, env_size_close_cut=env_size_close_cut,
+                                                 env_material_color=env_material_color, env_window=env_window,
+                                                 producer_id=1)[0]
+            form.instance.height_mm_product = env.env_height_mm
+            form.instance.width_mm_product = env.env_width_mm
             form.instance.standard_size = 0
+
+        # Fill size
+        if productcategory_id not in categories_envelopes:
+            standardsize_id = form.cleaned_data['standard_size']
+            try:
+                standard_size = StandardSize.objects.get(standardsize_id=standardsize_id)
+                form.instance.height_mm_product = standard_size.height_mm_product
+                form.instance.width_mm_product = standard_size.width_mm_product
+                form.instance.standard_size = standard_size
+            except StandardSize.DoesNotExist:
+                form.instance.height_mm_product = form.cleaned_data['height_mm_product']
+                form.instance.width_mm_product = form.cleaned_data['width_mm_product']
+                form.instance.standard_size = 0
 
         # portrait_landscape
         if form.cleaned_data['portrait_landscape'] == 0:
@@ -166,10 +192,18 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         if productcategory_id in categories_brochures_all:
             form.instance.enhance_sided = 1
             form.instance.enhance_back = 0
+        elif productcategory_id in categories_envelopes:
+            form.instance.enhance_sided = 0
+            form.instance.enhance_back = 0
         else:
             enhance_front = int(form.cleaned_data['enhance_front'])
             enhance_back = int(form.cleaned_data['enhance_back'])
             form.instance.enhance_sided = define_enhance_sided(enhance_front, enhance_back)
+
+        # for envelopes
+        if productcategory_id in categories_envelopes:
+            form.instance.packaging = 1
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -215,6 +249,14 @@ class CreateNewPrintProjectView(LoginRequiredMixin, CreateView):
         # papercategories booklet
         if productcategory_id in categories_brochures_all:
             papercategories = papercatalog.filter(singe_sided=False, paperweight_m2__lte=170).values()
+
+        # papercategories booklet
+        if productcategory_id in categories_envelopes:
+            envelopecategories = EnvelopeCategory.objects.filter(producer_id=1)
+        else:
+            envelopecategories = []
+
+        context['envelopecategories'] = envelopecategories
 
         # papercategories cover
         papercategories_cover = papercatalog.values()

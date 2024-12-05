@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Producer productoffering table</title>
+</head>
+<body>
+<div class="col-12">
+    <div class="card h-100 rounded-2 border border-info">
+        <div class="card-body">
+            <div class="table-responsive scrollbar mx-n1 px-1">
+                <h3 class="mb-0 text-info">Productaanbod {{ member.company }}</h3>
+                <hr>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                    <tr>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:5%;">ID
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:20%; min-width: 100px;">wijzigen
+                        </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:20%;">Productcategorie
+                        </th>
+
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            style="width:20%;">Aanbod
+                        </th>
+
+                        <th class="sort align-middle text-start pe-3" scope="col" d
+                            style="width:20%; min-width: 100px;">Min oplage
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:20%; min-width: 100px;">Max oplage
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:20%; min-width: 100px;">Min productformaat mm
+                        </th>
+                        <th class="sort align-middle text-start pe-3" scope="col"
+                            style="width:20%; min-width: 100px;">Max productformaat mm
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="list" id="order-table-body">
+                    {% for productoffering in producer_productofferings %}
+                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.productcategory_id }}</td>
+                            <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                {% include 'buttons/producer_productoffering_update.html' %}
+                            </td>
+                        
+                            <td class="align-middle white-space-nowrap task ps-0 py-0">
+                                {% include 'buttons/producer_productoffering_switch.html' %}
+                            </td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.productcategory.productcategory }}</td>
+
+                            <td class="printproject_id align-middle white-space-nowrap py-0">
+                                {% if productoffering.availeble == True %}
+                                    Aangeboden {% else %} Niet aangeboden{% endif %}
+                            </td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.min_product_size }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.max_product_size }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.min_product_volume }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">{{ productoffering.max_product_volume |floatformat:"0" }}</td>
+                            <td class="printproject_id align-middle white-space-nowrap py-0">
+                                <a class="text-info" href="mailto:">{{ productoffering.email }}</a>
+                            </td>
+
+
+                            <td class="rfq_date align-middle fw-semi-bold text-1000">{{ productoffering.created |date:'d-m-Y ' }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+</body>
+</html>

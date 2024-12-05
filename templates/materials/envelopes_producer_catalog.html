@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Envelopes catalog</title>
+</head>
+
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <nav class="mb-2" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a class="text-info"
+                                               href="{% url 'printproject_dashboard' 0 %}">Dashboard {{ user.company }}</a>
+                </li>
+                <li class="breadcrumb-item active">Enveloppen catalogus</li>
+            </ol>
+        </nav>
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h2 class="mb-0 text-info">Enveloppen catalogus</h2>
+                </div>
+            </div>
+            <div id="paperTable"
+                 data-list='{"valueNames":["env_category_name","env_material_color","supplier"],"page":20,"pagination":true}'>
+                <div class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                    <input class="form-control search-input search" type="search"
+                                           placeholder="Zoek envelop" aria-label="Search"/>
+                                    <span class="fas fa-search search-box-icon"></span>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                            <div class="btn-group position-static" role="group">
+                                <div class="col-auto">
+                                    <a class="btn btn-warning px-5 px-sm-5" href="{% url 'producer_envelopes_catalog_download' %}"><span
+                                            class="fa-solid fa-download fs--1 me-2"></span>Download enveloppen catalogus</a>
+                                </div>&nbsp;
+                                <div class="col-auto">
+                                    <a class="btn btn-info px-5 px-sm-5" href="{% url 'producer_envelopes_catalog_upload' %}"><span
+                                            class="fa-solid fa-upload fs--1 me-2"></span>Upload enveloppen catalogus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===============================================-->
+                <!--    Table-->
+                <!-- ===============================================-->
+                <div class="col-12 rounded-2 border border-info">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="table-responsive scrollbar mx-n1 px-1">
+                                <h3 class="mb-0 text-info">Enveloppen catalogus</h3>
+                                <table class="table table-sm fs--1 mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="env_category_name"
+                                            style="width:10%; min-width: 100px;">Categorie
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Leverancier / code
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="env_material_color"
+                                            style="width:10%; min-width: 100px;">Materiaal
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Formaat
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Sluiting
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Uitvoering
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" data-sort="supplier"
+                                            style="width:10%; min-width: 100px;">Venster
+                                        </th>
+                                        
+                                        <th class="sort align-middle text-start pe-3" scope="col" 
+                                            style="width:10%; min-width: 100px;">Prijs /1000ex
+                                        </th>
+                                        <th class="sort align-middle text-start pe-3" scope="col" 
+                                            style="width:10%; min-width: 100px;">Verpakt per ex
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody class="list" id="producer-table-body">
+                                    {% for envelop in EnvelopeCatalog %}
+                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                            <td class="env_category_name align-middle fw-semi-bold text-1000">{{ envelop.env_category_name }}</td>
+                                             <td class="env_category_name align-middle fw-semi-bold text-1000">{{ envelop.supplier }} \ {{ envelop.supplier_number }}</td>
+                                            <td class="env_material_color align-middle fw-semi-bold text-1000">{{ envelop.env_weight_m2 }}  g/m2 {{ envelop.env_paper }}</td>
+                                            
+                                            <td class="supplier align-middle fw-semi-bold text-1000">{{ envelop.env_size }}</td>
+                                            <td class="supplier align-middle fw-semi-bold text-1000">{{ envelop.env_closure }}</td>
+                                            <td class="supplier align-middle fw-semi-bold text-1000">{{ envelop.env_die_cut }}</td>
+                                            <td class="supplier align-middle fw-semi-bold text-1000">{{ envelop.env_window }}</td>
+                                    
+                                            <td class="producer align-middle fw-semi-bold text-1000">€ {{ envelop.price_1000_envelopes}}</td>
+                                            <td class="producer align-middle fw-semi-bold text-1000">{{ envelop.envelopes_per_pack}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                                <div class="col-auto d-flex">
+                                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                       data-list-info="data-list-info"></p><a class="fw-semi-bold text-info" href="#!"
+                                                                              data-list-view="*">Toon
+                                    alles<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a
+                                        class="fw-semi-bold d-none text-info" href="#!" data-list-view="less">Toon
+                                    minder<span
+                                            class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                                </div>
+                                <div class="col-auto d-flex">
+                                    <button class="page-link" data-list-pagination="prev"><span
+                                            class="fas fa-chevron-left"></span></button>
+                                    <ul class="mb-0 pagination"></ul>
+                                    <button class="page-link pe-0" data-list-pagination="next"><span
+                                            class="fas fa-chevron-right"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <!-- ===============================================-->
+            <!--    End of Main Content-->
+            <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+
+</html>

@@ -66,7 +66,7 @@ function validateFormPrintProjects() {
 
 
 // Paper general
-function popUpEmpyPaperCategory() {
+function popUpEmptyPaperCategory() {
      const papercategory = document.getElementById('papercategory').value;
      console.log("Papiercategorie alert started: ", papercategory);
      if (papercategory === "") {
@@ -74,7 +74,7 @@ function popUpEmpyPaperCategory() {
          }
 }
 
-function popUpEmpyPaperBrand() {
+function popUpEmptyPaperBrand() {
      const paperbrand = document.getElementById('paperbrand').value;
      console.log("Papierbrand alert started: ", paperbrand);
      if (paperbrand === "") {
@@ -82,7 +82,7 @@ function popUpEmpyPaperBrand() {
          }
 }
 
-function popUpEmpyPaperWeight() {
+function popUpEmptyPaperWeight() {
      const paperweight = document.getElementById('paperweight').value;
      console.log("papiergewicht cover alert started: ", paperweight);
      if ( paperweight === "") {
@@ -91,7 +91,7 @@ function popUpEmpyPaperWeight() {
 }
 
 // Paper general cover
-function popUpEmpyPaperCategoryCover() {
+function popUpEmptyPaperCategoryCover() {
      const papercategory_cover = document.getElementById('papercategory_cover').value;
      console.log("Papiercategory cover alert started: ", papercategory_cover);
      if (papercategory_cover === "") {
@@ -100,7 +100,7 @@ function popUpEmpyPaperCategoryCover() {
 }
 
 
-function popUpEmpyPaperBrandCover() {
+function popUpEmptyPaperBrandCover() {
      const paperbrand_cover = document.getElementById('paperbrand_cover').value;
      console.log("Papierbrand cover alert started: ", paperbrand_cover);
      if (paperbrand_cover === "") {
@@ -108,7 +108,7 @@ function popUpEmpyPaperBrandCover() {
          }
 }
 
-function popUpEmpyPaperWeightCover() {
+function popUpEmptyPaperWeightCover() {
      const paperweight_cover = document.getElementById('paperweight_cover').value;
      console.log("Papierweight cover alert started: ", paperweight_cover);
      if ( paperweight_cover === "") {
@@ -117,176 +117,29 @@ function popUpEmpyPaperWeightCover() {
 }
 
 
-
-
-/*
-
-function validateFormPrintProjectsDemo(e) {
-    let inputform = document.forms["printproject_form"];
-
-    if (inputform["folding"].value === "") {
-        alert("Geen aanvraag verstuurd: Kies uit standaard of vrij productformaat");
-        return true;
-    }
-
-    if (inputform["folding"].value === null) {
-        alert("Geen aanvraag verstuurd: Kies uit standaard of vrij productformaat");
-        return true;
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["hoogte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["breedte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-    if (inputform["aantal_paginas"].value === "") {
-        alert("Geen aanvraag verstuurd: Kies het aantal paginas");
-        return true;
-
-    }
-
-    if (inputform["nabewerking_brochures"].value === "Kies nabewerking") {
-        alert("Geen aanvraag verstuurd: Kies een nabewerking");
-        return true;
-
-    }
-
-    if (inputform["papiersoort_bw"].value === 0) {
-        alert("Geen aanvraag verstuurd: Kies een papiersoort");
-        return true;
-    }
-
-    if (inputform["papiergewicht_m2_bw"].value === "") {
-        alert("Geen aanvraag verstuurd: Papiersoort en gewicht moeten beide gekozen worden");
-        return true;
-    }
-
-    if (inputform["papierkleur"].value === "Kies een kleur") {
-        alert("Geen aanvraag verstuurd: Papierkleur niet gekozen");
-        return true;
-    }
-
-
-    if (inputform["papiersoort_omslag"].value === 0) {
-        alert("Geen aanvraag verstuurd: Omslag papiersoort moet gekozen worden");
-        return true;
-    }
-
-    if (inputform["papiergewicht_m2_omslag"].value === "") {
-        alert("Geen aanvraag verstuurd: Omslag papiersoort en gewicht moeten beide gekozen worden");
-        return true;
-    }
-    if (inputform["papierkleur_omslag"].value === "Kies een kleur") {
-        alert("Geen aanvraag verstuurd: Papierkleur omslag niet gekozen");
-        return true;
-    }
-
-    return false;
-}
-
-function terugnaarinvoer_plano() {
-
-    document.getElementById("inputform_plano");
-    element.addEventListener("submit", function () {
-        document.preventDefault()
-        // window.history.back()
-        return false;
-    })
-}
-
-function validateFormPlano() {
-    let inputform = document.forms["inputform_plano"];
-
-    if (inputform["formaatkeuze"].value === "geen_keuze") {
-        alert("Geen aanvraag verstuurd: Kies uit standaard of vrij productformaat");
-        return true;
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["hoogte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["breedte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-
-    if (inputform["papiersoort"].value === 0) {
-        alert("Geen aanvraag verstuurd: Kies een papiersoort");
-        return true;
-    }
-
-    if (inputform["papiergewicht_m2"].value === "") {
-        alert("Geen aanvraag verstuurd: Papiersoort en gewicht moeten beide gekozen worden");
-        return true;
-    }
-    if (inputform["papierkleur"].value === "") {
-        alert("Geen aanvraag verstuurd: Papierkleur niet gekozen");
-        return true;
-    }
-
-    return false;
+// Envelopes
+function popUpEmptyEnvCategory() {
+     const env_category_id = document.getElementById('env_category_id').value;
+     console.log("Envelope category alert started: ", env_category_id);
+     if (env_category_id === "") {
+         alert("Kies eerst een enveloppen categorie.");
+         }
 }
 
 
-function validateFormFolders() {
-    let inputform = document.forms["inputform_folders"];
-
-    if (inputform["formaatkeuze"].value === "geen_keuze") {
-        alert("Geen aanvraag verstuurd: Kies uit standaard of vrij productformaat");
-        return true;
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["hoogte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-    if (inputform["formaatkeuze"].value === "vrij" && inputform["breedte_mm_product"].value === "") {
-        alert("Geen aanvraag verstuurd: Vul het vrij productformaat in");
-        return true;
-
-    }
-
-    if (inputform["aantal_paginas"].value === "") {
-        alert("Geen aanvraag verstuurd: Kies het aantal paginas");
-        return true;
-
-    }
-
-    if (inputform["nabewerking_folders"].value === "Kies nabewerking") {
-        alert("Geen aanvraag verstuurd: Kies een nabewerking");
-        return true;
-
-    }
-
-    if (inputform["papiersoort"].value === 0) {
-        alert("Geen aanvraag verstuurd: Kies een papiersoort");
-        return true;
-    }
-
-    if (inputform["papiergewicht_m2"].value === "") {
-        alert("Geen aanvraag verstuurd: Papiersoort en gewicht moeten beide gekozen worden");
-        return true;
-    }
-    if (inputform["papierkleur"].value === "") {
-        alert("Geen aanvraag verstuurd: Papierkleur niet gekozen");
-        return true;
-    }
-
-    return true;
-
+function popUpEmptyEnvSizeCloseCut() {
+     const env_size_close_cut = document.getElementById('env_size_close_cut').value;
+     console.log("Envelope size closure cut alert started: ", env_size_close_cut);
+     if (env_size_close_cut === "") {
+         alert("Kies eerst de envelop uitvoering.");
+         }
 }
-*/
+
+function popUpEmptyEnvMaterialColor() {
+     const env_material_color = document.getElementById('env_material_color').value;
+     console.log("Envelope  Material color alert started: ", env_material_color);
+     if ( env_material_color === "") {
+         alert("Kies eerst het envelop materiaal.");
+         }
+}
+

@@ -56,7 +56,7 @@
             </div>
         </div>
 
-    {# Card Folders #}
+    {# Card Brochures #}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                      <img class="card-img-top"
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-    {# Card Folders #}
+    {# Card Books #}
         <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
             <div class="card-img-top jhj">
                <img class="card-img-top"
@@ -83,6 +83,20 @@
                         class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
             </div>
         </div>
+    {# Card Enveloppen #}
+        <div class="card overflow-hidden rounded-2 border border-info" style="max-width: 20rem; margin-right:20px">
+            <div class="card-img-top jhj">
+               <img class="card-img-top"
+                     src="{% static img_6 %}" alt="Enveloppen">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Enveloppen</h5>
+                <p class="card-text">Enveloppen bedrukt in verschillende uitvoeringen</p>
+                <a class="btn btn-soft-success px-5 px-sm-5" href="{% url 'new_printproject' 6 %}"><span
+                        class="fa-solid fa-plus fs--1 me-2"></span>{{ start_project_buttontext }}</a>
+            </div>
+        </div>
+    
 </div>
 <hr class="text-info">
 <br>

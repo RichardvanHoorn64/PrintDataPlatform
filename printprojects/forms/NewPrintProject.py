@@ -60,6 +60,13 @@ class PrintProjectsForm(forms.ModelForm):
     paperweight_cover_new = char_field_100_false
     papercolor_cover_new = char_field_200_false
 
+    # for envelopes
+    env_category_id = integer_field_notreq
+    env_size_close_cut = char_field_1000_false
+    env_material_color = char_field_1000_false
+    env_window = char_field_1000_false
+
+    # for planning
     supply_date = date_field
     delivery_date = date_field
 
@@ -74,4 +81,5 @@ class PrintProjectsForm(forms.ModelForm):
             'packaging', 'number_of_pages', 'portrait_landscape', 'finishing_brochures', 'paperbrand_new', 'paperweight_new', 'papercolor_new',
             'brochure_type', 'papercategory_cover', 'paperbrand_cover', 'paperweight_cover', 'papercolor_cover', 'paperbrand_cover_new',
             'paperweight_cover_new', 'papercolor_cover_new', 'folding', 'paperweight_cover', 'papercolor_cover',
+            'env_category_id', 'env_size_close_cut', 'env_material_color', 'env_window',
             'supply_date', 'delivery_date')

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Envelopes catalog upload</title>
+</head>
+
+
+<!-- ===============================================-->
+<!--    Main Content-->
+<!-- ===============================================-->
+{% block main_content %}
+
+    <body>
+    <!-- ===============================================-->
+    <!--    Header-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="Enveloppen catalogus_upload_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item active">Enveloppen catalogus upload</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">Enveloppen catalogus upload</h2>
+            <h4 class="mb-1 text-info">Laatste upload: {{ latest_upload }}</h4>
+            <hr class="text-info">
+        </div>
+
+        <!-- ===============================================-->
+        <!--   New project form-->
+        <!-- ===============================================-->
+
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+                <!-- ===============================================-->
+                <!--   Subheader -->
+                <!-- ===============================================-->
+                <div class="p-4 mb-0 rounded-2 border border-info bg-white">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <h4 class="mb-3 text-info">{{ instruction }}</h4>
+                             {% if error %}
+                                <h4 class="mb-3 text-danger">{{ error }}</h4>
+                                {% endif %}
+                        </div>
+                    </div>
+                    <!-- ===============================================-->
+                    <!--   Input Rows -->
+                    <!-- ===============================================-->
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="customFile">File input</label>
+                                <input class="form-control" id="customFile" name="envelopes_catalog_file"
+                                       type="file">
+                            </div>
+                            <hr class="text-info">
+                            <br>
+                        </div>
+                        <!-- ===============================================-->
+                        <!--   Row asset submit buttons -->
+                        <!-- ===============================================-->
+
+                        <div class="container" id="submit_general">
+                            <div class="row">
+                                <h4 class="mb-1 text-info">Enveloppen catalogus vervangen</h4>
+                                <div class="col-12 gy-3 ">
+                                    <div class="row g-3 justify-content-start">
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-info px-5 px-sm-5">
+                                                <i class="fa fa-upload"></i>&nbsp;Upload Enveloppen catalogus
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    </body>
+{% endblock %}
+
+
+</html>

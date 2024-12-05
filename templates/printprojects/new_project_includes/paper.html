@@ -39,7 +39,7 @@
             </div>
             <div class="col-sm-6 col-md-6">
                 <label class="form-label" for="paperbrand">Papiermerk</label>
-                <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmpyPaperCategory()"
+                <select class="form-select" id="paperbrand" name="paperbrand" onclick="popUpEmptyPaperCategory()"
                          {% if not update %} required {% endif %}>
                          {% if update %}
                         <option value="0">Wijzig papiermerk</option>
@@ -55,7 +55,7 @@
 
             <div class="col-sm-6 col-md-6">
                 <label class="form-label" for="paperweight">Papiergewicht</label>
-                <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmpyPaperBrand()"
+                <select class="form-select" id="paperweight" name="paperweight" onclick="popUpEmptyPaperBrand()"
                         {% if not update %} required {% endif %}>
                     {% if update %}
                         <option value="0">Wijzig papiergewicht</option>
@@ -67,7 +67,7 @@
             </div>
             <div class="col-sm-6 col-md-6">
                 <label class="form-label" for="papercolor">Papierkleur</label>
-                <select class="form-select" id="papercolor" name="papercolor" onclick="popUpEmpyPaperWeight()"
+                <select class="form-select" id="papercolor" name="papercolor" onclick="popUpEmptyPaperWeight()"
                         {% if not update %} required {% endif %}>
                    {% if update %}<option value="0">Wijzig papierkleur</option>
                    {% else %} <option value="0">Kies papierkleur</option>{% endif %}

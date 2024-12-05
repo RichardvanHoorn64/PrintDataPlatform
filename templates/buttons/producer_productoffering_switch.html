@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Switch available productoffering</title>
+</head>
+<body>
+<br>
+{% if productoffering.availeble %}
+    <a href="{% url 'producer_productoffering_switch' productoffering.setting_id %}"
+       class="btn btn-phoenix-warning align-middle mt-2" role="button"
+       aria-pressed="true"><i class="fa-solid fa-check fs--1 me-2"></i>Niet aanbieden</a>
+{% else %}<a href="{% url 'producer_productoffering_switch' productoffering.setting_id %}"
+             class="btn btn-phoenix-success mt-2" role="button"
+             aria-pressed="true"><i class="fa-solid fa-plus fs--1 me-2"></i>Aanbieden </a>{% endif %}
+
+</body>
+</html>
+
+

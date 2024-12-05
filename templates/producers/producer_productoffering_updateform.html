@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends 'skins/skin.html' %}
+{% load static %}
+<html lang="nl" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Order</title>
+</head>
+
+
+{% block main_content %}
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <div class="content">
+        <div class="container" id="printer_form" style="background-color:whitesmoke;">
+            <nav class="mb-2" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'welcome' %}">Dashboard {{ user.company }}</a></li>
+                    <li class="breadcrumb-item"><a class="text-info"
+                                                   href="{% url 'asset_dashboard' %}">Productaanbod wijzigen</a></li>
+                    <li class="breadcrumb-item active">Productaanbod wijzigen</li>
+                </ol>
+            </nav>
+            <hr class="text-info">
+            <h2 class="mb-1 text-info">Wijzigen aanbod product: {{ productoffering.productcategory.productcategory }}</h2>
+            
+           <h4 class="mb-1 text-info">Status: 
+               {% if productoffering.availeble %}Aangeboden
+            {% else %}
+            Niet aangeboden
+            {% endif %}
+               <hr class="text-info"></h4>
+        </div>
+
+        <!-- ===============================================-->
+        <!--   Printer form-->
+        <!-- ===============================================-->
+
+        <form name="update_create_printer_form" method="post" method="post">
+            {% csrf_token %}
+            <div class="container">
+                <br>
+                 <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Productformaat </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="min_product_size ">min_product_size :</label>
+                        <p>{{ form.min_product_size  }}</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_product_size">max_product_size:</label>
+                        <p>{{ form.max_product_size }}</p>
+                    </div>
+                </div>
+                <hr class="text-info">
+                
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h4 class="mb-1 text-info">Min / max oplage</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="min_product_volume">min_product_volume: </label>
+                        <p>{{ form.min_product_volume }}</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label class="form-label" for="max_product_volume ">max_product_volume :</label>
+                        <p>{{ form.max_product_volume  }}</p>
+                    </div>
+                </div>
+                <br>
+                <hr class="text-info">
+            </div>
+            <br>
+
+
+            <!-- ===============================================-->
+            <!--   Row asset submit buttons -->
+            <!-- ===============================================-->
+            {% include 'buttons/create_update_asset.html' %}
+
+
+            <hr class="text-info">
+        </form>
+        {% include 'messages/form_valid_errormelding.html' %}
+    </div>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+{% endblock %}

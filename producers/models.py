@@ -6,6 +6,10 @@ class ProducerProductOfferings(models.Model):
     setting_id = models.AutoField(primary_key=True)
     producer = models.ForeignKey(Producers, on_delete=models.CASCADE)
     productcategory = models.ForeignKey(ProductCategory, null=True, blank=True, on_delete=models.SET_NULL)
+    min_product_size = models.PositiveIntegerField(null=True, default=1)
+    max_product_size = models.PositiveIntegerField(null=True, default=1000)
+    min_product_volume = models.PositiveIntegerField(null=True, default=1)
+    max_product_volume = models.PositiveIntegerField(null=True, default=100000)
     availeble = models.BooleanField(default=True, null=True, blank=True)
 
     def __str__(self):

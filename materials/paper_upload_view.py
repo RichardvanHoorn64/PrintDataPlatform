@@ -3,8 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.utils import timezone
-
-from index.create_context import creatememberplan_context
 from index.site_startfunctions import define_site_name
 from materials.models import PaperBrandReference, PaperCatalog
 from materials.papercatalog_uploadform import UploadProducerPaperCatalogCSVForm
@@ -39,16 +37,14 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
                                                'latest_upload': latest_upload,
                                                'member_plan_id': user.member_plan_id,
                                                'free_memberplans': [1, 3],
-                                                'pro_memberplans': [2],
-                                                'non_exclusive_memberplans': [1, 2],
-                                                'exclusive_memberplans': [3],
-                                                'open_memberplans': [1, 2, 3],
-                                                'producer_memberplans': [4],
-                                                'producer': producer,
-                                                'site_name': site_name
+                                               'pro_memberplans': [2],
+                                               'non_exclusive_memberplans': [1, 2],
+                                               'exclusive_memberplans': [3],
+                                               'open_memberplans': [1, 2, 3],
+                                               'producer_memberplans': [4],
+                                               'producer': producer,
+                                               'site_name': site_name
                                                })
-
-
 
     def post(self, request, *args, **kwargs):
         form = self.form_class
@@ -56,7 +52,6 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
         name = self.request.user.first_name + " " + self.request.user.last_name
         upload_date = timezone.now().today().date()
         paper_catalog = PaperCatalog.objects.filter(producer_id=producer_id)
-        paper_catalog_general = PaperCatalog.objects.filter(producer_id=producer_id, source_id=1)
         error = []
         instruction_csv = 'Your file is not CSV type, please refresh page and try again'
 
@@ -103,19 +98,16 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
             for old_item in old_catalog:
                 old_item.delete()
 
-            # delete general papercatalog records
-            old_catalog_general = paper_catalog_general
-            for old_item_general in old_catalog_general:
-                old_item_general.delete()
-
             new_catalog = pd.read_csv(csv_file, delimiter=';', header=0, encoding='latin-1')
             new_catalog['producer_id'] = producer_id
 
             decimal_columns = ['paper_thickening', 'price_1000sheets']
-            integer_columns = ['paperweight_m2', 'paper_height_mm', 'paper_width_mm']
 
             for col in decimal_columns:
                 new_catalog[col] = round(new_catalog[col].replace(',', '.', regex=True).astype(float), 2)
+
+            # integer_columns = ['paperweight_m2', 'paper_height_mm', 'paper_width_mm']
+
             #
             # for col in integer_columns:
             #     if new_catalog[col] is None:
@@ -129,7 +121,6 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
             for index, row in new_catalog.iterrows():
                 new_paperspecs = PaperCatalog(
                     producer_id=producer_id,
-                    source_id=producer_id,
                     uploaded_by=name,
                     upload_date=upload_date,
                     supplier=row['supplier'],
@@ -158,7 +149,6 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
                 for index, row in new_catalog.iterrows():
                     new_paperspecs_general = PaperCatalog(
                         producer_id=1,
-                        source_id=producer_id,
                         uploaded_by=name,
                         upload_date=upload_date,
                         supplier=row['supplier'],
@@ -234,6 +224,3 @@ class UploadProducerPaperCatalog(LoginRequiredMixin, TemplateView):
                          'last_upload': upload_date,
                          'success_message': 'File succesfull stored',
                          })
-
-
-UploadProducerPaperCatalog

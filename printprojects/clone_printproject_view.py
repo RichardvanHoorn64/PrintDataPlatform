@@ -86,7 +86,7 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
             form.instance.paperweight_cover = item.paperweight_cover
             form.instance.papercolor_cover = item.papercolor_cover
 
-        if productcategory_id in categories_plano:
+        if productcategory_id in categories_plano_envelopes:
             form.instance.papercategory_cover = item.papercategory_cover
             form.instance.paperbrand_cover = item.paperbrand_cover
             form.instance.paperweight_cover = item.paperweight_cover
@@ -101,7 +101,12 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
             packaging = item.packaging
         else:
             packaging = find_packaging_id(packaging)
-        form.instance.packaging = packaging
+
+        # for envelopes
+        if productcategory_id in categories_envelopes:
+            form.instance.packaging = 1
+        else:
+            form.instance.packaging = packaging
 
         # print sided
         if productcategory_id in categories_brochures_all:
@@ -120,6 +125,10 @@ class PrintProjectCloneUpdateView(LoginRequiredMixin, UpdateView):
         if productcategory_id in categories_brochures_all:
             form.instance.enhance_sided = 1
             form.instance.enhance_back = 0
+        elif productcategory_id in categories_envelopes:
+            form.instance.enhance_front = 0
+            form.instance.enhance_back = 0
+            form.instance.enhance_sided = 1
         else:
             enhance_front = int(form.cleaned_data['enhance_front'])
             enhance_back = int(form.cleaned_data['enhance_back'])

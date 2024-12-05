@@ -1,5 +1,6 @@
 from index.categories_groups import *
 from index.display_functions import display_country, display_producercategories
+from index.forms.productoffering_forms import ProducerProductOfferingForm
 from index.models import DropdownCountries
 from index.create_context import creatememberplan_context
 from printprojects.forms.ProducerMemberSalesPrice import *
@@ -335,6 +336,49 @@ class ProducerPricingUpdateView(UpdateView, LoginRequiredMixin):
         return context
 
 
+class UpdateProducerOffering(UpdateView, LoginRequiredMixin):
+    pk_url_kwarg = 'setting_id'
+    model = ProducerProductOfferings
+    profile = ProducerProductOfferings
+    form_class = ProducerProductOfferingForm
+    template_name = "producers/producer_productoffering_updateform.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if not user.is_authenticated:
+            return redirect('/home/')
+        elif not user.member.active:
+            return redirect('/wait_for_approval/')
+        elif not user.member.member_plan_id in producer_memberplans:
+            return redirect('/wait_for_approval/')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        producer_id = self.request.user.producer_id
+        return '/my_account/' + str(producer_id)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        form_invalid_message(form, response)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        setting_id = self.kwargs['setting_id']
+        user = self.request.user
+        productoffering = ProducerProductOfferings.objects.get(setting_id=setting_id, producer_id=user.producer_id)
+        context = super(UpdateProducerOffering, self).get_context_data(**kwargs)
+        context = creatememberplan_context(context, user)
+        context['productoffering'] = productoffering
+        context['title'] = "Update contact: bij "
+        context['button_text'] = "Tarieven updaten"
+
+        return context
+
+
 class ProducerCloseOrderView(LoginRequiredMixin, View):
     model = Orders
     profile = Orders
@@ -421,7 +465,6 @@ class ProducerProductofferingSwitch(LoginRequiredMixin, View):
         producer_id = request.user.producer_id
         try:
             productoffering = ProducerProductOfferings.objects.get(setting_id=setting_id, producer_id=producer_id)
-
             if productoffering:
                 productoffering_status = productoffering.availeble
                 if not productoffering_status:

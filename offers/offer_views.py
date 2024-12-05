@@ -170,8 +170,12 @@ class OfferMembersUpdate(LoginRequiredMixin, UpdateView):
         except UserProfile.DoesNotExist:
             submit_by = str(offer.producer.company)
 
-        offer = Offers.objects.get(producer_id=user.producer_id, offer_id=offer_id)
-        printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
+        try:
+            offer = Offers.objects.get(member_id=user.member_id, offer_id=offer_id)
+            printproject = PrintProjects.objects.get(printproject_id=offer.printproject_id)
+        except Offers.DoesNotExist:
+            return redirect('/no_access/')
+
         context = createprintproject_context(context, user, printproject)
         context['title'] = "Invoer / update aanbieding van: " + str(offer.producer.company)
         context['offer'] = offer
@@ -308,12 +312,12 @@ class CloseOfferView(View):
     profile = Offers
 
     def dispatch(self, request, *args, **kwargs):
+        offer_id = self.kwargs['pk']
         try:
-            offer_id = self.kwargs['pk']
             offer = Offers.objects.get(offer_id=offer_id)
             offer.delete()
-        finally:
-            pass
+        except Offers.DoesNotExist:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 

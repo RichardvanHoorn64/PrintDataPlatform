@@ -99,6 +99,12 @@ class PrintProjects(models.Model):
     paperweight_cover = models.PositiveIntegerField(null=True, blank=True)
     papercolor_cover = models.CharField(max_length=200, blank=True, null=True)
 
+    # for envelopes
+    env_category_id = models.PositiveIntegerField(blank=True, null=True, default=0)
+    env_size_close_cut = models.CharField(max_length=500, blank=True, null=True)
+    env_material_color = models.CharField(max_length=500, blank=True, null=True)
+    env_window = models.CharField(max_length=500, blank=True, null=True)
+
     # pricing
     salesprice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     salesprice_1000extra = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

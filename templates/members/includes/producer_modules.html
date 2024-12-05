@@ -7,18 +7,13 @@
 <body>
 <br>
 <div class="col-12 col-sm-auto">
-    <h3 class="mb-5"></h3><br>
-
-
-    <div class="row g-4 flex-sm-column">
+        <div class="row g-4 flex-sm-column">
          <div class="col-6 col-sm-12">
             <div class="d-flex align-items-baseline mb-1"><span class="me-2" data-feather="layers"
                                                              style="stroke-width:2.5;"></span>
-                <h5 class="mb-0">Plan:</h5>
+                <h5 class="mb-0">Plan: {{ member_plan_name }}</h5>
             </div>
-            <p class="text-body-secondary mb-0 fs-9">{{ member_plan_name }}<br/></p>
         </div>
-        
         
     {# calculation module#}
         <div class="col-6 col-sm-12">
@@ -29,9 +24,9 @@
                 <h5 class="mb-0">&nbsp; Calculation module:</h5>
             </div>
         
-            <a class="fs-9 ms-4">
+            <div class="ms-4">
                 {% if producer.calculation_module == True %}
-                Aan {% else %}Uit{% endif %} </a>
+                Aan {% else %}Uit{% endif %}</div>
         </div>
         
         {# api module#}
@@ -42,10 +37,9 @@
                 <p class="icon fas fa-exchange-alt"> 
                 <h5 class="mb-0">&nbsp; API module:</h5>
             </div>
-        
-            <a class="fs-9 ms-4">
+            <div class="ms-4" class="fs-9 ms-4">
                 {% if producer.api_module == True %}
-                Aan {% else %}Uit{% endif %} </a>
+                    Aan {% else %}Uit{% endif %} </div>
         </div>
     
      {# BI module#}
@@ -57,9 +51,9 @@
                 <h5 class="mb-0">&nbsp; Business Intelligence module:</h5>
             </div>
         
-            <a class="fs-9 ms-4">
+            <div class="ms-4">
                 {% if producer.powerplatform_module == True %}
-                Aan {% else %}Uit{% endif %} </a>
+                Aan {% else %}Uit{% endif %}</div>
         </div>
     </div>
 </div>

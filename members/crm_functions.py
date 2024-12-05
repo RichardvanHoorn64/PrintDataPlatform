@@ -45,7 +45,7 @@ def update_producersmatch(request):
         for producer_open_match in producers_open:
             if producer_open_match in matches:
                 open_matches = MemberProducerMatch.objects.filter(producer_id=producer_open_match,
-                                                                      member_id=member_id)
+                                                                  member_id=member_id)
                 for no_match in open_matches:
                     no_match.delete()
 
@@ -68,15 +68,14 @@ def update_producersmatch(request):
     # delete not active producers
     for producer_not_active in producers_not_active:
         not_active_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_active,
-                                                                  member_id=member_id)
+                                                                member_id=member_id)
         for no_match in not_active_matches:
             no_match.delete()
-
 
     # delete producers not open for match
     for producer_not_open_for_match in producers_not_open_for_match:
         not_open_matches = MemberProducerMatch.objects.filter(producer_id=producer_not_open_for_match,
-                                                                      member_id=member_id)
+                                                              member_id=member_id)
         for no_match in not_open_matches:
             no_match.delete()
 
@@ -88,16 +87,14 @@ def update_printprojectsmatch(request, printproject_id):
     try:
         printproject = PrintProjects.objects.get(printproject_id=printproject_id,
                                                  member_id=member_id)
-
-        preferred_suppliers = MemberProducerMatch.objects.filter(member_id=member_id,
-                                                                 memberproducerstatus=1).values_list(
-            'producer_id',
-            flat=True)
-
     except PrintProjects.DoesNotExist:
         return redirect('/no_access/')
 
-    print('preferred_suppliers: ', preferred_suppliers)
+    productcategory_id = printproject.productcategory_id
+    preferred_suppliers = MemberProducerMatch.objects.filter(member_id=member_id,
+                                                             memberproducerstatus=1).values_list('producer_id',
+                                                                                                 flat=True)
+
     current_matchers = PrintProjectMatch.objects.filter(printproject_id=printproject_id)
     for current_match in current_matchers:
         current_match.delete()
@@ -105,7 +102,8 @@ def update_printprojectsmatch(request, printproject_id):
     # preferred suppliers projectmatch
     for producer_id in preferred_suppliers:
         producer_product_categories = get_producercategories(producer_id)
-        if printproject.productcategory_id in producer_product_categories:
+
+        if productcategory_id in producer_product_categories:
             memberproducermatch = MemberProducerMatch.objects.get(producer_id=producer_id, member_id=member_id)
             if producer_id in preferred_suppliers:
                 try:
@@ -121,6 +119,44 @@ def update_printprojectsmatch(request, printproject_id):
                                                      )
                 except IntegrityError:
                     pass
+
+        # clean matches
+        try:
+            matches = PrintProjectMatch.objects.filter(printproject_id=printproject_id)
+            producer_offering = ProducerProductOfferings.objects.get(producer_id=producer_id,
+                                                                     productcategory_id=productcategory_id)
+
+            for match in matches:
+                match_to_be_deleted = False
+
+                if printproject.volume < producer_offering.min_product_volume:
+                    match_to_be_deleted = True
+                    print('volume match 1 to be deleted: ')
+                if printproject.volume > producer_offering.max_product_volume:
+                    match_to_be_deleted = True
+                    print('volume match 2 to be deleted: ')
+                if printproject.height_mm_product < producer_offering.min_height_mm_product:
+                    match_to_be_deleted = True
+                    print('height_mm product match 1 to be deleted: ')
+                if printproject.height_mm_product > producer_offering.max_height_mm_product:
+                    match_to_be_deleted = True
+                    print('height_mm product match 2 to be deleted: ')
+                if printproject.width_mm_product < producer_offering.min_width_mm_product:
+                    match_to_be_deleted = True
+                    print('width_mm_product match 1 to be deleted: ')
+                if printproject.width_mm_productt > producer_offering.max_width_mm_product:
+                    print('width_mm_product match 2 to be deleted: ')
+                    match_to_be_deleted = True
+
+                if match_to_be_deleted:
+                    try:
+                        match.delete()
+                        print('width_mm_product match to be deleted: ')
+                    except IntegrityError:
+                        pass
+        except Exception as e:
+            print('clean matches error: ', str(e))
+            pass
 
 
 def update_number_of_open_offers(member_id):

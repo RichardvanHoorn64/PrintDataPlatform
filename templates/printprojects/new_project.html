@@ -50,10 +50,13 @@
                     <!--   include intro general-->
                     {% include 'printprojects/new_project_includes/intro_general.html' %}
                     <!-- ===============================================-->
-
+                    
+                    
                     <!-- ===============================================-->
                     <!--   include size generaL -->
+                    {% if productcategory_id in categories_all_no_envelopes %}
                     {% include 'printprojects/new_project_includes/size_general.html' %}
+                    {% endif %}
                     <!-- ===============================================-->
 
                     <!-- ===============================================-->
@@ -71,7 +74,9 @@
 
                     <!-- ===============================================-->
                     <!--   include paper generaL -->
-                   {% include 'printprojects/new_project_includes/paper.html' %}
+                    {% if productcategory_id in categories_all_no_envelopes %}
+                    {% include 'printprojects/new_project_includes/paper.html' %}
+                    {% endif %}
                     <!-- ===============================================-->
 
                     <!-- ===============================================-->
@@ -80,7 +85,7 @@
                     {% include 'printprojects/new_project_includes/print_booklet.html' %}
                       {% endif %}
                     {% if productcategory_id in categories_plano %}
-                   {% include 'printprojects/new_project_includes/print.html' %}
+                    {% include 'printprojects/new_project_includes/print.html' %}
                     {% endif %}
                     <!-- ===============================================-->
 
@@ -97,6 +102,13 @@
                     {% include 'printprojects/new_project_includes/print.html' %}
                     {% endif %}
                     <!-- ===============================================-->
+                
+                    <!-- ===============================================-->
+                    <!--   include envelopes print general -->
+                    {% if productcategory_id in categories_envelopes  %}
+                    {% include 'printprojects/new_project_includes/envelopes.html' %}
+                    {% endif %}
+                    <!-- ===============================================-->
 
                     <!-- ===============================================-->
                     <!--   include enhance generaL -->
@@ -107,7 +119,10 @@
 
                     <!-- ===============================================-->
                     <!--   include packaging -->
+                    {% if productcategory_id in categories_all_no_envelopes %}
                     {% include 'printprojects/new_project_includes/packaging.html' %}
+                    {% endif %}
+                
                     <!-- ===============================================-->
                 
                     <!-- ===============================================-->

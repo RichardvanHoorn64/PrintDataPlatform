@@ -9,14 +9,15 @@ from downloads.download_producer_offer_doc import *
 from downloads.member_downloads import *
 from downloads.producer_downloads import *
 from fileupload.upload_producer_offerview import UploadProducerOffer
-# from downloads.download_client_docs import *
 from index.dashboard_views import *
-from index.drukwerkmaatwerk_etl import LoadVeldhuisDataView
+# from index.drukwerkmaatwerk_etl import LoadVeldhuisDataView
 from index.index_views import *
 from index.note_views import *
 from index.json_views import *
+from materials.envelopes_upload_view import *
+from materials.envelopes_views import *
 from materials.material_views import *
-from materials.paper_upload_view import UploadProducerPaperCatalog
+from materials.paper_upload_view import *
 from materials.paper_views import *
 from materials.views_json import *
 from members.account_views import *
@@ -46,7 +47,7 @@ urlpatterns = [
     path('', WelcomeView.as_view(), name=''),  # redirect page
     path('welcome/', WelcomeView.as_view(), name='welcome'),  # redirect page
 
-    path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
+    # path('load_veldhuis_data/', LoadVeldhuisDataView.as_view(), name='load_veldhuis_data'),
 
     path('home/', WelcomeView.as_view(), name='home'),
     path('signup/', UserProfileCreateView.as_view(), name='signup'),
@@ -103,7 +104,6 @@ urlpatterns = [
     path('offer_producers_update_form/<int:pk>/<int:reference_key>', OfferProducersOpenUpdate.as_view(),
          name='offer_producers_update_form'),
 
-
     path('deny_offer/<int:pk>', DenyOfferView.as_view(), name='deny_offer'),
     path('close_offer/<int:pk>/', CloseOfferView.as_view(), name='close_offer'),
 
@@ -134,7 +134,8 @@ urlpatterns = [
     # path('update_co_worker/<int:id>', CoWorkerUserProfileUpdateView.as_view(),
     # name='update_co_worker'),
     path('activate_co_worker/<int:id>', ActivateCoWorker.as_view(), name='activate_co_worker'),
-    path('memberplan_up_downgrade/<int:member_id>', MemberplanUpDowngradeView.as_view(), name='memberplan_up_downgrade'),
+    path('memberplan_up_downgrade/<int:member_id>', MemberplanUpDowngradeView.as_view(),
+         name='memberplan_up_downgrade'),
 
     # clients
     path('client_dashboard/', ClientDashboard.as_view(), name='client_dashboard'),
@@ -156,6 +157,11 @@ urlpatterns = [
     path('producer_details/<int:pk>/', ProducerDetails.as_view(), name='producer_details'),
     path('change_memberproducerstatus/<int:memberproducermatch_id>/<int:memberproducerstatus_id>',
          ChangeMemberProducerStatus.as_view(), name='change_memberproducerstatus'),
+
+
+    # 'producer_productoffering_update' setting_id
+    path('producer_productoffering_update/<int:setting_id>', UpdateProducerOffering.as_view(),
+             name='producer_productoffering_update'),
 
     # producer contacts
     path('create_producercontact/<int:producer_id>', CreateNewProducerContact.as_view(),
@@ -180,12 +186,13 @@ urlpatterns = [
     path('producer_offers/<int:offerstatus_id>', ProducerOffers.as_view(), name='producer_offers'),
     path('producer_offer_details/<int:offer_id>', ProducerOfferDetails.as_view(), name='producer_offer_details'),
     path('producer_error_details/<int:calculation_id>', ProducerErrorDetails.as_view(), name='producer_error_details'),
-    path('select_supplier_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
-         name='select_supplier_productoffering_switch'),
+    path('producer_productoffering_switch/<str:setting_id>', ProducerProductofferingSwitch.as_view(),
+         name='producer_productoffering_switch'),
     path('producer_calculation_errors/', ProducerCalculationErrors.as_view(), name='producer_calculation_errors'),
 
     # upload producer offer
-    path('upload_producer_offerfile/<int:offer_id>/<str:error>', UploadProducerOffer.as_view(), name='upload_producer_offerfile'),
+    path('upload_producer_offerfile/<int:offer_id>/<str:error>', UploadProducerOffer.as_view(),
+         name='upload_producer_offerfile'),
 
     # producers member dashboard
     path('producer_open_members/', ProducerOpenMembers.as_view(), name='producer_open_members'),
@@ -211,7 +218,13 @@ urlpatterns = [
          name='producer_paper_catalog_download'),
     path('producer_paper_catalog_upload/', UploadProducerPaperCatalog.as_view(), name='producer_paper_catalog_upload'),
 
-    # paper
+    path('envelopes_catalog/', ProducerEnvelopesCatalog.as_view(), name='envelopes_catalog'),
+    path('producer_envelopes_catalog_download/', DownloadProducerEnvelopesCatalog.as_view(),
+         name='producer_envelopes_catalog_download'),
+    path('producer_envelopes_catalog_upload/', UploadProducerEnvelopesCatalog.as_view(),
+         name='producer_envelopes_catalog_upload'),
+
+    # paper dropdowns
     path('paper_brands/<str:papercategory>', PaperBrandsDisplay.as_view(), name='paper_brands'),
     path('download_paperbrands', DownloadPaperBrands.as_view(), name='download_paperbrands'),
 
@@ -229,7 +242,15 @@ urlpatterns = [
     path('papercolor_cover_json/<str:paperbrand>/<int:paperweight>', get_json_cover_papercolor,
          name='papercolor_cover_json'),
 
-    # java / ajax urls paperchoices for quotes calculate folder number of pages
+    # envelop dropdowns
+    path('env_size_close_cut_json/<str:env_category_id>', get_json_env_size_close_cut,
+         name='env_size_close_cut_json'),
+    path('env_material_color_json/<str:env_category_id>/<str:env_size_close_cut>', get_json_env_material_color,
+         name='env_material_color_json'),
+    path('env_window_json/<str:env_category_id>/<str:env_size_close_cut>/<str:env_material_color>', get_json_env_window,
+         name='env_window_json'),
+
+    # java / ajax urls paper choices for quotes calculate folder number of pages
     path('folder_number_of_pages_json/<str:foldingmethod_id>', get_json_folder_number_of_pages,
          name='folder_number_of_pages_json'),
 
@@ -237,8 +258,8 @@ urlpatterns = [
     path('delete_note/<int:note_id>', DeleteNoteView.as_view(), name='delete_note'),
 
     # api's
-    # path('producer_api_manager/<int:pk>', APIproducerManager.as_view(), name='producer_api_manager'),
-    # path('api_producer_accept/<int:pk>', APIproducerAccept.as_view(), name='api_producer_accept'),
+    # path('producer_api_manager/<int:pk>', API ProducerManager.as_view(), name='producer_api_manager'),
+    # path('api_producer_accept/<int:pk>', API ProducerAccept.as_view(), name='api_producer_accept'),
 
     # downloads
     path('member_download_printprojects/', MemberDownloadPrintprojects.as_view(),

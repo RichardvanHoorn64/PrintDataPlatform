@@ -61,7 +61,7 @@
                         <td class="border-0"></td>
                     </tr>
 
-                    {% if not printproject.productcategory_id is 1 %}
+                    {% if printproject.productcategory_id not in categories_plano_no_folder %}
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
@@ -73,7 +73,42 @@
                             <td class="border-0"></td>
                         </tr>
                     {% endif %}
-
+                    
+                    {% if printproject.productcategory_id in categories_envelopes %}
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Envelop uitvoering</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_env_size_close_cut }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Envelop materiaal</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_env_material_color }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">Envelop venster</p>
+                            </td>
+                            <td class="align-middle">
+                                <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_env_window }}</p>
+                            </td>
+                            <td class="border-0"></td>
+                        </tr>
+                    {% endif %}
+                    {% if not printproject.productcategory_id in categories_envelopes %}
                     <tr>
                         <td class="border-0"></td>
                         <td class="align-middle">
@@ -95,6 +130,7 @@
                         </td>
                         <td class="border-0"></td>
                     </tr>
+                      {% endif %}
                     {% if printproject.productcategory_id in productcategory_cover %}
                         <tr>
                             <td class="border-0"></td>
@@ -107,7 +143,7 @@
                             <td class="border-0"></td>
                         </tr>
                     {% endif %}
-                    {% if printproject.productcategory_id in categories_plano %}
+                    {% if printproject.productcategory_id in categories_plano_envelopes %}
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
@@ -146,6 +182,7 @@
                             <td class="border-0"></td>
                         </tr>
                     {% endif %}
+                            {% if not printproject.productcategory_id in categories_envelopes %}
                     <tr>
                         <td class="border-0"></td>
                         <td class="align-middle">
@@ -154,6 +191,7 @@
                                     omslag{% endif %}
                             </p>
                         </td>
+               
                         <td class="align-middle">
                             <p class="line-clamp-1 mb-0 fw-semi-bold">{{ printproject_varnish }}
 
@@ -161,7 +199,9 @@
                         </td>
                         <td class="border-0"></td>
                     </tr>
+                        {% endif %}
                     {% if printproject.productcategory_id not in categories_selfcovers %}
+                          {% if not printproject.productcategory_id in categories_envelopes %}
                         <tr>
                             <td class="border-0"></td>
                             <td class="align-middle">
@@ -172,7 +212,8 @@
                             </td>
                             <td class="border-0"></td>
                         </tr>
-                    {% endif %}
+                    {% endif %} {% endif %}
+                      {% if not printproject.productcategory_id in categories_envelopes %}
                     <tr>
                         <td class="border-0"></td>
                         <td class="align-middle">
@@ -183,6 +224,7 @@
                         </td>
                         <td class="border-0"></td>
                     </tr>
+                    {% endif %}
 
                     <tr>
                         <td class="border-0"></td>

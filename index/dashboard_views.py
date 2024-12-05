@@ -55,6 +55,7 @@ class PrintDataPlatformDashboard(LoginRequiredMixin, TemplateView):
         context['img_3'] = static_loc + 'selfcovers.png'
         context['img_4'] = static_loc + 'geniet_met_omslag.png'
         context['img_5'] = static_loc + 'brochures.png'
+        context['img_6'] = static_loc + 'envelopes.png'
 
         # dashboard lists and titles
         context['dashboard_title'] = dashboard_title

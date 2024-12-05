@@ -12,7 +12,7 @@
     op {{ offer.created |date:'d-m-Y ' }} voor {{ producer.company }} een offerteaanvraag voor {{ printproject.volume }}
     ex. {{ printproject.project_title }} gedaan.<br><br>
     Log in op <a href="https://printdataplatform.com/">het PrintDataPlatform</a> en bekijk en beantwoord de offerteaanvraag op: <a
-        href="https://printdataplatform.com/{% url 'offer_producers_details' offer.offer_id %}">PrintDataPlatform.com/offer_producers_form</a>,
+        href="https://printdataplatform.com/{% url 'producer_offer_details' offer.offer_id %}">PrintDataPlatform.com/offer_producers_form</a>,
     <br>
     Hier kunt u ook een PDF van uw offertedocument uploaden.
     <br><br>
