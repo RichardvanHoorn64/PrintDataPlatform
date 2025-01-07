@@ -19,8 +19,6 @@
 
                         {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
                             url(https://printdatastorage.blob.core.windows.net/media/bg/bg_1.jpg);">
-                        {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
-                            url(https://printdatastorage.blob.core.windows.net/media/bg/bg_2.jpg);">
                         {% else %}
                             url(https://printdatastorage.blob.core.windows.net/media/bg/bg_1.jpg);">
                         {% endif %}
@@ -42,12 +40,14 @@
                                             <h3 class="mb-3 text-black">
                                                 {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
                                                     Drukkerij van Hoorn (demo)
-                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
-                                                    Veldhuis Media
                                                 {% else %}
-                                                    PrintDataplatform
+                                                    PrintDataPlatform
                                                 {% endif %}
                                             </h3>
+                                        
+                                        <p>Faciliteert data-uitwisseling over grafische projecten, kennisdeling, krachtenbundeling en persoonlijk netwerken voor grafische professionals, printmanagers en producenten. </p>
+                                        
+                                        
                                             <a href="https://www.printdataplatform.nl/" target="_blank"
                                                class="btn btn-info btn-sm me-1 mb-1" role="button"
                                                aria-pressed="true"><i class="fa-info">Meer informatie</i></a>
@@ -72,10 +72,6 @@
                                                         <img src="{% static "assets/img/logos/logo_1.png" %}"
                                                          alt="printdataplatform"
                                                          width="200"/>
-                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
-                                                        <img src="{% static "assets/img/logos/logo.png" %}"
-                                                         alt="printdataplatform"
-                                                         width="150"/>
                                                 {% else %}<img src="{% static "assets/img/logos/logo.png" %}"
                                                          alt="printdataplatform"
                                                          width="150"/>
@@ -87,10 +83,8 @@
                                                 <p class="text-700">
                                                 {% if request.get_host ==  'www.drukkerijvanhoorn.nl' or request.get_host ==  'drukkerijvanhoorn.nl' %}
                                                     Drukkerij van Hoorn (demo)
-                                                {% elif request.get_host == 'www.veldhuismedia-online.nl' or request.get_host == 'veldhuismedia-online.nl' %}
-                                                    Veldhuis Media
                                                 {% else %}
-                                                    PrintDataplatform
+                                                    PrintDataPlatform
                                                 {% endif %}</p>
                                             </div>
                                             <div class="position-relative">

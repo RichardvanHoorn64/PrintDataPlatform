@@ -23,13 +23,9 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY WARNING: keep the secret key used in production secret!
 DEBUG = True
 SECRET_KEY = get_random_secret_key()
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -77,7 +73,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -161,7 +156,6 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
-# ACCOUNT_RATE_LIMITS['login_failed']
 SIGNUP_EMAIL_ENTER_TWICE = True
 AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'

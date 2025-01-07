@@ -256,13 +256,13 @@ class MySuppliers(LoginRequiredMixin, TemplateView):
     template_name = "producers/producers_dashboard.html"
 
     def dispatch(self, request, *args, **kwargs):
-        update_producersmatch(self.request)
         user = self.request.user
         if not user.is_authenticated:
             return redirect('/home/')
         elif not user.member.active:
             return redirect('/wait_for_approval/')
         else:
+            update_producersmatch(self.request)
             return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
