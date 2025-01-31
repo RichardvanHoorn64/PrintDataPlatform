@@ -145,6 +145,9 @@ class UserProfile(AbstractUser):
     modified = models.DateTimeField(auto_now=True or "")
     active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.first_name + " " + self.last_name
+
     class Meta:
         verbose_name = 'Profile'
         verbose_name_plural = 'Profiles'
