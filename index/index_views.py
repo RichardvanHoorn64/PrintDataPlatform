@@ -4,6 +4,7 @@ from index.categories_groups import *
 from index.create_context import creatememberplan_context
 from index.site_startfunctions import img_loc_logo
 from index.models import *
+from orders.models import Orders
 from profileuseraccount.models import UserProfile, Members
 
 
@@ -200,4 +201,4 @@ class EventsView(TemplateView):
 
 
 class TestErrorView(TemplateView):
-    template_name = '404.html'
+    template_name = '500.html'

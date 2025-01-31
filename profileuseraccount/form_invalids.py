@@ -21,7 +21,7 @@ def form_invalid_message(form, response):
 
 def error_mail_admin(error_type, error):
     try:
-        subject = 'PrintDataPlatform error mailadmin'
+        subject = 'PrintDataPlatform error mail admin'
         address = EMAIL_TO_ADMIN
         html_body = 'Error message:', "Error type:" + error_type + "Error:" + str(error)
         send_printdataplatform_mail(subject, address, html_body)
