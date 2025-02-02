@@ -272,6 +272,7 @@ except Exception as e:
     error = str(e)
     print(f"Environment Error '{error}'.")
 
+# send 500 error mails
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
