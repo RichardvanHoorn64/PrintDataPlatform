@@ -23,9 +23,13 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 DEBUG = True
 SECRET_KEY = get_random_secret_key()
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -73,6 +77,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -83,7 +88,6 @@ MIDDLEWARE = [
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'printdataplatform.urls'
@@ -197,15 +201,18 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
 
-
-# settings.py
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Email settings
+EMAIL_HOST = 'mail.antagonist.nl'
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@printdataplatform.nl'
+DEFAULT_FROM_EMAIL = 'no-reply@printdataplatform.nl'
+EMAIL_HOST_PASSWORD = 'pdp-rfq#2025up'
 EMAIL_USE_TLS = True
-EMAIL_TO_ADMIN = "admin@printdataplatform.nl"
+SERVER_EMAIL = 'no-reply@printdataplatform.nl'
+EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
 
-
-
+# Admin Error handling
+ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
 
 # Site id
 SITE_ID = 1
@@ -237,54 +244,35 @@ AZURE_URL_EXPIRATION = 3600
 
 # local AZURE_STORAGE_ACCOUNT_KEY
 
+
+local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 # Open JSON-azure_keys
-if DEBUG:
-    try:
-        # path to local JSON-azure_keys
-        local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
-        import json
+try:
+    # path to local JSON-azure_keys
 
-        with open(local_keys, "r", encoding="utf-8") as azure_keys:
-            keys = json.load(azure_keys)
-            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
-            EMAIL_HOST = keys.get('EMAIL_HOST')
-            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
-            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
-            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
-            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
-            SERVER_EMAIL = keys.get('SERVER_EMAIL')
-            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
-            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
-            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
-            AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-            # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
-    except json.JSONDecodeError:
-        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
+    import json
 
-    except FileNotFoundError:
-        print(f"FileNotFoundError '{local_keys}'.")
+    with open(local_keys, "r", encoding="utf-8") as azure_keys:
+        keys = json.load(azure_keys)
+        EMAIL_HOST = keys.get('EMAIL_HOST')
+        EMAIL_PORT = keys.get('EMAIL_PORT')
+        EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
+        DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
+        EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
+        EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
+        SERVER_EMAIL = keys.get('SERVER_EMAIL')
+        EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
+        AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
+        AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
+        AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
+        AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
+        AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
+except json.JSONDecodeError:
+    print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 
-    except Exception as e:
-        error = str(e)
-        print(f"Environment Error '{error}'.")
+except FileNotFoundError:
+    print(f"FileNotFoundError '{local_keys}'.")
 
-# send 500 errors to admins
-
-ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+except Exception as e:
+    error = str(e)
+    print(f"Environment Error '{error}'.")
