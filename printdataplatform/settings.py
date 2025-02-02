@@ -206,9 +206,6 @@ EMAIL_TO_ADMIN = "admin@printdataplatform.nl"
 
 
 
-# Stuur 500 errors naar de admins
-
-ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
 
 # Site id
 SITE_ID = 1
@@ -240,39 +237,40 @@ AZURE_URL_EXPIRATION = 3600
 
 # local AZURE_STORAGE_ACCOUNT_KEY
 
-
-local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 # Open JSON-azure_keys
-try:
-    # path to local JSON-azure_keys
+if DEBUG:
+    try:
+        # path to local JSON-azure_keys
+        local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
+        import json
 
-    import json
+        with open(local_keys, "r", encoding="utf-8") as azure_keys:
+            keys = json.load(azure_keys)
+            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
+            EMAIL_HOST = keys.get('EMAIL_HOST')
+            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
+            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
+            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
+            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
+            SERVER_EMAIL = keys.get('SERVER_EMAIL')
+            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
+            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
+            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
+            AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
+            # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 
-    with open(local_keys, "r", encoding="utf-8") as azure_keys:
-        keys = json.load(azure_keys)
-        AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
-        EMAIL_HOST = keys.get('EMAIL_HOST')
-        EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
-        DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
-        EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
-        EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
-        SERVER_EMAIL = keys.get('SERVER_EMAIL')
-        AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
-        AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
-        AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
-        AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-        # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
-except json.JSONDecodeError:
-    print(f"Error decoding JSON-azure_keys '{local_keys}'.")
+    except FileNotFoundError:
+        print(f"FileNotFoundError '{local_keys}'.")
 
-except FileNotFoundError:
-    print(f"FileNotFoundError '{local_keys}'.")
+    except Exception as e:
+        error = str(e)
+        print(f"Environment Error '{error}'.")
 
-except Exception as e:
-    error = str(e)
-    print(f"Environment Error '{error}'.")
+# send 500 errors to admins
 
-# send 500 error mails
+ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
