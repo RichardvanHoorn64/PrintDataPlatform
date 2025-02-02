@@ -14,6 +14,7 @@ from index.dashboard_views import *
 from index.index_views import *
 from index.note_views import *
 from index.json_views import *
+from index.trigger_error import TriggerError
 from materials.envelopes_upload_view import *
 from materials.envelopes_views import *
 from materials.material_views import *
@@ -336,5 +337,6 @@ urlpatterns = [
          name='producer_calculationdetails'),
 
     path('error_test/', TestErrorView.as_view(), name='error_test'),
+    path('trigger_error_test/', TriggerError.as_view(), name='trigger_error_test'),
 
 ]

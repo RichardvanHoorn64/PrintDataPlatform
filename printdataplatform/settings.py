@@ -83,6 +83,7 @@ MIDDLEWARE = [
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'printdataplatform.urls'
@@ -196,17 +197,17 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
 
-# Email settings
-EMAIL_HOST = 'mail.antagonist.nl'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'no-reply@printdataplatform.nl'
-DEFAULT_FROM_EMAIL = 'no-reply@printdataplatform.nl'
-EMAIL_HOST_PASSWORD = 'pdp-rfq#2025up'
-EMAIL_USE_TLS = True
-SERVER_EMAIL = 'no-reply@printdataplatform.nl'
-EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
 
-# Admin Error handling
+# settings.py
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_TO_ADMIN = "admin@printdataplatform.nl"
+
+
+
+# Stuur 500 errors naar de admins
+
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
 
 # Site id
@@ -249,19 +250,18 @@ try:
 
     with open(local_keys, "r", encoding="utf-8") as azure_keys:
         keys = json.load(azure_keys)
+        AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
         EMAIL_HOST = keys.get('EMAIL_HOST')
-        EMAIL_PORT = keys.get('EMAIL_PORT')
         EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
         DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
         EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
         EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
         SERVER_EMAIL = keys.get('SERVER_EMAIL')
-        EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
         AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
         AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
         AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
-        AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
         AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
+        # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
 except json.JSONDecodeError:
     print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 
@@ -271,3 +271,21 @@ except FileNotFoundError:
 except Exception as e:
     error = str(e)
     print(f"Environment Error '{error}'.")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
