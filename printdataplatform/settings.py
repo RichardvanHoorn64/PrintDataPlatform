@@ -109,6 +109,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -201,15 +202,7 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
 
-# Email settings
-EMAIL_HOST = 'mail.antagonist.nl'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'no-reply@printdataplatform.nl'
-DEFAULT_FROM_EMAIL = 'no-reply@printdataplatform.nl'
-EMAIL_HOST_PASSWORD = 'pdp-rfq#2025up'
-EMAIL_USE_TLS = True
-SERVER_EMAIL = 'no-reply@printdataplatform.nl'
-EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
+
 
 # Admin Error handling
 ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
@@ -242,9 +235,11 @@ AZURE_STORAGE_ACCOUNT_NAME = 'printdatastorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 AZURE_URL_EXPIRATION = 3600
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 # local AZURE_STORAGE_ACCOUNT_KEY
-
-
 local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 # Open JSON-azure_keys
 try:
@@ -255,11 +250,10 @@ try:
     with open(local_keys, "r", encoding="utf-8") as azure_keys:
         keys = json.load(azure_keys)
         EMAIL_HOST = keys.get('EMAIL_HOST')
-        EMAIL_PORT = keys.get('EMAIL_PORT')
+
         EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
         DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
         EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
-        EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
         SERVER_EMAIL = keys.get('SERVER_EMAIL')
         EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
         AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
@@ -276,3 +270,24 @@ except FileNotFoundError:
 except Exception as e:
     error = str(e)
     print(f"Environment Error '{error}'.")
+
+# send 500 errors to admins
+
+ADMINS = [('Errors', 'admin@printdataplatform.nl'), ('Richard', 'info@richardvanhoorn.nl')]
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

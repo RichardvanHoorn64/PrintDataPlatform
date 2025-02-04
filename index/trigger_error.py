@@ -3,5 +3,6 @@ from django.views.generic import View
 
 
 class TriggerError(LoginRequiredMixin, View):
-    def dispatch(request):
-        1 / 0  # Forceer een ZeroDivisionError
+     def get(self, request, *args, **kwargs):
+          test = 1 / 0  # Force a ZeroDivisionError
+          print(test)
