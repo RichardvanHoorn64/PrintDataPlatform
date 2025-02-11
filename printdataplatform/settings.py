@@ -242,6 +242,7 @@ EMAIL_USE_TLS = True
 # local AZURE_STORAGE_ACCOUNT_KEY
 local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
 # Open JSON-azure_keys
+EMAIL_TO_ADMIN = 'admin@printdataplatform.nl'
 try:
     # path to local JSON-azure_keys
 
@@ -250,12 +251,11 @@ try:
     with open(local_keys, "r", encoding="utf-8") as azure_keys:
         keys = json.load(azure_keys)
         EMAIL_HOST = keys.get('EMAIL_HOST')
-
         EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
         DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
         EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
         SERVER_EMAIL = keys.get('SERVER_EMAIL')
-        EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
+        # EMAIL_TO_ADMIN = keys.get('EMAIL_TO_ADMIN')
         AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
         AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
         AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
