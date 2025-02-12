@@ -5,7 +5,6 @@ from index.models import ProductCategory
 from offers.models import Offers
 from printprojects.models import PrintProjects
 from profileuseraccount.form_invalids import error_mail_admin
-from printdataplatform.settings import EMAIL_HOST_USER
 from orders.models import Orders
 from profileuseraccount.models import *
 from index.categories_groups import *
