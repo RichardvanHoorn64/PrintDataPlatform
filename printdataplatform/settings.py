@@ -14,20 +14,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-
-
 import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from django.core.management.utils import get_random_secret_key
 
-
 ENVIRONMENT = os.getenv("ENVIRONMENT", "LOCAL")  # Standaard op LOCAL als niet ingesteld
 
 if ENVIRONMENT == "AZURE":
     DEBUG = False
-    print ('Azure enviroment')
+    print('Azure enviroment')
     WEBSITE_HOSTNAME = 'www.printdataplatform.com'
 
     EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -66,7 +63,8 @@ if ENVIRONMENT == "AZURE":
 
     CORS_ALLOWED_ORIGINS = ['https://printdataplatform.com', 'https://127.0.0.1', 'https://52.233.175.59',
                             'https://drukwerkmaatwerk.com', 'https://drukwerkmaatwerk.com'
-                                                            'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                                                            'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01'
+                                                            '.azurewebsites.net',
                             'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
                             ]
     DATABASES = {
@@ -128,7 +126,6 @@ else:  # Lokaal
     except Exception as e:
         error = str(e)
         print(f"Environment Error '{error}'.")
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -323,7 +320,6 @@ AZURE_URL_EXPIRATION = 3600
 # local AZURE_STORAGE_ACCOUNT_KEY
 local_keys = []
 # Open JSON-azure_keys
-
 
 
 # send 500 errors to admins
