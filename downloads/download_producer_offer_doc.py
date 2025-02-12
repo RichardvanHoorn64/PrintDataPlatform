@@ -21,7 +21,6 @@ class DownloadProducerOfferPDF(LoginRequiredMixin, View):
     from django.conf import settings
 
     def dispatch(self, request, *args, **kwargs):
-        STORAGE_ACCOUNT_NAME = AZURE_STORAGE_ACCOUNT_NAME
         CONTAINER_NAME = "produceroffers"
 
         offer_id = self.kwargs['offer_id']
