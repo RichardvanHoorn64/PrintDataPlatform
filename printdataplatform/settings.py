@@ -14,20 +14,127 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+
+
 import os
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from django.core.management.utils import get_random_secret_key
 
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "LOCAL")  # Standaard op LOCAL als niet ingesteld
+
+if ENVIRONMENT == "AZURE":
+    DEBUG = False
+    print ('Azure enviroment')
+    WEBSITE_HOSTNAME = 'www.printdataplatform.com'
+
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
+    EMAIL_BACKEND = os.environ['EMAIL_BACKEND']
+    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+    DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    EMAIL_USE_TLS = True
+    SERVER_EMAIL = os.environ['SERVER_EMAIL']
+    EMAIL_TO_ADMIN = os.environ['EMAIL_TO_ADMIN']
+    AZURE_CLIENT_ID = os.environ['AZURE_CLIENT_ID']
+    AZURE_TENANT_ID = os.environ['AZURE_TENANT_ID']
+    AZURE_CLIENT_SECRET = os.environ['AZURE_CLIENT_SECRET']
+    AZURE_STORAGE_CONNECTION_STRING = os.environ['AZURE_STORAGE_CONNECTION_STRING']
+
+    ALLOWED_HOSTS = ['printdataplatform.com', 'www.printdataplatform.com',
+                     'printdata-platform.com', 'www.printdata-platform.com',
+                     'printdata-platform.org',
+                     'drukwerkmaatwerk.com', 'www.drukwerkmaatwerk.com',
+                     'drukkerijvanhoorn.nl', 'www.drukkerijvanhoorn.nl',
+                     'printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                     'printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
+                     '169.254.130.3', '169.254.129.3', '169.254.130.6', '169.254.129.4', '169.254.132.3',
+                     '169.254.129.2',
+                     '169.254.129.5', '169.254.129.5', '*'
+                     ]
+
+    CSRF_TRUSTED_ORIGINS = ['https://printdataplatform.com', 'https://www.printdataplatform.com',
+                            'https://drukwerkmaatwerk.com', 'https://drukwerkmaatwerk.com'
+                                                            'https://printdata-platform.com',
+                            'https://printdata-platform.org'
+                            'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                            'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
+                            ]
+
+    CORS_ALLOWED_ORIGINS = ['https://printdataplatform.com', 'https://127.0.0.1', 'https://52.233.175.59',
+                            'https://drukwerkmaatwerk.com', 'https://drukwerkmaatwerk.com'
+                                                            'https://printdataplatform-h9hvdtgfcpgaevdf.westeurope-01.azurewebsites.net',
+                            'https://printdataplatform-dev-gsascdexakh4d6gq.westeurope-01.azurewebsites.net',
+                            ]
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['DJANGO_DATABASE_NAME'],
+            'USER': os.environ['DJANGO_DATABASE_USER'],
+            'PASSWORD': os.environ['DJANGO_DATABASE_PASSWORD'],
+            'HOST': os.environ['DJANGO_DATABASE_HOST'],
+            'PORT': os.environ['DJANGO_DATABASE_PORT'],
+            'OPTIONS': {
+                'sslmode': 'require',
+            }
+        }
+    }
+
+else:  # Lokaal
+    DEBUG = True
+    SECRET_KEY = get_random_secret_key()
+    print('Local enviroment')
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'printdataplatform_dev',
+            'USER': 'postgres',
+            'PASSWORD': 'PrintdataClub2025',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
+    local_keys = []
+
+    try:
+        # path to local JSON-azure_keys
+        local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
+        import json
+
+        with open(local_keys, "r", encoding="utf-8") as azure_keys:
+            keys = json.load(azure_keys)
+            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
+            EMAIL_HOST = keys.get('EMAIL_HOST')
+            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
+            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
+            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
+            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
+            SERVER_EMAIL = keys.get('SERVER_EMAIL')
+            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
+            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
+            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
+            AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
+            # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
+
+    except FileNotFoundError:
+        print(f"FileNotFoundError '{local_keys}'.")
+
+    except Exception as e:
+        error = str(e)
+        print(f"Environment Error '{error}'.")
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEBUG = True
-SECRET_KEY = get_random_secret_key()
 
-ALLOWED_HOSTS = ['localhost']
 
 # Models autofield without specifying a primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -92,18 +199,6 @@ WSGI_APPLICATION = 'printdataplatform.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'printdataplatform_dev',
-        'USER': 'postgres',
-        'PASSWORD': 'PrintdataClub2025',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -197,16 +292,6 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",)
 
-
-# settings.py
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_TO_ADMIN = "admin@printdataplatform.nl"
-
-
-
-
 # Site id
 SITE_ID = 1
 
@@ -238,35 +323,8 @@ AZURE_URL_EXPIRATION = 3600
 # local AZURE_STORAGE_ACCOUNT_KEY
 local_keys = []
 # Open JSON-azure_keys
-if DEBUG:
-    try:
-        # path to local JSON-azure_keys
-        local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
-        import json
 
-        with open(local_keys, "r", encoding="utf-8") as azure_keys:
-            keys = json.load(azure_keys)
-            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
-            EMAIL_HOST = keys.get('EMAIL_HOST')
-            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
-            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
-            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
-            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
-            SERVER_EMAIL = keys.get('SERVER_EMAIL')
-            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
-            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
-            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
-            AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-            # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
-    except json.JSONDecodeError:
-        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
 
-    except FileNotFoundError:
-        print(f"FileNotFoundError '{local_keys}'.")
-
-    except Exception as e:
-        error = str(e)
-        print(f"Environment Error '{error}'.")
 
 # send 500 errors to admins
 
