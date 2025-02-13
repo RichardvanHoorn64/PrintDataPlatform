@@ -19,14 +19,19 @@ import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from django.core.management.utils import get_random_secret_key
+from dotenv import load_dotenv
 
-ENVIRONMENT = os.getenv("ENVIRONMENT", "LOCAL")  # Standaard op LOCAL als niet ingesteld
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+# DEBUG = os.getenv("DEBUG", "False") == "True"
+ENVIRONMENT = os.getenv("ENVIRONMENT", "LOCAL")  # Standard on LOCAL if ENVIRONMENT not in setting
+
+print('Environment = ', ENVIRONMENT)
 
 if ENVIRONMENT == "AZURE":
     DEBUG = False
-    print('Azure enviroment')
     WEBSITE_HOSTNAME = 'www.printdataplatform.com'
-
     EMAIL_HOST = os.environ['EMAIL_HOST']
     EMAIL_PORT = os.environ['EMAIL_PORT']
     EMAIL_BACKEND = os.environ['EMAIL_BACKEND']
@@ -81,51 +86,35 @@ if ENVIRONMENT == "AZURE":
         }
     }
 
-else:  # Lokaal
+if ENVIRONMENT == "LOCAL":
     DEBUG = True
     SECRET_KEY = get_random_secret_key()
-    print('Local enviroment')
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'printdataplatform_dev',
-            'USER': 'postgres',
-            'PASSWORD': 'PrintdataClub2025',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
+            'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+            'NAME': os.getenv('DB_NAME', default='postgres'),
+            'USER': os.getenv('DB_USER', default='postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST', default='localhost'),
+            'PORT': os.getenv('DB_PORT', default='5432'),
         }
     }
-    local_keys = []
 
-    try:
-        # path to local JSON-azure_keys
-        local_keys = "C:/Users/richa/Documents/0_PrintDataPlatform/Azure/keys.json"
-        import json
-
-        with open(local_keys, "r", encoding="utf-8") as azure_keys:
-            keys = json.load(azure_keys)
-            AZURE_STORAGE_ACCOUNT_KEY = keys.get('AZURE_STORAGE_ACCOUNT_KEY')
-            EMAIL_HOST = keys.get('EMAIL_HOST')
-            EMAIL_HOST_USER = keys.get('EMAIL_HOST_USER')
-            DEFAULT_FROM_EMAIL = keys.get('DEFAULT_FROM_EMAIL')
-            EMAIL_HOST_PASSWORD = keys.get('EMAIL_HOST_PASSWORD')
-            EMAIL_USE_TLS = keys.get('EMAIL_USE_TLS')
-            SERVER_EMAIL = keys.get('SERVER_EMAIL')
-            AZURE_CLIENT_ID = keys.get('AZURE_CLIENT_ID')
-            AZURE_TENANT_ID = keys.get('AZURE_TENANT_ID')
-            AZURE_CLIENT_SECRET = keys.get('AZURE_CLIENT_SECRET')
-            AZURE_STORAGE_CONNECTION_STRING = keys.get('AZURE_STORAGE_CONNECTION_STRING')
-            # AZURE_COMMUNICATION_STRING = keys.get('AZURE_COMMUNICATION_STRING')
-    except json.JSONDecodeError:
-        print(f"Error decoding JSON-azure_keys '{local_keys}'.")
-
-    except FileNotFoundError:
-        print(f"FileNotFoundError '{local_keys}'.")
-
-    except Exception as e:
-        error = str(e)
-        print(f"Environment Error '{error}'.")
+    WEBSITE_HOSTNAME = 'www.printdataplatform.com'
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_PORT = os.getenv('EMAIL_PORT')
+    EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = True
+    SERVER_EMAIL = os.getenv('SERVER_EMAIL')
+    EMAIL_TO_ADMIN = os.getenv('EMAIL_TO_ADMIN')
+    AZURE_CLIENT_ID = os.getenv('AZURE_CLIENT_ID')
+    AZURE_TENANT_ID = os.getenv('AZURE_TENANT_ID')
+    AZURE_CLIENT_SECRET = os.getenv('AZURE_CLIENT_SECRET')
+    AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

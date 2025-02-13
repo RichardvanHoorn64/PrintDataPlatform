@@ -1,6 +1,33 @@
 # This is a sample email Python script for PrintDataPlatform.
 from azure.communication.email import EmailClient
+from django.core.mail import send_mail
+from printdataplatform.settings import EMAIL_TO_ADMIN, SERVER_EMAIL
 
+# from index.mail.email_function import send_testmail
+# send_testmail('Hallo')
+
+from django.core.mail import mail_admins
+
+
+def mail_admin_function():
+    subject = "Belangrijke melding"
+    message = "Er is een kritieke fout opgetreden in het systeem."
+
+    mail_admins(
+        subject=subject,
+        message=message,
+        fail_silently=False  # Zorgt ervoor dat een fout wordt gegenereerd als de e-mail niet wordt verzonden
+    )
+
+
+def send_testmail(bericht):
+    send_mail(
+        "testmail",
+        bericht,
+        SERVER_EMAIL,
+        EMAIL_TO_ADMIN,
+        fail_silently=False,
+)
 
 def send_printdataplatform_mail(subject, address, body):
     try:
