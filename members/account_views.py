@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView, DetailView, View
 from producers.models import *
 from profileuseraccount.models import Members
-# from printdataplatform.settings import EMAIL_TO_ADMIN
+from printdataplatform.settings import EMAIL_TO_ADMIN
 from django.template.loader import render_to_string
 
 
